@@ -1,8 +1,8 @@
 import React from "react"
 import ReactDOM from "react-dom"
-import App from "./components/App/App"
+import TwitchWrapper from "./components/App/TwitchWrapper";
 
 ReactDOM.render(
-  <App />,
+  <TwitchWrapper />,
   document.getElementById("root")
 )
