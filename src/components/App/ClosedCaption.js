@@ -33,10 +33,35 @@ class ClosedCaption extends PureComponent {
     return text.length === 0;
   }
 
+  setFontSizeStyle () {
+    let fontSize = "";
+
+    switch (this.props.fontSize) {
+      case 'small':
+        fontSize = 'var(--small-font-size)'
+        break;
+      case 'medium':
+        fontSize = 'var(--medium-font-size)'
+        break;
+      case 'large':
+        fontSize = 'var(--large-font-size)'
+        break;
+      default:
+        fontSize = 'var(--medium-font-size)'
+        break;
+    }
+
+    return fontSize;
+  }
+
   ccText = () => {
     const { interimText, finalText, settings } = this.props;
+    let fontSize = this.setFontSizeStyle();
+
+    let textStyles = { ...ccStyles, fontSize: fontSize};
+
     const styles = {
-      maxHeight: 'calc(var(--medium-font-size) * var(--line-height) * 3 + var(--caption-pad-bottom) * 2)',
+      maxHeight: `calc(#${fontSize} * var(--line-height) * 3 + var(--caption-pad-bottom) * 2)`,
       overflow: 'hidden'
     }
 
@@ -45,12 +70,13 @@ class ClosedCaption extends PureComponent {
       "hide": this.shouldHideCC()
     })
 
+
     return (
         <div className={containerClasses} style={styles}>
-          <div style={ccStyles} >
+          <div style={textStyles} >
             {interimText}
           </div>
-          <div style={ccStyles}>
+          <div style={textStyles}>
             {finalText}
           </div>
         </div>
@@ -74,6 +100,7 @@ ClosedCaption.propTypes = {
   playerContext: PropTypes.object,
   settings: PropTypes.object,
   onDragEnd: PropTypes.func,
+  fontSize: PropTypes.object,
 }
 
 ClosedCaption.defaultProps = {

@@ -11,14 +11,16 @@ import "./box-sizing.css";
 import VisibilityToggle from "./VisibilityToggle";
 import ClosedCaption from "./ClosedCaption";
 import Controls from "./Controls";
+import { withTwitchPlayerContext } from '../../context/provider/TwitchPlayer'
 
-export default class App extends React.Component {
+class App extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       settings: {},
-      isDragged: false
+      isDragged: false,
+      fontSize: 'medium'
     };
   }
 
@@ -47,8 +49,12 @@ export default class App extends React.Component {
     this.setState({ reset: true }, () => this.setState({ reset: false, isDragged: false }));
   }
 
+  onSelectTextSize = (size) => {
+    this.setState({ fontSize: size });
+  }
+
   renderCaptions() {
-    let { hideCC, reset } = this.state;
+    let { hideCC, reset, fontSize } = this.state;
     let { interimText, finalText, settings } = this.props;
 
     if(reset) {
@@ -56,16 +62,16 @@ export default class App extends React.Component {
     }
 
     return (
-      <ClosedCaption hide={hideCC} onDragEnd={this.onDragEnd} interimText={interimText} finalText={finalText} settings={settings} />
+      <ClosedCaption fontSize={fontSize} hide={hideCC} onDragEnd={this.onDragEnd} interimText={interimText} finalText={finalText} settings={settings} />
     );
   }
 
   render() {
-    let { videoPlayerContext } = this.props;
-    window.Twitch.ext.rig.log(videoPlayerContext)
+    let { playerContext } = this.props;
+    window.Twitch.ext.rig.log(playerContext)
     var containerClass = classNames({
-      "standard-position": !videoPlayerContext.arePlayerControlsVisible && !this.state.isDragged,
-      "raise-video-controls": videoPlayerContext.arePlayerControlsVisible || this.state.isDragged,
+      "standard-position": !playerContext.arePlayerControlsVisible && !this.state.isDragged,
+      "raise-video-controls": playerContext.arePlayerControlsVisible || this.state.isDragged,
     });
 
     return (
@@ -73,9 +79,11 @@ export default class App extends React.Component {
         <div className="drag-boundary">
           {this.renderCaptions()}
           <VisibilityToggle isCCDisabled={this.state.hideCC} onClick={this.toggleCCVisibility} />
-          <Controls onReset={this.onReset} />
+          <Controls onReset={this.onReset} onSelectTextSize={this.onSelectTextSize} />
         </div>
       </div>
     );
   }
 }
+
+export default withTwitchPlayerContext(App);

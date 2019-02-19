@@ -1,5 +1,7 @@
 :root {
+  --small-font-size: 1.5vw;
   --medium-font-size: 2vw;
+  --large-font-size: 2.5vw;
   --line-height: 1.2;
   --caption-pad-bottom: 2px;
 }
