@@ -100,7 +100,7 @@ ClosedCaption.propTypes = {
   playerContext: PropTypes.object,
   settings: PropTypes.object,
   onDragEnd: PropTypes.func,
-  fontSize: PropTypes.object,
+  fontSize: PropTypes.string,
 }
 
 ClosedCaption.defaultProps = {
