@@ -61,7 +61,7 @@ class ClosedCaption extends PureComponent {
     let textStyles = { ...ccStyles, fontSize: fontSize};
 
     const styles = {
-      maxHeight: `calc(#${fontSize} * var(--line-height) * 3 + var(--caption-pad-bottom) * 2)`,
+      maxHeight: `calc(${fontSize} * var(--line-height) * 3 + var(--caption-pad-bottom) * 2)`,
       overflow: 'hidden'
     }
 
