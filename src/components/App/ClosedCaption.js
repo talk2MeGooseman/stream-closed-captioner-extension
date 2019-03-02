@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { withTwitchPlayerContext } from '../../context/provider/TwitchPlayer'
+import { withConfigSettings } from '../../context/provider/ConfigSettings'
 import { captionStyles, ccStyles } from "./caption-styles";
 import Draggable, {DraggableCore} from 'react-draggable';
 import { WIDTH_INDEX, MINIMUM_VID_WIDTH } from '../../utils/Constants';
@@ -9,6 +10,11 @@ const classNames = require('classnames');
 import './ClosedCaption.css'
 import { inflateSync } from 'zlib';
 import { debug } from 'util';
+
+// Bits 100 from electrichavoc
+// Resub Nyixxs
+// Resub Nataliexo93
+// Resub lurking_kat
 
 class ClosedCaption extends PureComponent {
 
@@ -55,7 +61,7 @@ class ClosedCaption extends PureComponent {
   }
 
   ccText = () => {
-    const { interimText, finalText, settings } = this.props;
+    const { interimText, finalText, configSettings } = this.props;
     let fontSize = this.setFontSizeStyle();
 
     let textStyles = { ...ccStyles, fontSize: fontSize};
@@ -67,16 +73,20 @@ class ClosedCaption extends PureComponent {
 
     let containerClasses = classNames({
       "caption-container": true,
-      "hide": this.shouldHideCC()
+      "hide": this.shouldHideCC(),
     })
 
+    let ccTextClasses = classNames({
+      "text-capitalize": configSettings.textUppercase,
+      "text-mix-case": !configSettings.textUppercase
+    });
 
     return (
         <div className={containerClasses} style={styles}>
-          <div style={textStyles} >
+          <div className={ccTextClasses} style={textStyles} >
             {interimText}
           </div>
-          <div style={textStyles}>
+          <div className={ccTextClasses} style={textStyles}>
             {finalText}
           </div>
         </div>
@@ -101,6 +111,7 @@ ClosedCaption.propTypes = {
   settings: PropTypes.object,
   onDragEnd: PropTypes.func,
   fontSize: PropTypes.string,
+  configSettings: PropTypes.object,
 }
 
 ClosedCaption.defaultProps = {
@@ -108,4 +119,4 @@ ClosedCaption.defaultProps = {
   finalText: ""
 }
 
-export default withTwitchPlayerContext(ClosedCaption);
+export default withTwitchPlayerContext(withConfigSettings(ClosedCaption));

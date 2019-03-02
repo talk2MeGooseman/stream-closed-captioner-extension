@@ -34,33 +34,35 @@
     "canInstall": true,
     "configUrl": "https://localhost:8080/config.html",
     "configurationLocation": "hosted",
-    "description": "Easily increase the accessibility of your stream by adding Closed Captioning for your viewers. All you have to do is enable the video overlay, log in to the companion site and start Speech to Text. Now people with hearing issues or need to keep the volume low can still watch your stream and know what your saying.\r\nThis extension require usage of a companion website to provide the Speech to Text capabilities",
-    "eulaTosUrl": "",
+    "description": "Easily increase the accessibility of your stream by adding Closed Captioning for your viewers. All you have to do is enable the video overlay, log in to the companion site and start Closed Captioning. Now your viewers with accessibility needs can experience your stream in a whole new way, automatically offering more value to your channel to viewers from all walks of life. More features will be released later. Another extension brought to you by talk2MeGooseman. If you like the extension, feel free to stop by my channel and provide any feedback twitch.tv/talk2megooseman or use the support email address.",
+    "eulaTosUrl": "https://stream-cc.gooseman.codes/pages/terms",
     "hasChatSupport": false,
-    "iconUrl": "https://media.forgecdn.net/avatars/186/766/636835525915060423.png",
+    "iconUrl": "https://media.forgecdn.net/avatars/191/977/636862415151728028.png",
     "iconUrls": {
-      "100x100": "https://media.forgecdn.net/avatars/186/766/636835525915060423.png",
-      "24x24": "https://media.forgecdn.net/avatars/186/767/636835526515838073.png",
-      "300x200": "https://media.forgecdn.net/avatars/186/768/636835528458962643.png"
+      "100x100": "https://media.forgecdn.net/avatars/191/977/636862415151728028.png",
+      "24x24": "https://media.forgecdn.net/avatars/191/978/636862415153915584.png",
+      "300x200": "https://media.forgecdn.net/avatars/191/984/636862482028440628.png"
     },
     "id": "h1ekceo16erc49snp0sine3k9ccbh9",
     "installationCount": -42,
     "liveConfigUrl": "https://localhost:8080/live_config.html",
     "name": "Stream Closed Captioner",
     "panelHeight": 0,
-    "privacyPolicyUrl": "",
+    "privacyPolicyUrl": "https://stream-cc.gooseman.codes/pages/privacy",
     "requestIdentityLink": false,
     "requiredBroadcasterAbilities": [],
     "screenshotUrls": [
-      "https://media.forgecdn.net/attachments/244/925/cc-preview.png"
+      "https://media.forgecdn.net/attachments/246/928/stream-cc-cover-smaller.png",
+      "https://media.forgecdn.net/attachments/246/929/website-thumb.jpg",
+      "https://media.forgecdn.net/attachments/246/930/cc-preview.png"
     ],
     "sku": "",
     "state": "Testing",
     "subscriptionsSupportLevel": "none",
-    "summary": "Easily provide Closed Captioning for your stream by using the Speech to Text extenion.",
+    "summary": "Easily provide Closed Captioning for your viewers. All you have to do is install the extension, go to the companion web app and click \"On\"",
     "supportEmail": "help@gooseman.codes",
     "vendorCode": "",
-    "version": "1.0.0",
+    "version": "1.0.2",
     "viewerUrl": "",
     "viewerUrls": {
       "videoOverlay": "https://localhost:8080/video_overlay.html"

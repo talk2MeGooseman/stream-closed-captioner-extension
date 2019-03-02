@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import App from "./App";
+import Overlay from "./Overlay";
 import { MAX_TEXT_DISPLAY_TIME, SECOND, CONTEXT_EVENTS_WHITELIST } from "../../utils/Constants";
 import Authentication from "../Authentication/Authentication";
 import { TwitchPlayerContext } from "../../context/twitch-player";
+import { ConfigSettingsContext } from "../../context/config-settings";
 const debounce = require("lodash/debounce");
 
 export default class TwitchWrapper extends Component {
@@ -39,22 +40,17 @@ export default class TwitchWrapper extends Component {
 
   onAuthorized = auth => {
     this.Authentication.setToken(auth.token, auth.userId);
-    if (!this.state.finishedLoading) {
-      this.setState(() => {
-        return { finishedLoading: true };
-      });
-    }
+
   };
 
   contextUpdate = (context, delta) => {
     if (this.contextStateUpdated(delta)) {
       let newData = this.fetchChangedContextValues(context, delta);
 
-      window.Twitch.ext.rig.log('getting', newData)
       this.setState(state => {
         return {
           videoPlayerContext: Object.assign(
-            this.state.videoPlayerContext,
+            state.videoPlayerContext,
             newData
           )
         };
@@ -88,8 +84,11 @@ export default class TwitchWrapper extends Component {
       config = {};
     }
 
-    this.setState(() => {
+    window.Twitch.ext.rig.log('Settings') 
+
+    this.setState(state => {
       return {
+        finishedLoading: true,
         settings: config
       };
     });
@@ -129,11 +128,17 @@ export default class TwitchWrapper extends Component {
   }, MAX_TEXT_DISPLAY_TIME);
 
   render() {
-    let {videoPlayerContext} = this.state;
+    let {videoPlayerContext, settings, finishedLoading} = this.state;
+
+    if (!finishedLoading) {
+      return null;
+    }
 
     return (
       <TwitchPlayerContext.Provider value={videoPlayerContext}>
-        <App {...this.state} />
+        <ConfigSettingsContext.Provider value={settings}>
+          <Overlay {...this.state} />
+        </ConfigSettingsContext.Provider>
       </TwitchPlayerContext.Provider>
     );
   }

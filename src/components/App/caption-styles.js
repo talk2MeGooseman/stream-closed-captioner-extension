@@ -2,7 +2,7 @@ export const ccStyles = {
   fontFamily: "Roboto",
   fontSize: "var(--medium-font-size)",
   color: "#ffffff",
-  textTransform: "uppercase",
+  // textTransform: "capitalize",
   padding: "0px 8px",
 };
 

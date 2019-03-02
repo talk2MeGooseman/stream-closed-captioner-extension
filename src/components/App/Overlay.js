@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 const classNames = require('classnames');
 
 import "typeface-montserrat";
@@ -12,16 +13,29 @@ import VisibilityToggle from "./VisibilityToggle";
 import ClosedCaption from "./ClosedCaption";
 import Controls from "./Controls";
 import { withTwitchPlayerContext } from '../../context/provider/TwitchPlayer'
+import { withConfigSettings } from "../../context/provider/ConfigSettings";
 
-class App extends React.Component {
+class Overlay extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       settings: {},
       isDragged: false,
-      fontSize: 'medium'
+      fontSize: 'medium',
+      hideCC: false,
     };
+  }
+
+  componentDidMount() {
+    let { hideCC } = this.props.configSettings;
+    window.Twitch.ext.rig.log('Mounted') 
+    // Set state based off config settings
+    this.setState(state => {
+      return {
+        hideCC
+      };
+    });
   }
 
   toggleCCVisibility = () => {
@@ -33,7 +47,6 @@ class App extends React.Component {
   };
 
   onDragEnd = () => {
-    window.Twitch.ext.rig.log('Dragged')
     if (this.state.isDragged) {
       return;
     }
@@ -68,7 +81,7 @@ class App extends React.Component {
 
   render() {
     let { playerContext } = this.props;
-    window.Twitch.ext.rig.log(playerContext)
+
     var containerClass = classNames({
       "standard-position": !playerContext.arePlayerControlsVisible && !this.state.isDragged,
       "raise-video-controls": playerContext.arePlayerControlsVisible || this.state.isDragged,
@@ -86,4 +99,11 @@ class App extends React.Component {
   }
 }
 
-export default withTwitchPlayerContext(App);
+Overlay.propTypes = {
+  interimText: PropTypes.string,
+  finalText: PropTypes.string,
+  playerContext: PropTypes.object,
+  configSettings: PropTypes.object,
+};
+
+export default withTwitchPlayerContext(withConfigSettings(Overlay));

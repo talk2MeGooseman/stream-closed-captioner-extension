@@ -10,3 +10,11 @@
   padding: var(--caption-pad-bottom) 0px;
   cursor: move;
 }
+
+.text-capitalize {
+  text-transform: uppercase;
+}
+
+.text-mix-case::first-letter {
+    text-transform: uppercase;
+}
