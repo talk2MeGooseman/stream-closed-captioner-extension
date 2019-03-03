@@ -21,18 +21,7 @@ class ClosedCaption extends PureComponent {
   shouldHideCC() {
     const { interimText, finalText, hide, playerContext: { displayResolution }} = this.props;
 
-    return this.isScreenToSmall(displayResolution) || this.isEmptyCC(interimText + finalText) || hide;
-  }
-
-  isScreenToSmall(displayResolution) {
-    if (displayResolution === undefined) {
-      return false;
-    }
-
-    let widthHeight = displayResolution.split('x')
-    let width = parseInt(widthHeight[WIDTH_INDEX]);
-
-    return width < MINIMUM_VID_WIDTH;
+    return this.isEmptyCC(interimText + finalText) || hide;
   }
 
   isEmptyCC(text) {
