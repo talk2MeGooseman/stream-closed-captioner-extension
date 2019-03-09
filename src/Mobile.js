@@ -1,9 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import {withTwitchData} from "./components/App/TwitchWrapper";
-import Overlay from "./components/App/Overlay";
+import MobilePanel from "./components/App/MobilePanel";
 
-let Component = withTwitchData(Overlay);
+let Component = withTwitchData(MobilePanel);
 
 ReactDOM.render(
   <Component />,

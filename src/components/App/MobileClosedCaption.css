@@ -1,0 +1,28 @@
+:root {
+  --small-font-size: 6vw;
+  --medium-font-size: 8vw;
+  --large-font-size: 10vw;
+  --line-height: 1.2;
+  --caption-pad-bottom: 2px;
+}
+
+.caption-container {
+  display: inline-block;
+  font-family: 'Roboto', sans-serif;
+  padding: 0px 0px;
+  background: rgba(0, 0, 0, 0.7);
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column-reverse;
+  overflow: "hidden";
+  padding-bottom: 0.25em;
+}
+
+.text-capitalize {
+  text-transform: uppercase;
+}
+
+.text-mix-case::first-letter {
+  text-transform: uppercase;
+}

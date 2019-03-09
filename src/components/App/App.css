@@ -59,6 +59,14 @@ body {
   color: white;
 }
 
+.mobile-controls-button {
+  cursor: pointer;
+  position: fixed;
+  top: 1px;
+  right: 15px;
+  color: white;
+}
+
 .hide {
   visibility: hidden;
 }
