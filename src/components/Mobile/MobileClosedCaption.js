@@ -1,11 +1,12 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { withTwitchPlayerContext } from '../../context/provider/TwitchPlayer'
-import { withConfigSettings } from '../../context/provider/ConfigSettings'
-import { captionStyles, ccStyles } from "./caption-styles";
-import { WIDTH_INDEX, MINIMUM_VID_WIDTH } from '../../utils/Constants';
-import './MobileClosedCaption.css'
-const classNames = require('classnames');
+import React from "react";
+import PropTypes from "prop-types";
+import { withTwitchPlayerContext } from "../../context/provider/TwitchPlayer";
+import { withConfigSettings } from "../../context/provider/ConfigSettings";
+import { withCCState } from "../../context/provider/CCState";
+import { ccStyles } from "../shared/caption-styles";
+import "./MobileClosedCaption.css";
+
+const classNames = require("classnames");
 
 // Bits - phrakberg
 // Resub - phrakberg
@@ -16,29 +17,31 @@ const classNames = require('classnames');
 // Resub - roberttables
 // Resub - rw_grim
 // Bits - omcritzy
+// Sub - el_psychic
+// Resub - CreativeBuilds
 
 function setFontSizeStyle(size) {
   let fontSize = "";
 
   switch (size) {
   case "small":
-    fontSize = "var(--small-font-size)";
+    fontSize = "var(--mobile-small-font-size)";
     break;
   case "medium":
-    fontSize = "var(--medium-font-size)";
+    fontSize = "var(--mobile-medium-font-size)";
     break;
   case "large":
-    fontSize = "var(--large-font-size)";
+    fontSize = "var(--mobile-large-font-size)";
     break;
   default:
-    fontSize = "var(--medium-font-size)";
+    fontSize = "var(--mobile-medium-font-size)";
     break;
   }
 
   return fontSize;
 }
 
-function MobileClosedCaption({ interimText, finalText, configSettings, size }) {
+function MobileClosedCaption({ ccState: { interimText, finalTextQueue }, configSettings, size }) {
   const fontSize = setFontSizeStyle(size);
 
   const textStyles = { ...ccStyles, fontSize };
@@ -51,24 +54,20 @@ function MobileClosedCaption({ interimText, finalText, configSettings, size }) {
   return (
     <div className="caption-container">
       <div className={ccTextClasses} style={textStyles} >
-        {interimText}
-      </div>
-      <div className={ccTextClasses} style={textStyles}>
-        {finalText}
+        {finalTextQueue.join(" ")} {interimText}
       </div>
     </div>
   );
 }
 
 MobileClosedCaption.propTypes = {
-  interimText: PropTypes.string,
-  finalText: PropTypes.string,
   hide: PropTypes.bool,
   playerContext: PropTypes.object,
   settings: PropTypes.object,
   onDragEnd: PropTypes.func,
   size: PropTypes.string,
   configSettings: PropTypes.object,
+  ccState: PropTypes.object,
 };
 
 MobileClosedCaption.defaultProps = {
@@ -76,4 +75,4 @@ MobileClosedCaption.defaultProps = {
   finalText: "",
 };
 
-export default withTwitchPlayerContext(withConfigSettings(MobileClosedCaption));
+export default withTwitchPlayerContext(withConfigSettings(withCCState(MobileClosedCaption)));

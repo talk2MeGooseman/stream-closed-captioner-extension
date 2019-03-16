@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import Overlay from "./Overlay";
 import { MAX_TEXT_DISPLAY_TIME, SECOND, CONTEXT_EVENTS_WHITELIST } from "../../utils/Constants";
 import Authentication from "../Authentication/Authentication";
 import { TwitchPlayerContext } from "../../context/twitch-player";
 import { ConfigSettingsContext } from "../../context/config-settings";
+import { CCStateContext } from "../../context/cc-state";
 const debounce = require("lodash/debounce");
 
 export function withTwitchData(WrappedComponent) {
@@ -21,6 +21,10 @@ export function withTwitchData(WrappedComponent) {
         controlsShowing: false,
         videoPlayerContext: {},
         settings: {},
+        ccState: {
+          finalTextQueue: [],
+          interimText: "",
+        }
       };
     }
 
@@ -107,10 +111,17 @@ export function withTwitchData(WrappedComponent) {
       this.clearClosedCaptioning();
 
       setTimeout(() => {
-        this.setState((state, props) => ({
-          finalText,
-          interimText,
-        }));
+        let finalTextQueue = this.state.ccState.finalTextQueue;
+
+        finalTextQueue = this.updateFinalTextQueue(finalTextQueue, finalText);
+        this.limitQueueSize(finalTextQueue);
+
+        this.setState({
+          ccState: {
+            finalTextQueue,
+            interimText,
+          }
+        });
       }, delayTime);
     }
 
@@ -121,17 +132,36 @@ export function withTwitchData(WrappedComponent) {
       }));
     }, MAX_TEXT_DISPLAY_TIME);
 
+    limitQueueSize(finalTextQueue) {
+      if (finalTextQueue.length > 20)
+      {
+        finalTextQueue.shift();
+      }
+    }
+
+    updateFinalTextQueue(finalTextQueue, finalText) {
+      let lastText = finalTextQueue[finalTextQueue.length - 1];
+      if (lastText !== finalText)
+      {
+        finalTextQueue = [...finalTextQueue, finalText];
+      }
+      return finalTextQueue;
+    }
+
     render() {
-      let { videoPlayerContext, settings, finishedLoading } = this.state;
+      let { videoPlayerContext, settings, finishedLoading, ccState } = this.state;
 
       if (!finishedLoading) {
         return null;
       }
 
+      console.log(ccState)
       return (
         <TwitchPlayerContext.Provider value={videoPlayerContext}>
           <ConfigSettingsContext.Provider value={settings}>
-            <WrappedComponent {...this.state} />
+            <CCStateContext.Provider value={ccState}>
+              <WrappedComponent {...this.state} />
+            </CCStateContext.Provider>
           </ConfigSettingsContext.Provider>
         </TwitchPlayerContext.Provider>
       );

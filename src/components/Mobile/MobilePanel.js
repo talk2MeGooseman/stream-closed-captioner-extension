@@ -6,13 +6,8 @@ import "typeface-montserrat";
 import "typeface-raleway";
 import "typeface-roboto";
 
-import "./App.css";
-import "./box-sizing.css";
-
 import MobileClosedCaption from "./MobileClosedCaption";
-import Controls from "./Controls";
-import { withTwitchPlayerContext } from '../../context/provider/TwitchPlayer'
-import { withConfigSettings } from "../../context/provider/ConfigSettings";
+import Controls from "../shared/Controls";
 
 class MobilePanel extends React.Component {
   constructor(props) {
@@ -30,20 +25,17 @@ class MobilePanel extends React.Component {
 
   renderCaptions() {
     let { reset, size } = this.state;
-    let { interimText, finalText} = this.props;
 
     if(reset) {
       return null;
     }
 
     return (
-      <MobileClosedCaption size={size} onDragEnd={this.onDragEnd} interimText={interimText} finalText={finalText} />
+      <MobileClosedCaption size={size} onDragEnd={this.onDragEnd} />
     );
   }
 
   render() {
-    let { playerContext } = this.props;
-
     var containerClass = classNames({
     });
 
@@ -58,11 +50,4 @@ class MobilePanel extends React.Component {
   }
 }
 
-MobilePanel.propTypes = {
-  interimText: PropTypes.string,
-  finalText: PropTypes.string,
-  playerContext: PropTypes.object,
-  configSettings: PropTypes.object,
-};
-
-export default withTwitchPlayerContext(withConfigSettings(MobilePanel));
+export default MobilePanel;

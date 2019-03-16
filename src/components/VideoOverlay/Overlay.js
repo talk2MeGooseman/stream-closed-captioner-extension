@@ -6,12 +6,9 @@ import "typeface-montserrat";
 import "typeface-raleway";
 import "typeface-roboto";
 
-import "./App.css";
-import "./box-sizing.css";
-
 import VisibilityToggle from "./VisibilityToggle";
 import ClosedCaption from "./ClosedCaption";
-import Controls from "./Controls";
+import Controls from "../shared/Controls";
 import { withTwitchPlayerContext } from '../../context/provider/TwitchPlayer'
 import { withConfigSettings } from "../../context/provider/ConfigSettings";
 
@@ -22,7 +19,7 @@ class Overlay extends React.Component {
     this.state = {
       settings: {},
       isDragged: false,
-      fontSize: 'medium',
+      size: 'medium',
       hideCC: false,
     };
   }
@@ -63,19 +60,18 @@ class Overlay extends React.Component {
   }
 
   onSelectTextSize = (size) => {
-    this.setState({ fontSize: size });
+    this.setState({ size: size });
   }
 
   renderCaptions() {
-    let { hideCC, reset, fontSize } = this.state;
-    let { interimText, finalText, settings } = this.props;
+    let { hideCC, reset, size } = this.state;
 
     if(reset) {
       return null;
     }
 
     return (
-      <ClosedCaption fontSize={fontSize} hide={hideCC} onDragEnd={this.onDragEnd} interimText={interimText} finalText={finalText} settings={settings} />
+      <ClosedCaption size={size} hide={hideCC} onDragEnd={this.onDragEnd} />
     );
   }
 
@@ -100,8 +96,6 @@ class Overlay extends React.Component {
 }
 
 Overlay.propTypes = {
-  interimText: PropTypes.string,
-  finalText: PropTypes.string,
   playerContext: PropTypes.object,
   configSettings: PropTypes.object,
 };
