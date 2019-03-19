@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCog, faUndo, faFont } from "@fortawesome/free-solid-svg-icons";
+import { faCog, faUndo, faFont, faExpand, faMinus } from "@fortawesome/free-solid-svg-icons";
 import {
   Menu, MenuDivider, MenuItem, Popover,
 } from "@blueprintjs/core";
@@ -31,7 +31,30 @@ function renderResetButton(onReset) {
   );
 }
 
-const Controls = ({ playerContext, onReset, onSelectTextSize }) => {
+function renderBoxSizeButton(onClick, isViewerBoxSize) {
+  if (!isVideoOverlay()) {
+    return null;
+  }
+
+  let text = "Enable Square Text Box";
+  let icon = faExpand;
+  if (isViewerBoxSize) {
+    text = "Enable Horizontal Text Box";
+    icon = faMinus;
+  }
+
+  return (
+    <React.Fragment>
+      <MenuDivider />
+      <MenuItem onClick={onClick} icon={ <FontAwesomeIcon icon={icon} size="lg" /> } text={text} />
+    </React.Fragment>
+  );
+}
+
+const Controls = ({
+  playerContext, onReset, onSelectTextSize,
+  onSelectBoxSize, isViewerBoxSize,
+}) => {
   if (isVideoOverlay() && !playerContext.arePlayerControlsVisible) {
     return null;
   }
@@ -47,12 +70,13 @@ const Controls = ({ playerContext, onReset, onSelectTextSize }) => {
       <MenuItem icon={ <FontAwesomeIcon icon={faFont} />} text="Medium Text" onClick={() => { onSelectTextSize("medium"); }} />
       <MenuItem icon={ <FontAwesomeIcon icon={faFont} />} text="Large Text" onClick={() => { onSelectTextSize("large"); }} />
       { renderResetButton(onReset) }
+      { renderBoxSizeButton(onSelectBoxSize, isViewerBoxSize) }
     </Menu>
   );
 
   return (
     <span className={controlClass}>
-      <Popover content={menu}>
+      <Popover position="left-bottom" content={menu}>
         <FontAwesomeIcon size="2x" icon={faCog} />
       </Popover>
     </span>
@@ -60,9 +84,11 @@ const Controls = ({ playerContext, onReset, onSelectTextSize }) => {
 };
 
 Controls.propTypes = {
-  onReset: PropTypes.func.isRequired,
+  onReset: PropTypes.func,
   playerContext: PropTypes.object.isRequired,
   onSelectTextSize: PropTypes.func.isRequired,
+  onSelectBoxSize: PropTypes.func,
+  isViewerBoxSize: PropTypes.bool,
 };
 
 export default withTwitchPlayerContext(Controls);

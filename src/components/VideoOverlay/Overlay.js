@@ -17,10 +17,10 @@ class Overlay extends React.Component {
     super(props);
 
     this.state = {
-      settings: {},
       isDragged: false,
       size: 'medium',
       hideCC: false,
+      isViewerBoxSize: false,
     };
   }
 
@@ -63,20 +63,31 @@ class Overlay extends React.Component {
     this.setState({ size: size });
   }
 
+  onSelectBoxSize = () => {
+    const { isViewerBoxSize } = this.state;
+    this.setState({ isViewerBoxSize: !isViewerBoxSize });
+  }
+
   renderCaptions() {
-    let { hideCC, reset, size } = this.state;
+    const { hideCC, reset, size, isViewerBoxSize } = this.state;
 
     if(reset) {
       return null;
     }
 
     return (
-      <ClosedCaption size={size} hide={hideCC} onDragEnd={this.onDragEnd} />
+      <ClosedCaption 
+        size={size}
+        hide={hideCC}
+        onDragEnd={this.onDragEnd}
+        isViewerBoxSize={isViewerBoxSize}
+      />
     );
   }
 
   render() {
-    let { playerContext } = this.props;
+    const { playerContext } = this.props;
+    const { isViewerBoxSize } = this.state;
 
     var containerClass = classNames({
       "standard-position": !playerContext.arePlayerControlsVisible && !this.state.isDragged,
@@ -88,7 +99,12 @@ class Overlay extends React.Component {
         <div className="drag-boundary">
           {this.renderCaptions()}
           <VisibilityToggle isCCDisabled={this.state.hideCC} onClick={this.toggleCCVisibility} />
-          <Controls onReset={this.onReset} onSelectTextSize={this.onSelectTextSize} />
+          <Controls 
+            onReset={this.onReset}
+            onSelectTextSize={this.onSelectTextSize}
+            onSelectBoxSize={this.onSelectBoxSize}
+            isViewerBoxSize={isViewerBoxSize}
+          />
         </div>
       </div>
     );

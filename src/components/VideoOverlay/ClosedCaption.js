@@ -45,20 +45,28 @@ function setFontSizeStyle(size) {
 }
 
 function ClosedCaption({
-  hide, size, configSettings, ccState: { finalTextQueue, interimText }, onDragEnd,
+  hide, size, configSettings,
+  ccState: { finalTextQueue, interimText },
+  onDragEnd, numberOfLines, isViewerBoxSize,
 }) {
   const finalText = finalTextQueue.join(" ");
 
   const fontSize = setFontSizeStyle(size);
   const textStyles = { ...ccStyles, fontSize };
 
+  if (isViewerBoxSize) {
+    // eslint-disable-next-line no-param-reassign
+    numberOfLines = 7;
+  }
+
   const styles = {
-    maxHeight: `calc(${fontSize} * var(--line-height) * 3 + var(--caption-pad-bottom) * 2)`,
+    maxHeight: `calc(${fontSize} * var(--line-height) * ${numberOfLines} + var(--caption-pad-bottom) * 2)`,
     overflow: "hidden",
   };
 
   const containerClasses = classNames({
     "caption-container": true,
+    "box-size": isViewerBoxSize,
     hide: shouldHideCC(hide, interimText, finalText),
   });
 
@@ -88,11 +96,15 @@ ClosedCaption.propTypes = {
   fontSize: PropTypes.string,
   configSettings: PropTypes.object,
   ccState: PropTypes.object.isRequired,
+  numberOfLines: PropTypes.number.isRequired,
+  isViewerBoxSize: PropTypes.bool.isRequired,
 };
 
 ClosedCaption.defaultProps = {
   interimText: "",
   finalText: "",
+  numberOfLines: 3,
+  isViewerBoxSize: true,
 };
 
 export default withTwitchPlayerContext(withConfigSettings(withCCState(ClosedCaption)));

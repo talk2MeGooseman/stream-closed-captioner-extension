@@ -11,6 +11,10 @@
   cursor: move;
 }
 
+.box-size {
+  width: 30%;
+}
+
 .text-capitalize {
   text-transform: uppercase;
 }
