@@ -31,14 +31,14 @@ function renderResetButton(onReset) {
   );
 }
 
-function renderBoxSizeButton(onClick, isViewerBoxSize) {
+function renderBoxSizeButton(onClick, isBoxSize) {
   if (!isVideoOverlay()) {
     return null;
   }
 
   let text = "Enable Square Text Box";
   let icon = faExpand;
-  if (isViewerBoxSize) {
+  if (isBoxSize) {
     text = "Enable Horizontal Text Box";
     icon = faMinus;
   }
@@ -53,7 +53,7 @@ function renderBoxSizeButton(onClick, isViewerBoxSize) {
 
 const Controls = ({
   playerContext, onReset, onSelectTextSize,
-  onSelectBoxSize, isViewerBoxSize,
+  onSelectBoxSize, isBoxSize,
 }) => {
   if (isVideoOverlay() && !playerContext.arePlayerControlsVisible) {
     return null;
@@ -70,7 +70,7 @@ const Controls = ({
       <MenuItem icon={ <FontAwesomeIcon icon={faFont} />} text="Medium Text" onClick={() => { onSelectTextSize("medium"); }} />
       <MenuItem icon={ <FontAwesomeIcon icon={faFont} />} text="Large Text" onClick={() => { onSelectTextSize("large"); }} />
       { renderResetButton(onReset) }
-      { renderBoxSizeButton(onSelectBoxSize, isViewerBoxSize) }
+      { renderBoxSizeButton(onSelectBoxSize, isBoxSize) }
     </Menu>
   );
 
@@ -88,7 +88,7 @@ Controls.propTypes = {
   playerContext: PropTypes.object.isRequired,
   onSelectTextSize: PropTypes.func.isRequired,
   onSelectBoxSize: PropTypes.func,
-  isViewerBoxSize: PropTypes.bool,
+  isBoxSize: PropTypes.bool,
 };
 
 export default withTwitchPlayerContext(Controls);

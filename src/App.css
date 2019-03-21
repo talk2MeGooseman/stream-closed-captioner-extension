@@ -8,7 +8,7 @@
   --mobile-large-font-size: 10vw;
 
   --line-height: 1.2;
-  --caption-pad-bottom: 2px;
+  --caption-pad-bottom: 5px;
 }
 
 html {
@@ -48,14 +48,6 @@ body {
   flex-direction: column;
   justify-content: flex-end;
   align-items: center;
-}
-
-.standard-position {
-  padding: 30px 0px 30px 0px;
-}
-
-.raise-video-controls {
-  padding: 30px 0px 60px 0px;
 }
 
 .cc-visibility-toggle {

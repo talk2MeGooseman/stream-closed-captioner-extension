@@ -44,29 +44,33 @@ function setFontSizeStyle(size) {
   return fontSize;
 }
 
+function renderTextFromArray(arr) {
+  return arr.map(item => (<span>{item}{" "}</span>));
+} 
+
 function ClosedCaption({
   hide, size, configSettings,
   ccState: { finalTextQueue, interimText },
-  onDragEnd, numberOfLines, isViewerBoxSize,
+  onDragEnd, numberOfLines, isBoxSize,
 }) {
   const finalText = finalTextQueue.join(" ");
 
   const fontSize = setFontSizeStyle(size);
   const textStyles = { ...ccStyles, fontSize };
 
-  if (isViewerBoxSize) {
+  if (isBoxSize) {
     // eslint-disable-next-line no-param-reassign
     numberOfLines = 7;
   }
 
   const styles = {
-    maxHeight: `calc(${fontSize} * var(--line-height) * ${numberOfLines} + var(--caption-pad-bottom) * 2)`,
+    maxHeight: `calc(${fontSize} * var(--line-height) * ${numberOfLines} + var(--caption-pad-bottom))`,
     overflow: "hidden",
   };
 
   const containerClasses = classNames({
     "caption-container": true,
-    "box-size": isViewerBoxSize,
+    "box-size": isBoxSize,
     hide: shouldHideCC(hide, interimText, finalText),
   });
 
@@ -79,7 +83,8 @@ function ClosedCaption({
     <Draggable grid={[8, 8]} bounds="parent" onStop={onDragEnd}>
       <div className={containerClasses} style={styles}>
         <div className={ccTextClasses} style={textStyles} >
-          {finalText} {interimText}
+          {renderTextFromArray(finalTextQueue)}
+          <span>{interimText}</span>
         </div>
       </div>
     </Draggable>
@@ -97,14 +102,14 @@ ClosedCaption.propTypes = {
   configSettings: PropTypes.object,
   ccState: PropTypes.object.isRequired,
   numberOfLines: PropTypes.number.isRequired,
-  isViewerBoxSize: PropTypes.bool.isRequired,
+  isBoxSize: PropTypes.bool.isRequired,
 };
 
 ClosedCaption.defaultProps = {
   interimText: "",
   finalText: "",
   numberOfLines: 3,
-  isViewerBoxSize: true,
+  isBoxSize: false,
 };
 
 export default withTwitchPlayerContext(withConfigSettings(withCCState(ClosedCaption)));

@@ -116,7 +116,7 @@
     "authorName": "talk2megooseman",
     "bitsEnabled": false,
     "canInstall": true,
-    "configUrl": "https://localhost:8080/config.html",
+    "configUrl": "https://h1ekceo16erc49snp0sine3k9ccbh9.ext-twitch.tv/h1ekceo16erc49snp0sine3k9ccbh9/1.1.0/df251b5d3c02cf3f2a7d3245381c754d/config.html",
     "configurationLocation": "hosted",
     "description": "Easily increase the accessibility of your stream by adding Closed Captioning for your viewers. All you have to do is enable the video overlay, log in to the companion site and start Closed Captioning. Now your viewers with accessibility needs can experience your stream in a whole new way, automatically offering more value to your channel to viewers from all walks of life. Viewers can hide the text or change the text size from small/medium/large sizes. More features will be released in future updates. Another extension brought to you by talk2MeGooseman. If you like the extension, feel free to stop by my channel and provide any feedback twitch.tv/talk2megooseman or use the support email address.",
     "eulaTosUrl": "https://stream-cc.gooseman.codes/pages/terms",
@@ -129,7 +129,7 @@
     },
     "id": "h1ekceo16erc49snp0sine3k9ccbh9",
     "installationCount": -42,
-    "liveConfigUrl": "https://localhost:8080/live_config.html",
+    "liveConfigUrl": "https://h1ekceo16erc49snp0sine3k9ccbh9.ext-twitch.tv/h1ekceo16erc49snp0sine3k9ccbh9/1.1.0/df251b5d3c02cf3f2a7d3245381c754d/live_config.html",
     "name": "Stream Closed Captioner",
     "panelHeight": 300,
     "privacyPolicyUrl": "https://stream-cc.gooseman.codes/pages/privacy",
@@ -142,37 +142,37 @@
       "https://media.forgecdn.net/attachments/247/843/settings.png"
     ],
     "sku": "",
-    "state": "Testing",
+    "state": "Assets Uploaded",
     "subscriptionsSupportLevel": "none",
     "summary": "Easily provide Closed Captioning for your viewers. All you have to do is install the extension, go to the companion web site and click \"On\"",
     "supportEmail": "help@gooseman.codes",
     "vendorCode": "",
     "version": "1.1.0",
-    "viewerUrl": "https://localhost:8080/mobile.html",
+    "viewerUrl": "https://h1ekceo16erc49snp0sine3k9ccbh9.ext-twitch.tv/h1ekceo16erc49snp0sine3k9ccbh9/1.1.0/df251b5d3c02cf3f2a7d3245381c754d/mobile.html",
     "viewerUrls": {
-      "mobile": "https://localhost:8080/mobile.html",
-      "panel": "https://localhost:8080/mobile.html",
-      "videoOverlay": "https://localhost:8080/video_overlay.html"
+      "mobile": "https://h1ekceo16erc49snp0sine3k9ccbh9.ext-twitch.tv/h1ekceo16erc49snp0sine3k9ccbh9/1.1.0/df251b5d3c02cf3f2a7d3245381c754d/mobile.html",
+      "panel": "https://h1ekceo16erc49snp0sine3k9ccbh9.ext-twitch.tv/h1ekceo16erc49snp0sine3k9ccbh9/1.1.0/df251b5d3c02cf3f2a7d3245381c754d/mobile.html",
+      "videoOverlay": "https://h1ekceo16erc49snp0sine3k9ccbh9.ext-twitch.tv/h1ekceo16erc49snp0sine3k9ccbh9/1.1.0/df251b5d3c02cf3f2a7d3245381c754d/video_overlay.html"
     },
     "views": {
       "mobile": {
-        "viewerUrl": "https://localhost:8080/mobile.html"
+        "viewerUrl": "https://h1ekceo16erc49snp0sine3k9ccbh9.ext-twitch.tv/h1ekceo16erc49snp0sine3k9ccbh9/1.1.0/df251b5d3c02cf3f2a7d3245381c754d/mobile.html"
       },
       "panel": {
-        "viewerUrl": "https://localhost:8080/mobile.html",
+        "viewerUrl": "https://h1ekceo16erc49snp0sine3k9ccbh9.ext-twitch.tv/h1ekceo16erc49snp0sine3k9ccbh9/1.1.0/df251b5d3c02cf3f2a7d3245381c754d/mobile.html",
         "height": 300,
         "canLinkExternalContent": false
       },
       "videoOverlay": {
-        "viewerUrl": "https://localhost:8080/video_overlay.html",
+        "viewerUrl": "https://h1ekceo16erc49snp0sine3k9ccbh9.ext-twitch.tv/h1ekceo16erc49snp0sine3k9ccbh9/1.1.0/df251b5d3c02cf3f2a7d3245381c754d/video_overlay.html",
         "canLinkExternalContent": false
       },
       "config": {
-        "viewerUrl": "https://localhost:8080/config.html",
+        "viewerUrl": "https://h1ekceo16erc49snp0sine3k9ccbh9.ext-twitch.tv/h1ekceo16erc49snp0sine3k9ccbh9/1.1.0/df251b5d3c02cf3f2a7d3245381c754d/config.html",
         "canLinkExternalContent": true
       },
       "liveConfig": {
-        "viewerUrl": "https://localhost:8080/live_config.html",
+        "viewerUrl": "https://h1ekceo16erc49snp0sine3k9ccbh9.ext-twitch.tv/h1ekceo16erc49snp0sine3k9ccbh9/1.1.0/df251b5d3c02cf3f2a7d3245381c754d/live_config.html",
         "canLinkExternalContent": true
       }
     },

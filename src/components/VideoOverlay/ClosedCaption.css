@@ -7,12 +7,13 @@
   display: flex;
   flex-direction: column-reverse;
   line-height: var(--line-height);
-  padding: var(--caption-pad-bottom) 0px;
+  padding-bottom: var(--caption-pad-bottom);
   cursor: move;
 }
 
 .box-size {
   width: 30%;
+  align-self: flex-end;
 }
 
 .text-capitalize {
@@ -21,4 +22,12 @@
 
 .text-mix-case::first-letter {
     text-transform: uppercase;
+}
+
+.standard-position {
+  padding: 30px 0px 30px 0px;
+}
+
+.raise-video-controls {
+  padding: 30px 0px 60px 0px;
 }

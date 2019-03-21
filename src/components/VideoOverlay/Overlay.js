@@ -20,17 +20,18 @@ class Overlay extends React.Component {
       isDragged: false,
       size: 'medium',
       hideCC: false,
-      isViewerBoxSize: false,
+      isBoxSize: false,
     };
   }
 
   componentDidMount() {
-    let { hideCC } = this.props.configSettings;
+    let { hideCC, ccBoxSize } = this.props.configSettings;
     window.Twitch.ext.rig.log('Mounted') 
     // Set state based off config settings
     this.setState(state => {
       return {
-        hideCC
+        hideCC,
+        isBoxSize: ccBoxSize
       };
     });
   }
@@ -64,12 +65,12 @@ class Overlay extends React.Component {
   }
 
   onSelectBoxSize = () => {
-    const { isViewerBoxSize } = this.state;
-    this.setState({ isViewerBoxSize: !isViewerBoxSize });
+    const { isBoxSize } = this.state;
+    this.setState({ isBoxSize: !isBoxSize });
   }
 
   renderCaptions() {
-    const { hideCC, reset, size, isViewerBoxSize } = this.state;
+    const { hideCC, reset, size, isBoxSize } = this.state;
 
     if(reset) {
       return null;
@@ -80,14 +81,14 @@ class Overlay extends React.Component {
         size={size}
         hide={hideCC}
         onDragEnd={this.onDragEnd}
-        isViewerBoxSize={isViewerBoxSize}
+        isBoxSize={isBoxSize}
       />
     );
   }
 
   render() {
     const { playerContext } = this.props;
-    const { isViewerBoxSize } = this.state;
+    const { isBoxSize } = this.state;
 
     var containerClass = classNames({
       "standard-position": !playerContext.arePlayerControlsVisible && !this.state.isDragged,
@@ -103,7 +104,7 @@ class Overlay extends React.Component {
             onReset={this.onReset}
             onSelectTextSize={this.onSelectTextSize}
             onSelectBoxSize={this.onSelectBoxSize}
-            isViewerBoxSize={isViewerBoxSize}
+            isBoxSize={isBoxSize}
           />
         </div>
       </div>
