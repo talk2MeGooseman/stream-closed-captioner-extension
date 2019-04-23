@@ -99,12 +99,13 @@ class Overlay extends React.Component {
       <div id="app-container" className={containerClass}>
         <div className="drag-boundary">
           {this.renderCaptions()}
-          <VisibilityToggle isCCDisabled={this.state.hideCC} onClick={this.toggleCCVisibility} />
           <Controls 
             onReset={this.onReset}
             onSelectTextSize={this.onSelectTextSize}
             onSelectBoxSize={this.onSelectBoxSize}
             isBoxSize={isBoxSize}
+            isCCDisabled={this.state.hideCC}
+            toggleCCVisibility={this.toggleCCVisibility}
           />
         </div>
       </div>

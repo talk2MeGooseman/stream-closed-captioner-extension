@@ -155,7 +155,6 @@ export function withTwitchData(WrappedComponent) {
         return null;
       }
 
-      console.log(ccState)
       return (
         <TwitchPlayerContext.Provider value={videoPlayerContext}>
           <ConfigSettingsContext.Provider value={settings}>

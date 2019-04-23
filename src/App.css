@@ -50,18 +50,18 @@ body {
   align-items: center;
 }
 
-.cc-visibility-toggle {
+.controls-container {
   cursor: pointer;
   position: absolute;
-  right: 30px;
   color: white;
 }
 
-.controls-button {
-  cursor: pointer;
-  position: absolute;
+.position-right {
   right: 0px;
-  color: white;
+}
+
+.position-left {
+  left: 0px;
 }
 
 .mobile-controls-button {

@@ -14,6 +14,13 @@ const classNames = require("classnames");
 // Resub Nyixxs
 // Resub Nataliexo93
 // Resub lurking_kat
+// Bits  302 corbob
+// Bits 11 taylorishere
+// Bits 301 adam13531
+// Bits 200 rhyolight
+// Bits 400 booperinos
+// Bits 1 ninjabunny9000
+// Sub DannyKampsGamez
 
 function isEmptyCC(text) {
   return text.length === 0;

@@ -1,81 +1,69 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCog, faUndo, faFont, faExpand, faMinus } from "@fortawesome/free-solid-svg-icons";
 import {
-  Menu, MenuDivider, MenuItem, Popover,
-} from "@blueprintjs/core";
+  faCog, faUndo, faExpand, faMinus,
+} from "@fortawesome/free-solid-svg-icons";
+import { Popover, Tooltip } from "@blueprintjs/core";
 import classnames from "classnames";
+
+import VisibilityToggle from "../VideoOverlay/VisibilityToggle";
+import MenuSettings from "../VideoOverlay/MenuSettings";
 import { withTwitchPlayerContext } from "../../context/provider/TwitchPlayer";
-import "url-search-params-polyfill";
+import { withConfigSettings } from "../../context/provider/ConfigSettings";
+import { isVideoOverlay } from "../../helpers/video-helpers";
 
-
-function isVideoOverlay() {
-  const search = new URLSearchParams(window.location.search);
-  const platform = search.get("platform");
-  const anchor = search.get("anchor");
-
-  return anchor === "video_overlay" && platform === "web";
+function isPositionLeft(configSettings) {
+  return isVideoOverlay() && configSettings.switchSettingsPosition;
 }
 
-function renderResetButton(onReset) {
+function renderVisToggleSettings(hideCC, toggleCCVisibility) {
   if (!isVideoOverlay()) {
     return null;
   }
 
-  return (
-    <React.Fragment>
-      <MenuDivider />
-      <MenuItem onClick={onReset} icon={ <FontAwesomeIcon icon={faUndo} size="lg" /> } text="Reset Position" />
-    </React.Fragment>
-  );
-}
-
-function renderBoxSizeButton(onClick, isBoxSize) {
-  if (!isVideoOverlay()) {
-    return null;
-  }
-
-  let text = "Enable Square Text Box";
-  let icon = faExpand;
-  if (isBoxSize) {
-    text = "Enable Horizontal Text Box";
-    icon = faMinus;
-  }
+  const state = hideCC ? "Show" : "Hide";
 
   return (
-    <React.Fragment>
-      <MenuDivider />
-      <MenuItem onClick={onClick} icon={ <FontAwesomeIcon icon={icon} size="lg" /> } text={text} />
-    </React.Fragment>
+    <Tooltip content={`${state} CC Text`}>
+      <VisibilityToggle isCCDisabled={hideCC} onClick={toggleCCVisibility} />
+    </Tooltip>
   );
 }
 
 const Controls = ({
-  playerContext, onReset, onSelectTextSize,
-  onSelectBoxSize, isBoxSize,
+  onReset,
+  onSelectTextSize,
+  onSelectBoxSize,
+  isBoxSize,
+  isCCDisabled,
+  toggleCCVisibility,
+  playerContext,
+  configSettings,
 }) => {
   if (isVideoOverlay() && !playerContext.arePlayerControlsVisible) {
     return null;
   }
 
   const controlClass = classnames({
-    "controls-button": isVideoOverlay(),
+    "controls-container": isVideoOverlay(),
+    "position-right": !isPositionLeft(configSettings),
+    "position-left": isPositionLeft(configSettings),
     "mobile-controls-button": !isVideoOverlay(),
   });
 
   const menu = (
-    <Menu>
-      <MenuItem icon={ <FontAwesomeIcon icon={faFont} />} text="Small Text" onClick={() => { onSelectTextSize("small"); }} />
-      <MenuItem icon={ <FontAwesomeIcon icon={faFont} />} text="Medium Text" onClick={() => { onSelectTextSize("medium"); }} />
-      <MenuItem icon={ <FontAwesomeIcon icon={faFont} />} text="Large Text" onClick={() => { onSelectTextSize("large"); }} />
-      { renderResetButton(onReset) }
-      { renderBoxSizeButton(onSelectBoxSize, isBoxSize) }
-    </Menu>
+    <MenuSettings
+      onReset={onReset}
+      onSelectTextSize={onSelectTextSize}
+      onSelectBoxSize={onSelectBoxSize}
+      isBoxSize={isBoxSize}
+    />
   );
 
   return (
     <span className={controlClass}>
+      {renderVisToggleSettings(isCCDisabled, toggleCCVisibility)}
       <Popover position="left-bottom" content={menu}>
         <FontAwesomeIcon size="2x" icon={faCog} />
       </Popover>
@@ -85,10 +73,13 @@ const Controls = ({
 
 Controls.propTypes = {
   onReset: PropTypes.func,
-  playerContext: PropTypes.object.isRequired,
   onSelectTextSize: PropTypes.func.isRequired,
   onSelectBoxSize: PropTypes.func,
   isBoxSize: PropTypes.bool,
+  isCCDisabled: PropTypes.boolean,
+  toggleCCVisibility: PropTypes.func,
+  configSettings: PropTypes.object,
+  playerContext: PropTypes.object.isRequired,
 };
 
-export default withTwitchPlayerContext(Controls);
+export default withTwitchPlayerContext(withConfigSettings(Controls));
