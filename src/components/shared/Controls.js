@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faCog, faUndo, faExpand, faMinus,
+  faCog, faUndo, faExpand, faMinus, faCommentDollar,
 } from "@fortawesome/free-solid-svg-icons";
 import { Popover, Tooltip } from "@blueprintjs/core";
 import classnames from "classnames";
@@ -61,8 +61,13 @@ const Controls = ({
     />
   );
 
+  const displayBitsMenu = () => {
+    configSettings.useBits(123);
+  }
+
   return (
     <span className={controlClass}>
+      <FontAwesomeIcon size="2x" icon={faCommentDollar} onClick={displayBitsMenu} />
       {renderVisToggleSettings(isCCDisabled, toggleCCVisibility)}
       <Popover position="left-bottom" content={menu}>
         <FontAwesomeIcon size="2x" icon={faCog} />

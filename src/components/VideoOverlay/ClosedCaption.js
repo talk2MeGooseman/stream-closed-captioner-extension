@@ -52,8 +52,8 @@ function setFontSizeStyle(size) {
 }
 
 function renderTextFromArray(arr) {
-  return arr.map(item => (<span>{item}{" "}</span>));
-} 
+  return arr.map(item => (<span key={item.id}>{item.text}{" "}</span>));
+}
 
 function ClosedCaption({
   hide, size, configSettings,

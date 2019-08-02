@@ -54,7 +54,7 @@ function MobileClosedCaption({ ccState: { interimText, finalTextQueue }, configS
   return (
     <div className="caption-container">
       <div className={ccTextClasses} style={textStyles} >
-        {finalTextQueue.join(" ")} {interimText}
+        {finalTextQueue.map(({ text }) => text).join(" ")} {interimText}
       </div>
     </div>
   );
