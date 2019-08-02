@@ -131,10 +131,10 @@ export function withTwitchData(WrappedComponent) {
 
     pubSubMessageHandler = (target, contentType, message) => {
       // TODO - Parse message body a sku event
-
       let parsedMessage;
       try {
         parsedMessage = JSON.parse(message);
+        window.Twitch.ext.rig.log('Received Message', parsedMessage)
       } catch (error) {
         parsedMessage = {
           interim: message,

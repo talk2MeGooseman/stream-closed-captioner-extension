@@ -44,21 +44,20 @@ module.exports = (_env, argv) => {
   const entry = {};
 
   // edit webpack plugins here!
-  const plugins = [
-    new CleanWebpackPlugin(["dist"]),
-    new webpack.HotModuleReplacementPlugin(),
-  ];
+  const plugins = [new CleanWebpackPlugin(["dist"]), new webpack.HotModuleReplacementPlugin()];
 
   for (name in entryPoints) {
     if (entryPoints[name].build) {
       entry[name] = entryPoints[name].path;
       if (argv.mode === "production") {
-        plugins.push(new HtmlWebpackPlugin({
-          inject: true,
-          chunks: [name],
-          template: "./template.html",
-          filename: entryPoints[name].outputHtml,
-        }));
+        plugins.push(
+          new HtmlWebpackPlugin({
+            inject: true,
+            chunks: [name],
+            template: "./template.html",
+            filename: entryPoints[name].outputHtml,
+          }),
+        );
       }
     }
   }
@@ -82,9 +81,7 @@ module.exports = (_env, argv) => {
         },
         {
           test: /\.(woff|woff2|eot|ttf|otf)$/,
-          use: [
-            "file-loader",
-          ],
+          use: ["file-loader"],
         },
         {
           test: /\.(jpe?g|png|gif|svg)$/i,
@@ -99,6 +96,11 @@ module.exports = (_env, argv) => {
     output: {
       filename: "[name].bundle.js",
       path: bundlePath,
+    },
+    watchOptions: {
+      ignored: /node_modules/,
+      aggregateTimeout: 300,
+      poll: 500,
     },
     plugins,
   };

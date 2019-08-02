@@ -3,12 +3,12 @@
   "backendFolderName": "",
   "extensionViews": [
     {
-      "id": "7",
+      "id": "1",
       "label": "",
       "channelId": "120750024",
       "configurationAnchor": "panel",
       "displayChannelName": "talk2megooseman",
-      "type": "video_overlay",
+      "type": "mobile",
       "features": {
         "isBitsEnabled": true,
         "isChatEnabled": false,
@@ -23,33 +23,8 @@
       "y": 0,
       "orientation": "Portrait",
       "frameSize": {
-        "width": 1280,
-        "height": 720
-      }
-    },
-    {
-      "id": "8",
-      "label": "",
-      "channelId": "120750024",
-      "configurationAnchor": "panel",
-      "displayChannelName": "talk2megooseman",
-      "type": "panel",
-      "features": {
-        "isBitsEnabled": true,
-        "isChatEnabled": false,
-        "isSubscriptionStatusAvailable": false
-      },
-      "linked": false,
-      "linkedUserId": "",
-      "mode": "viewer",
-      "isPopout": false,
-      "role": "Broadcaster",
-      "x": 0,
-      "y": 0,
-      "orientation": "Portrait",
-      "frameSize": {
-        "width": 1280,
-        "height": 720
+        "width": 375,
+        "height": 822
       }
     }
   ],
@@ -84,8 +59,8 @@
       "https://media.forgecdn.net/attachments/246/928/stream-cc-cover-smaller.png",
       "https://media.forgecdn.net/attachments/246/930/cc-preview.png",
       "https://media.forgecdn.net/attachments/247/843/settings.png",
-      "https://static-cdn.jtvnw.net/jtv_user_pictures/h1ekceo16erc49snp0sine3k9ccbh9/1.1.0/screenshot668682db-ed8c-4c82-bbd6-5f539427b268",
-      "https://static-cdn.jtvnw.net/jtv_user_pictures/h1ekceo16erc49snp0sine3k9ccbh9/1.1.0/screenshot541c031d-6062-4f94-9b46-c687754f0b51"
+      "https://extensions-discovery-images.twitch.tv/h1ekceo16erc49snp0sine3k9ccbh9/1.1.0/screenshot668682db-ed8c-4c82-bbd6-5f539427b268",
+      "https://extensions-discovery-images.twitch.tv/h1ekceo16erc49snp0sine3k9ccbh9/1.1.0/screenshot541c031d-6062-4f94-9b46-c687754f0b51"
     ],
     "sku": "",
     "state": "Testing",
@@ -94,6 +69,7 @@
     "supportEmail": "help@gooseman.codes",
     "vendorCode": "",
     "version": "1.3.0",
+    "viewerSummary": "Easily provide Closed Captioning for your viewers. All you have to do is install the extension, go to the companion web site and click \"On\"",
     "viewerUrl": "https://localhost:8080/mobile.html",
     "viewerUrls": {
       "mobile": "https://localhost:8080/mobile.html",
@@ -128,5 +104,7 @@
     "whitelistedPanelUrls": []
   },
   "name": "Stream Closed Captioner",
-  "allowHttpBackend": true
+  "allowHttpBackend": true,
+  "certificateExceptions": [],
+  "version": 1
 }
