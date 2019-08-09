@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { ccStyles } from "../shared/caption-styles";
 
 import "./ClosedCaption.css";
+import { actionSetIsDragged } from "../../redux/config-settings-action-reducer";
 
 const classNames = require("classnames");
 
@@ -54,13 +55,13 @@ function renderTextFromArray(arr) {
 }
 
 function ClosedCaption({
-  size, configSettings,
+  configSettings,
   ccState: { interimText, finalTextQueue },
-  onDragEnd, numberOfLines,
+  setIsDragged, numberOfLines,
 }) {
   const finalText = finalTextQueue.join(" ");
 
-  const fontSize = setFontSizeStyle(size);
+  const fontSize = setFontSizeStyle(configSettings.size);
   const textStyles = { ...ccStyles, fontSize };
 
   if (configSettings.ccBoxSize) {
@@ -85,7 +86,7 @@ function ClosedCaption({
   });
 
   return (
-    <Draggable grid={[8, 8]} bounds="parent" onStop={onDragEnd}>
+    <Draggable grid={[8, 8]} bounds="parent" onStop={setIsDragged}>
       <div className={containerClasses} style={styles}>
         <div className={ccTextClasses} style={textStyles} >
           {renderTextFromArray(finalTextQueue)}
@@ -101,14 +102,11 @@ ClosedCaption.propTypes = {
   ccState: PropTypes.object.isRequired,
   hide: PropTypes.bool,
   settings: PropTypes.object,
-  onDragEnd: PropTypes.func,
-  fontSize: PropTypes.string,
   numberOfLines: PropTypes.number.isRequired,
 };
 
 ClosedCaption.defaultProps = {
   numberOfLines: 3,
-  isBoxSize: false,
 };
 
 const mapStateToProps = (state, ownProps) => ({
@@ -117,4 +115,10 @@ const mapStateToProps = (state, ownProps) => ({
   ...ownProps,
 });
 
-export default connect(mapStateToProps)(ClosedCaption);
+ const mapDispatchToProps = dispatch => {
+  return {
+    setIsDragged: () => dispatch(actionSetIsDragged()),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ClosedCaption);

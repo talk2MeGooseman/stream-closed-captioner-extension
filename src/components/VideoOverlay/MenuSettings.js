@@ -8,10 +8,10 @@ import {
   Menu, MenuDivider, MenuItem, faUndo,
 } from "@blueprintjs/core";
 import { isVideoOverlay } from "../../helpers/video-helpers";
-import { actionToggleBoxSize } from "../../redux/config-settings-action-reducer";
+import { actionToggleBoxSize, actionChangeTextSize, actionResetCC } from "../../redux/config-settings-action-reducer";
 
 const MenuSettings = ({
-  onReset, onSelectTextSize, toggleBoxSize, ccState, configSettings,
+  resetCC, changeTextSize, toggleBoxSize, ccState, configSettings,
 }) => (
   <Menu>
     {renderDisplayLanguageOptions(ccState)}
@@ -19,24 +19,24 @@ const MenuSettings = ({
       icon={<FontAwesomeIcon icon={faFont} />}
       text="Small Text"
       onClick={() => {
-        onSelectTextSize("small");
+        changeTextSize("small");
       }}
     />
     <MenuItem
       icon={<FontAwesomeIcon icon={faFont} />}
       text="Medium Text"
       onClick={() => {
-        onSelectTextSize("medium");
+        changeTextSize("medium");
       }}
     />
     <MenuItem
       icon={<FontAwesomeIcon icon={faFont} />}
       text="Large Text"
       onClick={() => {
-        onSelectTextSize("large");
+        changeTextSize("large");
       }}
     />
-    {renderResetButton(onReset)}
+    {renderResetButton(resetCC)}
     {renderBoxSizeButton(toggleBoxSize, configSettings.ccBoxSize)}
   </Menu>
 );
@@ -58,7 +58,7 @@ function renderDisplayLanguageOptions(ccState) {
   );
 }
 
-function renderResetButton(onReset) {
+function renderResetButton(resetCC) {
   if (!isVideoOverlay()) {
     return null;
   }
@@ -67,7 +67,7 @@ function renderResetButton(onReset) {
     <React.Fragment>
       <MenuDivider />
       <MenuItem
-        onClick={onReset}
+        onClick={resetCC}
         icon={<FontAwesomeIcon icon={faUndo} size="lg" />}
         text="Reset Position"
       />
@@ -96,8 +96,8 @@ function renderBoxSizeButton(onClick, isBoxSize) {
 }
 
 MenuSettings.propTypes = {
-  onReset: PropTypes.func,
-  onSelectTextSize: PropTypes.func.isRequired,
+  resetCC: PropTypes.func,
+  changeTextSize: PropTypes.func.isRequired,
   toggleBoxSize: PropTypes.func,
   ccState: PropTypes.object,
   configSettings: PropTypes.object,
@@ -111,6 +111,8 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = dispatch => ({
   toggleBoxSize: () => dispatch(actionToggleBoxSize()),
+  changeTextSize: size => dispatch(actionChangeTextSize(size)),
+  resetCC: () => dispatch(actionResetCC()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MenuSettings);

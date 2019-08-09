@@ -17,8 +17,6 @@ function isPositionLeft(configSettings) {
 }
 
 const Controls = ({
-  onReset,
-  onSelectTextSize,
   videoPlayerContext,
   configSettings,
 }) => {
@@ -34,10 +32,7 @@ const Controls = ({
   });
 
   const menu = (
-    <MenuSettings
-      onReset={onReset}
-      onSelectTextSize={onSelectTextSize}
-    />
+    <MenuSettings />
   );
 
   const displayBitsMenu = () => {
@@ -70,10 +65,6 @@ function renderVisToggleSettings(hideCC) {
 }
 
 Controls.propTypes = {
-  onReset: PropTypes.func,
-  onSelectTextSize: PropTypes.func.isRequired,
-  onSelectBoxSize: PropTypes.func,
-  isBoxSize: PropTypes.bool,
   configSettings: PropTypes.object,
   videoPlayerContext: PropTypes.object.isRequired,
 };
@@ -84,6 +75,7 @@ const mapStateToProps = (state, ownProps) => ({
   ...ownProps,
 });
 
-const mapDispatchToProps = (dispatch) => ({});
+const mapDispatchToProps = dispatch => ({
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Controls);

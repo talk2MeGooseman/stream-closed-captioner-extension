@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-const classNames = require('classnames');
 import { connect } from "react-redux";
 
 import "typeface-montserrat";
@@ -11,67 +10,22 @@ import VisibilityToggle from "./VisibilityToggle";
 import ClosedCaption from "./ClosedCaption";
 import Controls from "../shared/Controls";
 
-class Overlay extends React.Component {
-  constructor(props) {
-    super(props);
+const classNames = require("classnames");
 
-    this.state = {
-      isDragged: false,
-      size: 'medium',
-    };
-  }
-
-  onDragEnd = () => {
-    if (this.state.isDragged) {
-      return;
-    }
-
-    this.setState(() => {
-      return {
-        isDragged: true,
-      }
-    });
-  }
-
-  onReset = () => {
-    this.setState({ reset: true }, () => this.setState({ reset: false, isDragged: false }));
-  }
-
-  onSelectTextSize = (size) => {
-    this.setState({ size: size });
-  }
-
-  renderCaptions() {
-    const { hideCC, reset, size, isBoxSize } = this.state;
-
-    if(reset) {
-      return null;
-    }
-
-    return (
-      <ClosedCaption
-        size={size}
-        onDragEnd={this.onDragEnd}
-      />
-    );
-  }
-
+class Overlay extends React.PureComponent {
   render() {
-    const { videoPlayerContext } = this.props;
+    const { videoPlayerContext, configSettings } = this.props;
 
-    var containerClass = classNames({
-      "standard-position": !videoPlayerContext.arePlayerControlsVisible && !this.state.isDragged,
-      "raise-video-controls": videoPlayerContext.arePlayerControlsVisible || this.state.isDragged,
+    const containerClass = classNames({
+      "standard-position": !videoPlayerContext.arePlayerControlsVisible && !configSettings.isDragged,
+      "raise-video-controls": videoPlayerContext.arePlayerControlsVisible || configSettings.isDragged,
     });
 
     return (
       <div id="app-container" className={containerClass}>
         <div className="drag-boundary">
-          {this.renderCaptions()}
-          <Controls
-            onReset={this.onReset}
-            onSelectTextSize={this.onSelectTextSize}
-          />
+          <ClosedCaption key={configSettings.ccKey} />
+          <Controls />
         </div>
       </div>
     );
