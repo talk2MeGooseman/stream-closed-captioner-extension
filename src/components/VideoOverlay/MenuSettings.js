@@ -8,9 +8,10 @@ import {
   Menu, MenuDivider, MenuItem, faUndo,
 } from "@blueprintjs/core";
 import { isVideoOverlay } from "../../helpers/video-helpers";
+import { actionToggleBoxSize } from "../../redux/config-settings-action-reducer";
 
 const MenuSettings = ({
-  onReset, onSelectTextSize, onSelectBoxSize, isBoxSize, ccState,
+  onReset, onSelectTextSize, toggleBoxSize, ccState, configSettings,
 }) => (
   <Menu>
     {renderDisplayLanguageOptions(ccState)}
@@ -36,7 +37,7 @@ const MenuSettings = ({
       }}
     />
     {renderResetButton(onReset)}
-    {renderBoxSizeButton(onSelectBoxSize, isBoxSize)}
+    {renderBoxSizeButton(toggleBoxSize, configSettings.ccBoxSize)}
   </Menu>
 );
 
@@ -48,13 +49,13 @@ function renderDisplayLanguageOptions(ccState) {
   return (
     <React.Fragment>
       <MenuItem text="Display Language" icon="cog">
-        <MenuItem shouldDismissPopover={false} icon="none" text="English" onClick={() => window.Twitch.ext.rig.log('Clicked') } />
-        <MenuItem shouldDismissPopover={false} icon="none" text="Spanish" onClick={() => window.Twitch.ext.rig.log('Clicked') } />
-        <MenuItem shouldDismissPopover={false} icon="blank" text="Korean" onClick={() => window.Twitch.ext.rig.log('Clicked') } />
+        <MenuItem shouldDismissPopover={false} icon="none" text="English" onClick={() => window.Twitch.ext.rig.log("Clicked") } />
+        <MenuItem shouldDismissPopover={false} icon="none" text="Spanish" onClick={() => window.Twitch.ext.rig.log("Clicked") } />
+        <MenuItem shouldDismissPopover={false} icon="blank" text="Korean" onClick={() => window.Twitch.ext.rig.log("Clicked") } />
       </MenuItem>
       <MenuDivider />
     </React.Fragment>
-  )
+  );
 }
 
 function renderResetButton(onReset) {
@@ -97,9 +98,9 @@ function renderBoxSizeButton(onClick, isBoxSize) {
 MenuSettings.propTypes = {
   onReset: PropTypes.func,
   onSelectTextSize: PropTypes.func.isRequired,
-  onSelectBoxSize: PropTypes.func,
-  isBoxSize: PropTypes.bool,
+  toggleBoxSize: PropTypes.func,
   ccState: PropTypes.object,
+  configSettings: PropTypes.object,
 };
 
 const mapStateToProps = (state, ownProps) => ({
@@ -108,4 +109,8 @@ const mapStateToProps = (state, ownProps) => ({
   ...ownProps,
 });
 
-export default connect(mapStateToProps)(MenuSettings);
+const mapDispatchToProps = dispatch => ({
+  toggleBoxSize: () => dispatch(actionToggleBoxSize()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(MenuSettings);

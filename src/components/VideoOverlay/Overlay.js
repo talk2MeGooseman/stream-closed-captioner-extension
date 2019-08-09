@@ -18,8 +18,6 @@ class Overlay extends React.Component {
     this.state = {
       isDragged: false,
       size: 'medium',
-      hideCC: false,
-      isBoxSize: false,
     };
   }
 
@@ -43,11 +41,6 @@ class Overlay extends React.Component {
     this.setState({ size: size });
   }
 
-  onSelectBoxSize = () => {
-    const { isBoxSize } = this.state;
-    this.setState({ isBoxSize: !isBoxSize });
-  }
-
   renderCaptions() {
     const { hideCC, reset, size, isBoxSize } = this.state;
 
@@ -59,14 +52,12 @@ class Overlay extends React.Component {
       <ClosedCaption
         size={size}
         onDragEnd={this.onDragEnd}
-        isBoxSize={isBoxSize}
       />
     );
   }
 
   render() {
     const { videoPlayerContext } = this.props;
-    const { isBoxSize } = this.state;
 
     var containerClass = classNames({
       "standard-position": !videoPlayerContext.arePlayerControlsVisible && !this.state.isDragged,
@@ -80,8 +71,6 @@ class Overlay extends React.Component {
           <Controls
             onReset={this.onReset}
             onSelectTextSize={this.onSelectTextSize}
-            onSelectBoxSize={this.onSelectBoxSize}
-            isBoxSize={isBoxSize}
           />
         </div>
       </div>

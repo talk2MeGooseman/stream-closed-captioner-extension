@@ -19,8 +19,6 @@ function isPositionLeft(configSettings) {
 const Controls = ({
   onReset,
   onSelectTextSize,
-  onSelectBoxSize,
-  isBoxSize,
   videoPlayerContext,
   configSettings,
 }) => {
@@ -39,8 +37,6 @@ const Controls = ({
     <MenuSettings
       onReset={onReset}
       onSelectTextSize={onSelectTextSize}
-      onSelectBoxSize={onSelectBoxSize}
-      isBoxSize={isBoxSize}
     />
   );
 

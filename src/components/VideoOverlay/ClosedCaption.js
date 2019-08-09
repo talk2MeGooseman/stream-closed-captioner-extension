@@ -56,14 +56,14 @@ function renderTextFromArray(arr) {
 function ClosedCaption({
   size, configSettings,
   ccState: { interimText, finalTextQueue },
-  onDragEnd, numberOfLines, isBoxSize,
+  onDragEnd, numberOfLines,
 }) {
   const finalText = finalTextQueue.join(" ");
 
   const fontSize = setFontSizeStyle(size);
   const textStyles = { ...ccStyles, fontSize };
 
-  if (isBoxSize) {
+  if (configSettings.ccBoxSize) {
     // eslint-disable-next-line no-param-reassign
     numberOfLines = 7;
   }
@@ -75,7 +75,7 @@ function ClosedCaption({
 
   const containerClasses = classNames({
     "caption-container": true,
-    "box-size": isBoxSize,
+    "box-size": configSettings.ccBoxSize,
     hide: shouldHideCC(configSettings.hideCC, interimText, finalText),
   });
 
@@ -104,7 +104,6 @@ ClosedCaption.propTypes = {
   onDragEnd: PropTypes.func,
   fontSize: PropTypes.string,
   numberOfLines: PropTypes.number.isRequired,
-  isBoxSize: PropTypes.bool.isRequired,
 };
 
 ClosedCaption.defaultProps = {
