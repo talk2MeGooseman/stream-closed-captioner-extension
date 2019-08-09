@@ -1,7 +1,7 @@
 export const CONTEXT_EVENTS_WHITELIST = [
-    "arePlayerControlsVisible",
-    "hlsLatencyBroadcaster",
-    "displayResolution"
+  "arePlayerControlsVisible",
+  "hlsLatencyBroadcaster",
+  "displayResolution",
 ];
 
 export const SECOND = 1000;

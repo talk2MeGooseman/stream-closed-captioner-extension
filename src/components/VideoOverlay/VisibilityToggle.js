@@ -1,13 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClosedCaptioning, faBan } from "@fortawesome/free-solid-svg-icons";
-import { withTwitchPlayerContext } from "../../context/provider/TwitchPlayer";
 
 const VisibilityToggle = (props) => {
   let ccDisabledElement = null;
 
-  if (!props.playerContext.arePlayerControlsVisible) {
+  if (!props.videoPlayerContext.arePlayerControlsVisible) {
     return null;
   }
 
@@ -26,7 +26,12 @@ const VisibilityToggle = (props) => {
 VisibilityToggle.propTypes = {
   onClick: PropTypes.func,
   isCCDisabled: PropTypes.bool,
-  playerContext: PropTypes.object,
+  videoPlayerContext: PropTypes.object,
 };
 
-export default withTwitchPlayerContext(VisibilityToggle);
+const mapStateToProps = (state, ownProps) => ({
+  videoPlayerContext: state.videoPlayerContext,
+  ...ownProps,
+});
+
+export default connect(mapStateToProps)(VisibilityToggle);

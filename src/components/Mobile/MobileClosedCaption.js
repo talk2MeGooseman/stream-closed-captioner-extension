@@ -1,8 +1,6 @@
 import React from "react";
+import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { withTwitchPlayerContext } from "../../context/provider/TwitchPlayer";
-import { withConfigSettings } from "../../context/provider/ConfigSettings";
-import { withCCState } from "../../context/provider/CCState";
 import { ccStyles } from "../shared/caption-styles";
 import "./MobileClosedCaption.css";
 
@@ -62,7 +60,6 @@ function MobileClosedCaption({ ccState: { interimText, finalTextQueue }, configS
 
 MobileClosedCaption.propTypes = {
   hide: PropTypes.bool,
-  playerContext: PropTypes.object,
   settings: PropTypes.object,
   onDragEnd: PropTypes.func,
   size: PropTypes.string,
@@ -70,9 +67,12 @@ MobileClosedCaption.propTypes = {
   ccState: PropTypes.object,
 };
 
-MobileClosedCaption.defaultProps = {
-  interimText: "",
-  finalText: "",
-};
+MobileClosedCaption.defaultProps = {};
 
-export default withTwitchPlayerContext(withConfigSettings(withCCState(MobileClosedCaption)));
+const mapStateToProps = (state, ownProps) => ({
+  ccState: state.ccState,
+  configSettings: state.broadcasterSettings,
+  ...ownProps,
+});
+
+export default connect(mapStateToProps)(MobileClosedCaption);

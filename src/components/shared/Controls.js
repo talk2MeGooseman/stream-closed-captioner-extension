@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -9,8 +10,6 @@ import classnames from "classnames";
 
 import VisibilityToggle from "../VideoOverlay/VisibilityToggle";
 import MenuSettings from "../VideoOverlay/MenuSettings";
-import { withTwitchPlayerContext } from "../../context/provider/TwitchPlayer";
-import { withConfigSettings } from "../../context/provider/ConfigSettings";
 import { isVideoOverlay } from "../../helpers/video-helpers";
 
 function isPositionLeft(configSettings) {
@@ -38,10 +37,10 @@ const Controls = ({
   isBoxSize,
   isCCDisabled,
   toggleCCVisibility,
-  playerContext,
+  videoPlayerContext,
   configSettings,
 }) => {
-  if (isVideoOverlay() && !playerContext.arePlayerControlsVisible) {
+  if (isVideoOverlay() && !videoPlayerContext.arePlayerControlsVisible) {
     return null;
   }
 
@@ -84,7 +83,13 @@ Controls.propTypes = {
   isCCDisabled: PropTypes.boolean,
   toggleCCVisibility: PropTypes.func,
   configSettings: PropTypes.object,
-  playerContext: PropTypes.object.isRequired,
+  videoPlayerContext: PropTypes.object.isRequired,
 };
 
-export default withTwitchPlayerContext(withConfigSettings(Controls));
+const mapStateToProps = (state, ownProps) => ({
+  configSettings: state.broadcasterSettings,
+  videoPlayerContext: state.videoPlayerContext,
+  ...ownProps,
+});
+
+export default connect(mapStateToProps)(Controls);

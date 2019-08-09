@@ -1,9 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Draggable from "react-draggable";
-import { withTwitchPlayerContext } from "../../context/provider/TwitchPlayer";
-import { withConfigSettings } from "../../context/provider/ConfigSettings";
-import { withCCState } from "../../context/provider/CCState";
+import { connect } from "react-redux";
 import { ccStyles } from "../shared/caption-styles";
 
 import "./ClosedCaption.css";
@@ -57,7 +55,7 @@ function renderTextFromArray(arr) {
 
 function ClosedCaption({
   hide, size, configSettings,
-  ccState: { finalTextQueue, interimText },
+  ccState: { interimText, finalTextQueue },
   onDragEnd, numberOfLines, isBoxSize,
 }) {
   const finalText = finalTextQueue.join(" ");
@@ -99,24 +97,25 @@ function ClosedCaption({
 }
 
 ClosedCaption.propTypes = {
-  interimText: PropTypes.string,
-  finalText: PropTypes.string,
+  configSettings: PropTypes.object,
+  ccState: PropTypes.object.isRequired,
   hide: PropTypes.bool,
-  playerContext: PropTypes.object,
   settings: PropTypes.object,
   onDragEnd: PropTypes.func,
   fontSize: PropTypes.string,
-  configSettings: PropTypes.object,
-  ccState: PropTypes.object.isRequired,
   numberOfLines: PropTypes.number.isRequired,
   isBoxSize: PropTypes.bool.isRequired,
 };
 
 ClosedCaption.defaultProps = {
-  interimText: "",
-  finalText: "",
   numberOfLines: 3,
   isBoxSize: false,
 };
 
-export default withTwitchPlayerContext(withConfigSettings(withCCState(ClosedCaption)));
+const mapStateToProps = (state, ownProps) => ({
+  ccState: state.ccState,
+  configSettings: state.broadcasterSettings,
+  ...ownProps,
+});
+
+export default connect(mapStateToProps)(ClosedCaption);

@@ -3,12 +3,37 @@
   "backendFolderName": "",
   "extensionViews": [
     {
-      "id": "1",
+      "id": "2",
+      "label": "",
+      "channelId": "126748497",
+      "configurationAnchor": "panel",
+      "displayChannelName": "talk2megooseman",
+      "type": "config",
+      "features": {
+        "isBitsEnabled": false,
+        "isChatEnabled": false,
+        "isSubscriptionStatusAvailable": false
+      },
+      "linked": true,
+      "linkedUserId": "265737932",
+      "mode": "config",
+      "isPopout": false,
+      "role": "Broadcaster",
+      "x": 0,
+      "y": 0,
+      "orientation": "Portrait",
+      "frameSize": {
+        "width": 1280,
+        "height": 720
+      }
+    },
+    {
+      "id": "5",
       "label": "",
       "channelId": "120750024",
       "configurationAnchor": "panel",
       "displayChannelName": "talk2megooseman",
-      "type": "mobile",
+      "type": "panel",
       "features": {
         "isBitsEnabled": true,
         "isChatEnabled": false,
@@ -23,8 +48,33 @@
       "y": 0,
       "orientation": "Portrait",
       "frameSize": {
-        "width": 375,
-        "height": 822
+        "width": 1280,
+        "height": 720
+      }
+    },
+    {
+      "id": "6",
+      "label": "",
+      "channelId": "120750024",
+      "configurationAnchor": "panel",
+      "displayChannelName": "talk2megooseman",
+      "type": "panel",
+      "features": {
+        "isBitsEnabled": true,
+        "isChatEnabled": false,
+        "isSubscriptionStatusAvailable": false
+      },
+      "linked": false,
+      "linkedUserId": "",
+      "mode": "viewer",
+      "isPopout": false,
+      "role": "Broadcaster",
+      "x": 0,
+      "y": 0,
+      "orientation": "Portrait",
+      "frameSize": {
+        "width": 1280,
+        "height": 720
       }
     }
   ],

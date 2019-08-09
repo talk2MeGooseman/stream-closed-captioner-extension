@@ -3,16 +3,18 @@ const debounce = require("lodash/debounce");
 import { Drawer, Classes, Position } from "@blueprintjs/core";
 import { MAX_TEXT_DISPLAY_TIME, SECOND, CONTEXT_EVENTS_WHITELIST } from "../../utils/Constants";
 import Authentication from "../Authentication/Authentication";
-import { TwitchPlayerContext } from "../../context/twitch-player";
-import { ConfigSettingsContext, defaultSettings } from "../../context/config-settings";
-import { CCStateContext } from "../../context/cc-state";
 import { updateFinalTextQueue, limitQueueSize } from "../../helpers/text-helpers";
 import { isVideoOverlay } from "../../helpers/video-helpers";
+import { connect, Provider } from 'react-redux'
+import { updateCCState } from '../../redux/cc-state'
+import { updateBroadcasterSettings } from "../../redux/broadcaster-settings";
+import { updatePlayerContext } from "../../redux/twitch-player-action-reducers";
 
 // Resub - rw_grim
+//
 
-export function withTwitchData(WrappedComponent) {
-  return class TwitchWrapper extends Component {
+export function withTwitchData(WrappedComponent, store) {
+  class TwitchWrapper extends Component {
     constructor(props) {
       super(props);
 
@@ -20,19 +22,9 @@ export function withTwitchData(WrappedComponent) {
       this.twitch = window.Twitch ? window.Twitch.ext : null;
 
       this.state = {
-        finishedLoading: false,
-        interimText: "",
-        finalText: "",
         controlsShowing: false,
-        videoPlayerContext: {},
-        settings: defaultSettings,
-        ccState: {
-          finalTextQueue: [],
-          interimText: "",
-        },
       };
 
-      this.state.settings.useBits = this.useBits;
     }
 
     componentDidMount() {
@@ -57,10 +49,7 @@ export function withTwitchData(WrappedComponent) {
     };
 
     parseProducts = p => {
-      const { settings } = this.state;
       const products = p.sort(this.compare);
-
-      this.setState({ settings: { ...settings, products } });
     };
 
     compare(a, b) {
@@ -85,13 +74,9 @@ export function withTwitchData(WrappedComponent) {
 
     contextUpdate = (context, delta) => {
       if (this.contextStateUpdated(delta)) {
-        let newData = this.fetchChangedContextValues(context, delta);
+        let newContext = this.fetchChangedContextValues(context, delta);
 
-        this.setState(state => {
-          return {
-            videoPlayerContext: Object.assign(state.videoPlayerContext, newData),
-          };
-        });
+        this.props.updatePlayerContext(newContext);
       }
     };
 
@@ -121,11 +106,9 @@ export function withTwitchData(WrappedComponent) {
         config = {};
       }
 
-      this.setState(state => {
-        return {
-          finishedLoading: true,
-          settings: { ...state.settings, ...config },
-        };
+      this.props.updateBroadcasterSettings({
+        finishedLoading: true,
+        settings: config,
       });
     };
 
@@ -134,32 +117,33 @@ export function withTwitchData(WrappedComponent) {
       let parsedMessage;
       try {
         parsedMessage = JSON.parse(message);
-        window.Twitch.ext.rig.log('Received Message', parsedMessage)
       } catch (error) {
         parsedMessage = {
           interim: message,
         };
       }
-      this.displayClosedCaptioningText(parsedMessage.interim, parsedMessage.final);
+      this.displayClosedCaptioningText(parsedMessage);
     };
 
-    displayClosedCaptioningText(interimText, finalText = "") {
-      let delayTime = this.state.videoPlayerContext.hlsLatencyBroadcaster * SECOND;
+    displayClosedCaptioningText({ interim, final, translations } = message) {
+      const { hlsLatencyBroadcaster } = this.props.videoPlayerContext;
+      let delayTime = hlsLatencyBroadcaster * SECOND;
 
-      this.clearClosedCaptioning();
+      // this.clearClosedCaptioning();
 
       setTimeout(() => {
-        let finalTextQueue = this.state.ccState.finalTextQueue;
+        let finalTextQueue = this.props.ccState.finalTextQueue;
 
-        finalTextQueue = updateFinalTextQueue(finalTextQueue, finalText);
+        finalTextQueue = updateFinalTextQueue(finalTextQueue, final);
         limitQueueSize(finalTextQueue);
 
-        this.setState({
-          ccState: {
+        this.props.updateCCState(
+          {
             finalTextQueue,
-            interimText,
-          },
-        });
+            interimText: interim,
+            translations,
+          }
+        )
       }, delayTime);
     }
 
@@ -183,7 +167,7 @@ export function withTwitchData(WrappedComponent) {
     }, MAX_TEXT_DISPLAY_TIME);
 
     render() {
-      let { videoPlayerContext, settings, finishedLoading, ccState } = this.state;
+      const { finishedLoading } = this.props.configSettings;
 
       if (!finishedLoading) {
         return null;
@@ -195,29 +179,46 @@ export function withTwitchData(WrappedComponent) {
       }
 
       return (
-        <TwitchPlayerContext.Provider value={videoPlayerContext}>
-          <ConfigSettingsContext.Provider value={settings}>
-            <CCStateContext.Provider value={ccState}>
-              <Drawer
-                position="left"
-                title="Share a CC Quote"
-                canOutsideClickClose={true}
-                isOpen={this.state.isOpen}
-                onClose={this.onDrawerClose}
-                size={drawerWidth}
-              >
-                <div className={Classes.DRAWER_BODY}>
-                  <div className={Classes.DIALOG_BODY}>
-                    { ccState.finalTextQueue.map((q) => { return <div key={q.id}>{q.text}</div> }) }
-                  </div>
-                </div>
-                <div className={Classes.DRAWER_FOOTER}></div>
-              </Drawer>
-              <WrappedComponent {...this.state} />
-            </CCStateContext.Provider>
-          </ConfigSettingsContext.Provider>
-        </TwitchPlayerContext.Provider>
+        <Provider store={store}>
+          <WrappedComponent {...this.state} />
+        </Provider>
       );
     }
   };
+
+  const mapStateToProps = (state /*, ownProps*/) => {
+    return {
+      ccState: state.ccState,
+      configSettings: state.broadcasterSettings,
+      videoPlayerContext: state.videoPlayerContext
+    }
+  }
+
+ const mapDispatchToProps = dispatch => {
+  return {
+    updateCCState: (state) => dispatch(updateCCState(state)),
+    updateBroadcasterSettings: (settings) => dispatch(updateBroadcasterSettings(settings)),
+    updatePlayerContext: (state) => dispatch(updatePlayerContext(state))
+  }
 }
+
+  return connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(TwitchWrapper)
+}
+              // <Drawer
+              //   position="left"
+              //   title="Share a CC Quote"
+              //   canOutsideClickClose={true}
+              //   isOpen={this.state.isOpen}
+              //   onClose={this.onDrawerClose}
+              //   size={drawerWidth}
+              // >
+              //   <div className={Classes.DRAWER_BODY}>
+              //     <div className={Classes.DIALOG_BODY}>
+              //       { ccState.finalTextQueue.map((q) => { return <div key={q.id}>{q.text}</div> }) }
+              //     </div>
+              //   </div>
+              //   <div className={Classes.DRAWER_FOOTER}></div>
+              // </Drawer>

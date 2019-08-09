@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 const classNames = require('classnames');
+import { connect } from "react-redux";
 
 import "typeface-montserrat";
 import "typeface-raleway";
@@ -9,8 +10,6 @@ import "typeface-roboto";
 import VisibilityToggle from "./VisibilityToggle";
 import ClosedCaption from "./ClosedCaption";
 import Controls from "../shared/Controls";
-import { withTwitchPlayerContext } from '../../context/provider/TwitchPlayer'
-import { withConfigSettings } from "../../context/provider/ConfigSettings";
 
 class Overlay extends React.Component {
   constructor(props) {
@@ -26,7 +25,6 @@ class Overlay extends React.Component {
 
   componentDidMount() {
     let { hideCC, ccBoxSize } = this.props.configSettings;
-    window.Twitch.ext.rig.log('Mounted') 
     // Set state based off config settings
     this.setState(state => {
       return {
@@ -77,7 +75,7 @@ class Overlay extends React.Component {
     }
 
     return (
-      <ClosedCaption 
+      <ClosedCaption
         size={size}
         hide={hideCC}
         onDragEnd={this.onDragEnd}
@@ -87,19 +85,19 @@ class Overlay extends React.Component {
   }
 
   render() {
-    const { playerContext } = this.props;
+    const { videoPlayerContext } = this.props;
     const { isBoxSize } = this.state;
 
     var containerClass = classNames({
-      "standard-position": !playerContext.arePlayerControlsVisible && !this.state.isDragged,
-      "raise-video-controls": playerContext.arePlayerControlsVisible || this.state.isDragged,
+      "standard-position": !videoPlayerContext.arePlayerControlsVisible && !this.state.isDragged,
+      "raise-video-controls": videoPlayerContext.arePlayerControlsVisible || this.state.isDragged,
     });
 
     return (
       <div id="app-container" className={containerClass}>
         <div className="drag-boundary">
           {this.renderCaptions()}
-          <Controls 
+          <Controls
             onReset={this.onReset}
             onSelectTextSize={this.onSelectTextSize}
             onSelectBoxSize={this.onSelectBoxSize}
@@ -114,8 +112,14 @@ class Overlay extends React.Component {
 }
 
 Overlay.propTypes = {
-  playerContext: PropTypes.object,
+  videoPlayerContext: PropTypes.object,
   configSettings: PropTypes.object,
 };
 
-export default withTwitchPlayerContext(withConfigSettings(Overlay));
+const mapStateToProps = (state, ownProps) => ({
+  configSettings: state.broadcasterSettings,
+  videoPlayerContext: state.videoPlayerContext,
+  ...ownProps,
+});
+
+export default connect(mapStateToProps)(Overlay);

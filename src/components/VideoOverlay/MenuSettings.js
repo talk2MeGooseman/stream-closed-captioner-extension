@@ -1,5 +1,6 @@
 /* eslint-disable no-use-before-define */
 import React from "react";
+import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFont, faExpand, faMinus } from "@fortawesome/free-solid-svg-icons";
@@ -9,9 +10,10 @@ import {
 import { isVideoOverlay } from "../../helpers/video-helpers";
 
 const MenuSettings = ({
-  onReset, onSelectTextSize, onSelectBoxSize, isBoxSize,
+  onReset, onSelectTextSize, onSelectBoxSize, isBoxSize, ccState,
 }) => (
   <Menu>
+    {renderDisplayLanguageOptions(ccState)}
     <MenuItem
       icon={<FontAwesomeIcon icon={faFont} />}
       text="Small Text"
@@ -37,6 +39,23 @@ const MenuSettings = ({
     {renderBoxSizeButton(onSelectBoxSize, isBoxSize)}
   </Menu>
 );
+
+function renderDisplayLanguageOptions(ccState) {
+  if (!ccState.translations) {
+    return null;
+  }
+
+  return (
+    <React.Fragment>
+      <MenuItem text="Display Language" icon="cog">
+        <MenuItem shouldDismissPopover={false} icon="none" text="English" onClick={() => window.Twitch.ext.rig.log('Clicked') } />
+        <MenuItem shouldDismissPopover={false} icon="none" text="Spanish" onClick={() => window.Twitch.ext.rig.log('Clicked') } />
+        <MenuItem shouldDismissPopover={false} icon="blank" text="Korean" onClick={() => window.Twitch.ext.rig.log('Clicked') } />
+      </MenuItem>
+      <MenuDivider />
+    </React.Fragment>
+  )
+}
 
 function renderResetButton(onReset) {
   if (!isVideoOverlay()) {
@@ -80,6 +99,13 @@ MenuSettings.propTypes = {
   onSelectTextSize: PropTypes.func.isRequired,
   onSelectBoxSize: PropTypes.func,
   isBoxSize: PropTypes.bool,
+  ccState: PropTypes.object,
 };
 
-export default MenuSettings;
+const mapStateToProps = (state, ownProps) => ({
+  ccState: state.ccState,
+  configSettings: state.broadcasterSettings,
+  ...ownProps,
+});
+
+export default connect(mapStateToProps)(MenuSettings);
