@@ -109,16 +109,13 @@ ClosedCaption.defaultProps = {
   numberOfLines: 3,
 };
 
-const mapStateToProps = (state, ownProps) => ({
+const mapStateToProps = state => ({
   ccState: state.ccState,
   configSettings: state.configSettings,
-  ...ownProps,
 });
 
- const mapDispatchToProps = dispatch => {
-  return {
-    setIsDragged: () => dispatch(actionSetIsDragged()),
-  }
-}
+const mapDispatchToProps = dispatch => ({
+  setIsDragged: () => dispatch(actionSetIsDragged()),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(ClosedCaption);

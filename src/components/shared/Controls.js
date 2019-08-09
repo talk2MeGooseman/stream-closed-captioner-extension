@@ -9,7 +9,7 @@ import { Popover, Tooltip } from "@blueprintjs/core";
 import classnames from "classnames";
 
 import VisibilityToggle from "../VideoOverlay/VisibilityToggle";
-import MenuSettings from "../VideoOverlay/MenuSettings";
+import MenuSettings from "./MenuSettings";
 import { isVideoOverlay } from "../../helpers/video-helpers";
 
 function isPositionLeft(configSettings) {
@@ -69,13 +69,9 @@ Controls.propTypes = {
   videoPlayerContext: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = (state, ownProps) => ({
+const mapStateToProps = state => ({
   configSettings: state.configSettings,
   videoPlayerContext: state.videoPlayerContext,
-  ...ownProps,
 });
 
-const mapDispatchToProps = dispatch => ({
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Controls);
+export default connect(mapStateToProps)(Controls);

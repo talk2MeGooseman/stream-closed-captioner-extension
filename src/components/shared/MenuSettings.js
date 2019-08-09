@@ -103,10 +103,9 @@ MenuSettings.propTypes = {
   configSettings: PropTypes.object,
 };
 
-const mapStateToProps = (state, ownProps) => ({
+const mapStateToProps = state => ({
   ccState: state.ccState,
   configSettings: state.configSettings,
-  ...ownProps,
 });
 
 const mapDispatchToProps = dispatch => ({

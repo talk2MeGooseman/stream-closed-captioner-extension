@@ -39,8 +39,8 @@ function setFontSizeStyle(size) {
   return fontSize;
 }
 
-function MobileClosedCaption({ ccState: { interimText, finalTextQueue }, configSettings, size }) {
-  const fontSize = setFontSizeStyle(size);
+function MobileClosedCaption({ ccState: { interimText, finalTextQueue }, configSettings }) {
+  const fontSize = setFontSizeStyle(configSettings.size);
 
   const textStyles = { ...ccStyles, fontSize };
 
@@ -59,20 +59,15 @@ function MobileClosedCaption({ ccState: { interimText, finalTextQueue }, configS
 }
 
 MobileClosedCaption.propTypes = {
-  hide: PropTypes.bool,
-  settings: PropTypes.object,
-  onDragEnd: PropTypes.func,
-  size: PropTypes.string,
   configSettings: PropTypes.object,
   ccState: PropTypes.object,
 };
 
 MobileClosedCaption.defaultProps = {};
 
-const mapStateToProps = (state, ownProps) => ({
+const mapStateToProps = state => ({
   ccState: state.ccState,
   configSettings: state.configSettings,
-  ...ownProps,
 });
 
 export default connect(mapStateToProps)(MobileClosedCaption);

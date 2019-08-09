@@ -26,19 +26,17 @@ const VisibilityToggle = ({ videoPlayerContext, configSettings, toggleVisibility
 
 VisibilityToggle.propTypes = {
   videoPlayerContext: PropTypes.object,
+  configSettings: PropTypes.object,
   toggleVisibility: PropTypes.func,
 };
 
-const mapStateToProps = (state, ownProps) => ({
+const mapStateToProps = state => ({
   videoPlayerContext: state.videoPlayerContext,
   configSettings: state.configSettings,
-  ...ownProps,
 });
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    toggleVisibility: () => dispatch(toggleCCVisibility()),
-  };
-};
+const mapDispatchToProps = dispatch => ({
+  toggleVisibility: () => dispatch(toggleCCVisibility()),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(VisibilityToggle);
