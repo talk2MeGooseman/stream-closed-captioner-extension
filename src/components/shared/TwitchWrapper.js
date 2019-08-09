@@ -7,7 +7,7 @@ import { updateFinalTextQueue, limitQueueSize } from "../../helpers/text-helpers
 import { isVideoOverlay } from "../../helpers/video-helpers";
 import { connect, Provider } from 'react-redux'
 import { updateCCState } from '../../redux/cc-state'
-import { updateBroadcasterSettings } from "../../redux/broadcaster-settings";
+import { updateConfigSettings } from "../../redux/config-settings-action-reducer";
 import { updatePlayerContext } from "../../redux/twitch-player-action-reducers";
 
 // Resub - rw_grim
@@ -106,7 +106,7 @@ export function withTwitchData(WrappedComponent, store) {
         config = {};
       }
 
-      this.props.updateBroadcasterSettings({
+      this.props.updateConfigSettings({
         finishedLoading: true,
         settings: config,
       });
@@ -161,9 +161,6 @@ export function withTwitchData(WrappedComponent, store) {
     }
 
     clearClosedCaptioning = debounce(() => {
-      this.setState((state, props) => ({
-        interimText: "",
-      }));
     }, MAX_TEXT_DISPLAY_TIME);
 
     render() {
@@ -180,7 +177,7 @@ export function withTwitchData(WrappedComponent, store) {
 
       return (
         <Provider store={store}>
-          <WrappedComponent {...this.state} />
+          <WrappedComponent />
         </Provider>
       );
     }
@@ -189,7 +186,7 @@ export function withTwitchData(WrappedComponent, store) {
   const mapStateToProps = (state /*, ownProps*/) => {
     return {
       ccState: state.ccState,
-      configSettings: state.broadcasterSettings,
+      configSettings: state.configSettings,
       videoPlayerContext: state.videoPlayerContext
     }
   }
@@ -197,7 +194,7 @@ export function withTwitchData(WrappedComponent, store) {
  const mapDispatchToProps = dispatch => {
   return {
     updateCCState: (state) => dispatch(updateCCState(state)),
-    updateBroadcasterSettings: (settings) => dispatch(updateBroadcasterSettings(settings)),
+    updateConfigSettings: (settings) => dispatch(updateConfigSettings(settings)),
     updatePlayerContext: (state) => dispatch(updatePlayerContext(state))
   }
 }

@@ -54,7 +54,7 @@ function renderTextFromArray(arr) {
 }
 
 function ClosedCaption({
-  hide, size, configSettings,
+  size, configSettings,
   ccState: { interimText, finalTextQueue },
   onDragEnd, numberOfLines, isBoxSize,
 }) {
@@ -76,7 +76,7 @@ function ClosedCaption({
   const containerClasses = classNames({
     "caption-container": true,
     "box-size": isBoxSize,
-    hide: shouldHideCC(hide, interimText, finalText),
+    hide: shouldHideCC(configSettings.hideCC, interimText, finalText),
   });
 
   const ccTextClasses = classNames({
@@ -114,7 +114,7 @@ ClosedCaption.defaultProps = {
 
 const mapStateToProps = (state, ownProps) => ({
   ccState: state.ccState,
-  configSettings: state.broadcasterSettings,
+  configSettings: state.configSettings,
   ...ownProps,
 });
 

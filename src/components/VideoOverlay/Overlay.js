@@ -23,25 +23,6 @@ class Overlay extends React.Component {
     };
   }
 
-  componentDidMount() {
-    let { hideCC, ccBoxSize } = this.props.configSettings;
-    // Set state based off config settings
-    this.setState(state => {
-      return {
-        hideCC,
-        isBoxSize: ccBoxSize
-      };
-    });
-  }
-
-  toggleCCVisibility = () => {
-    this.setState(state => {
-      return {
-        hideCC: !state.hideCC
-      };
-    });
-  };
-
   onDragEnd = () => {
     if (this.state.isDragged) {
       return;
@@ -77,7 +58,6 @@ class Overlay extends React.Component {
     return (
       <ClosedCaption
         size={size}
-        hide={hideCC}
         onDragEnd={this.onDragEnd}
         isBoxSize={isBoxSize}
       />
@@ -102,8 +82,6 @@ class Overlay extends React.Component {
             onSelectTextSize={this.onSelectTextSize}
             onSelectBoxSize={this.onSelectBoxSize}
             isBoxSize={isBoxSize}
-            isCCDisabled={this.state.hideCC}
-            toggleCCVisibility={this.toggleCCVisibility}
           />
         </div>
       </div>
@@ -117,7 +95,7 @@ Overlay.propTypes = {
 };
 
 const mapStateToProps = (state, ownProps) => ({
-  configSettings: state.broadcasterSettings,
+  configSettings: state.configSettings,
   videoPlayerContext: state.videoPlayerContext,
   ...ownProps,
 });

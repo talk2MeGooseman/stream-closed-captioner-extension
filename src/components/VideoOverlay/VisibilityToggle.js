@@ -3,20 +3,21 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClosedCaptioning, faBan } from "@fortawesome/free-solid-svg-icons";
+import { toggleCCVisibility } from "../../redux/config-settings-action-reducer";
 
-const VisibilityToggle = (props) => {
+const VisibilityToggle = ({ videoPlayerContext, configSettings, toggleVisibility }) => {
   let ccDisabledElement = null;
 
-  if (!props.videoPlayerContext.arePlayerControlsVisible) {
+  if (!videoPlayerContext.arePlayerControlsVisible) {
     return null;
   }
 
-  if (props.isCCDisabled) {
+  if (configSettings.hideCC) {
     ccDisabledElement = <FontAwesomeIcon icon={faBan} color="red" className="fa-stack-1x" />;
   }
 
   return (
-    <span onClick={props.onClick} className="fa-layers fa-fw fa-2x cc-visibility-toggle">
+    <span onClick={toggleVisibility} className="fa-layers fa-fw fa-2x cc-visibility-toggle">
       <FontAwesomeIcon icon={faClosedCaptioning} />
       {ccDisabledElement}
     </span>
@@ -24,14 +25,20 @@ const VisibilityToggle = (props) => {
 };
 
 VisibilityToggle.propTypes = {
-  onClick: PropTypes.func,
-  isCCDisabled: PropTypes.bool,
   videoPlayerContext: PropTypes.object,
+  toggleVisibility: PropTypes.func,
 };
 
 const mapStateToProps = (state, ownProps) => ({
   videoPlayerContext: state.videoPlayerContext,
+  configSettings: state.configSettings,
   ...ownProps,
 });
 
-export default connect(mapStateToProps)(VisibilityToggle);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    toggleVisibility: () => dispatch(toggleCCVisibility()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(VisibilityToggle);

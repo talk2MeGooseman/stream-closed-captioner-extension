@@ -16,27 +16,11 @@ function isPositionLeft(configSettings) {
   return isVideoOverlay() && configSettings.switchSettingsPosition;
 }
 
-function renderVisToggleSettings(hideCC, toggleCCVisibility) {
-  if (!isVideoOverlay()) {
-    return null;
-  }
-
-  const state = hideCC ? "Show" : "Hide";
-
-  return (
-    <Tooltip content={`${state} CC Text`}>
-      <VisibilityToggle isCCDisabled={hideCC} onClick={toggleCCVisibility} />
-    </Tooltip>
-  );
-}
-
 const Controls = ({
   onReset,
   onSelectTextSize,
   onSelectBoxSize,
   isBoxSize,
-  isCCDisabled,
-  toggleCCVisibility,
   videoPlayerContext,
   configSettings,
 }) => {
@@ -62,12 +46,12 @@ const Controls = ({
 
   const displayBitsMenu = () => {
     configSettings.useBits(123);
-  }
+  };
 
   return (
     <span className={controlClass}>
       <FontAwesomeIcon size="2x" icon={faCommentDollar} onClick={displayBitsMenu} />
-      {renderVisToggleSettings(isCCDisabled, toggleCCVisibility)}
+      {renderVisToggleSettings(configSettings.hideCC)}
       <Popover position="left-bottom" content={menu}>
         <FontAwesomeIcon size="2x" icon={faCog} />
       </Popover>
@@ -75,21 +59,35 @@ const Controls = ({
   );
 };
 
+function renderVisToggleSettings(hideCC) {
+  if (!isVideoOverlay()) {
+    return null;
+  }
+
+  const state = hideCC ? "Show" : "Hide";
+
+  return (
+    <Tooltip content={`${state} CC Text`}>
+      <VisibilityToggle />
+    </Tooltip>
+  );
+}
+
 Controls.propTypes = {
   onReset: PropTypes.func,
   onSelectTextSize: PropTypes.func.isRequired,
   onSelectBoxSize: PropTypes.func,
   isBoxSize: PropTypes.bool,
-  isCCDisabled: PropTypes.boolean,
-  toggleCCVisibility: PropTypes.func,
   configSettings: PropTypes.object,
   videoPlayerContext: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state, ownProps) => ({
-  configSettings: state.broadcasterSettings,
+  configSettings: state.configSettings,
   videoPlayerContext: state.videoPlayerContext,
   ...ownProps,
 });
 
-export default connect(mapStateToProps)(Controls);
+const mapDispatchToProps = (dispatch) => ({});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Controls);

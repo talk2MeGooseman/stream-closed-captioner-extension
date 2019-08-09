@@ -104,7 +104,7 @@ MenuSettings.propTypes = {
 
 const mapStateToProps = (state, ownProps) => ({
   ccState: state.ccState,
-  configSettings: state.broadcasterSettings,
+  configSettings: state.configSettings,
   ...ownProps,
 });
 
