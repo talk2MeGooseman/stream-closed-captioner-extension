@@ -39,11 +39,11 @@ export function actionChangeTextSize(size) {
 
 const initialState = {
   finishedLoading: false,
+  ccKey: uuid(),
   isDragged: false,
   size: "medium",
   hideCC: false,
   ccBoxSize: false,
-  ccKey: uuid(),
 };
 
 export default function reducer(state = initialState, action) {

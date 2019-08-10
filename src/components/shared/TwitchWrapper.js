@@ -108,7 +108,7 @@ export function withTwitchData(WrappedComponent, store) {
 
       this.props.updateConfigSettings({
         finishedLoading: true,
-        settings: config,
+        ...config,
       });
     };
 
