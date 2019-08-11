@@ -7,6 +7,7 @@ export const TOGGLE_BOX_SIZE = "TOGGLE_TO_BOX_SIZE ";
 export const CHANGE_TEXT_SIZE = "CHANGE_TEXT_SIZE";
 export const SET_IS_DRAGGED = "SET_IS_DRAGGED";
 export const RESET_CC_TEXT = "RESET_CC_TEXT";
+export const SELECT_LANGUAGE = "SELECT_LANGUAGE ";
 
 export function updateConfigSettings(state) {
   return { type: UPDATE_SETTINGS, state };
@@ -37,7 +38,17 @@ export function actionChangeTextSize(size) {
   };
 }
 
+export function actionChangeSelectedLanguage(language) {
+  return {
+    type: SELECT_LANGUAGE,
+    state: {
+      selectedLanguage: language,
+    },
+  };
+}
+
 const initialState = {
+  selectedLanguage: "default",
   finishedLoading: false,
   ccKey: uuid(),
   isDragged: false,
@@ -50,6 +61,7 @@ export default function reducer(state = initialState, action) {
   switch (action.type) {
   case UPDATE_SETTINGS:
   case CHANGE_TEXT_SIZE:
+  case SELECT_LANGUAGE:
     return {
       ...state,
       ...action.state,

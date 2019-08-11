@@ -9,12 +9,13 @@ import {
 } from "@blueprintjs/core";
 import { isVideoOverlay } from "../../helpers/video-helpers";
 import { actionToggleBoxSize, actionChangeTextSize, actionResetCC } from "../../redux/config-settings-action-reducer";
+import LanguageOptions from "./MenuItems/LanguageOptions";
 
 const MenuSettings = ({
   resetCC, changeTextSize, toggleBoxSize, ccState, configSettings,
 }) => (
   <Menu>
-    {renderDisplayLanguageOptions(ccState)}
+    <LanguageOptions />
     <MenuItem
       icon={<FontAwesomeIcon icon={faFont} />}
       text="Small Text"
@@ -40,23 +41,6 @@ const MenuSettings = ({
     {renderBoxSizeButton(toggleBoxSize, configSettings.ccBoxSize)}
   </Menu>
 );
-
-function renderDisplayLanguageOptions(ccState) {
-  if (!ccState.translations) {
-    return null;
-  }
-
-  return (
-    <React.Fragment>
-      <MenuItem text="Display Language" icon="cog">
-        <MenuItem shouldDismissPopover={false} icon="none" text="English" onClick={() => window.Twitch.ext.rig.log("Clicked") } />
-        <MenuItem shouldDismissPopover={false} icon="none" text="Spanish" onClick={() => window.Twitch.ext.rig.log("Clicked") } />
-        <MenuItem shouldDismissPopover={false} icon="blank" text="Korean" onClick={() => window.Twitch.ext.rig.log("Clicked") } />
-      </MenuItem>
-      <MenuDivider />
-    </React.Fragment>
-  );
-}
 
 function renderResetButton(resetCC) {
   if (!isVideoOverlay()) {

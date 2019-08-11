@@ -1,23 +1,65 @@
+/* eslint-disable no-case-declarations */
+import uuid from "uuid/v4";
 /* eslint-disable import/prefer-default-export */
-export const UPDATE_CC_STATE = "UPDATE_CC_STATE";
+export const UPDATE_CC_TEXT = "UPDATE_CC_TEXT";
 
-export function updateCCState(state) {
-  return { type: UPDATE_CC_STATE, state };
+export function actionUpdateCCText(state) {
+  return { type: UPDATE_CC_TEXT, ...state };
 }
 
 const initialState = {
   finalTextQueue: [],
   interimText: "",
-  translations: null,
+  translations: {},
 };
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
-  case UPDATE_CC_STATE:
+  case UPDATE_CC_TEXT:
+    let newQueue = state.finalTextQueue;
+    let newTranslations = null;
+    const qLength = state.finalTextQueue.length;
+    const lastText = state.finalTextQueue[qLength - 1] || {};
+
+    if (lastText.text !== action.final) {
+      newQueue = [...state.finalTextQueue, { id: uuid(), text: action.final }];
+
+      if (newQueue.length > 20) {
+        newQueue.shift();
+      }
+    }
+
+    if (action.translations) {
+      newTranslations = state.translations;
+
+      const langs = Object.keys(action.translations);
+      langs.forEach((l) => {
+        const currentLangTranslation = state.translations[l] || { textQueue: [] };
+        const newTranslation = action.translations[l];
+
+        const lastTranslationText = currentLangTranslation.textQueue[currentLangTranslation.textQueue.length - 1] || {};
+
+        if (lastTranslationText !== newTranslation.text) {
+          const newTextQueue = [...currentLangTranslation.textQueue, newTranslation.text];
+          if (newTextQueue.length > 20) {
+            newTextQueue.shift();
+          }
+
+          newTranslations[l] = {
+            name: newTranslation.name,
+            textQueue: newTextQueue,
+          };
+        }
+      });
+    }
+
     return {
       ...state,
-      ...action.state,
+      finalTextQueue: newQueue,
+      interimText: action.interim,
+      translations: newTranslations,
     };
+
   default:
     return state;
   }

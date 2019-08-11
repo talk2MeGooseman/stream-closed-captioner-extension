@@ -51,56 +51,6 @@
         "width": 1280,
         "height": 720
       }
-    },
-    {
-      "id": "6",
-      "label": "",
-      "channelId": "120750024",
-      "configurationAnchor": "panel",
-      "displayChannelName": "talk2megooseman",
-      "type": "panel",
-      "features": {
-        "isBitsEnabled": true,
-        "isChatEnabled": false,
-        "isSubscriptionStatusAvailable": false
-      },
-      "linked": false,
-      "linkedUserId": "",
-      "mode": "viewer",
-      "isPopout": false,
-      "role": "Broadcaster",
-      "x": 0,
-      "y": 0,
-      "orientation": "Portrait",
-      "frameSize": {
-        "width": 1280,
-        "height": 720
-      }
-    },
-    {
-      "id": "7",
-      "label": "",
-      "channelId": "120750024",
-      "configurationAnchor": "panel",
-      "displayChannelName": "talk2megooseman",
-      "type": "video_overlay",
-      "features": {
-        "isBitsEnabled": true,
-        "isChatEnabled": false,
-        "isSubscriptionStatusAvailable": false
-      },
-      "linked": false,
-      "linkedUserId": "",
-      "mode": "viewer",
-      "isPopout": false,
-      "role": "Broadcaster",
-      "x": 0,
-      "y": 0,
-      "orientation": "Portrait",
-      "frameSize": {
-        "width": 1280,
-        "height": 720
-      }
     }
   ],
   "frontendCommand": "yarn start",

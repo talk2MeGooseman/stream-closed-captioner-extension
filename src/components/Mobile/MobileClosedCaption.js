@@ -39,7 +39,7 @@ function setFontSizeStyle(size) {
   return fontSize;
 }
 
-function MobileClosedCaption({ ccState: { interimText, finalTextQueue }, configSettings }) {
+function MobileClosedCaption({ ccState: { interimText, finalTextQueue, translations }, configSettings }) {
   const fontSize = setFontSizeStyle(configSettings.size);
 
   const textStyles = { ...ccStyles, fontSize };
@@ -49,10 +49,17 @@ function MobileClosedCaption({ ccState: { interimText, finalTextQueue }, configS
     "text-mix-case": !configSettings.textUppercase,
   });
 
+  let closedCaptionText = "";
+  if (configSettings.selectedLanguage === "default") {
+    closedCaptionText = `${finalTextQueue.map(({ text }) => text).join(" ")} ${interimText}`;
+  } else {
+    closedCaptionText = translations[configSettings.selectedLanguage].textQueue.join(" ");
+  }
+
   return (
     <div className="caption-container">
       <div className={ccTextClasses} style={textStyles} >
-        {finalTextQueue.map(({ text }) => text).join(" ")} {interimText}
+        {closedCaptionText}
       </div>
     </div>
   );

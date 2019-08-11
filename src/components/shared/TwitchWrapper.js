@@ -3,10 +3,9 @@ const debounce = require("lodash/debounce");
 import { Drawer, Classes, Position } from "@blueprintjs/core";
 import { MAX_TEXT_DISPLAY_TIME, SECOND, CONTEXT_EVENTS_WHITELIST } from "../../utils/Constants";
 import Authentication from "../Authentication/Authentication";
-import { updateFinalTextQueue, limitQueueSize } from "../../helpers/text-helpers";
 import { isVideoOverlay } from "../../helpers/video-helpers";
 import { connect, Provider } from 'react-redux'
-import { updateCCState } from '../../redux/cc-state'
+import { actionUpdateCCText } from '../../redux/cc-state'
 import { updateConfigSettings } from "../../redux/config-settings-action-reducer";
 import { updatePlayerContext } from "../../redux/twitch-player-action-reducers";
 
@@ -24,7 +23,7 @@ export function withTwitchData(WrappedComponent, store) {
       this.state = {
         controlsShowing: false,
       };
-
+      this.counter = 1;
     }
 
     componentDidMount() {
@@ -122,28 +121,30 @@ export function withTwitchData(WrappedComponent, store) {
           interim: message,
         };
       }
+
+      parsedMessage['translations'] = {
+        de: {
+          name: 'Deutsch (German)',
+          text: 'mmm Regressionsprüfung' + this.counter
+        },
+        es: {
+          name: 'Espanol (Spanish)',
+          text: 'hola'
+        }
+      };
+
+      this.counter++;
+
       this.displayClosedCaptioningText(parsedMessage);
     };
 
-    displayClosedCaptioningText({ interim, final, translations } = message) {
+    displayClosedCaptioningText(message) {
       const { hlsLatencyBroadcaster } = this.props.videoPlayerContext;
       let delayTime = hlsLatencyBroadcaster * SECOND;
 
       // this.clearClosedCaptioning();
-
       setTimeout(() => {
-        let finalTextQueue = this.props.ccState.finalTextQueue;
-
-        finalTextQueue = updateFinalTextQueue(finalTextQueue, final);
-        limitQueueSize(finalTextQueue);
-
-        this.props.updateCCState(
-          {
-            finalTextQueue,
-            interimText: interim,
-            translations,
-          }
-        )
+        this.props.updateCCText(message)
       }, delayTime);
     }
 
@@ -193,9 +194,9 @@ export function withTwitchData(WrappedComponent, store) {
 
  const mapDispatchToProps = dispatch => {
   return {
-    updateCCState: (state) => dispatch(updateCCState(state)),
+    updateCCText: (state) => dispatch(actionUpdateCCText(state)),
     updateConfigSettings: (settings) => dispatch(updateConfigSettings(settings)),
-    updatePlayerContext: (state) => dispatch(updatePlayerContext(state))
+    updatePlayerContext: (state) => dispatch(updatePlayerContext(state)),
   }
 }
 
