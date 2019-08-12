@@ -51,9 +51,34 @@
         "width": 1280,
         "height": 720
       }
+    },
+    {
+      "id": "2",
+      "label": "",
+      "channelId": "120750024",
+      "configurationAnchor": "panel",
+      "displayChannelName": "talk2megooseman",
+      "type": "config",
+      "features": {
+        "isBitsEnabled": true,
+        "isChatEnabled": false,
+        "isSubscriptionStatusAvailable": false
+      },
+      "linked": true,
+      "linkedUserId": "265737932",
+      "mode": "config",
+      "isPopout": false,
+      "role": "Broadcaster",
+      "x": 0,
+      "y": 0,
+      "orientation": "Portrait",
+      "frameSize": {
+        "width": 1280,
+        "height": 720
+      }
     }
   ],
-  "frontendCommand": "yarn start",
+  "frontendCommand": "yarn host",
   "frontendFolderName": "dist/",
   "manifest": {
     "anchor": "panel",
