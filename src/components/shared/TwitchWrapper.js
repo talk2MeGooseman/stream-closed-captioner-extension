@@ -8,6 +8,7 @@ import { connect, Provider } from 'react-redux'
 import { actionUpdateCCText } from '../../redux/cc-state'
 import { updateConfigSettings } from "../../redux/config-settings-action-reducer";
 import { updatePlayerContext } from "../../redux/twitch-player-action-reducers";
+import { actionSetProducts, completeBitsTransaction, setChannelId } from "../../redux/products-catalog-action-reducers";
 
 // Resub - rw_grim
 //
@@ -19,15 +20,13 @@ export function withTwitchData(WrappedComponent, store) {
 
       this.Authentication = new Authentication();
       this.twitch = window.Twitch ? window.Twitch.ext : null;
-
-      this.state = {
-        controlsShowing: false,
-      };
-      this.counter = 1;
     }
 
     componentDidMount() {
       if (this.twitch) {
+        // TODO: REMOVE WHEN RELEASING
+        this.twitch.bits.setUseLoopback = true;
+
         this.twitch.onAuthorized(this.onAuthorized);
         this.twitch.onContext(this.contextUpdate);
         this.twitch.configuration.onChanged(this.setConfigurationSettings);
@@ -44,31 +43,16 @@ export function withTwitchData(WrappedComponent, store) {
     }
 
     onAuthorized = auth => {
+      this.props.onChannelIdReceived(auth.channelId);
       this.Authentication.setToken(auth.token, auth.userId);
     };
 
-    parseProducts = p => {
-      const products = p.sort(this.compare);
+    parseProducts = products => {
+      this.props.setProducts(products);
     };
 
-    compare(a, b) {
-      if (a.displayName > b.displayName) {
-        return -1;
-      }
-      if (a.displayName < b.displayName) {
-        return 1;
-      }
-      return 0;
-    }
-
     onTransactionComplete = transaction => {
-      console.log(
-        "onTransactionComplete() fired, received transactionReceipt: " +
-          transaction.transactionReceipt,
-      );
-
-      // TODO - Handle the complete transaction, probably have to send to the backend so
-      // It can process it and then publish to all other instances for channel
+      this.props.onCompleteTransaction(transaction);
     };
 
     contextUpdate = (context, delta) => {
@@ -107,6 +91,7 @@ export function withTwitchData(WrappedComponent, store) {
 
       this.props.updateConfigSettings({
         finishedLoading: true,
+        isBitsEnabled: this.twitch.features.isBitsEnabled,
         ...config,
       });
     };
@@ -122,19 +107,6 @@ export function withTwitchData(WrappedComponent, store) {
         };
       }
 
-      parsedMessage['translations'] = {
-        de: {
-          name: 'Deutsch (German)',
-          text: 'mmm Regressionsprüfung' + this.counter
-        },
-        es: {
-          name: 'Espanol (Spanish)',
-          text: 'hola'
-        }
-      };
-
-      this.counter++;
-
       this.displayClosedCaptioningText(parsedMessage);
     };
 
@@ -148,18 +120,6 @@ export function withTwitchData(WrappedComponent, store) {
       }, delayTime);
     }
 
-    useBits = skuId => {
-      // this.twitch.bits.useBits('quote1');
-      this.setState({
-        isOpen: true,
-      });
-    };
-
-    onDrawerClose = () => {
-      this.setState({
-        isOpen: false,
-      });
-    }
 
     clearClosedCaptioning = debounce(() => {
     }, MAX_TEXT_DISPLAY_TIME);
@@ -188,7 +148,7 @@ export function withTwitchData(WrappedComponent, store) {
     return {
       ccState: state.ccState,
       configSettings: state.configSettings,
-      videoPlayerContext: state.videoPlayerContext
+      videoPlayerContext: state.videoPlayerContext,
     }
   }
 
@@ -197,6 +157,9 @@ export function withTwitchData(WrappedComponent, store) {
     updateCCText: (state) => dispatch(actionUpdateCCText(state)),
     updateConfigSettings: (settings) => dispatch(updateConfigSettings(settings)),
     updatePlayerContext: (state) => dispatch(updatePlayerContext(state)),
+    setProducts: (products) => dispatch(actionSetProducts(products)),
+    onCompleteTransaction: (transaction) => dispatch(completeBitsTransaction(transaction)),
+    onChannelIdReceived: (channelId) => dispatch(setChannelId(channelId)),
   }
 }
 
@@ -205,18 +168,3 @@ export function withTwitchData(WrappedComponent, store) {
     mapDispatchToProps
   )(TwitchWrapper)
 }
-              // <Drawer
-              //   position="left"
-              //   title="Share a CC Quote"
-              //   canOutsideClickClose={true}
-              //   isOpen={this.state.isOpen}
-              //   onClose={this.onDrawerClose}
-              //   size={drawerWidth}
-              // >
-              //   <div className={Classes.DRAWER_BODY}>
-              //     <div className={Classes.DIALOG_BODY}>
-              //       { ccState.finalTextQueue.map((q) => { return <div key={q.id}>{q.text}</div> }) }
-              //     </div>
-              //   </div>
-              //   <div className={Classes.DRAWER_FOOTER}></div>
-              // </Drawer>

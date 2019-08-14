@@ -7,7 +7,8 @@ export const TOGGLE_BOX_SIZE = "TOGGLE_TO_BOX_SIZE ";
 export const CHANGE_TEXT_SIZE = "CHANGE_TEXT_SIZE";
 export const SET_IS_DRAGGED = "SET_IS_DRAGGED";
 export const RESET_CC_TEXT = "RESET_CC_TEXT";
-export const SELECT_LANGUAGE = "SELECT_LANGUAGE ";
+export const SELECT_LANGUAGE = "SELECT_LANGUAGE";
+export const TOGGLE_ACTIVATION_DRAWER = "TOGGLE_ACTIVATION_DRAWER ";
 
 export function updateConfigSettings(state) {
   return { type: UPDATE_SETTINGS, state };
@@ -27,6 +28,10 @@ export function actionSetIsDragged() {
 
 export function actionResetCC() {
   return { type: RESET_CC_TEXT };
+}
+
+export function actionToggleActivationDrawer() {
+  return { type: TOGGLE_ACTIVATION_DRAWER };
 }
 
 export function actionChangeTextSize(size) {
@@ -55,6 +60,8 @@ const initialState = {
   size: "medium",
   hideCC: false,
   ccBoxSize: false,
+  isBitsEnabled: false,
+  isDrawerOpen: false,
 };
 
 export default function reducer(state = initialState, action) {
@@ -85,6 +92,11 @@ export default function reducer(state = initialState, action) {
     return {
       ...state,
       ccKey: uuid(),
+    };
+  case TOGGLE_ACTIVATION_DRAWER:
+    return {
+      ...state,
+      isDrawerOpen: !state.isDrawerOpen,
     };
   default:
     return state;

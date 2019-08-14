@@ -56,7 +56,7 @@ function renderTextFromArray(arr) {
 
 function ClosedCaption({
   configSettings,
-  ccState: { interimText, finalTextQueue },
+  ccState: { interimText, finalTextQueue, translations },
   setIsDragged, numberOfLines,
 }) {
   const finalText = finalTextQueue.join(" ");
@@ -85,12 +85,18 @@ function ClosedCaption({
     "text-mix-case": !configSettings.textUppercase,
   });
 
+  let closedCaptionText = "";
+  if (configSettings.selectedLanguage === "default") {
+    closedCaptionText = `${finalTextQueue.map(({ text }) => text).join(" ")} ${interimText}`;
+  } else {
+    closedCaptionText = translations[configSettings.selectedLanguage].textQueue.join(" ");
+  }
+
   return (
     <Draggable grid={[8, 8]} bounds="parent" onStop={setIsDragged}>
       <div className={containerClasses} style={styles}>
         <div className={ccTextClasses} style={textStyles} >
-          {renderTextFromArray(finalTextQueue)}
-          <span>{interimText}</span>
+          {closedCaptionText}
         </div>
       </div>
     </Draggable>
@@ -103,6 +109,7 @@ ClosedCaption.propTypes = {
   hide: PropTypes.bool,
   settings: PropTypes.object,
   numberOfLines: PropTypes.number.isRequired,
+  setIsDragged: PropTypes.func,
 };
 
 ClosedCaption.defaultProps = {

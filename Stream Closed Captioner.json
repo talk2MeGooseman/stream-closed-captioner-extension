@@ -5,12 +5,12 @@
     {
       "id": "2",
       "label": "",
-      "channelId": "126748497",
+      "channelId": "120750024",
       "configurationAnchor": "panel",
       "displayChannelName": "talk2megooseman",
       "type": "config",
       "features": {
-        "isBitsEnabled": false,
+        "isBitsEnabled": true,
         "isChatEnabled": false,
         "isSubscriptionStatusAvailable": false
       },
@@ -28,12 +28,12 @@
       }
     },
     {
-      "id": "5",
+      "id": "3",
       "label": "",
       "channelId": "120750024",
       "configurationAnchor": "panel",
       "displayChannelName": "talk2megooseman",
-      "type": "panel",
+      "type": "video_overlay",
       "features": {
         "isBitsEnabled": true,
         "isChatEnabled": false,
@@ -42,31 +42,6 @@
       "linked": false,
       "linkedUserId": "",
       "mode": "viewer",
-      "isPopout": false,
-      "role": "Broadcaster",
-      "x": 0,
-      "y": 0,
-      "orientation": "Portrait",
-      "frameSize": {
-        "width": 1280,
-        "height": 720
-      }
-    },
-    {
-      "id": "2",
-      "label": "",
-      "channelId": "120750024",
-      "configurationAnchor": "panel",
-      "displayChannelName": "talk2megooseman",
-      "type": "config",
-      "features": {
-        "isBitsEnabled": true,
-        "isChatEnabled": false,
-        "isSubscriptionStatusAvailable": false
-      },
-      "linked": true,
-      "linkedUserId": "265737932",
-      "mode": "config",
       "isPopout": false,
       "role": "Broadcaster",
       "x": 0,
@@ -90,7 +65,7 @@
     "configurationLocation": "hosted",
     "description": "Easily increase the accessibility of your stream by adding Closed Captioning for your viewers. All you have to do is enable the Video Overlay or Panel, log in to the Companion Site and Start Closed Captioning. Now your viewers with accessibility needs can experience your stream in a whole new way, automatically offering more value to your channel for viewers from all walks of life. Viewers can hide the text or change the text size from small/medium/large sizes and drag it around the screen so it doesnt block the action. Change the text box size from horizontal or box size based on preference. You can also install it as a panel so viewers can pop it out into a separate window for easier reading. More features will be released in future updates. Another extension brought to you by talk2MeGooseman. If you like the extension, feel free to stop by my channel and provide any feedback twitch.tv/talk2megooseman or use the support email address. Check out a short demo: https://www.youtube.com/watch?v=GgnMa6K8ZZM",
     "eulaTosUrl": "https://stream-cc.gooseman.codes/pages/terms",
-    "hasChatSupport": false,
+    "hasChatSupport": true,
     "iconUrl": "https://media.forgecdn.net/avatars/191/977/636862415151728028.png",
     "iconUrls": {
       "100x100": "https://media.forgecdn.net/avatars/191/977/636862415151728028.png",
@@ -155,6 +130,19 @@
   },
   "name": "Stream Closed Captioner",
   "allowHttpBackend": true,
-  "certificateExceptions": [],
+  "certificateExceptions": [
+    {
+      "isAllowed": true,
+      "isEphemeral": false,
+      "isOrigin": true,
+      "value": "https://localhost:8080"
+    },
+    {
+      "isAllowed": true,
+      "isEphemeral": false,
+      "isOrigin": true,
+      "value": "wss://localhost:8080"
+    }
+  ],
   "version": 1
 }

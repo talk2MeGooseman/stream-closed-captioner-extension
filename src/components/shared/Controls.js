@@ -3,14 +3,15 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faCog, faUndo, faExpand, faMinus, faCommentDollar,
+  faCog, faLanguage,
 } from "@fortawesome/free-solid-svg-icons";
-import { Popover, Tooltip } from "@blueprintjs/core";
+import { Popover, Tooltip, Menu } from "@blueprintjs/core";
 import classnames from "classnames";
 
 import VisibilityToggle from "../VideoOverlay/VisibilityToggle";
 import MenuSettings from "./MenuSettings";
 import { isVideoOverlay } from "../../helpers/video-helpers";
+import LanguageOptions from "./MenuItems/LanguageOptions";
 
 function isPositionLeft(configSettings) {
   return isVideoOverlay() && configSettings.switchSettingsPosition;
@@ -31,19 +32,15 @@ const Controls = ({
     "mobile-controls-button": !isVideoOverlay(),
   });
 
-  const menu = (
-    <MenuSettings />
-  );
-
   const displayBitsMenu = () => {
     configSettings.useBits(123);
   };
 
   return (
     <span className={controlClass}>
-      <FontAwesomeIcon size="2x" icon={faCommentDollar} onClick={displayBitsMenu} />
+      <LanguageOptions />
       {renderVisToggleSettings(configSettings.hideCC)}
-      <Popover position="left-bottom" content={menu}>
+      <Popover position="left-bottom" content={<MenuSettings />}>
         <FontAwesomeIcon size="2x" icon={faCog} />
       </Popover>
     </span>

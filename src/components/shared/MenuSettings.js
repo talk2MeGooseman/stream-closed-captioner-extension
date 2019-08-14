@@ -9,13 +9,11 @@ import {
 } from "@blueprintjs/core";
 import { isVideoOverlay } from "../../helpers/video-helpers";
 import { actionToggleBoxSize, actionChangeTextSize, actionResetCC } from "../../redux/config-settings-action-reducer";
-import LanguageOptions from "./MenuItems/LanguageOptions";
 
 const MenuSettings = ({
   resetCC, changeTextSize, toggleBoxSize, ccState, configSettings,
 }) => (
   <Menu>
-    <LanguageOptions />
     <MenuItem
       icon={<FontAwesomeIcon icon={faFont} />}
       text="Small Text"
