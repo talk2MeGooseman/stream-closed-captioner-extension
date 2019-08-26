@@ -121,7 +121,6 @@ export function withTwitchData(WrappedComponent, store) {
       const { hlsLatencyBroadcaster } = this.props.videoPlayerContext;
       let delayTime = hlsLatencyBroadcaster * SECOND;
       if (message['delay']) {
-        debugger;
         delayTime -= message['delay'] * SECOND;
       }
 
