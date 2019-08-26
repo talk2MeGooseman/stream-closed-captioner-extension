@@ -17,7 +17,7 @@ export default function reducer(state = initialState, action) {
   switch (action.type) {
   case UPDATE_CC_TEXT:
     let newQueue = state.finalTextQueue;
-    let newTranslations = null;
+    const newTranslations = state.translations;
     const qLength = state.finalTextQueue.length;
     const lastText = state.finalTextQueue[qLength - 1] || {};
 
@@ -30,8 +30,6 @@ export default function reducer(state = initialState, action) {
     }
 
     if (action.translations) {
-      newTranslations = state.translations;
-
       const langs = Object.keys(action.translations);
       langs.forEach((l) => {
         const currentLangTranslation = state.translations[l] || { textQueue: [] };

@@ -9,7 +9,7 @@ import { withTwitchData } from "./components/shared/TwitchWrapper";
 import streamCCApp from "./redux/reducers";
 import "./App.css";
 
-const store = createStore(streamCCApp, applyMiddleware(logger, thunk));
+const store = createStore(streamCCApp, applyMiddleware(thunk));
 const Component = withTwitchData(Overlay, store);
 
 ReactDOM.render(

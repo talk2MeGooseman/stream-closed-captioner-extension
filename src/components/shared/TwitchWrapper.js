@@ -1,14 +1,20 @@
 import React, { Component } from "react";
 const debounce = require("lodash/debounce");
-import { Drawer, Classes, Position } from "@blueprintjs/core";
 import { MAX_TEXT_DISPLAY_TIME, SECOND, CONTEXT_EVENTS_WHITELIST } from "../../utils/Constants";
 import Authentication from "../Authentication/Authentication";
-import { isVideoOverlay } from "../../helpers/video-helpers";
-import { connect, Provider } from 'react-redux'
-import { actionUpdateCCText } from '../../redux/cc-state'
-import { updateConfigSettings } from "../../redux/config-settings-action-reducer";
+import { connect, Provider } from "react-redux";
+import { actionUpdateCCText } from "../../redux/cc-state";
+import {
+  updateConfigSettings,
+  requestTranslationStatus,
+} from "../../redux/config-settings-action-reducer";
 import { updatePlayerContext } from "../../redux/twitch-player-action-reducers";
-import { actionSetProducts, completeBitsTransaction, setChannelId } from "../../redux/products-catalog-action-reducers";
+import {
+  actionSetProducts,
+  completeBitsTransaction,
+  setChannelId,
+} from "../../redux/products-catalog-action-reducers";
+import BitsDrawer from "./BitsDrawer";
 
 // Resub - rw_grim
 //
@@ -45,6 +51,7 @@ export function withTwitchData(WrappedComponent, store) {
     onAuthorized = auth => {
       this.props.onChannelIdReceived(auth.channelId);
       this.Authentication.setToken(auth.token, auth.userId);
+      this.props.fetchTranslationStatus();
     };
 
     parseProducts = products => {
@@ -116,13 +123,11 @@ export function withTwitchData(WrappedComponent, store) {
 
       // this.clearClosedCaptioning();
       setTimeout(() => {
-        this.props.updateCCText(message)
+        this.props.updateCCText(message);
       }, delayTime);
     }
 
-
-    clearClosedCaptioning = debounce(() => {
-    }, MAX_TEXT_DISPLAY_TIME);
+    clearClosedCaptioning = debounce(() => {}, MAX_TEXT_DISPLAY_TIME);
 
     render() {
       const { finishedLoading } = this.props.configSettings;
@@ -131,40 +136,37 @@ export function withTwitchData(WrappedComponent, store) {
         return null;
       }
 
-      let drawerWidth = Drawer.SIZE_STANDARD;
-      if (!isVideoOverlay()) {
-        drawerWidth = Drawer.SIZE_LARGE
-      }
-
       return (
         <Provider store={store}>
+          <BitsDrawer />
           <WrappedComponent />
         </Provider>
       );
     }
-  };
+  }
 
   const mapStateToProps = (state /*, ownProps*/) => {
     return {
       ccState: state.ccState,
       configSettings: state.configSettings,
       videoPlayerContext: state.videoPlayerContext,
-    }
-  }
+    };
+  };
 
- const mapDispatchToProps = dispatch => {
-  return {
-    updateCCText: (state) => dispatch(actionUpdateCCText(state)),
-    updateConfigSettings: (settings) => dispatch(updateConfigSettings(settings)),
-    updatePlayerContext: (state) => dispatch(updatePlayerContext(state)),
-    setProducts: (products) => dispatch(actionSetProducts(products)),
-    onCompleteTransaction: (transaction) => dispatch(completeBitsTransaction(transaction)),
-    onChannelIdReceived: (channelId) => dispatch(setChannelId(channelId)),
-  }
-}
+  const mapDispatchToProps = dispatch => {
+    return {
+      updateCCText: state => dispatch(actionUpdateCCText(state)),
+      updateConfigSettings: settings => dispatch(updateConfigSettings(settings)),
+      updatePlayerContext: state => dispatch(updatePlayerContext(state)),
+      setProducts: products => dispatch(actionSetProducts(products)),
+      onCompleteTransaction: transaction => dispatch(completeBitsTransaction(transaction)),
+      onChannelIdReceived: channelId => dispatch(setChannelId(channelId)),
+      fetchTranslationStatus: () => dispatch(requestTranslationStatus()),
+    };
+  };
 
   return connect(
     mapStateToProps,
-    mapDispatchToProps
-  )(TwitchWrapper)
+    mapDispatchToProps,
+  )(TwitchWrapper);
 }

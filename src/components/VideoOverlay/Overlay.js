@@ -6,7 +6,6 @@ import "typeface-montserrat";
 import "typeface-raleway";
 import "typeface-roboto";
 
-import VisibilityToggle from "./VisibilityToggle";
 import ClosedCaption from "./ClosedCaption";
 import Controls from "../shared/Controls";
 

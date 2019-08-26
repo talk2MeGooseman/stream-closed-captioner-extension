@@ -3,20 +3,20 @@
   "backendFolderName": "",
   "extensionViews": [
     {
-      "id": "2",
+      "id": "1",
       "label": "",
       "channelId": "120750024",
       "configurationAnchor": "panel",
       "displayChannelName": "talk2megooseman",
-      "type": "config",
+      "type": "panel",
       "features": {
         "isBitsEnabled": true,
         "isChatEnabled": false,
         "isSubscriptionStatusAvailable": false
       },
-      "linked": true,
-      "linkedUserId": "265737932",
-      "mode": "config",
+      "linked": false,
+      "linkedUserId": "",
+      "mode": "viewer",
       "isPopout": false,
       "role": "Broadcaster",
       "x": 0,
@@ -28,7 +28,57 @@
       }
     },
     {
+      "id": "2",
+      "label": "",
+      "channelId": "120750024",
+      "configurationAnchor": "panel",
+      "displayChannelName": "talk2megooseman",
+      "type": "mobile",
+      "features": {
+        "isBitsEnabled": true,
+        "isChatEnabled": false,
+        "isSubscriptionStatusAvailable": false
+      },
+      "linked": false,
+      "linkedUserId": "",
+      "mode": "viewer",
+      "isPopout": false,
+      "role": "Broadcaster",
+      "x": 0,
+      "y": 0,
+      "orientation": "Portrait",
+      "frameSize": {
+        "width": 375,
+        "height": 822
+      }
+    },
+    {
       "id": "3",
+      "label": "",
+      "channelId": "120750024",
+      "configurationAnchor": "panel",
+      "displayChannelName": "talk2megooseman",
+      "type": "mobile",
+      "features": {
+        "isBitsEnabled": true,
+        "isChatEnabled": false,
+        "isSubscriptionStatusAvailable": false
+      },
+      "linked": false,
+      "linkedUserId": "",
+      "mode": "viewer",
+      "isPopout": false,
+      "role": "Broadcaster",
+      "x": 0,
+      "y": 0,
+      "orientation": "Landscape",
+      "frameSize": {
+        "width": 375,
+        "height": 822
+      }
+    },
+    {
+      "id": "4",
       "label": "",
       "channelId": "120750024",
       "configurationAnchor": "panel",

@@ -30,18 +30,17 @@ const Controls = ({
     "position-right": !isPositionLeft(configSettings),
     "position-left": isPositionLeft(configSettings),
     "mobile-controls-button": !isVideoOverlay(),
+    "bg-black-transparent": true,
   });
-
-  const displayBitsMenu = () => {
-    configSettings.useBits(123);
-  };
 
   return (
     <span className={controlClass}>
       <LanguageOptions />
       {renderVisToggleSettings(configSettings.hideCC)}
       <Popover position="left-bottom" content={<MenuSettings />}>
-        <FontAwesomeIcon size="2x" icon={faCog} />
+        <Tooltip content={'Settings'}>
+          <FontAwesomeIcon size="2x" icon={faCog} />
+        </Tooltip>
       </Popover>
     </span>
   );

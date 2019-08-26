@@ -1,8 +1,12 @@
+import { actionToggleActivationDrawer, requestTranslationStatus } from "./config-settings-action-reducer";
+
+/* eslint-disable no-case-declarations */
 /* eslint-disable import/prefer-default-export */
 export const SET_PRODUCTS = "SET_PRODUCTS";
 export const SEND_USE_BITS = "SEND_USE_BITS";
 export const COMPLETE_USE_BITS = "COMPLETE_USE_BITS";
 export const SET_CHANNEL_ID = "SET_CHANNEL_ID";
+export const SET_SELECTED_PRODUCT = "SET_SELECTED_PRODUCT";
 
 export function actionSetProducts(products) {
   return { type: SET_PRODUCTS, products };
@@ -20,6 +24,10 @@ export function setChannelId(channelId) {
   return { type: SET_CHANNEL_ID, channelId };
 }
 
+export function setSelectedProduct(product) {
+  return { type: SET_SELECTED_PRODUCT, product };
+}
+
 export function useBits(sku) {
   return function thunk(dispatch, getState) {
     dispatch(sendUseBits(sku));
@@ -33,16 +41,24 @@ export function completeBitsTransaction(transaction) {
   return function thunk(dispatch, getState) {
     dispatch(completeUseBits(transaction));
 
-    return fetch("http://localhost:4000/api/bits_transaction", {
+
+    const { channelId } = getState().productsCatalog;
+
+    return fetch("https://stream-cc.gooseman.codes/api/bits_transactions", {
+      cache: "no-cache",
       method: "POST",
       headers: {
         Authorization: `Bearer ${transaction.transactionReceipt}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ channelId: getState.channelId }),
+      body: JSON.stringify({
+        channelId,
+      }),
     }).then((response) => {
       if (response.ok) {
         // log("ebs validated transaction");
+        dispatch(actionToggleActivationDrawer());
+        dispatch(requestTranslationStatus());
       } else {
         // log("ebs was unable to validate transaction");
       }
@@ -51,10 +67,10 @@ export function completeBitsTransaction(transaction) {
 }
 
 function compare(a, b) {
-  if (a.displayName > b.displayName) {
+  if (a.cost.amount < b.cost.amount) {
     return -1;
   }
-  if (a.displayName < b.displayName) {
+  if (a.cost.amount > b.cost.amount) {
     return 1;
   }
   return 0;
@@ -66,6 +82,7 @@ const initialState = {
   processing: false,
   sent_sku: null,
   transaction: null,
+  selectedProduct: null,
 };
 
 export default function reducer(state = initialState, action) {
@@ -76,9 +93,11 @@ export default function reducer(state = initialState, action) {
       channelId: action.channelId,
     };
   case SET_PRODUCTS:
+    const sortedProduct = action.products.sort(compare);
     return {
       ...state,
-      products: action.products.sort(compare),
+      products: sortedProduct,
+      selectedProduct: sortedProduct[0],
     };
   case SEND_USE_BITS:
     return {
@@ -92,6 +111,11 @@ export default function reducer(state = initialState, action) {
       sent_sku: null,
       processing: false,
       transaction: action.transaction,
+    };
+  case SET_SELECTED_PRODUCT:
+    return {
+      ...state,
+      selectedProduct: action.product,
     };
   default:
     return state;

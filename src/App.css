@@ -56,12 +56,8 @@ body {
   color: white;
 }
 
-.position-right {
-  right: 0px;
-}
-
-.position-left {
-  left: 0px;
+.controls-container > :not(:last-child) {
+  padding-right: 5px;
 }
 
 .mobile-controls-button {
@@ -72,8 +68,24 @@ body {
   color: white;
 }
 
+.mobile-controls-button > :not(:last-child) {
+  padding-right: 5px;
+}
+
+.position-right {
+  right: 0px;
+}
+
+.position-left {
+  left: 0px;
+}
+
 .hide {
   visibility: hidden;
+}
+
+.bg-black-transparent {
+  background: rgba(0,0,0,0.5);
 }
 
 @import "~normalize.css";
