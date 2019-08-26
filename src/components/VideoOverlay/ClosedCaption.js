@@ -89,7 +89,7 @@ function ClosedCaption({
   if (configSettings.selectedLanguage === "default") {
     closedCaptionText = `${finalTextQueue.map(({ text }) => text).join(" ")} ${interimText}`;
   } else {
-    closedCaptionText = translations[configSettings.selectedLanguage].textQueue.join(" ");
+    closedCaptionText = translations[configSettings.selectedLanguage].textQueue.map(({ text }) => text).join(" ");
   }
 
   return (

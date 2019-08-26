@@ -37,8 +37,8 @@ export default function reducer(state = initialState, action) {
 
         const lastTranslationText = currentLangTranslation.textQueue[currentLangTranslation.textQueue.length - 1] || {};
 
-        if (lastTranslationText !== newTranslation.text) {
-          const newTextQueue = [...currentLangTranslation.textQueue, newTranslation.text];
+        if (lastTranslationText.text !== newTranslation.text) {
+          const newTextQueue = [...currentLangTranslation.textQueue, { id: uuid(), text: newTranslation.text }];
           if (newTextQueue.length > 20) {
             newTextQueue.shift();
           }
