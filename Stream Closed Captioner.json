@@ -5,85 +5,10 @@
     {
       "id": "1",
       "label": "",
-      "channelId": "120750024",
+      "channelId": "131144584",
       "configurationAnchor": "panel",
       "displayChannelName": "talk2megooseman",
       "type": "panel",
-      "features": {
-        "isBitsEnabled": true,
-        "isChatEnabled": false,
-        "isSubscriptionStatusAvailable": false
-      },
-      "linked": false,
-      "linkedUserId": "",
-      "mode": "viewer",
-      "isPopout": false,
-      "role": "Broadcaster",
-      "x": 0,
-      "y": 0,
-      "orientation": "Portrait",
-      "frameSize": {
-        "width": 1280,
-        "height": 720
-      }
-    },
-    {
-      "id": "2",
-      "label": "",
-      "channelId": "120750024",
-      "configurationAnchor": "panel",
-      "displayChannelName": "talk2megooseman",
-      "type": "mobile",
-      "features": {
-        "isBitsEnabled": true,
-        "isChatEnabled": false,
-        "isSubscriptionStatusAvailable": false
-      },
-      "linked": false,
-      "linkedUserId": "",
-      "mode": "viewer",
-      "isPopout": false,
-      "role": "Broadcaster",
-      "x": 0,
-      "y": 0,
-      "orientation": "Portrait",
-      "frameSize": {
-        "width": 375,
-        "height": 822
-      }
-    },
-    {
-      "id": "3",
-      "label": "",
-      "channelId": "120750024",
-      "configurationAnchor": "panel",
-      "displayChannelName": "talk2megooseman",
-      "type": "mobile",
-      "features": {
-        "isBitsEnabled": true,
-        "isChatEnabled": false,
-        "isSubscriptionStatusAvailable": false
-      },
-      "linked": false,
-      "linkedUserId": "",
-      "mode": "viewer",
-      "isPopout": false,
-      "role": "Broadcaster",
-      "x": 0,
-      "y": 0,
-      "orientation": "Landscape",
-      "frameSize": {
-        "width": 375,
-        "height": 822
-      }
-    },
-    {
-      "id": "4",
-      "label": "",
-      "channelId": "120750024",
-      "configurationAnchor": "panel",
-      "displayChannelName": "talk2megooseman",
-      "type": "video_overlay",
       "features": {
         "isBitsEnabled": true,
         "isChatEnabled": false,
@@ -113,14 +38,14 @@
     "canInstall": true,
     "configUrl": "https://localhost:8080/config.html",
     "configurationLocation": "hosted",
-    "description": "Easily increase the accessibility of your stream by adding Closed Captioning for your viewers. All you have to do is enable the Video Overlay or Panel, log in to the Companion Site and Start Closed Captioning. Now your viewers with accessibility needs can experience your stream in a whole new way, automatically offering more value to your channel for viewers from all walks of life. Viewers can hide the text or change the text size from small/medium/large sizes and drag it around the screen so it doesnt block the action. Change the text box size from horizontal or box size based on preference. You can also install it as a panel so viewers can pop it out into a separate window for easier reading. More features will be released in future updates. Another extension brought to you by talk2MeGooseman. If you like the extension, feel free to stop by my channel and provide any feedback twitch.tv/talk2megooseman or use the support email address. Check out a short demo: https://www.youtube.com/watch?v=GgnMa6K8ZZM",
+    "description": "Stream CC now includes Bit enabled language translations! 100 Bits for 1 day of translations. Easily increase the accessibility of your stream by adding Closed Captioning for your viewers. All you have to do is enable the Video Overlay or Panel, log in to the Companion Site and Start Closed Captioning. Now your viewers with accessibility needs can experience your stream in a whole new way, automatically offering more value to your channel for viewers from all walks of life. Viewers can hide the text or change the text size from small/medium/large sizes and drag it around the screen so it doesnt block the action. Change the text box size from horizontal or box size based on preference. You can also install it as a panel so viewers can pop it out into a separate window for easier reading. If you like the extension, feel free to stop by my channel and provide any feedback twitch.tv/talk2megooseman or use the support email address. Check out a short demo: https://www.youtube.com/watch?v=GgnMa6K8ZZM",
     "eulaTosUrl": "https://stream-cc.gooseman.codes/pages/terms",
     "hasChatSupport": true,
     "iconUrl": "https://media.forgecdn.net/avatars/191/977/636862415151728028.png",
     "iconUrls": {
       "100x100": "https://media.forgecdn.net/avatars/191/977/636862415151728028.png",
       "24x24": "https://media.forgecdn.net/avatars/191/978/636862415153915584.png",
-      "300x200": "https://media.forgecdn.net/avatars/191/984/636862482028440628.png"
+      "300x200": "https://extensions-discovery-images.twitch.tv/h1ekceo16erc49snp0sine3k9ccbh9/1.3.0/discoverydd05d92d-5010-4b1c-a656-79117e9cb5da"
     },
     "id": "h1ekceo16erc49snp0sine3k9ccbh9",
     "installationCount": -42,
@@ -134,13 +59,14 @@
       "https://media.forgecdn.net/attachments/246/928/stream-cc-cover-smaller.png",
       "https://media.forgecdn.net/attachments/246/930/cc-preview.png",
       "https://media.forgecdn.net/attachments/247/843/settings.png",
-      "https://extensions-discovery-images.twitch.tv/h1ekceo16erc49snp0sine3k9ccbh9/1.1.0/screenshot668682db-ed8c-4c82-bbd6-5f539427b268",
-      "https://extensions-discovery-images.twitch.tv/h1ekceo16erc49snp0sine3k9ccbh9/1.1.0/screenshot541c031d-6062-4f94-9b46-c687754f0b51"
+      "https://extensions-discovery-images.twitch.tv/h1ekceo16erc49snp0sine3k9ccbh9/1.1.0/screenshot541c031d-6062-4f94-9b46-c687754f0b51",
+      "https://extensions-discovery-images.twitch.tv/h1ekceo16erc49snp0sine3k9ccbh9/1.3.0/screenshotf5d27747-24c3-47b7-9618-f9151915a9ce",
+      "https://extensions-discovery-images.twitch.tv/h1ekceo16erc49snp0sine3k9ccbh9/1.3.0/screenshota71a4259-0b8e-44b3-987d-189db589989c"
     ],
     "sku": "",
     "state": "Testing",
     "subscriptionsSupportLevel": "none",
-    "summary": "Easily provide Closed Captioning for your viewers. All you have to do is install the extension, go to the companion web site and click \"On\"",
+    "summary": "Easily provide Closed Captioning for your viewers. All you have to do is install the extension, go to stream-cc.gooseman.codes, click \"On\"",
     "supportEmail": "help@gooseman.codes",
     "vendorCode": "",
     "version": "1.3.0",

@@ -52,7 +52,7 @@ function ActivateTranslationBody({
       </Select>
       <Divider />
       <Button intent="success" icon="confirm" onClick={() => onUseBits(productsCatalog.selectedProduct.sku)}>
-        Purchase
+        Submit
       </Button>
     </div>
   );

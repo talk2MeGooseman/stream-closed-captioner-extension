@@ -6,6 +6,7 @@ import {
 } from "@blueprintjs/core";
 import { Select } from "@blueprintjs/select";
 import { useBits, setSelectedProduct } from "../../../redux/products-catalog-action-reducers";
+import { TRANSLATION_COST } from "../../../utils/Constants";
 
 function ProductMenuItem(product, { handleClick, modifiers }) {
   return (
@@ -32,7 +33,7 @@ function NagStreamerBody({
 
   let extraBitsBalanceInfo = (
     <React.Fragment>
-      <p>But there are enough bits purchased to turn on translations for <b>{Math.floor(activationInfo.balance / 100)} stream day(s)</b>.</p>
+      <p>But there are enough bits purchased to turn on translations for <b>{Math.floor(activationInfo.balance / TRANSLATION_COST)} stream day(s)</b>.</p>
       <p><i>A stream day is a 24 hours of active translations from the moment the broadcaster turns on Stream Closed Captioner</i></p>
     </React.Fragment>
   );
@@ -52,7 +53,7 @@ function NagStreamerBody({
       <ul>
         { languageKeys.map(langKey => <li key={langKey}>{activationInfo.languages[langKey]}</li>)}
       </ul>
-      <p>You can add more translation stream days by selecting an option below and click purchase.</p>
+      <p>You can add more translation stream days by selecting an option below and click Submit.</p>
       <Select
         items={productsCatalog.products}
         filterable={false}
@@ -63,7 +64,7 @@ function NagStreamerBody({
       </Select>
       <Divider />
       <Button intent="success" icon="confirm" onClick={() => onUseBits(productsCatalog.selectedProduct.sku)}>
-          Purchase
+          Submit
       </Button>
     </React.Fragment>
   );
