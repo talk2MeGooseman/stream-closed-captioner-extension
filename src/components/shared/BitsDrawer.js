@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import {
   Classes, Drawer,
 } from "@blueprintjs/core";
-import { actionToggleActivationDrawer, requestTranslationStatus } from "../../redux/config-settings-action-reducer";
+import { actionToggleActivationDrawer } from "../../redux/config-settings-action-reducer";
 import { isVideoOverlay } from "../../helpers/video-helpers";
 import ActivateTranslationBody from "./Drawer/ActivateTranslationBody";
 import NagStreamerBody from "./Drawer/NagStreamerBody";
@@ -13,18 +13,15 @@ function BitsDrawer({
   configSettings: { isDrawerOpen, activationInfo },
   productsCatalog,
   toggleActivationDrawer,
-  fetchTranslationStatus,
 }) {
   if (!activationInfo || !productsCatalog.products.length) {
     return null;
   }
 
-  let drawerWidth = Drawer.SIZE_STANDARD;
-  if (!isVideoOverlay()) {
-    drawerWidth = Drawer.SIZE_LARGE;
-  }
+  const drawerWidth = isVideoOverlay() ? Drawer.SIZE_STANDARD : Drawer.SIZE_LARGE;
 
   let drawerBody = <ActivateTranslationBody />;
+
   if (activationInfo.balance >= 100 || activationInfo.activated) {
     drawerBody = <NagStreamerBody />;
   }
@@ -62,7 +59,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   toggleActivationDrawer: () => dispatch(actionToggleActivationDrawer()),
-  fetchTranslationStatus: () => dispatch(requestTranslationStatus()),
 });
 
 export default connect(

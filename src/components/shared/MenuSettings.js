@@ -6,10 +6,12 @@ import {
 import FontSizeOptions from "./MenuItems/FontSizeOptions";
 import ResetButton from "./MenuItems/ResetButton";
 import BoxSizeButton from "./MenuItems/BoxSizeButton";
+import LineCountOptions from "./MenuItems/LineCountOptions";
 
 const MenuSettings = () => (
   <Menu>
     <FontSizeOptions />
+    <LineCountOptions />
     <ResetButton />
     <BoxSizeButton />
   </Menu>

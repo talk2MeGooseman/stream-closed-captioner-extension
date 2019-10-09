@@ -11,6 +11,17 @@ export const SELECT_LANGUAGE = "SELECT_LANGUAGE";
 export const TOGGLE_ACTIVATION_DRAWER = "TOGGLE_ACTIVATION_DRAWER ";
 export const REQUESTING_TRANSLATIONS_STATUS = "REQUESTING_TRANSLATIONS_STATUS";
 export const DONE_REQUESTING_TRANSLATIONS_STATUS = "DONE_REQUESTING_TRANSLATIONS_STATUS";
+export const INCREASE_LINE_COUNT = "INCREASE_LINE_COUNT";
+export const DECREASE_LINE_COUNT = "DECREASE_LINE_COUNT";
+
+
+export function increaseLineCount() {
+  return { type: INCREASE_LINE_COUNT };
+}
+
+export function decreaseLineCount() {
+  return { type: DECREASE_LINE_COUNT };
+}
 
 export function updateConfigSettings(state) {
   return { type: UPDATE_SETTINGS, state };
@@ -74,9 +85,7 @@ export function requestTranslationStatus() {
       headers: {
         "Content-Type": "application/json",
       },
-    }).then((response) => {
-      return response.json();
-    }).then((data) => {
+    }).then(response => response.json()).then((data) => {
       dispatch(doneRequestingTranslationStatus(data));
     });
   };
@@ -94,6 +103,8 @@ const initialState = {
   isDrawerOpen: false,
   fetchingStatus: false,
   activationInfo: null,
+  horizontalLineCount: 3,
+  boxLineCount: 7,
 };
 
 export default function reducer(state = initialState, action) {
@@ -141,6 +152,32 @@ export default function reducer(state = initialState, action) {
       fetchingStatus: false,
       activationInfo: action.activationInfo,
     };
+  case INCREASE_LINE_COUNT:
+    if (state.ccBoxSize) {
+      return {
+        ...state,
+        boxLineCount: state.boxLineCount + 1,
+      }
+    }
+
+    return {
+      ...state,
+      horizontalLineCount: state.horizontalLineCount + 1,
+    };
+
+  case DECREASE_LINE_COUNT:
+    if (state.ccBoxSize) {
+      return {
+        ...state,
+        boxLineCount: state.boxLineCount - 1,
+      };
+    }
+
+    return {
+      ...state,
+      horizontalLineCount: state.horizontalLineCount - 1,
+    };
+
   default:
     return state;
   }
