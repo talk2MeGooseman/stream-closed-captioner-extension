@@ -31,7 +31,7 @@ export function toggleCCVisibility() {
   return { type: TOGGLE_VISIBILITY };
 }
 
-export function actionToggleBoxSize() {
+export function toggleBoxSize() {
   return { type: TOGGLE_BOX_SIZE };
 }
 

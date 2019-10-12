@@ -1,13 +1,15 @@
 import React from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faExpand, faMinus } from "@fortawesome/free-solid-svg-icons";
 import { MenuDivider, MenuItem } from "@blueprintjs/core";
 import { isVideoOverlay } from "../../../helpers/video-helpers";
-import { actionToggleBoxSize } from "../../../redux/config-settings-action-reducer";
+import toggleBoxSize from "../../../redux/config-settings-action-reducer";
+import { useShallowEqualSelector, useCallbackDispatch } from "../../../redux/redux-helpers";
 
-function BoxSizeButton({ toggleBoxSize, configSettings: { ccBoxSize } }) {
+function BoxSizeButton() {
+  const ccBoxSize = useShallowEqualSelector(state => state.configSettings.ccBoxSize);
+  const onToggleBoxSize = useCallbackDispatch(toggleBoxSize());
+
   if (!isVideoOverlay()) {
     return null;
   }
@@ -22,22 +24,10 @@ function BoxSizeButton({ toggleBoxSize, configSettings: { ccBoxSize } }) {
 
   return (<React.Fragment>
     <MenuDivider />
-    <MenuItem onClick={toggleBoxSize} icon={<FontAwesomeIcon icon={icon} size="lg" />} text={text} />
+    <MenuItem onClick={onToggleBoxSize } icon={<FontAwesomeIcon icon={icon} size="lg" />} text={text} />
   </React.Fragment>);
 }
 
-BoxSizeButton.propTypes = {
-  toggleBoxSize: PropTypes.func,
-  configSettings: PropTypes.object,
-};
+BoxSizeButton.propTypes = {};
 
-const mapStateToProps = state => ({
-  ccState: state.ccState,
-  configSettings: state.configSettings,
-});
-
-const mapDispatchToProps = dispatch => ({
-  toggleBoxSize: () => dispatch(actionToggleBoxSize()),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(BoxSizeButton);
+export default BoxSizeButton;

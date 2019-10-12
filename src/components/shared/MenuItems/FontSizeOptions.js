@@ -1,47 +1,38 @@
-import React from 'react';
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
+import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFont } from "@fortawesome/free-solid-svg-icons";
-import {
-  MenuItem,
-} from "@blueprintjs/core";
+import { MenuItem } from "@blueprintjs/core";
 import { actionChangeTextSize } from "../../../redux/config-settings-action-reducer";
+import { useCallbackDispatch } from "../../../redux/redux-helpers";
 
-function FontSizeOptions({ onChangeTextSize }) {
+function FontSizeOptions() {
+  const onClickSmallTextSize = useCallbackDispatch(actionChangeTextSize("small"));
+  const onClickMediumTextSize = useCallbackDispatch(actionChangeTextSize("medium"));
+  const onClickLargeTextSize = useCallbackDispatch(actionChangeTextSize("large"));
+
+  const fontIcon = <FontAwesomeIcon icon={faFont} />;
+
   return (
     <React.Fragment>
       <MenuItem
-        icon={<FontAwesomeIcon icon={faFont} />}
+        icon={fontIcon}
         text="Small Text"
-        onClick={() => {
-          onChangeTextSize("small");
-        }}
+        onClick={onClickSmallTextSize}
       />
       <MenuItem
-        icon={<FontAwesomeIcon icon={faFont} />}
+        icon={fontIcon}
         text="Medium Text"
-        onClick={() => {
-          onChangeTextSize("medium");
-        }}
+        onClick={onClickMediumTextSize}
       />
       <MenuItem
-        icon={<FontAwesomeIcon icon={faFont} />}
+        icon={fontIcon}
         text="Large Text"
-        onClick={() => {
-          onChangeTextSize("large");
-        }}
+        onClick={onClickLargeTextSize}
       />
     </React.Fragment>
   );
 }
 
-FontSizeOptions.propTypes = {
-  onChangeTextSize: PropTypes.func.isRequired,
-};
+FontSizeOptions.propTypes = {};
 
-const mapDispatchToProps = dispatch => ({
-  onChangeTextSize: size => dispatch(actionChangeTextSize(size)),
-});
-
-export default connect(null, mapDispatchToProps)(FontSizeOptions);
+export default FontSizeOptions;
