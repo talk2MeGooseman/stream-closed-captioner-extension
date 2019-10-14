@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faExpand, faMinus } from "@fortawesome/free-solid-svg-icons";
 import { MenuDivider, MenuItem } from "@blueprintjs/core";
 import { isVideoOverlay } from "../../../helpers/video-helpers";
-import toggleBoxSize from "../../../redux/config-settings-action-reducer";
+import { toggleBoxSize } from "../../../redux/config-settings-action-reducer";
 import { useShallowEqualSelector, useCallbackDispatch } from "../../../redux/redux-helpers";
 
 function BoxSizeButton() {

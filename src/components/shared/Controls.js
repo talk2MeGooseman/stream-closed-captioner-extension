@@ -11,7 +11,7 @@ import classnames from "classnames";
 import VisibilityToggle from "../VideoOverlay/VisibilityToggle";
 import MenuSettings from "./MenuSettings";
 import { isVideoOverlay } from "../../helpers/video-helpers";
-import LanguageOptions from "./MenuItems/LanguageOptions";
+import LanguageSettings from "./LanguageSettings";
 
 function isPositionLeft(configSettings) {
   return isVideoOverlay() && configSettings.switchSettingsPosition;
@@ -35,9 +35,9 @@ const Controls = ({
 
   return (
     <span className={controlClass}>
-      <LanguageOptions />
+      <LanguageSettings />
       <VisibilityToggle />
-      <Popover position="left-bottom" content={<MenuSettings />}>
+      <Popover position="left-bottom" content={<MenuSettings />} shouldDismissPopover={false} >
         <Tooltip content={"Settings"}>
           <FontAwesomeIcon size="2x" icon={faCog} />
         </Tooltip>

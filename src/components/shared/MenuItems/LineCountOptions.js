@@ -1,24 +1,25 @@
-import React from 'react';
+import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
+import { MenuItem } from "@blueprintjs/core";
 import {
-  MenuItem,
-} from "@blueprintjs/core";
-import { increaseLineCount, decreaseLineCount } from "../../../redux/config-settings-action-reducer";
+  increaseLineCount,
+  decreaseLineCount,
+} from "../../../redux/config-settings-action-reducer";
 
 function LineCountOptions({ increaseLineCount, decreaseLineCount }) {
   return (
     <React.Fragment>
-      <MenuItem text="Line Count" shouldDismissPopover={false} >
+      <MenuItem text="Line Count" >
         <MenuItem
-          icon={<FontAwesomeIcon icon={faPlus} shouldDismissPopover={false} />}
+          icon={<FontAwesomeIcon icon={faPlus} />}
           text="Increase Line Count"
           onClick={increaseLineCount}
         />
         <MenuItem
-          icon={<FontAwesomeIcon icon={faMinus} shouldDismissPopover={false} />}
+          icon={<FontAwesomeIcon icon={faMinus} />}
           text="Decrease Line Count"
           onClick={decreaseLineCount}
         />
@@ -37,4 +38,7 @@ const mapDispatchToProps = {
   decreaseLineCount,
 };
 
-export default connect(null, mapDispatchToProps)(LineCountOptions);
+export default connect(
+  null,
+  mapDispatchToProps,
+)(LineCountOptions);
