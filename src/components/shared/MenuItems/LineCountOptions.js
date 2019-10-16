@@ -1,6 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 import { MenuItem } from "@blueprintjs/core";
@@ -8,37 +6,43 @@ import {
   increaseLineCount,
   decreaseLineCount,
 } from "../../../redux/config-settings-action-reducer";
+import { useShallowEqualSelector, useCallbackDispatch } from "../../../redux/redux-helpers";
+import { isVideoOverlay } from "../../../helpers/video-helpers";
 
-function LineCountOptions({ increaseLineCount, decreaseLineCount }) {
+function LineCountOptions() {
+  const ccBoxSize = useShallowEqualSelector(state => state.configSettings.ccBoxSize);
+  const horizontalLineCount = useShallowEqualSelector(
+    state => state.configSettings.horizontalLineCount,
+  );
+  const boxLineCount = useShallowEqualSelector(state => state.configSettings.boxLineCount);
+  const onLineIncrease = useCallbackDispatch(increaseLineCount());
+  const onLineDecrease = useCallbackDispatch(decreaseLineCount());
+
+  if (!isVideoOverlay()) return null;
+
+  let disableDecrease = false;
+
+  if (ccBoxSize && boxLineCount === 1) {
+    disableDecrease = true;
+  } else if (horizontalLineCount === 1) {
+    disableDecrease = true;
+  }
+
   return (
-    <React.Fragment>
-      <MenuItem text="Line Count" >
-        <MenuItem
-          icon={<FontAwesomeIcon icon={faPlus} />}
-          text="Increase Line Count"
-          onClick={increaseLineCount}
-        />
-        <MenuItem
-          icon={<FontAwesomeIcon icon={faMinus} />}
-          text="Decrease Line Count"
-          onClick={decreaseLineCount}
-        />
-      </MenuItem>
-    </React.Fragment>
+    <MenuItem text="Line Count">
+      <MenuItem
+        icon={<FontAwesomeIcon icon={faPlus} />}
+        text="Increase Line Count"
+        onClick={onLineIncrease}
+      />
+      <MenuItem
+        icon={<FontAwesomeIcon icon={faMinus} />}
+        text="Decrease Line Count"
+        onClick={onLineDecrease}
+        disabled={disableDecrease}
+      />
+    </MenuItem>
   );
 }
 
-LineCountOptions.propTypes = {
-  increaseLineCount: PropTypes.func.isRequired,
-  decreaseLineCount: PropTypes.func.isRequired,
-};
-
-const mapDispatchToProps = {
-  increaseLineCount,
-  decreaseLineCount,
-};
-
-export default connect(
-  null,
-  mapDispatchToProps,
-)(LineCountOptions);
+export default LineCountOptions;

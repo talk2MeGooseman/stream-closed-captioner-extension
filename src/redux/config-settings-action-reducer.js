@@ -14,7 +14,6 @@ export const DONE_REQUESTING_TRANSLATIONS_STATUS = "DONE_REQUESTING_TRANSLATIONS
 export const INCREASE_LINE_COUNT = "INCREASE_LINE_COUNT";
 export const DECREASE_LINE_COUNT = "DECREASE_LINE_COUNT";
 
-
 export function increaseLineCount() {
   return { type: INCREASE_LINE_COUNT };
 }
@@ -85,9 +84,11 @@ export function requestTranslationStatus() {
       headers: {
         "Content-Type": "application/json",
       },
-    }).then(response => response.json()).then((data) => {
-      dispatch(doneRequestingTranslationStatus(data));
-    });
+    })
+      .then(response => response.json())
+      .then((data) => {
+        dispatch(doneRequestingTranslationStatus(data));
+      });
   };
 }
 
@@ -157,7 +158,7 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         boxLineCount: state.boxLineCount + 1,
-      }
+      };
     }
 
     return {
@@ -166,17 +167,19 @@ export default function reducer(state = initialState, action) {
     };
 
   case DECREASE_LINE_COUNT:
-    if (state.ccBoxSize) {
+    if (state.ccBoxSize && state.boxLineCount !== 1) {
       return {
         ...state,
         boxLineCount: state.boxLineCount - 1,
       };
+    } if (state.horizontalLineCount !== 1) {
+      return {
+        ...state,
+        horizontalLineCount: state.horizontalLineCount - 1,
+      };
     }
 
-    return {
-      ...state,
-      horizontalLineCount: state.horizontalLineCount - 1,
-    };
+    return state;
 
   default:
     return state;
