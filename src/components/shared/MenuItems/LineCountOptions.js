@@ -34,12 +34,14 @@ function LineCountOptions() {
         icon={<FontAwesomeIcon icon={faPlus} />}
         text="Increase Line Count"
         onClick={onLineIncrease}
+        shouldDismissPopover={false}
       />
       <MenuItem
         icon={<FontAwesomeIcon icon={faMinus} />}
         text="Decrease Line Count"
         onClick={onLineDecrease}
         disabled={disableDecrease}
+        shouldDismissPopover={false}
       />
     </MenuItem>
   );

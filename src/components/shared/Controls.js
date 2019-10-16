@@ -37,7 +37,7 @@ const Controls = ({
     <span className={controlClass}>
       <LanguageSettings />
       <VisibilityToggle />
-      <Popover position="left-bottom" content={<MenuSettings />} shouldDismissPopover={false} >
+      <Popover position="left-bottom" content={<MenuSettings />} captureDismiss >
         <Tooltip content={"Settings"}>
           <FontAwesomeIcon size="2x" icon={faCog} />
         </Tooltip>

@@ -25,6 +25,7 @@ export default function LanguageOptions() {
         icon={icon}
         text={translations[l].name}
         onClick={onClick}
+        shouldDismissPopover={false}
       />
     );
   });
@@ -36,6 +37,7 @@ export default function LanguageOptions() {
         icon={defaultIcon}
         text="Spoken Language"
         onClick={onSelectDefaultLanguage}
+        shouldDismissPopover={false}
       />
       <MenuDivider />
       {optionEls}
@@ -43,6 +45,7 @@ export default function LanguageOptions() {
       <MenuItem
         text="Add Translation Days"
         onClick={toggleActivationDrawer}
+        shouldDismissPopover={false}
       />
     </Menu>
   );

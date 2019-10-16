@@ -22,10 +22,17 @@ function BoxSizeButton() {
     icon = faMinus;
   }
 
-  return (<React.Fragment>
-    <MenuDivider />
-    <MenuItem onClick={onToggleBoxSize } icon={<FontAwesomeIcon icon={icon} size="lg" />} text={text} />
-  </React.Fragment>);
+  return (
+    <React.Fragment>
+      <MenuDivider />
+      <MenuItem
+        onClick={onToggleBoxSize}
+        icon={<FontAwesomeIcon icon={icon} size="lg" />}
+        text={text}
+        shouldDismissPopover={false}
+      />
+    </React.Fragment>
+  );
 }
 
 BoxSizeButton.propTypes = {};

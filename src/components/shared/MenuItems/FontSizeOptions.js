@@ -18,16 +18,19 @@ function FontSizeOptions() {
         icon={fontIcon}
         text="Small Text"
         onClick={onClickSmallTextSize}
+        shouldDismissPopover={false}
       />
       <MenuItem
         icon={fontIcon}
         text="Medium Text"
         onClick={onClickMediumTextSize}
+        shouldDismissPopover={false}
       />
       <MenuItem
         icon={fontIcon}
         text="Large Text"
         onClick={onClickLargeTextSize}
+        shouldDismissPopover={false}
       />
     </React.Fragment>
   );

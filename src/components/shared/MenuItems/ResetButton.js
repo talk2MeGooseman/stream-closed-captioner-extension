@@ -14,7 +14,12 @@ function ResetButton({ onResetPosition }) {
   return (
     <React.Fragment>
       <MenuDivider />
-      <MenuItem onClick={onResetPosition} icon={<FontAwesomeIcon icon={faUndo} size="lg" />} text="Reset Position" />
+      <MenuItem
+        onClick={onResetPosition}
+        icon={<FontAwesomeIcon icon={faUndo} size="lg" />}
+        text="Reset Position"
+        shouldDismissPopover={false}
+      />
     </React.Fragment>
   );
 }
@@ -27,4 +32,7 @@ const mapDispatchToProps = dispatch => ({
   onResetPosition: () => dispatch(actionResetCC()),
 });
 
-export default connect(null, mapDispatchToProps)(ResetButton);
+export default connect(
+  null,
+  mapDispatchToProps,
+)(ResetButton);
