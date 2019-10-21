@@ -62,7 +62,7 @@
     "redux-thunk": "^2.3.0",
     "typeface-montserrat": "0.0.54",
     "typeface-raleway": "0.0.54",
-    "typeface-roboto": "0.0.54",
+    "typeface-roboto": "0.0.75",
     "url-search-params-polyfill": "^5.0.0",
     "uuid": "^3.3.2"
   },
