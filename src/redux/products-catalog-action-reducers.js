@@ -8,7 +8,7 @@ export const COMPLETE_USE_BITS = "COMPLETE_USE_BITS";
 export const SET_CHANNEL_ID = "SET_CHANNEL_ID";
 export const SET_SELECTED_PRODUCT = "SET_SELECTED_PRODUCT";
 
-export function actionSetProducts(products) {
+export function setProducts(products) {
   return { type: SET_PRODUCTS, products };
 }
 

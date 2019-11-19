@@ -10,7 +10,7 @@ import {
 } from "../../redux/config-settings-action-reducer";
 import { updatePlayerContext } from "../../redux/twitch-player-action-reducers";
 import {
-  actionSetProducts,
+  setProducts,
   completeBitsTransaction,
   setChannelId,
 } from "../../redux/products-catalog-action-reducers";
@@ -161,7 +161,7 @@ export function withTwitchData(WrappedComponent, store) {
       updateCCText: state => dispatch(actionUpdateCCText(state)),
       updateConfigSettings: settings => dispatch(updateConfigSettings(settings)),
       updatePlayerContext: state => dispatch(updatePlayerContext(state)),
-      setProducts: products => dispatch(actionSetProducts(products)),
+      setProducts: products => dispatch(setProducts(products)),
       onCompleteTransaction: transaction => dispatch(completeBitsTransaction(transaction)),
       onChannelIdReceived: channelId => dispatch(setChannelId(channelId)),
       fetchTranslationStatus: () => dispatch(requestTranslationStatus()),

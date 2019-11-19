@@ -50,23 +50,20 @@ function setFontSizeStyle(size) {
   return fontSize;
 }
 
-function renderTextFromArray(arr) {
-  return arr.map(item => (<span key={item.id}>{item.text}{" "}</span>));
-}
-
 function ClosedCaption({
   configSettings,
   ccState: { interimText, finalTextQueue, translations },
-  setIsDragged, numberOfLines,
+  setIsDragged,
 }) {
   const finalText = finalTextQueue.join(" ");
 
   const fontSize = setFontSizeStyle(configSettings.size);
   const textStyles = { ...ccStyles, fontSize };
 
+  let numberOfLines = configSettings.horizontalLineCount;
   if (configSettings.ccBoxSize) {
     // eslint-disable-next-line no-param-reassign
-    numberOfLines = 7;
+    numberOfLines = configSettings.boxLineCount;
   }
 
   const styles = {
