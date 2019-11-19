@@ -1,12 +1,13 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
+/* eslint-disable max-len */
+import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import {
   Button, MenuItem, Divider,
-} from "@blueprintjs/core";
-import { Select } from "@blueprintjs/select";
-import { useBits, setSelectedProduct } from "../../../redux/products-catalog-action-reducers";
-import { TRANSLATION_COST } from "../../../utils/Constants";
+} from '@blueprintjs/core';
+import { Select } from '@blueprintjs/select';
+import { useBits, setSelectedProduct } from '../../../redux/products-catalog-action-reducers';
+import { TRANSLATION_COST } from '../../../utils/Constants';
 
 function ProductMenuItem(product, { handleClick, modifiers }) {
   return (
@@ -86,6 +87,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   onUseBits: sku => dispatch(useBits(sku)),
   onProductSelect: product => dispatch(setSelectedProduct(product)),
 });

@@ -1,13 +1,13 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import {
   Classes, Drawer,
-} from "@blueprintjs/core";
-import { actionToggleActivationDrawer } from "../../redux/config-settings-action-reducer";
-import { isVideoOverlay } from "../../helpers/video-helpers";
-import ActivateTranslationBody from "./Drawer/ActivateTranslationBody";
-import NagStreamerBody from "./Drawer/NagStreamerBody";
+} from '@blueprintjs/core';
+import { actionToggleActivationDrawer } from '../../redux/config-settings-action-reducer';
+import { isVideoOverlay } from '../../helpers/video-helpers';
+import ActivateTranslationBody from './Drawer/ActivateTranslationBody';
+import NagStreamerBody from './Drawer/NagStreamerBody';
 
 function BitsDrawer({
   configSettings: { isDrawerOpen, activationInfo },

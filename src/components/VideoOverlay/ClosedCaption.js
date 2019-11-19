@@ -1,13 +1,13 @@
-import React from "react";
-import PropTypes from "prop-types";
-import Draggable from "react-draggable";
-import { connect } from "react-redux";
-import { ccStyles } from "../shared/caption-styles";
+import React from 'react';
+import PropTypes from 'prop-types';
+import Draggable from 'react-draggable';
+import { connect } from 'react-redux';
+import { ccStyles } from '../shared/caption-styles';
 
-import "./ClosedCaption.css";
-import { actionSetIsDragged } from "../../redux/config-settings-action-reducer";
+import './ClosedCaption.css';
+import { actionSetIsDragged } from '../../redux/config-settings-action-reducer';
 
-const classNames = require("classnames");
+const classNames = require('classnames');
 
 // Bits 100 from electrichavoc
 // Resub Nyixxs
@@ -30,20 +30,20 @@ function shouldHideCC(shouldHide, interimText, finalText) {
 }
 
 function setFontSizeStyle(size) {
-  let fontSize = "";
+  let fontSize = '';
 
   switch (size) {
-  case "small":
-    fontSize = "var(--small-font-size)";
+  case 'small':
+    fontSize = 'var(--small-font-size)';
     break;
-  case "medium":
-    fontSize = "var(--medium-font-size)";
+  case 'medium':
+    fontSize = 'var(--medium-font-size)';
     break;
-  case "large":
-    fontSize = "var(--large-font-size)";
+  case 'large':
+    fontSize = 'var(--large-font-size)';
     break;
   default:
-    fontSize = "var(--medium-font-size)";
+    fontSize = 'var(--medium-font-size)';
     break;
   }
 
@@ -55,7 +55,7 @@ function ClosedCaption({
   ccState: { interimText, finalTextQueue, translations },
   setIsDragged,
 }) {
-  const finalText = finalTextQueue.join(" ");
+  const finalText = finalTextQueue.join(' ');
 
   const fontSize = setFontSizeStyle(configSettings.size);
   const textStyles = { ...ccStyles, fontSize };
@@ -68,25 +68,25 @@ function ClosedCaption({
 
   const styles = {
     maxHeight: `calc(${fontSize} * var(--line-height) * ${numberOfLines} + var(--caption-pad-bottom))`,
-    overflow: "hidden",
+    overflow: 'hidden',
   };
 
   const containerClasses = classNames({
-    "caption-container": true,
-    "box-size": configSettings.ccBoxSize,
+    'caption-container': true,
+    'box-size': configSettings.ccBoxSize,
     hide: shouldHideCC(configSettings.hideCC, interimText, finalText),
   });
 
   const ccTextClasses = classNames({
-    "text-capitalize": configSettings.textUppercase,
-    "text-mix-case": !configSettings.textUppercase,
+    'text-capitalize': configSettings.textUppercase,
+    'text-mix-case': !configSettings.textUppercase,
   });
 
-  let closedCaptionText = "";
-  if (configSettings.selectedLanguage === "default") {
-    closedCaptionText = `${finalTextQueue.map(({ text }) => text).join(" ")} ${interimText}`;
+  let closedCaptionText = '';
+  if (configSettings.selectedLanguage === 'default') {
+    closedCaptionText = `${finalTextQueue.map(({ text }) => text).join(' ')} ${interimText}`;
   } else {
-    closedCaptionText = translations[configSettings.selectedLanguage].textQueue.map(({ text }) => text).join(" ");
+    closedCaptionText = translations[configSettings.selectedLanguage].textQueue.map(({ text }) => text).join(' ');
   }
 
   return (

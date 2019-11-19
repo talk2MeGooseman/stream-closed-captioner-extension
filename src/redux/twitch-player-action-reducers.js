@@ -1,5 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-export const UPDATE_PLAYER_CONTEXT = "UPDATE_PLAYER_CONTEXT";
+export const UPDATE_PLAYER_CONTEXT = 'UPDATE_PLAYER_CONTEXT';
 
 export function updatePlayerContext(state) {
   return { type: UPDATE_PLAYER_CONTEXT, state };

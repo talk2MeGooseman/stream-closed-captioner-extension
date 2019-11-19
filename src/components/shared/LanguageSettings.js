@@ -1,10 +1,10 @@
-import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLanguage } from "@fortawesome/free-solid-svg-icons";
-import { Tooltip, Popover } from "@blueprintjs/core";
-import LanguageOptions from "./MenuItems/LanguageOptions";
-import { useShallowEqualSelector, useCallbackDispatch } from "../../redux/redux-helpers";
-import { actionToggleActivationDrawer } from "../../redux/config-settings-action-reducer";
+import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faLanguage } from '@fortawesome/free-solid-svg-icons';
+import { Tooltip, Popover } from '@blueprintjs/core';
+import LanguageOptions from './MenuItems/LanguageOptions';
+import { useShallowEqualSelector, useCallbackDispatch } from '../../redux/redux-helpers';
+import { actionToggleActivationDrawer } from '../../redux/config-settings-action-reducer';
 
 export default function LanguageSettings() {
   const isBitsEnabled = useShallowEqualSelector(state => state.configSettings.isBitsEnabled);
@@ -30,7 +30,7 @@ export default function LanguageSettings() {
   // Display activate dialog/text
   return (
     <React.Fragment>
-      <Tooltip content={"Translations"}>{button}</Tooltip>
+      <Tooltip content={'Translations'}>{button}</Tooltip>
     </React.Fragment>
   );
 }

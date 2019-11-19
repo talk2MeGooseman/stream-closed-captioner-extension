@@ -1,17 +1,17 @@
-import React from "react";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faCog,
-} from "@fortawesome/free-solid-svg-icons";
-import { Popover, Tooltip } from "@blueprintjs/core";
-import classnames from "classnames";
+} from '@fortawesome/free-solid-svg-icons';
+import { Popover, Tooltip } from '@blueprintjs/core';
+import classnames from 'classnames';
 
-import VisibilityToggle from "../VideoOverlay/VisibilityToggle";
-import MenuSettings from "./MenuSettings";
-import { isVideoOverlay } from "../../helpers/video-helpers";
-import LanguageSettings from "./LanguageSettings";
+import VisibilityToggle from '../VideoOverlay/VisibilityToggle';
+import MenuSettings from './MenuSettings';
+import { isVideoOverlay } from '../../helpers/video-helpers';
+import LanguageSettings from './LanguageSettings';
 
 function isPositionLeft(configSettings) {
   return isVideoOverlay() && configSettings.switchSettingsPosition;
@@ -26,11 +26,11 @@ const Controls = ({
   }
 
   const controlClass = classnames({
-    "controls-container": isVideoOverlay(),
-    "position-right": !isPositionLeft(configSettings),
-    "position-left": isPositionLeft(configSettings),
-    "mobile-controls-button": !isVideoOverlay(),
-    "bg-black-transparent": true,
+    'controls-container': isVideoOverlay(),
+    'position-right': !isPositionLeft(configSettings),
+    'position-left': isPositionLeft(configSettings),
+    'mobile-controls-button': !isVideoOverlay(),
+    'bg-black-transparent': true,
   });
 
   return (
@@ -38,7 +38,7 @@ const Controls = ({
       <LanguageSettings />
       <VisibilityToggle />
       <Popover position="left-bottom" content={<MenuSettings />} captureDismiss >
-        <Tooltip content={"Settings"}>
+        <Tooltip content={'Settings'}>
           <FontAwesomeIcon size="2x" icon={faCog} />
         </Tooltip>
       </Popover>

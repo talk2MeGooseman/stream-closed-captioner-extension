@@ -1,18 +1,18 @@
-import uuid from "uuid/v4";
+import uuid from 'uuid/v4';
 
 /* eslint-disable import/prefer-default-export */
-export const UPDATE_SETTINGS = "UPDATE_SETTINGS";
-export const TOGGLE_VISIBILITY = "TOGGLE_VISIBILITY";
-export const TOGGLE_BOX_SIZE = "TOGGLE_TO_BOX_SIZE ";
-export const CHANGE_TEXT_SIZE = "CHANGE_TEXT_SIZE";
-export const SET_IS_DRAGGED = "SET_IS_DRAGGED";
-export const RESET_CC_TEXT = "RESET_CC_TEXT";
-export const SELECT_LANGUAGE = "SELECT_LANGUAGE";
-export const TOGGLE_ACTIVATION_DRAWER = "TOGGLE_ACTIVATION_DRAWER ";
-export const REQUESTING_TRANSLATIONS_STATUS = "REQUESTING_TRANSLATIONS_STATUS";
-export const DONE_REQUESTING_TRANSLATIONS_STATUS = "DONE_REQUESTING_TRANSLATIONS_STATUS";
-export const INCREASE_LINE_COUNT = "INCREASE_LINE_COUNT";
-export const DECREASE_LINE_COUNT = "DECREASE_LINE_COUNT";
+export const UPDATE_SETTINGS = 'UPDATE_SETTINGS';
+export const TOGGLE_VISIBILITY = 'TOGGLE_VISIBILITY';
+export const TOGGLE_BOX_SIZE = 'TOGGLE_TO_BOX_SIZE ';
+export const CHANGE_TEXT_SIZE = 'CHANGE_TEXT_SIZE';
+export const SET_IS_DRAGGED = 'SET_IS_DRAGGED';
+export const RESET_CC_TEXT = 'RESET_CC_TEXT';
+export const SELECT_LANGUAGE = 'SELECT_LANGUAGE';
+export const TOGGLE_ACTIVATION_DRAWER = 'TOGGLE_ACTIVATION_DRAWER ';
+export const REQUESTING_TRANSLATIONS_STATUS = 'REQUESTING_TRANSLATIONS_STATUS';
+export const DONE_REQUESTING_TRANSLATIONS_STATUS = 'DONE_REQUESTING_TRANSLATIONS_STATUS';
+export const INCREASE_LINE_COUNT = 'INCREASE_LINE_COUNT';
+export const DECREASE_LINE_COUNT = 'DECREASE_LINE_COUNT';
 
 export function increaseLineCount() {
   return { type: INCREASE_LINE_COUNT };
@@ -79,10 +79,10 @@ export function requestTranslationStatus() {
     const { channelId } = getState().productsCatalog;
 
     return fetch(`https://stream-cc.gooseman.codes/api/translation_status/${channelId}`, {
-      cache: "no-cache",
-      method: "GET",
+      cache: 'no-cache',
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
     })
       .then(response => response.json())
@@ -93,11 +93,11 @@ export function requestTranslationStatus() {
 }
 
 const initialState = {
-  selectedLanguage: "default",
+  selectedLanguage: 'default',
   finishedLoading: false,
   ccKey: uuid(),
   isDragged: false,
-  size: "medium",
+  size: 'medium',
   hideCC: false,
   ccBoxSize: false,
   isBitsEnabled: false,

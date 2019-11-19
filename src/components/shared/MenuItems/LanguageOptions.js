@@ -1,22 +1,23 @@
-import React from "react";
-import { MenuDivider, Menu, MenuItem } from "@blueprintjs/core";
+import React from 'react';
+import { MenuDivider, Menu, MenuItem } from '@blueprintjs/core';
 import {
   actionChangeSelectedLanguage,
   actionToggleActivationDrawer,
-} from "../../../redux/config-settings-action-reducer";
-import { useShallowEqualSelector, useCallbackDispatch } from "../../../redux/redux-helpers";
+} from '../../../redux/config-settings-action-reducer';
+import { useShallowEqualSelector, useCallbackDispatch } from '../../../redux/redux-helpers';
 
 export default function LanguageOptions() {
   const selectedLanguage = useShallowEqualSelector(state => state.configSettings.selectedLanguage);
   const languages = useShallowEqualSelector(state => Object.keys(state.ccState.translations || {}));
   const translations = useShallowEqualSelector(state => state.ccState.translations);
-  const onSelectDefaultLanguage = useCallbackDispatch(actionChangeSelectedLanguage("default"));
+  const onSelectDefaultLanguage = useCallbackDispatch(actionChangeSelectedLanguage('default'));
   const toggleActivationDrawer = useCallbackDispatch(actionToggleActivationDrawer());
 
-  const defaultIcon = selectedLanguage === "default" ? "tick" : "none";
+  const defaultIcon = selectedLanguage === 'default' ? 'tick' : 'none';
 
   const optionEls = languages.map((l) => {
-    const icon = l === selectedLanguage ? "tick" : "none";
+    const icon = l === selectedLanguage ? 'tick' : 'none';
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const onClick = useCallbackDispatch(actionChangeSelectedLanguage(l));
 
     return (

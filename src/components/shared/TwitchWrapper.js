@@ -1,23 +1,38 @@
-import React, { Component } from "react";
-const debounce = require("lodash/debounce");
-import { MAX_TEXT_DISPLAY_TIME, SECOND, CONTEXT_EVENTS_WHITELIST } from "../../utils/Constants";
-import Authentication from "../Authentication/Authentication";
-import { connect, Provider } from "react-redux";
-import { actionUpdateCCText } from "../../redux/cc-state";
+/* eslint-disable react/prop-types */
+import React, { Component } from 'react';
+import { connect, Provider } from 'react-redux';
+import { MAX_TEXT_DISPLAY_TIME, SECOND, CONTEXT_EVENTS_WHITELIST } from '../../utils/Constants';
+import Authentication from '../Authentication/Authentication';
+import { actionUpdateCCText } from '../../redux/cc-state';
 import {
   updateConfigSettings,
   requestTranslationStatus,
-} from "../../redux/config-settings-action-reducer";
-import { updatePlayerContext } from "../../redux/twitch-player-action-reducers";
+} from '../../redux/config-settings-action-reducer';
+import { updatePlayerContext } from '../../redux/twitch-player-action-reducers';
 import {
   setProducts,
   completeBitsTransaction,
   setChannelId,
-} from "../../redux/products-catalog-action-reducers";
-import BitsDrawer from "./BitsDrawer";
+} from '../../redux/products-catalog-action-reducers';
+import BitsDrawer from './BitsDrawer';
+
+const debounce = require('lodash/debounce');
 
 // Resub - rw_grim
 //
+
+function fetchChangedContextValues(context, delta) {
+  const newData = {};
+  delta.forEach((event) => {
+    newData[event] = context[event];
+  });
+
+  return newData;
+}
+
+function contextStateUpdated(delta) {
+  return delta.find(event => CONTEXT_EVENTS_WHITELIST.includes(event));
+}
 
 export function withTwitchData(WrappedComponent, store) {
   class TwitchWrapper extends Component {
@@ -36,7 +51,7 @@ export function withTwitchData(WrappedComponent, store) {
         this.twitch.onAuthorized(this.onAuthorized);
         this.twitch.onContext(this.contextUpdate);
         this.twitch.configuration.onChanged(this.setConfigurationSettings);
-        this.twitch.listen("broadcast", this.pubSubMessageHandler);
+        this.twitch.listen('broadcast', this.pubSubMessageHandler);
         this.twitch.bits.getProducts().then(this.parseProducts);
         this.twitch.bits.onTransactionComplete(this.onTransactionComplete);
       }
@@ -44,51 +59,37 @@ export function withTwitchData(WrappedComponent, store) {
 
     componentWillUnmount() {
       if (this.twitch) {
-        this.twitch.unlisten("broadcast", () => null);
+        this.twitch.unlisten('broadcast', () => null);
       }
     }
 
-    onAuthorized = auth => {
+    onAuthorized = (auth) => {
       this.props.onChannelIdReceived(auth.channelId);
       this.Authentication.setToken(auth.token, auth.userId);
       this.props.fetchTranslationStatus();
     };
 
-    parseProducts = products => {
+    parseProducts = (products) => {
       this.props.setProducts(products);
     };
 
-    onTransactionComplete = transaction => {
+    onTransactionComplete = (transaction) => {
       this.props.onCompleteTransaction(transaction);
     };
 
     contextUpdate = (context, delta) => {
-      if (this.contextStateUpdated(delta)) {
-        let newContext = this.fetchChangedContextValues(context, delta);
+      if (contextStateUpdated(delta)) {
+        const newContext = fetchChangedContextValues(context, delta);
 
         this.props.updatePlayerContext(newContext);
       }
     };
 
-    fetchChangedContextValues(context, delta) {
-      let newData = {};
-      delta.forEach(event => {
-        newData[event] = context[event];
-      });
-
-      return newData;
-    }
-
-    contextStateUpdated(delta) {
-      return delta.find(event => {
-        return CONTEXT_EVENTS_WHITELIST.includes(event);
-      });
-    }
 
     setConfigurationSettings = () => {
       let config = this.twitch.configuration.broadcaster
         ? this.twitch.configuration.broadcaster.content
-        : "";
+        : '';
 
       try {
         config = JSON.parse(config);
@@ -120,8 +121,8 @@ export function withTwitchData(WrappedComponent, store) {
     displayClosedCaptioningText(message) {
       const { hlsLatencyBroadcaster } = this.props.videoPlayerContext;
       let delayTime = hlsLatencyBroadcaster * SECOND;
-      if (message['delay']) {
-        delayTime -= message['delay'] * SECOND;
+      if (message.delay) {
+        delayTime -= message.delay * SECOND;
       }
 
       // this.clearClosedCaptioning();
@@ -148,28 +149,21 @@ export function withTwitchData(WrappedComponent, store) {
     }
   }
 
-  const mapStateToProps = (state /*, ownProps*/) => {
-    return {
-      ccState: state.ccState,
-      configSettings: state.configSettings,
-      videoPlayerContext: state.videoPlayerContext,
-    };
-  };
+  const mapStateToProps = state => ({
+    ccState: state.ccState,
+    configSettings: state.configSettings,
+    videoPlayerContext: state.videoPlayerContext,
+  });
 
-  const mapDispatchToProps = dispatch => {
-    return {
-      updateCCText: state => dispatch(actionUpdateCCText(state)),
-      updateConfigSettings: settings => dispatch(updateConfigSettings(settings)),
-      updatePlayerContext: state => dispatch(updatePlayerContext(state)),
-      setProducts: products => dispatch(setProducts(products)),
-      onCompleteTransaction: transaction => dispatch(completeBitsTransaction(transaction)),
-      onChannelIdReceived: channelId => dispatch(setChannelId(channelId)),
-      fetchTranslationStatus: () => dispatch(requestTranslationStatus()),
-    };
-  };
+  const mapDispatchToProps = dispatch => ({
+    updateCCText: state => dispatch(actionUpdateCCText(state)),
+    updateConfigSettings: settings => dispatch(updateConfigSettings(settings)),
+    updatePlayerContext: state => dispatch(updatePlayerContext(state)),
+    setProducts: products => dispatch(setProducts(products)),
+    onCompleteTransaction: transaction => dispatch(completeBitsTransaction(transaction)),
+    onChannelIdReceived: channelId => dispatch(setChannelId(channelId)),
+    fetchTranslationStatus: () => dispatch(requestTranslationStatus()),
+  });
 
-  return connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(TwitchWrapper);
+  return connect(mapStateToProps, mapDispatchToProps)(TwitchWrapper);
 }

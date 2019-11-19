@@ -1,7 +1,7 @@
 /* eslint-disable no-case-declarations */
-import uuid from "uuid/v4";
-/* eslint-disable import/prefer-default-export */
-export const UPDATE_CC_TEXT = "UPDATE_CC_TEXT";
+import uuid from 'uuid/v4';
+
+export const UPDATE_CC_TEXT = 'UPDATE_CC_TEXT';
 
 export function actionUpdateCCText(state) {
   return { type: UPDATE_CC_TEXT, ...state };
@@ -9,7 +9,7 @@ export function actionUpdateCCText(state) {
 
 const initialState = {
   finalTextQueue: [],
-  interimText: "",
+  interimText: '',
   translations: {},
 };
 
@@ -35,10 +35,14 @@ export default function reducer(state = initialState, action) {
         const currentLangTranslation = state.translations[l] || { textQueue: [] };
         const newTranslation = action.translations[l];
 
-        const lastTranslationText = currentLangTranslation.textQueue[currentLangTranslation.textQueue.length - 1] || {};
+        const lastTranslationIndex = currentLangTranslation.textQueue.length - 1;
+        const lastTranslationText = currentLangTranslation.textQueue[lastTranslationIndex] || {};
 
         if (lastTranslationText.text !== newTranslation.text) {
-          const newTextQueue = [...currentLangTranslation.textQueue, { id: uuid(), text: newTranslation.text }];
+          const newTextQueue = [
+            ...currentLangTranslation.textQueue,
+            { id: uuid(), text: newTranslation.text },
+          ];
           if (newTextQueue.length > 20) {
             newTextQueue.shift();
           }

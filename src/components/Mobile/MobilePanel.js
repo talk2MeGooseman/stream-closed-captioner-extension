@@ -1,13 +1,13 @@
-import React from "react";
+import React from 'react';
 
-import "typeface-montserrat";
-import "typeface-raleway";
-import "typeface-roboto";
+import 'typeface-montserrat';
+import 'typeface-raleway';
+import 'typeface-roboto';
 
-import MobileClosedCaption from "./MobileClosedCaption";
-import Controls from "../shared/Controls";
+import MobileClosedCaption from './MobileClosedCaption';
+import Controls from '../shared/Controls';
 
-const classNames = require("classnames");
+const classNames = require('classnames');
 
 function MobilePanel() {
   const containerClass = classNames({});

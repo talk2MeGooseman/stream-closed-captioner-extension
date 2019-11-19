@@ -1,29 +1,30 @@
-import React from "react";
-import Authentication from "../Authentication/Authentication";
-import ConfigContainer from "./ConfigContainer/ConfigContainer";
+import React from 'react';
+import Authentication from '../Authentication/Authentication';
+import ConfigContainer from './ConfigContainer/ConfigContainer';
 
-import "typeface-montserrat";
-import "typeface-raleway";
-import "typeface-roboto";
+import 'typeface-montserrat';
+import 'typeface-raleway';
+import 'typeface-roboto';
 
-import "./Config.css";
+import './Config.css';
 
 export default class ConfigPage extends React.Component {
   constructor(props) {
     super(props);
     this.Authentication = new Authentication();
 
-    // if the extension is running on twitch or dev rig, set the shorthand here. otherwise, set to null.
+    // if the extension is running on twitch or dev rig, set the shorthand here.
+    // otherwise, set to null.
     this.twitch = window.Twitch ? window.Twitch.ext : null;
     this.state = {
       finishedLoading: false,
-      theme: "light",
+      theme: 'light',
       commands: [],
     };
   }
 
   contextUpdate(context, delta) {
-    if (delta.includes("theme")) {
+    if (delta.includes('theme')) {
       this.setState(() => ({ theme: context.theme }));
     }
   }
@@ -34,9 +35,6 @@ export default class ConfigPage extends React.Component {
       this.twitch.onAuthorized((auth) => {
         this.Authentication.setToken(auth.token, auth.userId);
         if (!this.state.finishedLoading) {
-          // if the component hasn't finished loading (as in we've not set up after getting a token), let's set it up now.
-
-          // now we've done the setup for the component, let's set the state to true to force a rerender with the correct data.
           this.setState(() => ({ finishedLoading: true }));
         }
       });
@@ -46,7 +44,8 @@ export default class ConfigPage extends React.Component {
       });
 
       this.twitch.configuration.onChanged(() => {
-        let config = this.twitch.configuration.broadcaster ? this.twitch.configuration.broadcaster.content : [];
+        let config = this.twitch.configuration.broadcaster
+          ? this.twitch.configuration.broadcaster.content : [];
         try {
           config = JSON.parse(config);
         } catch (e) {
@@ -61,9 +60,9 @@ export default class ConfigPage extends React.Component {
   }
 
   saveConfig(commands) {
-    this.twitch.configuration.set("broadcaster", "1.0", JSON.stringify(commands));
+    this.twitch.configuration.set('broadcaster', '1.0', JSON.stringify(commands));
 
-    this.setState(prevState => ({
+    this.setState(() => ({
       commands,
     }));
   }
@@ -72,8 +71,11 @@ export default class ConfigPage extends React.Component {
     if (this.state.finishedLoading && this.Authentication.isModerator()) {
       return (
         <div className="Config">
-          <div className={this.state.theme === "light" ? "Config-light" : "Config-dark"}>
-            <ConfigContainer commands={this.state.commands} saveConfig={commands => this.saveConfig(commands)}/>
+          <div className={this.state.theme === 'light' ? 'Config-light' : 'Config-dark'}>
+            <ConfigContainer
+              commands={this.state.commands}
+              saveConfig={commands => this.saveConfig(commands)}
+            />
           </div>
         </div>
       );
@@ -81,7 +83,7 @@ export default class ConfigPage extends React.Component {
 
     return (
       <div className="Config">
-        <div className={this.state.theme === "light" ? "Config-light" : "Config-dark"}>
+        <div className={this.state.theme === 'light' ? 'Config-light' : 'Config-dark'}>
                         Loading...
         </div>
       </div>

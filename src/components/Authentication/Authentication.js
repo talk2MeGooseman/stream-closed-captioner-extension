@@ -1,66 +1,75 @@
-const jwt = require("jsonwebtoken");
+const jwt = require('jsonwebtoken');
 
 /**
- * Helper class for authentication against an EBS service. Allows the storage of a token to be accessed across componenents.
+ * Helper class for authentication against an EBS service.
+ * Allows the storage of a token to be accessed across componenents.
  */
 export default class Authentication {
-  constructor(token, opaque_id) {
+  constructor(token, opaqueId) {
     this.state = {
       token,
-      opaque_id,
-      user_id: false,
+      opaqueId,
+      userId: false,
       isMod: false,
-      role: "",
+      role: '',
     };
   }
 
-  // this does guarantee the user is a moderator- this is fairly simple to bypass - so pass the JWT and verify
-  // server-side that this is true. This, however, allows you to render client-side UI for users without holding on a backend to verify the JWT.
+  // this does guarantee the user is a moderator- this is fairly simple to bypass -
+  // so pass the JWT and verify
+  // server-side that this is true. This, however, allows
+  // you to render client-side UI for users without holding on a backend to verify the JWT.
   isModerator() {
     return this.state.isMod;
   }
 
-  // similar to mod status, this isn't always verifyable, so have your backend verify before proceeding.
+  // similar to mod status, this isn't always verifyable, so have your backend verify
+  // before proceeding.
   hasSharedId() {
-    return !!this.state.user_id;
+    return !!this.state.userId;
   }
 
   getUserId() {
-    return this.state.user_id;
+    return this.state.userId;
   }
 
   // set the token in the Authentication componenent state
-  setToken(token, opaque_id) {
+  setToken(token, opaqueId) {
     let mod = false;
-    let role = "";
-    let user_id = "";
+    let tokenRole = '';
+    let tokenUserId = '';
 
     try {
-      const decoded = jwt.decode(token);
+      const { role, userId } = jwt.decode(token);
 
-      if (decoded.role === "broadcaster" || decoded.role === "moderator") {
+      if (role === 'broadcaster' || role === 'moderator') {
         mod = true;
       }
 
-      user_id = decoded.user_id;
-      role = decoded.role;
-    } catch (e) {
-      token = "";
-      opaque_id = "";
-    }
+      tokenUserId = userId;
+      tokenRole = role;
 
-    this.state = {
-      token,
-      opaque_id,
-      isMod: mod,
-      user_id,
-      role,
-    };
+      this.state = {
+        token,
+        opaqueId,
+        isMod: mod,
+        userId: tokenUserId,
+        role: tokenRole,
+      };
+    } catch (e) {
+      this.state = {
+        token: '',
+        opaqueId: '',
+        isMod: mod,
+        userId: tokenUserId,
+        role: tokenRole,
+      };
+    }
   }
 
   // checks to ensure there is a valid token in the state
   isAuthenticated() {
-    if (this.state.token && this.state.opaque_id) {
+    if (this.state.token && this.state.opaqueId) {
       return true;
     }
     return false;
@@ -73,11 +82,11 @@ export default class Authentication {
      *
      */
 
-  makeCall(url, method = "GET") {
+  makeCall(url, method = 'GET') {
     return new Promise((resolve, reject) => {
       if (this.isAuthenticated()) {
         const headers = {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${this.state.token}`,
         };
 
@@ -89,7 +98,8 @@ export default class Authentication {
           .then(response => resolve(response))
           .catch(e => reject(e));
       } else {
-        reject("Unauthorized");
+        // eslint-disable-next-line prefer-promise-reject-errors
+        reject('Unauthorized');
       }
     });
   }

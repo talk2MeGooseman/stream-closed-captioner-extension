@@ -1,10 +1,10 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { MenuDivider, MenuItem, faUndo } from "@blueprintjs/core";
-import { isVideoOverlay } from "../../../helpers/video-helpers";
-import { actionResetCC } from "../../../redux/config-settings-action-reducer";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { MenuDivider, MenuItem, faUndo } from '@blueprintjs/core';
+import { isVideoOverlay } from '../../../helpers/video-helpers';
+import { actionResetCC } from '../../../redux/config-settings-action-reducer';
 
 function ResetButton({ onResetPosition }) {
   if (!isVideoOverlay()) {

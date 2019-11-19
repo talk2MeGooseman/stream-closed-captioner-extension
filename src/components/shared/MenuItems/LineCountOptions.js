@@ -1,13 +1,13 @@
-import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
-import { MenuItem } from "@blueprintjs/core";
+import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
+import { MenuItem } from '@blueprintjs/core';
 import {
   increaseLineCount,
   decreaseLineCount,
-} from "../../../redux/config-settings-action-reducer";
-import { useShallowEqualSelector, useCallbackDispatch } from "../../../redux/redux-helpers";
-import { isVideoOverlay } from "../../../helpers/video-helpers";
+} from '../../../redux/config-settings-action-reducer';
+import { useShallowEqualSelector, useCallbackDispatch } from '../../../redux/redux-helpers';
+import { isVideoOverlay } from '../../../helpers/video-helpers';
 
 function LineCountOptions() {
   const ccBoxSize = useShallowEqualSelector(state => state.configSettings.ccBoxSize);

@@ -1,12 +1,12 @@
-import { actionToggleActivationDrawer, requestTranslationStatus } from "./config-settings-action-reducer";
+import { actionToggleActivationDrawer, requestTranslationStatus } from './config-settings-action-reducer';
 
 /* eslint-disable no-case-declarations */
 /* eslint-disable import/prefer-default-export */
-export const SET_PRODUCTS = "SET_PRODUCTS";
-export const SEND_USE_BITS = "SEND_USE_BITS";
-export const COMPLETE_USE_BITS = "COMPLETE_USE_BITS";
-export const SET_CHANNEL_ID = "SET_CHANNEL_ID";
-export const SET_SELECTED_PRODUCT = "SET_SELECTED_PRODUCT";
+export const SET_PRODUCTS = 'SET_PRODUCTS';
+export const SEND_USE_BITS = 'SEND_USE_BITS';
+export const COMPLETE_USE_BITS = 'COMPLETE_USE_BITS';
+export const SET_CHANNEL_ID = 'SET_CHANNEL_ID';
+export const SET_SELECTED_PRODUCT = 'SET_SELECTED_PRODUCT';
 
 export function setProducts(products) {
   return { type: SET_PRODUCTS, products };
@@ -29,7 +29,7 @@ export function setSelectedProduct(product) {
 }
 
 export function useBits(sku) {
-  return function thunk(dispatch, getState) {
+  return function thunk(dispatch) {
     dispatch(sendUseBits(sku));
 
     const twitchLib = window.Twitch ? window.Twitch.ext : null;
@@ -44,12 +44,12 @@ export function completeBitsTransaction(transaction) {
 
     const { channelId } = getState().productsCatalog;
 
-    return fetch("https://stream-cc.gooseman.codes/api/bits_transactions", {
-      cache: "no-cache",
-      method: "POST",
+    return fetch('https://stream-cc.gooseman.codes/api/bits_transactions', {
+      cache: 'no-cache',
+      method: 'POST',
       headers: {
         Authorization: `Bearer ${transaction.transactionReceipt}`,
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         channelId,

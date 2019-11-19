@@ -1,23 +1,23 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-import "typeface-montserrat";
-import "typeface-raleway";
-import "typeface-roboto";
+import 'typeface-montserrat';
+import 'typeface-raleway';
+import 'typeface-roboto';
 
-import ClosedCaption from "./ClosedCaption";
-import Controls from "../shared/Controls";
+import ClosedCaption from './ClosedCaption';
+import Controls from '../shared/Controls';
 
-const classNames = require("classnames");
+const classNames = require('classnames');
 
 class Overlay extends React.PureComponent {
   render() {
     const { videoPlayerContext, configSettings } = this.props;
 
     const containerClass = classNames({
-      "standard-position": !videoPlayerContext.arePlayerControlsVisible && !configSettings.isDragged,
-      "raise-video-controls": videoPlayerContext.arePlayerControlsVisible || configSettings.isDragged,
+      'standard-position': !videoPlayerContext.arePlayerControlsVisible && !configSettings.isDragged,
+      'raise-video-controls': videoPlayerContext.arePlayerControlsVisible || configSettings.isDragged,
     });
 
     return (

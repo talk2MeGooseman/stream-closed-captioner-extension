@@ -1,5 +1,5 @@
-import { useCallback } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
+import { useCallback } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 
 export function useShallowEqualSelector(selector) {
   return useSelector(selector, shallowEqual);

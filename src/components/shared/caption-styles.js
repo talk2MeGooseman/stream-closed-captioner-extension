@@ -1,18 +1,18 @@
 export const ccStyles = {
-  fontFamily: "Roboto",
-  fontSize: "var(--medium-font-size)",
-  color: "#ffffff",
+  fontFamily: 'Roboto',
+  fontSize: 'var(--medium-font-size)',
+  color: '#ffffff',
   // textTransform: "capitalize",
-  padding: "0px 8px",
+  padding: '0px 8px',
 };
 
 export const captionStyles = {
-  leftBottomCorner: { 
-    width: "50%",
+  leftBottomCorner: {
+    width: '50%',
   },
   rightBottomCorner: {
-    width: "50%",
-    alignSelf: "flex-end",
-    textAlign: "right",
-  }
+    width: '50%',
+    alignSelf: 'flex-end',
+    textAlign: 'right',
+  },
 };
