@@ -8,7 +8,7 @@ import {
   updateConfigSettings,
   requestTranslationStatus,
 } from '../../redux/config-settings-action-reducer';
-import { updatePlayerContext } from '../../redux/twitch-player-action-reducers';
+import { updateVideoPlayerContext } from '../../redux/videoPlayerContextSlice';
 import {
   setProducts,
   completeBitsTransaction,
@@ -31,7 +31,7 @@ function fetchChangedContextValues(context, delta) {
 }
 
 function contextStateUpdated(delta) {
-  return delta.find(event => CONTEXT_EVENTS_WHITELIST.includes(event));
+  return delta.find((event) => CONTEXT_EVENTS_WHITELIST.includes(event));
 }
 
 export function withTwitchData(WrappedComponent, store) {
@@ -80,8 +80,7 @@ export function withTwitchData(WrappedComponent, store) {
     contextUpdate = (context, delta) => {
       if (contextStateUpdated(delta)) {
         const newContext = fetchChangedContextValues(context, delta);
-
-        this.props.updatePlayerContext(newContext);
+        this.props.updateVideoPlayerContext(newContext);
       }
     };
 
@@ -149,19 +148,19 @@ export function withTwitchData(WrappedComponent, store) {
     }
   }
 
-  const mapStateToProps = state => ({
+  const mapStateToProps = (state) => ({
     ccState: state.ccState,
     configSettings: state.configSettings,
     videoPlayerContext: state.videoPlayerContext,
   });
 
-  const mapDispatchToProps = dispatch => ({
-    updateCCText: state => dispatch(actionUpdateCCText(state)),
-    updateConfigSettings: settings => dispatch(updateConfigSettings(settings)),
-    updatePlayerContext: state => dispatch(updatePlayerContext(state)),
-    setProducts: products => dispatch(setProducts(products)),
-    onCompleteTransaction: transaction => dispatch(completeBitsTransaction(transaction)),
-    onChannelIdReceived: channelId => dispatch(setChannelId(channelId)),
+  const mapDispatchToProps = (dispatch) => ({
+    updateVideoPlayerContext: (state) => dispatch(updateVideoPlayerContext(state)),
+    updateCCText: (state) => dispatch(actionUpdateCCText(state)),
+    updateConfigSettings: (settings) => dispatch(updateConfigSettings(settings)),
+    setProducts: (products) => dispatch(setProducts(products)),
+    onCompleteTransaction: (transaction) => dispatch(completeBitsTransaction(transaction)),
+    onChannelIdReceived: (channelId) => dispatch(setChannelId(channelId)),
     fetchTranslationStatus: () => dispatch(requestTranslationStatus()),
   });
 
