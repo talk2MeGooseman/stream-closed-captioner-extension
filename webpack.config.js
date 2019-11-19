@@ -1,42 +1,46 @@
-const fs = require("fs");
-const path = require("path");
-const webpack = require("webpack");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const CleanWebpackPlugin = require("clean-webpack-plugin");
+/* eslint-disable no-restricted-globals */
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable no-global-assign */
+/* eslint-disable import/no-extraneous-dependencies */
+const fs = require('fs');
+const path = require('path');
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 // defines where the bundle file will live
-const bundlePath = path.resolve(__dirname, "dist/");
+const bundlePath = path.resolve(__dirname, 'dist/');
 
 module.exports = (_env, argv) => {
   const entryPoints = {
     VideoComponent: {
-      path: "./src/VideoComponent.js",
-      outputHtml: "video_component.html",
+      path: './src/VideoComponent.js',
+      outputHtml: 'video_component.html',
       build: false,
     },
     VideoOverlay: {
-      path: "./src/VideoOverlay.js",
-      outputHtml: "video_overlay.html",
+      path: './src/VideoOverlay.js',
+      outputHtml: 'video_overlay.html',
       build: true,
     },
     Panel: {
-      path: "./src/Panel.js",
-      outputHtml: "panel.html",
+      path: './src/Panel.js',
+      outputHtml: 'panel.html',
       build: false,
     },
     Config: {
-      path: "./src/Config.js",
-      outputHtml: "config.html",
+      path: './src/Config.js',
+      outputHtml: 'config.html',
       build: true,
     },
     LiveConfig: {
-      path: "./src/LiveConfig.js",
-      outputHtml: "live_config.html",
+      path: './src/LiveConfig.js',
+      outputHtml: 'live_config.html',
       build: true,
     },
     Mobile: {
-      path: "./src/Mobile.js",
-      outputHtml: "mobile.html",
+      path: './src/Mobile.js',
+      outputHtml: 'mobile.html',
       build: true,
     },
   };
@@ -44,17 +48,17 @@ module.exports = (_env, argv) => {
   const entry = {};
 
   // edit webpack plugins here!
-  const plugins = [new CleanWebpackPlugin(["dist"]), new webpack.HotModuleReplacementPlugin()];
+  const plugins = [new CleanWebpackPlugin(['dist']), new webpack.HotModuleReplacementPlugin()];
 
   for (name in entryPoints) {
     if (entryPoints[name].build) {
       entry[name] = entryPoints[name].path;
-      if (argv.mode === "production") {
+      if (argv.mode === 'production') {
         plugins.push(
           new HtmlWebpackPlugin({
             inject: true,
             chunks: [name],
-            template: "./template.html",
+            template: './template.html',
             filename: entryPoints[name].outputHtml,
           }),
         );
@@ -73,28 +77,28 @@ module.exports = (_env, argv) => {
         {
           test: /\.(js|jsx)$/,
           exclude: /(node_modules|bower_components)/,
-          loader: "babel-loader",
+          loader: 'babel-loader',
         },
         {
           test: /\.css$/,
-          use: ["style-loader", "css-loader", "postcss-loader"],
+          use: ['style-loader', 'css-loader', 'postcss-loader'],
         },
         {
           test: /\.(woff|woff2|eot|ttf|otf)$/,
-          use: ["file-loader"],
+          use: ['file-loader'],
         },
         {
           test: /\.(jpe?g|png|gif|svg)$/i,
-          loader: "file-loader",
+          loader: 'file-loader',
           options: {
-            name: "img/[name].[ext]",
+            name: 'img/[name].[ext]',
           },
         },
       ],
     },
-    resolve: { extensions: ["*", ".js", ".jsx"] },
+    resolve: { extensions: ['*', '.js', '.jsx'] },
     output: {
-      filename: "[name].bundle.js",
+      filename: '[name].bundle.js',
       path: bundlePath,
     },
     watchOptions: {
@@ -104,20 +108,20 @@ module.exports = (_env, argv) => {
     },
     plugins,
   };
-  if (argv.mode === "development") {
+  if (argv.mode === 'development') {
     config.devServer = {
-      contentBase: path.join(__dirname, "public"),
-      host: argv.devrig ? "localhost.rig.twitch.tv" : "0.0.0.0",
+      contentBase: path.join(__dirname, 'public'),
+      host: argv.devrig ? 'localhost.rig.twitch.tv' : '0.0.0.0',
       headers: {
-        "Access-Control-Allow-Origin": "*",
+        'Access-Control-Allow-Origin': '*',
       },
       disableHostCheck: true,
       port: 8080,
     };
-    if (fs.existsSync(path.resolve(__dirname, "conf/server.key"))) {
+    if (fs.existsSync(path.resolve(__dirname, 'conf/server.key'))) {
       config.devServer.https = {
-        key: fs.readFileSync(path.resolve(__dirname, "conf/server.key")),
-        cert: fs.readFileSync(path.resolve(__dirname, "conf/server.crt")),
+        key: fs.readFileSync(path.resolve(__dirname, 'conf/server.key')),
+        cert: fs.readFileSync(path.resolve(__dirname, 'conf/server.crt')),
       };
     }
   }

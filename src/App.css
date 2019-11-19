@@ -54,6 +54,7 @@ body {
   cursor: pointer;
   position: absolute;
   color: white;
+  bottom: 2rem;
 }
 
 .controls-container > :not(:last-child) {
