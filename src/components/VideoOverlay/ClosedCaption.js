@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { ccStyles } from '../shared/caption-styles';
 
 import './ClosedCaption.css';
-import { actionSetIsDragged } from '../../redux/config-settings-action-reducer';
+import { setIsDragged } from '@/redux/settingsSlice';
 
 const classNames = require('classnames');
 
@@ -113,13 +113,13 @@ ClosedCaption.defaultProps = {
   numberOfLines: 3,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   ccState: state.ccState,
   configSettings: state.configSettings,
 });
 
-const mapDispatchToProps = dispatch => ({
-  setIsDragged: () => dispatch(actionSetIsDragged()),
+const mapDispatchToProps = (dispatch) => ({
+  setIsDragged: () => dispatch(setIsDragged()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ClosedCaption);

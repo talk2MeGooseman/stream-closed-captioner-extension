@@ -1,4 +1,4 @@
-import { actionToggleActivationDrawer, requestTranslationStatus } from './config-settings-action-reducer';
+import { toggleActivationDrawer, requestTranslationStatus } from './settingsSlice';
 
 /* eslint-disable no-case-declarations */
 /* eslint-disable import/prefer-default-export */
@@ -57,7 +57,7 @@ export function completeBitsTransaction(transaction) {
     }).then((response) => {
       if (response.ok) {
         // log("ebs validated transaction");
-        dispatch(actionToggleActivationDrawer());
+        dispatch(toggleActivationDrawer());
         dispatch(requestTranslationStatus());
       } else {
         // log("ebs was unable to validate transaction");

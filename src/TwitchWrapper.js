@@ -1,20 +1,20 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 import { connect, Provider } from 'react-redux';
-import { MAX_TEXT_DISPLAY_TIME, SECOND, CONTEXT_EVENTS_WHITELIST } from '../../utils/Constants';
-import Authentication from '../Authentication/Authentication';
-import { actionUpdateCCText } from '../../redux/cc-state';
+import { MAX_TEXT_DISPLAY_TIME, SECOND, CONTEXT_EVENTS_WHITELIST } from './utils/Constants';
+import Authentication from './components/Authentication/Authentication';
+import { actionUpdateCCText } from './redux/cc-state';
 import {
-  updateConfigSettings,
+  updateBroadcasterSettings,
   requestTranslationStatus,
-} from '../../redux/config-settings-action-reducer';
-import { updateVideoPlayerContext } from '../../redux/videoPlayerContextSlice';
+} from '@/redux/settingsSlice';
+import { updateVideoPlayerContext } from '@/redux/videoPlayerContextSlice';
 import {
   setProducts,
   completeBitsTransaction,
   setChannelId,
-} from '../../redux/products-catalog-action-reducers';
-import BitsDrawer from './BitsDrawer';
+} from './redux/products-catalog-action-reducers';
+import { BitsDrawer } from '@/components/Drawer';
 
 const debounce = require('lodash/debounce');
 
@@ -96,7 +96,7 @@ export function withTwitchData(WrappedComponent, store) {
         config = {};
       }
 
-      this.props.updateConfigSettings({
+      this.props.updateBroadcasterSettings({
         finishedLoading: true,
         isBitsEnabled: this.twitch.features.isBitsEnabled,
         ...config,
@@ -157,7 +157,7 @@ export function withTwitchData(WrappedComponent, store) {
   const mapDispatchToProps = (dispatch) => ({
     updateVideoPlayerContext: (state) => dispatch(updateVideoPlayerContext(state)),
     updateCCText: (state) => dispatch(actionUpdateCCText(state)),
-    updateConfigSettings: (settings) => dispatch(updateConfigSettings(settings)),
+    updateBroadcasterSettings: (settings) => dispatch(updateBroadcasterSettings(settings)),
     setProducts: (products) => dispatch(setProducts(products)),
     onCompleteTransaction: (transaction) => dispatch(completeBitsTransaction(transaction)),
     onChannelIdReceived: (channelId) => dispatch(setChannelId(channelId)),

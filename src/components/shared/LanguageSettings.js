@@ -4,14 +4,14 @@ import { faLanguage } from '@fortawesome/free-solid-svg-icons';
 import { Tooltip, Popover } from '@blueprintjs/core';
 import LanguageOptions from './MenuItems/LanguageOptions';
 import { useShallowEqualSelector, useCallbackDispatch } from '../../redux/redux-helpers';
-import { actionToggleActivationDrawer } from '../../redux/config-settings-action-reducer';
+import { toggleActivationDrawer } from '@/redux/settingsSlice';
 
 export default function LanguageSettings() {
-  const isBitsEnabled = useShallowEqualSelector(state => state.configSettings.isBitsEnabled);
+  const isBitsEnabled = useShallowEqualSelector((state) => state.configSettings.isBitsEnabled);
   const hasTranslations = useShallowEqualSelector(
-    state => Object.keys(state.ccState.translations || {}).length,
+    (state) => Object.keys(state.ccState.translations || {}).length,
   );
-  const toggleActivationDrawer = useCallbackDispatch(actionToggleActivationDrawer());
+  const toggleDrawer = useCallbackDispatch(toggleActivationDrawer());
 
   if (!isBitsEnabled) {
     return null;
@@ -25,7 +25,7 @@ export default function LanguageSettings() {
       </Popover>
     );
   } else {
-    button = <FontAwesomeIcon size="2x" icon={faLanguage} onClick={toggleActivationDrawer} />;
+    button = <FontAwesomeIcon size="2x" icon={faLanguage} onClick={toggleDrawer } />;
   }
   // Display activate dialog/text
   return (

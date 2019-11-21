@@ -1,12 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { MenuDivider, MenuItem, faUndo } from '@blueprintjs/core';
-import { isVideoOverlay } from '../../../helpers/video-helpers';
-import { actionResetCC } from '../../../redux/config-settings-action-reducer';
+import { isVideoOverlay } from '@/helpers/video-helpers';
+import { resetCCText } from '@/redux/settingsSlice';
+import { useCallbackDispatch } from '../../../redux/redux-helpers';
 
-function ResetButton({ onResetPosition }) {
+function ResetButton() {
+  const onResetPosition = useCallbackDispatch(resetCCText());
+
   if (!isVideoOverlay()) {
     return null;
   }
@@ -28,11 +30,4 @@ ResetButton.propTypes = {
   onResetPosition: PropTypes.func.isRequired,
 };
 
-const mapDispatchToProps = dispatch => ({
-  onResetPosition: () => dispatch(actionResetCC()),
-});
-
-export default connect(
-  null,
-  mapDispatchToProps,
-)(ResetButton);
+export default ResetButton;

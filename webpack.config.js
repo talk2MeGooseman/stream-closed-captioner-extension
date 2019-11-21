@@ -14,32 +14,32 @@ const bundlePath = path.resolve(__dirname, 'dist/');
 module.exports = (_env, argv) => {
   const entryPoints = {
     VideoComponent: {
-      path: './src/VideoComponent.js',
+      path: '@/views/VideoComponent.js',
       outputHtml: 'video_component.html',
       build: false,
     },
     VideoOverlay: {
-      path: './src/VideoOverlay.js',
+      path: '@/views/VideoOverlay.js',
       outputHtml: 'video_overlay.html',
       build: true,
     },
     Panel: {
-      path: './src/Panel.js',
+      path: '@/views/Panel.js',
       outputHtml: 'panel.html',
       build: false,
     },
     Config: {
-      path: './src/Config.js',
+      path: '@/views/Config.js',
       outputHtml: 'config.html',
       build: true,
     },
     LiveConfig: {
-      path: './src/LiveConfig.js',
+      path: '@/views/LiveConfig.js',
       outputHtml: 'live_config.html',
       build: true,
     },
     Mobile: {
-      path: './src/Mobile.js',
+      path: '@/views/Mobile.js',
       outputHtml: 'mobile.html',
       build: true,
     },
@@ -96,7 +96,12 @@ module.exports = (_env, argv) => {
         },
       ],
     },
-    resolve: { extensions: ['*', '.js', '.jsx'] },
+    resolve: {
+      extensions: ['*', '.js', '.jsx'],
+      alias: {
+        '@': path.resolve(__dirname, 'src/'),
+      },
+    },
     output: {
       filename: '[name].bundle.js',
       path: bundlePath,

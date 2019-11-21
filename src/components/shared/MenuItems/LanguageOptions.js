@@ -1,24 +1,30 @@
 import React from 'react';
 import { MenuDivider, Menu, MenuItem } from '@blueprintjs/core';
 import {
-  actionChangeSelectedLanguage,
-  actionToggleActivationDrawer,
-} from '../../../redux/config-settings-action-reducer';
-import { useShallowEqualSelector, useCallbackDispatch } from '../../../redux/redux-helpers';
+  changeLanguage,
+  toggleActivationDrawer,
+} from '@/redux/settingsSlice';
+import { useShallowEqualSelector, useCallbackDispatch } from '@/redux/redux-helpers';
 
 export default function LanguageOptions() {
-  const selectedLanguage = useShallowEqualSelector(state => state.configSettings.selectedLanguage);
-  const languages = useShallowEqualSelector(state => Object.keys(state.ccState.translations || {}));
-  const translations = useShallowEqualSelector(state => state.ccState.translations);
-  const onSelectDefaultLanguage = useCallbackDispatch(actionChangeSelectedLanguage('default'));
-  const toggleActivationDrawer = useCallbackDispatch(actionToggleActivationDrawer());
+  const selectedLanguage = useShallowEqualSelector(
+    (state) => state.configSettings.selectedLanguage,
+  );
+  const languages = useShallowEqualSelector(
+    (state) => Object.keys(state.ccState.translations || {}),
+  );
+  const translations = useShallowEqualSelector(
+    (state) => state.ccState.translations,
+  );
+  const onSelectDefaultLanguage = useCallbackDispatch(changeLanguage('default'));
+  const toggleDrawer = useCallbackDispatch(toggleActivationDrawer());
 
   const defaultIcon = selectedLanguage === 'default' ? 'tick' : 'none';
 
   const optionEls = languages.map((l) => {
     const icon = l === selectedLanguage ? 'tick' : 'none';
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const onClick = useCallbackDispatch(actionChangeSelectedLanguage(l));
+    const onClick = useCallbackDispatch(changeLanguage(l));
 
     return (
       <MenuItem
@@ -45,7 +51,7 @@ export default function LanguageOptions() {
       <MenuDivider />
       <MenuItem
         text="Add Translation Days"
-        onClick={toggleActivationDrawer}
+        onClick={toggleDrawer}
         shouldDismissPopover={false}
       />
     </Menu>

@@ -29,19 +29,17 @@
         ],
         "react-hooks/rules-of-hooks": "error",
         "react-hooks/exhaustive-deps": "warn",
-        "import/prefer-default-export": "off"
+        "import/prefer-default-export": "off",
+        "no-shadow": "off",
+        "import/no-unresolved": "off"
     },
     "settings": {
       "react": {
         "version": "detect"
       },
       "import/resolver": {
-        "webpack": {
-          "config": {
-            "resolve": {
-              "modules": ["src", "node_modules"]
-            }
-          }
+        "node": {
+          "paths": ["src"]
         }
       }
     }

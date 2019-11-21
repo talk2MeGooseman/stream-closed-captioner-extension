@@ -95,8 +95,8 @@ export default class Authentication {
             method,
             headers,
           })
-          .then(response => resolve(response))
-          .catch(e => reject(e));
+          .then((response) => resolve(response))
+          .catch((e) => reject(e));
       } else {
         // eslint-disable-next-line prefer-promise-reject-errors
         reject('Unauthorized');

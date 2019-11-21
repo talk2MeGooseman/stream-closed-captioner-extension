@@ -1,13 +1,13 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { combineReducers } from 'redux';
-import ccState from '../cc-state';
-import configSettings from '../config-settings-action-reducer';
-import videoPlayerContextReducer from '../videoPlayerContextSlice';
-import productsCatalog from '../products-catalog-action-reducers';
+import ccState from '@/redux/cc-state';
+import settingsSlice from '@/redux/settingsSlice';
+import videoPlayerContextReducer from '@/redux/videoPlayerContextSlice';
+import productsCatalog from '@/redux/products-catalog-action-reducers';
 
 const streamCC = combineReducers({
   ccState,
-  configSettings,
+  configSettings: settingsSlice,
   videoPlayerContext: videoPlayerContextReducer,
   productsCatalog,
 });

@@ -1,13 +1,14 @@
+/* eslint-disable no-shadow */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
   Classes, Drawer,
 } from '@blueprintjs/core';
-import { actionToggleActivationDrawer } from '../../redux/config-settings-action-reducer';
+import { toggleActivationDrawer } from '@/redux/settingsSlice';
 import { isVideoOverlay } from '../../helpers/video-helpers';
-import ActivateTranslationBody from './Drawer/ActivateTranslationBody';
-import NagStreamerBody from './Drawer/NagStreamerBody';
+import ActivateTranslationBody from './ActivateTranslationBody';
+import NagStreamerBody from './NagStreamerBody';
 
 function BitsDrawer({
   configSettings: { isDrawerOpen, activationInfo },
@@ -52,13 +53,13 @@ BitsDrawer.propTypes = {
   toggleActivationDrawer: PropTypes.func,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   configSettings: state.configSettings,
   productsCatalog: state.productsCatalog,
 });
 
-const mapDispatchToProps = dispatch => ({
-  toggleActivationDrawer: () => dispatch(actionToggleActivationDrawer()),
+const mapDispatchToProps = (dispatch) => ({
+  toggleActivationDrawer: () => dispatch(toggleActivationDrawer()),
 });
 
 export default connect(

@@ -74,7 +74,7 @@ export default class ConfigPage extends React.Component {
           <div className={this.state.theme === 'light' ? 'Config-light' : 'Config-dark'}>
             <ConfigContainer
               commands={this.state.commands}
-              saveConfig={commands => this.saveConfig(commands)}
+              saveConfig={(commands) => this.saveConfig(commands)}
             />
           </div>
         </div>

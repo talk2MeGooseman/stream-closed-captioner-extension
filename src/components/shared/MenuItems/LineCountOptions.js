@@ -5,16 +5,16 @@ import { MenuItem } from '@blueprintjs/core';
 import {
   increaseLineCount,
   decreaseLineCount,
-} from '../../../redux/config-settings-action-reducer';
-import { useShallowEqualSelector, useCallbackDispatch } from '../../../redux/redux-helpers';
-import { isVideoOverlay } from '../../../helpers/video-helpers';
+} from '@/redux/settingsSlice';
+import { useShallowEqualSelector, useCallbackDispatch } from '@/redux/redux-helpers';
+import { isVideoOverlay } from '@/helpers/video-helpers';
 
 function LineCountOptions() {
-  const ccBoxSize = useShallowEqualSelector(state => state.configSettings.ccBoxSize);
+  const ccBoxSize = useShallowEqualSelector((state) => state.configSettings.ccBoxSize);
   const horizontalLineCount = useShallowEqualSelector(
-    state => state.configSettings.horizontalLineCount,
+    (state) => state.configSettings.horizontalLineCount,
   );
-  const boxLineCount = useShallowEqualSelector(state => state.configSettings.boxLineCount);
+  const boxLineCount = useShallowEqualSelector((state) => state.configSettings.boxLineCount);
   const onLineIncrease = useCallbackDispatch(increaseLineCount());
   const onLineDecrease = useCallbackDispatch(decreaseLineCount());
 

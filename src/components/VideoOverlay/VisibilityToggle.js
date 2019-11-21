@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClosedCaptioning, faBan } from '@fortawesome/free-solid-svg-icons';
 import { Tooltip } from '@blueprintjs/core';
-import { isVideoOverlay } from '../../helpers/video-helpers';
-import { toggleCCVisibility } from '../../redux/config-settings-action-reducer';
+import { isVideoOverlay } from '@/helpers/video-helpers';
+import { toggleVisibility } from '@/redux/settingsSlice';
 
 const VisibilityToggle = ({ videoPlayerContext, configSettings, toggleVisibility }) => {
   let ccDisabledElement = null;
@@ -36,13 +36,13 @@ VisibilityToggle.propTypes = {
   toggleVisibility: PropTypes.func,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   videoPlayerContext: state.videoPlayerContext,
   configSettings: state.configSettings,
 });
 
-const mapDispatchToProps = dispatch => ({
-  toggleVisibility: () => dispatch(toggleCCVisibility()),
+const mapDispatchToProps = (dispatch) => ({
+  toggleVisibility: () => dispatch(toggleVisibility()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(VisibilityToggle);

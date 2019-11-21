@@ -36,7 +36,7 @@ Overlay.propTypes = {
   configSettings: PropTypes.object,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   configSettings: state.configSettings,
   videoPlayerContext: state.videoPlayerContext,
 });
