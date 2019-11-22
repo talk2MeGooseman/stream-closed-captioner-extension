@@ -3,8 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import uuid from 'uuid/v4';
 
 const initialState = {
-  selectedLanguage: 'default',
-  finishedLoading: false,
+  language: 'default',
   ccKey: uuid(),
   isDragged: false,
   size: 'medium',
@@ -12,8 +11,6 @@ const initialState = {
   ccBoxSize: false,
   isBitsEnabled: false,
   isDrawerOpen: false,
-  fetchingStatus: false,
-  activationInfo: null,
   horizontalLineCount: 3,
   boxLineCount: 7,
 };
@@ -49,13 +46,6 @@ const settingsSlice = createSlice({
     toggleActivationDrawer(state) {
       state.isDrawerOpen = !state.isDrawerOpen;
     },
-    requestingTranslationStatus(state) {
-      state.fetchingStatus = true;
-    },
-    doneRequestingTranslationStatus(state, action) {
-      state.fetchingStatus = false;
-      state.activationInfo = action.payload;
-    },
     increaseLineCount(state) {
       if (state.ccBoxSize) {
         state.boxLineCount += 1;
@@ -84,29 +74,8 @@ export const {
   toggleVisibility,
   setIsDragged,
   resetCCText,
-  requestingTranslationStatus,
-  doneRequestingTranslationStatus,
   increaseLineCount,
   decreaseLineCount,
 } = settingsSlice.actions;
 
 export default settingsSlice.reducer;
-
-export function requestTranslationStatus() {
-  return function thunk(dispatch, getState) {
-    dispatch(requestingTranslationStatus());
-
-    const { channelId } = getState().productsCatalog;
-    return fetch(`https://stream-cc.gooseman.codes/api/translation_status/${channelId}`, {
-      cache: 'no-cache',
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        dispatch(doneRequestingTranslationStatus(data));
-      });
-  };
-}

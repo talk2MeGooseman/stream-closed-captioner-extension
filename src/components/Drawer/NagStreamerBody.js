@@ -6,7 +6,7 @@ import {
   Button, MenuItem, Divider,
 } from '@blueprintjs/core';
 import { Select } from '@blueprintjs/select';
-import { useBits, setSelectedProduct } from '@/redux/products-catalog-action-reducers';
+import { useBits, setSelectedProduct } from '@/redux/productsSlice';
 import { TRANSLATION_COST } from '@/utils/Constants';
 
 function ProductMenuItem(product, { handleClick, modifiers }) {
@@ -22,7 +22,7 @@ function ProductMenuItem(product, { handleClick, modifiers }) {
 }
 
 function NagStreamerBody({
-  configSettings: { activationInfo },
+  translationInfo: { activationInfo },
   productsCatalog,
   onUseBits,
   onProductSelect,
@@ -72,7 +72,7 @@ function NagStreamerBody({
 }
 
 NagStreamerBody.propTypes = {
-  configSettings: PropTypes.object.isRequired,
+  translationInfo: PropTypes.object.isRequired,
   productsCatalog: PropTypes.shape({
     products: PropTypes.array,
     selectedProduct: PropTypes.object,
@@ -82,7 +82,7 @@ NagStreamerBody.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  configSettings: state.configSettings,
+  translationInfo: state.translationInfo,
   productsCatalog: state.productsCatalog,
 });
 

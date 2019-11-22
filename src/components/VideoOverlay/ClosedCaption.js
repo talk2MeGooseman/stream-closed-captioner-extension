@@ -83,10 +83,10 @@ function ClosedCaption({
   });
 
   let closedCaptionText = '';
-  if (configSettings.selectedLanguage === 'default') {
+  if (configSettings.language === 'default') {
     closedCaptionText = `${finalTextQueue.map(({ text }) => text).join(' ')} ${interimText}`;
   } else {
-    closedCaptionText = translations[configSettings.selectedLanguage].textQueue.map(({ text }) => text).join(' ');
+    closedCaptionText = translations[configSettings.language].textQueue.map(({ text }) => text).join(' ');
   }
 
   return (

@@ -6,7 +6,7 @@ import {
   Button, Classes, MenuItem, Divider,
 } from '@blueprintjs/core';
 import { Select } from '@blueprintjs/select';
-import { useBits, setSelectedProduct } from '@/redux/products-catalog-action-reducers';
+import { useBits, setSelectedProduct } from '@/redux/productsSlice';
 
 function ProductMenuItem(product, { handleClick, modifiers }) {
   return (
@@ -21,7 +21,7 @@ function ProductMenuItem(product, { handleClick, modifiers }) {
 }
 
 function ActivateTranslationBody({
-  configSettings: { activationInfo },
+  translationInfo: { activationInfo },
   productsCatalog,
   onUseBits,
   onProductSelect,
@@ -60,7 +60,7 @@ function ActivateTranslationBody({
 }
 
 ActivateTranslationBody.propTypes = {
-  configSettings: PropTypes.object.isRequired,
+  translationInfo: PropTypes.object.isRequired,
   productsCatalog: PropTypes.shape({
     products: PropTypes.array,
     selectedProduct: PropTypes.object,
@@ -70,7 +70,7 @@ ActivateTranslationBody.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  configSettings: state.configSettings,
+  translationInfo: state.translationInfo,
   productsCatalog: state.productsCatalog,
 });
 

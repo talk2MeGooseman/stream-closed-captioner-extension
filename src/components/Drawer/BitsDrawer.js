@@ -11,7 +11,8 @@ import ActivateTranslationBody from './ActivateTranslationBody';
 import NagStreamerBody from './NagStreamerBody';
 
 function BitsDrawer({
-  configSettings: { isDrawerOpen, activationInfo },
+  configSettings: { isDrawerOpen },
+  translationInfo: { activationInfo },
   productsCatalog,
   toggleActivationDrawer,
 }) {
@@ -47,6 +48,7 @@ function BitsDrawer({
 
 BitsDrawer.propTypes = {
   configSettings: PropTypes.object.isRequired,
+  translationInfo: PropTypes.object.isRequired,
   productsCatalog: PropTypes.shape({
     products: PropTypes.array,
   }),
@@ -56,6 +58,7 @@ BitsDrawer.propTypes = {
 const mapStateToProps = (state) => ({
   configSettings: state.configSettings,
   productsCatalog: state.productsCatalog,
+  translationInfo: state.translationInfo,
 });
 
 const mapDispatchToProps = (dispatch) => ({

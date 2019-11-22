@@ -7,8 +7,8 @@ import {
 import { useShallowEqualSelector, useCallbackDispatch } from '@/redux/redux-helpers';
 
 export default function LanguageOptions() {
-  const selectedLanguage = useShallowEqualSelector(
-    (state) => state.configSettings.selectedLanguage,
+  const language = useShallowEqualSelector(
+    (state) => state.configSettings.language,
   );
   const languages = useShallowEqualSelector(
     (state) => Object.keys(state.ccState.translations || {}),
@@ -19,10 +19,10 @@ export default function LanguageOptions() {
   const onSelectDefaultLanguage = useCallbackDispatch(changeLanguage('default'));
   const toggleDrawer = useCallbackDispatch(toggleActivationDrawer());
 
-  const defaultIcon = selectedLanguage === 'default' ? 'tick' : 'none';
+  const defaultIcon = language === 'default' ? 'tick' : 'none';
 
   const optionEls = languages.map((l) => {
-    const icon = l === selectedLanguage ? 'tick' : 'none';
+    const icon = l === language ? 'tick' : 'none';
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const onClick = useCallbackDispatch(changeLanguage(l));
 

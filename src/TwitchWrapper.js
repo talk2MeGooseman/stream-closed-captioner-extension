@@ -4,16 +4,14 @@ import { connect, Provider } from 'react-redux';
 import { MAX_TEXT_DISPLAY_TIME, SECOND, CONTEXT_EVENTS_WHITELIST } from './utils/Constants';
 import Authentication from './components/Authentication/Authentication';
 import { actionUpdateCCText } from './redux/cc-state';
-import {
-  updateBroadcasterSettings,
-  requestTranslationStatus,
-} from '@/redux/settingsSlice';
+import { updateBroadcasterSettings } from '@/redux/settingsSlice';
+import { requestTranslationStatus } from '@/redux/translationSlice';
 import { updateVideoPlayerContext } from '@/redux/videoPlayerContextSlice';
 import {
   setProducts,
   completeBitsTransaction,
   setChannelId,
-} from './redux/products-catalog-action-reducers';
+} from './redux/productsSlice';
 import { BitsDrawer } from '@/components/Drawer';
 
 const debounce = require('lodash/debounce');
@@ -36,6 +34,10 @@ function contextStateUpdated(delta) {
 
 export function withTwitchData(WrappedComponent, store) {
   class TwitchWrapper extends Component {
+    state = {
+      ready: false,
+    };
+
     constructor(props) {
       super(props);
 
@@ -46,7 +48,7 @@ export function withTwitchData(WrappedComponent, store) {
     componentDidMount() {
       if (this.twitch) {
         // TODO: REMOVE WHEN RELEASING
-        this.twitch.bits.setUseLoopback = true;
+        // this.twitch.bits.setUseLoopback = true;
 
         this.twitch.onAuthorized(this.onAuthorized);
         this.twitch.onContext(this.contextUpdate);
@@ -97,14 +99,16 @@ export function withTwitchData(WrappedComponent, store) {
       }
 
       this.props.updateBroadcasterSettings({
-        finishedLoading: true,
-        isBitsEnabled: this.twitch.features.isBitsEnabled,
         ...config,
+        isBitsEnabled: this.twitch.features.isBitsEnabled,
+      });
+
+      this.setState({
+        ready: true,
       });
     };
 
     pubSubMessageHandler = (target, contentType, message) => {
-      // TODO - Parse message body a sku event
       let parsedMessage;
       try {
         parsedMessage = JSON.parse(message);
@@ -133,9 +137,9 @@ export function withTwitchData(WrappedComponent, store) {
     clearClosedCaptioning = debounce(() => {}, MAX_TEXT_DISPLAY_TIME);
 
     render() {
-      const { finishedLoading } = this.props.configSettings;
+      const { ready } = this.state;
 
-      if (!finishedLoading) {
+      if (!ready) {
         return null;
       }
 
