@@ -4,10 +4,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { MenuDivider, MenuItem, faUndo } from '@blueprintjs/core';
 import { isVideoOverlay } from '@/helpers/video-helpers';
 import { resetCCText } from '@/redux/settingsSlice';
-import { useCallbackDispatch } from '../../../redux/redux-helpers';
+import { useReduxCallbackDispatch } from '../../../redux/redux-helpers';
 
 function ResetButton() {
-  const onResetPosition = useCallbackDispatch(resetCCText());
+  const onResetPosition = useReduxCallbackDispatch(resetCCText());
 
   if (!isVideoOverlay()) {
     return null;

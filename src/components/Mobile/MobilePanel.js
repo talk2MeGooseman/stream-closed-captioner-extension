@@ -5,7 +5,7 @@ import 'typeface-raleway';
 import 'typeface-roboto';
 
 import MobileClosedCaption from './MobileClosedCaption';
-import Controls from '../shared/Controls';
+import { DisplaySettings } from '../display-settings';
 
 const classNames = require('classnames');
 
@@ -16,7 +16,7 @@ function MobilePanel() {
     <div id="mobile-container" className={containerClass}>
       <div className="">
         <MobileClosedCaption />
-        <Controls />
+        <DisplaySettings />
       </div>
     </div>
   );

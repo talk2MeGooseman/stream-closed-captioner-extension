@@ -7,7 +7,7 @@ import 'typeface-raleway';
 import 'typeface-roboto';
 
 import ClosedCaption from './ClosedCaption';
-import Controls from '../shared/Controls';
+import { DisplaySettings } from '../display-settings';
 
 const classNames = require('classnames');
 
@@ -24,7 +24,7 @@ class Overlay extends React.PureComponent {
       <div id="app-container" className={containerClass}>
         <div className="drag-boundary">
           <ClosedCaption key={configSettings.ccKey} />
-          <Controls />
+          <DisplaySettings />
         </div>
       </div>
     );

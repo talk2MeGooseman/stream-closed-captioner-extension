@@ -80,7 +80,7 @@ MobileClosedCaption.propTypes = {
 MobileClosedCaption.defaultProps = {};
 
 const mapStateToProps = (state) => ({
-  ccState: state.ccState,
+  ccState: state.captionsState,
   configSettings: state.configSettings,
 });
 

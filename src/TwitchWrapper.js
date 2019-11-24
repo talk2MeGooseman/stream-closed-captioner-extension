@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect, Provider } from 'react-redux';
 import { MAX_TEXT_DISPLAY_TIME, SECOND, CONTEXT_EVENTS_WHITELIST } from './utils/Constants';
 import Authentication from './components/Authentication/Authentication';
-import { actionUpdateCCText } from './redux/cc-state';
+import { updateCCText } from './redux/captionsSlice';
 import { updateBroadcasterSettings } from '@/redux/settingsSlice';
 import { requestTranslationStatus } from '@/redux/translationSlice';
 import { updateVideoPlayerContext } from '@/redux/videoPlayerContextSlice';
@@ -153,14 +153,14 @@ export function withTwitchData(WrappedComponent, store) {
   }
 
   const mapStateToProps = (state) => ({
-    ccState: state.ccState,
+    ccState: state.captionsState,
     configSettings: state.configSettings,
     videoPlayerContext: state.videoPlayerContext,
   });
 
   const mapDispatchToProps = (dispatch) => ({
     updateVideoPlayerContext: (state) => dispatch(updateVideoPlayerContext(state)),
-    updateCCText: (state) => dispatch(actionUpdateCCText(state)),
+    updateCCText: (state) => dispatch(updateCCText(state)),
     updateBroadcasterSettings: (settings) => dispatch(updateBroadcasterSettings(settings)),
     setProducts: (products) => dispatch(setProducts(products)),
     onCompleteTransaction: (transaction) => dispatch(completeBitsTransaction(transaction)),

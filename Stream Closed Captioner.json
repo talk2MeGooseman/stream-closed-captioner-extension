@@ -3,11 +3,11 @@
   "backendFolderName": "",
   "extensionViews": [
     {
-      "id": "2",
+      "id": "1",
       "label": "",
-      "channelId": "120750024",
+      "channelId": "85581832",
       "configurationAnchor": "panel",
-      "displayChannelName": "talk2megooseman",
+      "displayChannelName": "jennajulien",
       "type": "video_overlay",
       "features": {
         "isBitsEnabled": true,

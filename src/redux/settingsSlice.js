@@ -3,7 +3,8 @@ import { createSlice } from '@reduxjs/toolkit';
 import uuid from 'uuid/v4';
 
 const initialState = {
-  language: 'default',
+  viewerLanguage: 'default',
+  broadcasterLanguage: 'en-US',
   ccKey: uuid(),
   isDragged: false,
   size: 'medium',
@@ -29,7 +30,7 @@ const settingsSlice = createSlice({
       state.size = action.payload;
     },
     changeLanguage(state, action) {
-      state.language = action.payload;
+      state.viewerLanguage = action.payload;
     },
     toggleVisibility(state) {
       state.hideCC = !state.hideCC;

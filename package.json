@@ -63,9 +63,9 @@
     "react-draggable": "^4.1.0",
     "react-redux": "^7.1.0",
     "redux-logger": "^3.0.6",
-    "typeface-montserrat": "0.0.75",
-    "typeface-raleway": "0.0.75",
-    "typeface-roboto": "0.0.75",
+    "typeface-montserrat": "^0.0.75",
+    "typeface-raleway": "^0.0.75",
+    "typeface-roboto": "^0.0.75",
     "url-search-params-polyfill": "^7.0.0",
     "uuid": "^3.3.2"
   },

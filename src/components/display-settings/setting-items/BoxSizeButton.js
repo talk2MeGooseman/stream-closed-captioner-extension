@@ -4,11 +4,11 @@ import { faExpand, faMinus } from '@fortawesome/free-solid-svg-icons';
 import { MenuDivider, MenuItem } from '@blueprintjs/core';
 import { isVideoOverlay } from '@/helpers/video-helpers';
 import { toggleBoxSize } from '@/redux/settingsSlice';
-import { useShallowEqualSelector, useCallbackDispatch } from '@/redux/redux-helpers';
+import { useShallowEqualSelector, useReduxCallbackDispatch } from '@/redux/redux-helpers';
 
 function BoxSizeButton() {
   const ccBoxSize = useShallowEqualSelector((state) => state.configSettings.ccBoxSize);
-  const onToggleBoxSize = useCallbackDispatch(toggleBoxSize());
+  const onToggleBoxSize = useReduxCallbackDispatch(toggleBoxSize());
 
   if (!isVideoOverlay()) {
     return null;

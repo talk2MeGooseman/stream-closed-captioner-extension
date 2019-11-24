@@ -2,16 +2,16 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLanguage } from '@fortawesome/free-solid-svg-icons';
 import { Tooltip, Popover } from '@blueprintjs/core';
-import LanguageOptions from './MenuItems/LanguageOptions';
-import { useShallowEqualSelector, useCallbackDispatch } from '../../redux/redux-helpers';
+import LanguageOptions from './LanguageOptions';
+import { useShallowEqualSelector, useReduxCallbackDispatch } from '../../redux/redux-helpers';
 import { toggleActivationDrawer } from '@/redux/settingsSlice';
 
 export default function LanguageSettings() {
   const isBitsEnabled = useShallowEqualSelector((state) => state.configSettings.isBitsEnabled);
   const hasTranslations = useShallowEqualSelector(
-    (state) => Object.keys(state.ccState.translations || {}).length,
+    (state) => Object.keys(state.captionsState.translations || {}).length,
   );
-  const toggleDrawer = useCallbackDispatch(toggleActivationDrawer());
+  const toggleDrawer = useReduxCallbackDispatch(toggleActivationDrawer());
 
   if (!isBitsEnabled) {
     return null;

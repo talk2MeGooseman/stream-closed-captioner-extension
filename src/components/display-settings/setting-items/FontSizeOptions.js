@@ -3,12 +3,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFont } from '@fortawesome/free-solid-svg-icons';
 import { MenuItem } from '@blueprintjs/core';
 import { changeTextSize } from '@/redux/settingsSlice';
-import { useCallbackDispatch } from '@/redux/redux-helpers';
+import { useReduxCallbackDispatch } from '@/redux/redux-helpers';
 
 function FontSizeOptions() {
-  const onClickSmallTextSize = useCallbackDispatch(changeTextSize('small'));
-  const onClickMediumTextSize = useCallbackDispatch(changeTextSize('medium'));
-  const onClickLargeTextSize = useCallbackDispatch(changeTextSize('large'));
+  const onClickSmallTextSize = useReduxCallbackDispatch(changeTextSize('small'));
+  const onClickMediumTextSize = useReduxCallbackDispatch(changeTextSize('medium'));
+  const onClickLargeTextSize = useReduxCallbackDispatch(changeTextSize('large'));
 
   const fontIcon = <FontAwesomeIcon icon={faFont} />;
 

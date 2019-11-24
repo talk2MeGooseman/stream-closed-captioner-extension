@@ -83,10 +83,10 @@ function ClosedCaption({
   });
 
   let closedCaptionText = '';
-  if (configSettings.language === 'default') {
+  if (configSettings.viewerLanguage === 'default') {
     closedCaptionText = `${finalTextQueue.map(({ text }) => text).join(' ')} ${interimText}`;
   } else {
-    closedCaptionText = translations[configSettings.language].textQueue.map(({ text }) => text).join(' ');
+    closedCaptionText = translations[configSettings.viewerLanguage].textQueue.map(({ text }) => text).join(' ');
   }
 
   return (
@@ -114,7 +114,7 @@ ClosedCaption.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
-  ccState: state.ccState,
+  ccState: state.captionsState,
   configSettings: state.configSettings,
 });
 

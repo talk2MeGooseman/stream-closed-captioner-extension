@@ -6,7 +6,7 @@ import {
   increaseLineCount,
   decreaseLineCount,
 } from '@/redux/settingsSlice';
-import { useShallowEqualSelector, useCallbackDispatch } from '@/redux/redux-helpers';
+import { useShallowEqualSelector, useReduxCallbackDispatch } from '@/redux/redux-helpers';
 import { isVideoOverlay } from '@/helpers/video-helpers';
 
 function LineCountOptions() {
@@ -15,8 +15,8 @@ function LineCountOptions() {
     (state) => state.configSettings.horizontalLineCount,
   );
   const boxLineCount = useShallowEqualSelector((state) => state.configSettings.boxLineCount);
-  const onLineIncrease = useCallbackDispatch(increaseLineCount());
-  const onLineDecrease = useCallbackDispatch(decreaseLineCount());
+  const onLineIncrease = useReduxCallbackDispatch(increaseLineCount());
+  const onLineDecrease = useReduxCallbackDispatch(decreaseLineCount());
 
   if (!isVideoOverlay()) return null;
 
