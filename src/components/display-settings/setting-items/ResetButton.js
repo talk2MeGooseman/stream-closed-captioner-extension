@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { MenuDivider, MenuItem, faUndo } from '@blueprintjs/core';
 import { isVideoOverlay } from '@/helpers/video-helpers';
@@ -26,8 +25,6 @@ function ResetButton() {
   );
 }
 
-ResetButton.propTypes = {
-  onResetPosition: PropTypes.func.isRequired,
-};
+ResetButton.propTypes = {};
 
 export default ResetButton;
