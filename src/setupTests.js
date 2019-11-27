@@ -5,8 +5,6 @@ import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import rootReducer from '@/redux/reducers';
 
-export * from '@testing-library/react';
-
 const renderWithRedux = (
   ui,
   { initialState, store = createStore(rootReducer, initialState) } = {},

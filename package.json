@@ -86,7 +86,8 @@
       "<rootDir>/src/setupTests.js"
     ],
     "setupFilesAfterEnv": [
-      "@testing-library/jest-dom/extend-expect"
+      "@testing-library/jest-dom/extend-expect",
+      "@testing-library/react"
     ],
     "moduleNameMapper": {
       "^@/(.*)$": "<rootDir>/src/$1",
