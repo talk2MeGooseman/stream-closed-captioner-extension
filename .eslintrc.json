@@ -6,7 +6,9 @@
     "extends": [
         "airbnb-base",
         "plugin:react/recommended",
-        "plugin:jest/recommended"
+        "plugin:jest/recommended",
+        "plugin:testing-library/react",
+        "plugin:jest-dom/recommended"
     ],
     "parser": "babel-eslint",
     "parserOptions": {
@@ -19,7 +21,8 @@
     "plugins": [
         "react",
         "react-hooks",
-        "jest"
+        "jest",
+        "jest-dom"
     ],
     "rules": {
         "indent": [

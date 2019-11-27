@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 import 'url-search-params-polyfill';
 
 export function isVideoOverlay() {
