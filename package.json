@@ -27,6 +27,7 @@
     "@babel/plugin-proposal-throw-expressions": "^7.0.0",
     "@babel/plugin-syntax-dynamic-import": "^7.0.0",
     "@babel/plugin-syntax-import-meta": "^7.0.0",
+    "@babel/plugin-transform-runtime": "^7.7.4",
     "@babel/preset-env": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
     "@testing-library/jest-dom": "^4.2.4",
@@ -59,6 +60,7 @@
     "webpack-dev-server": "^3.1.11"
   },
   "dependencies": {
+    "@babel/runtime": "^7.7.4",
     "@blueprintjs/core": "^3.11.0",
     "@blueprintjs/select": "^3.10.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.12",

@@ -29,7 +29,7 @@ function LineCountOptions() {
   }
 
   return (
-    <MenuItem text="Line Count">
+    <MenuItem text="Line Count" popoverProps={ { autoFocus: false }}>
       <MenuItem
         icon={<FontAwesomeIcon icon={faPlus} />}
         text="Increase Line Count"
