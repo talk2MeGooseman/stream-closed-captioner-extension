@@ -47,8 +47,8 @@ export function withTwitchData(WrappedComponent, store) {
 
     componentDidMount() {
       if (this.twitch) {
-        // TODO: REMOVE WHEN RELEASING
-        // this.twitch.bits.setUseLoopback = true;
+        // TODO: Comment out below when releasing
+        this.twitch.bits.setUseLoopback = true;
 
         this.twitch.onAuthorized(this.onAuthorized);
         this.twitch.onContext(this.contextUpdate);

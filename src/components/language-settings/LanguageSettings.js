@@ -9,11 +9,11 @@ import { toggleActivationDrawer } from '@/redux/settingsSlice';
 export default function LanguageSettings() {
   const isBitsEnabled = useShallowEqualSelector((state) => state.configSettings.isBitsEnabled);
   const hasTranslations = useShallowEqualSelector(
-    (state) => Object.keys(state.captionsState.translations || {}).length,
+    (state) => Object.keys(state.captionsState.translations || {}).length > 0,
   );
   const toggleDrawer = useReduxCallbackDispatch(toggleActivationDrawer());
 
-  if (!isBitsEnabled) {
+  if (!isBitsEnabled && !hasTranslations) {
     return null;
   }
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { MenuDivider, MenuItem, faUndo } from '@blueprintjs/core';
+import { MenuDivider, MenuItem } from '@blueprintjs/core';
+import { faUndo } from '@fortawesome/free-solid-svg-icons';
 import { isVideoOverlay } from '@/helpers/video-helpers';
 import { resetCCText } from '@/redux/settingsSlice';
 import { useReduxCallbackDispatch } from '../../../redux/redux-helpers';

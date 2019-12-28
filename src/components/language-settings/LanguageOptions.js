@@ -7,8 +7,11 @@ import {
 import { useShallowEqualSelector, useReduxCallbackDispatch } from '@/redux/redux-helpers';
 
 export default function LanguageOptions() {
-  const language = useShallowEqualSelector(
-    (state) => state.configSettings.language,
+  const isBitsEnabled = useShallowEqualSelector(
+    (state) => state.configSettings.isBitsEnabled,
+  );
+  const selectedLanguage = useShallowEqualSelector(
+    (state) => state.configSettings.viewerLanguage,
   );
   const languages = useShallowEqualSelector(
     (state) => Object.keys(state.captionsState.translations || {}),
@@ -19,15 +22,16 @@ export default function LanguageOptions() {
   const onSelectDefaultLanguage = useReduxCallbackDispatch(changeLanguage('default'));
   const toggleDrawer = useReduxCallbackDispatch(toggleActivationDrawer());
 
-  const defaultIcon = language === 'default' ? 'tick' : 'none';
+  const defaultIcon = selectedLanguage === 'default' ? 'tick' : 'none';
 
   const optionEls = languages.map((l) => {
-    const icon = l === language ? 'tick' : 'none';
+    const icon = l === selectedLanguage ? 'tick' : 'none';
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const onClick = useReduxCallbackDispatch(changeLanguage(l));
 
     return (
       <MenuItem
+        data-testid={`language-${l}`}
         key={l}
         icon={icon}
         text={translations[l].name}
@@ -41,6 +45,7 @@ export default function LanguageOptions() {
     <Menu>
       <MenuItem disabled text="Translations On" />
       <MenuItem
+        data-testid="default-language"
         icon={defaultIcon}
         text="Spoken Language"
         onClick={onSelectDefaultLanguage}
@@ -48,12 +53,15 @@ export default function LanguageOptions() {
       />
       <MenuDivider />
       {optionEls}
-      <MenuDivider />
-      <MenuItem
+      { isBitsEnabled && <>
+          <MenuDivider />
+          <MenuItem
         text="Add Translation Days"
         onClick={toggleDrawer}
         shouldDismissPopover={false}
-      />
+          />
+        </>
+      }
     </Menu>
   );
 }
