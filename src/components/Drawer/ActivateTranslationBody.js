@@ -7,18 +7,7 @@ import {
 } from '@blueprintjs/core';
 import { Select } from '@blueprintjs/select';
 import { useBits, setSelectedProduct } from '@/redux/productsSlice';
-
-function ProductMenuItem(product, { handleClick, modifiers }) {
-  return (
-    <MenuItem
-      active={modifiers.active}
-      key={product.sku}
-      label={`${product.cost.amount} bits`}
-      onClick={handleClick}
-      text={product.displayName}
-    />
-  );
-}
+import { productMenuItemRenderer } from './ProductMenuItem';
 
 function ActivateTranslationBody({
   translationInfo: { activationInfo },
@@ -46,7 +35,7 @@ function ActivateTranslationBody({
       <Select
         items={productsCatalog.products}
         filterable={false}
-        itemRenderer={ProductMenuItem}
+        itemRenderer={productMenuItemRenderer}
         noResults={<MenuItem disabled={true} text="Not found." />}
         onItemSelect={(product) => onProductSelect(product)}>
         <Button text={buttonCopy} rightIcon="double-caret-vertical" />

@@ -12,7 +12,7 @@ import {
   completeBitsTransaction,
   setChannelId,
 } from './redux/productsSlice';
-import { BitsDrawer } from '@/components/Drawer';
+import { TranslationsDrawer } from '@/components/Drawer';
 
 const debounce = require('lodash/debounce');
 
@@ -145,7 +145,7 @@ export function withTwitchData(WrappedComponent, store) {
 
       return (
         <Provider store={store}>
-          <BitsDrawer />
+          <TranslationsDrawer />
           <WrappedComponent />
         </Provider>
       );

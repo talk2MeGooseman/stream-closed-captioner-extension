@@ -6,11 +6,11 @@ import {
   Classes, Drawer,
 } from '@blueprintjs/core';
 import { toggleActivationDrawer } from '@/redux/settingsSlice';
-import { isVideoOverlay } from '../../helpers/video-helpers';
+import { isVideoOverlay } from '@/helpers/video-helpers';
 import ActivateTranslationBody from './ActivateTranslationBody';
 import NagStreamerBody from './NagStreamerBody';
 
-function BitsDrawer({
+function TranslationsDrawer({
   configSettings: { isDrawerOpen },
   translationInfo: { activationInfo },
   productsCatalog,
@@ -46,7 +46,7 @@ function BitsDrawer({
   );
 }
 
-BitsDrawer.propTypes = {
+TranslationsDrawer.propTypes = {
   configSettings: PropTypes.object.isRequired,
   translationInfo: PropTypes.object.isRequired,
   productsCatalog: PropTypes.shape({
@@ -68,4 +68,4 @@ const mapDispatchToProps = (dispatch) => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(BitsDrawer);
+)(TranslationsDrawer);

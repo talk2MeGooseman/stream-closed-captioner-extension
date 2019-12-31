@@ -27,10 +27,11 @@ export default function LanguageSettings() {
   } else {
     button = <FontAwesomeIcon size="2x" icon={faLanguage} onClick={toggleDrawer } />;
   }
+
   // Display activate dialog/text
   return (
-    <React.Fragment>
+    <>
       <Tooltip content={'Translations'}>{button}</Tooltip>
-    </React.Fragment>
+    </>
   );
 }

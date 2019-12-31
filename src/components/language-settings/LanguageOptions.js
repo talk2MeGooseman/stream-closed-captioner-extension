@@ -45,7 +45,7 @@ export default function LanguageOptions() {
     <Menu>
       <MenuItem disabled text="Translations On" />
       <MenuItem
-        data-testid="default-language"
+        data-testid="language-default"
         icon={defaultIcon}
         text="Spoken Language"
         onClick={onSelectDefaultLanguage}

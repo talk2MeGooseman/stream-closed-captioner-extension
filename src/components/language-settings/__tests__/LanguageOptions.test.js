@@ -1,18 +1,29 @@
 import React from 'react';
-import { cleanup } from '@testing-library/react';
+import { cleanup, fireEvent } from '@testing-library/react';
 import LanguageOptions from '../LanguageOptions';
 import { renderWithRedux } from '@/setupTests';
 
 afterEach(cleanup);
 
 describe('LanguageOptions ', () => {
+  it('fires onClick when selecting new language', () => {
+    const { queryByTestId, store } = renderWithRedux(
+      <LanguageOptions />,
+      { initialState: { captionsState: { translations: { de: { name: 'Germ' } } } } },
+    );
+
+    fireEvent.click(queryByTestId('language-de'));
+    const { configSettings: { viewerLanguage } } = store.getState();
+    expect(viewerLanguage).toEqual('de');
+  });
+
   describe('Indicates selected language', () => {
     it('default language by default', () => {
       const { queryByTestId } = renderWithRedux(
         <LanguageOptions />,
       );
       const tickEl = document.querySelector('span[icon="tick"]');
-      expect(queryByTestId('default-language')).toContainElement(tickEl);
+      expect(queryByTestId('language-default')).toContainElement(tickEl);
     });
 
     it('checks viewer selected language', () => {
