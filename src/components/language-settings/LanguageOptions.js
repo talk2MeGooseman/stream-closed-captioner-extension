@@ -54,13 +54,13 @@ export default function LanguageOptions() {
       <MenuDivider />
       {optionEls}
       { isBitsEnabled && <>
-          <MenuDivider />
-          <MenuItem
-        text="Add Translation Days"
-        onClick={toggleDrawer}
-        shouldDismissPopover={false}
-          />
-        </>
+        <MenuDivider />
+        <MenuItem
+          text="Add Translation Days"
+          onClick={toggleDrawer}
+          shouldDismissPopover={false}
+        />
+      </>
       }
     </Menu>
   );

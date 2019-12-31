@@ -14,7 +14,7 @@ describe('LanguageSettings ', () => {
           { initialState: { configSettings: { isBitsEnabled: true }, captionsState: { translations: { en: '' } } } },
         );
 
-        expect(container.querySelector('svg')).toHaveClass('fa-language')
+        expect(container.querySelector('svg')).toHaveClass('fa-language');
       });
     });
 
@@ -25,9 +25,8 @@ describe('LanguageSettings ', () => {
           { initialState: { configSettings: { isBitsEnabled: false }, captionsState: { translations: { en: '' } } } },
         );
 
-        expect(container.querySelector('svg')).toHaveClass('fa-language')
+        expect(container.querySelector('svg')).toHaveClass('fa-language');
       });
-
     });
   });
 
@@ -39,7 +38,7 @@ describe('LanguageSettings ', () => {
           { initialState: { configSettings: { isBitsEnabled: true } } },
         );
 
-        expect(container.querySelector('svg')).toHaveClass('fa-language')
+        expect(container.querySelector('svg')).toHaveClass('fa-language');
       });
     });
 
@@ -51,8 +50,6 @@ describe('LanguageSettings ', () => {
 
         expect(container).toBeEmpty();
       });
-
     });
-  })
-
+  });
 });
