@@ -6,7 +6,7 @@ import LanguageOptions from './LanguageOptions';
 import { useShallowEqualSelector, useReduxCallbackDispatch } from '../../redux/redux-helpers';
 import { toggleActivationDrawer } from '@/redux/settingsSlice';
 
-export default function LanguageSettings() {
+export default function LanguageButton() {
   const isBitsEnabled = useShallowEqualSelector((state) => state.configSettings.isBitsEnabled);
   const hasTranslations = useShallowEqualSelector(
     (state) => Object.keys(state.captionsState.translations || {}).length > 0,

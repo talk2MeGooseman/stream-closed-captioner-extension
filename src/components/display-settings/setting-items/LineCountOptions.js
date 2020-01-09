@@ -1,7 +1,7 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
-import { MenuItem } from '@blueprintjs/core';
+import { MenuItem, Divider } from '@blueprintjs/core';
 import {
   increaseLineCount,
   decreaseLineCount,
@@ -29,7 +29,8 @@ function LineCountOptions() {
   }
 
   return (
-    <MenuItem text="Line Count" popoverProps={ { autoFocus: false }}>
+    <>
+      <Divider />
       <MenuItem
         icon={<FontAwesomeIcon icon={faPlus} />}
         text="Increase Line Count"
@@ -43,7 +44,7 @@ function LineCountOptions() {
         disabled={disableDecrease}
         shouldDismissPopover={false}
       />
-    </MenuItem>
+    </>
   );
 }
 

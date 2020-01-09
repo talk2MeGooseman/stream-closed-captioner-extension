@@ -23,7 +23,7 @@ function ActivateTranslationBody({
   const languageKeys = Object.keys(activationInfo.languages);
 
   return (
-    <div className={Classes.DIALOG_BODY}>
+    <div data-testid="activate-translation" className={Classes.DIALOG_BODY}>
       <p>Turn on <b>Translated Closed Captions</b> for everyone in the channel for <b>1 or more stream days</b>.</p>
       <p><i>A stream day is a 24 hours of active translations from the moment the broadcaster turns on Stream Closed Captioner</i></p>
       <p>Once <b>Translated Closed Captions</b> is turned on you and everyone in the channel can enjoy reading closed captions in a select number of languages.</p>

@@ -1,0 +1,24 @@
+{
+  "session_name": "Stream CC React",
+  "windows": [
+    {
+      "options": {},
+      "window_name": "zsh",
+      "layout": "187c,125x60,0,0[125x30,0,0{62x30,0,0,0,62x30,63,0,2},125x29,0,31,1]",
+      "panes": [
+        {
+          "shell_command": "yarn start"
+        },
+        {
+          "shell_command": "yarn test --watch"
+        },
+        {
+          "shell_command": "",
+          "focus": "true"
+        }
+      ],
+      "focus": "true",
+      "start_directory": "/Users/gooseman/Documents/code/stream-closed-captioner-extension"
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 import React from 'react';
 import { cleanup } from '@testing-library/react';
-import LanguageSettings from '../LanguageSettings';
+import LanguageButton from '../LanguageButton';
 import { renderWithRedux } from '@/setupTests';
 
 afterEach(cleanup);
@@ -10,7 +10,7 @@ describe('LanguageSettings ', () => {
     describe('bits enabled user', () => {
       it('renders button', () => {
         const { container } = renderWithRedux(
-          <LanguageSettings />,
+          <LanguageButton />,
           { initialState: { configSettings: { isBitsEnabled: true }, captionsState: { translations: { en: '' } } } },
         );
 
@@ -21,7 +21,7 @@ describe('LanguageSettings ', () => {
     describe('non-bits enabled user', () => {
       it('renders button', () => {
         const { container } = renderWithRedux(
-          <LanguageSettings />,
+          <LanguageButton />,
           { initialState: { configSettings: { isBitsEnabled: false }, captionsState: { translations: { en: '' } } } },
         );
 
@@ -34,7 +34,7 @@ describe('LanguageSettings ', () => {
     describe('bits enabled user', () => {
       it('renders button', () => {
         const { container } = renderWithRedux(
-          <LanguageSettings />,
+          <LanguageButton />,
           { initialState: { configSettings: { isBitsEnabled: true } } },
         );
 
@@ -45,7 +45,7 @@ describe('LanguageSettings ', () => {
     describe('non-bits enabled user', () => {
       it('renders nothing', () => {
         const { container } = renderWithRedux(
-          <LanguageSettings />,
+          <LanguageButton />,
         );
 
         expect(container).toBeEmpty();

@@ -4,9 +4,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classnames from 'classnames';
 import React from 'react';
 import { useShallowEqualSelector } from '@/redux/redux-helpers';
-import { LanguageSettings } from '@/components/language-settings';
-import { isVideoOverlay } from '../../helpers/video-helpers';
-import VisibilityToggle from '../VideoOverlay/VisibilityToggle';
+import { LanguageButton } from '@/components/language-button';
+import { isVideoOverlay } from '@/helpers/video-helpers';
+import VisibilityToggle from '@/components/VideoOverlay/VisibilityToggle';
 import { SettingsMenu } from './setting-items';
 
 
@@ -37,7 +37,7 @@ const Controls = () => {
 
   return (
     <span className={controlClass}>
-      <LanguageSettings />
+      <LanguageButton />
       <VisibilityToggle />
       <Popover position="left-bottom" content={<SettingsMenu />} captureDismiss >
         <Tooltip content={'Settings'}>

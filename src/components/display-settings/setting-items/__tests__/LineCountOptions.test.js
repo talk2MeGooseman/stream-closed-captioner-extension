@@ -27,5 +27,12 @@ describe('LineCountOptions', () => {
 
       expect(container).not.toBeEmpty();
     });
+
+    it('has increase and decrease line count menu items', async () => {
+      const { queryByText } = renderWithRedux(<LineCountOptions />);
+
+      expect(queryByText('Increase Line Count')).toBeInTheDocument();
+      expect(queryByText('Decrease Line Count')).toBeInTheDocument();
+    });
   });
 });

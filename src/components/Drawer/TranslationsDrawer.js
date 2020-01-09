@@ -1,7 +1,5 @@
 /* eslint-disable no-shadow */
 import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import {
   Classes, Drawer,
 } from '@blueprintjs/core';
@@ -9,14 +7,15 @@ import { toggleActivationDrawer } from '@/redux/settingsSlice';
 import { isVideoOverlay } from '@/helpers/video-helpers';
 import ActivateTranslationBody from './ActivateTranslationBody';
 import NagStreamerBody from './NagStreamerBody';
+import { useShallowEqualSelector, useReduxCallbackDispatch } from '@/redux/redux-helpers';
 
-function TranslationsDrawer({
-  configSettings: { isDrawerOpen },
-  translationInfo: { activationInfo },
-  productsCatalog,
-  toggleActivationDrawer,
-}) {
-  if (!activationInfo || !productsCatalog.products.length) {
+function TranslationsDrawer() {
+  const { isDrawerOpen, isBitsEnabled } = useShallowEqualSelector((state) => state.configSettings);
+  const { activationInfo } = useShallowEqualSelector((state) => state.translationInfo);
+  const { products } = useShallowEqualSelector((state) => state.productsCatalog);
+  const onToggleActivationDrawer = useReduxCallbackDispatch(toggleActivationDrawer());
+
+  if (!activationInfo || products.length === 0 || !isBitsEnabled) {
     return null;
   }
 
@@ -34,7 +33,7 @@ function TranslationsDrawer({
       title="Turn on Translations!"
       canOutsideClickClose={true}
       isOpen={isDrawerOpen}
-      onClose={toggleActivationDrawer}
+      onClose={onToggleActivationDrawer}
       size={drawerWidth}>
       <div className={Classes.DRAWER_BODY}>
         <div className={Classes.DIALOG_BODY}>
@@ -46,26 +45,6 @@ function TranslationsDrawer({
   );
 }
 
-TranslationsDrawer.propTypes = {
-  configSettings: PropTypes.object.isRequired,
-  translationInfo: PropTypes.object.isRequired,
-  productsCatalog: PropTypes.shape({
-    products: PropTypes.array,
-  }),
-  toggleActivationDrawer: PropTypes.func,
-};
+TranslationsDrawer.propTypes = {};
 
-const mapStateToProps = (state) => ({
-  configSettings: state.configSettings,
-  productsCatalog: state.productsCatalog,
-  translationInfo: state.translationInfo,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  toggleActivationDrawer: () => dispatch(toggleActivationDrawer()),
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(TranslationsDrawer);
+export default TranslationsDrawer;

@@ -3,23 +3,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
-  Button, MenuItem, Divider,
+  Button, MenuItem, Divider, Classes,
 } from '@blueprintjs/core';
 import { Select } from '@blueprintjs/select';
 import { useBits, setSelectedProduct } from '@/redux/productsSlice';
 import { TRANSLATION_COST } from '@/utils/Constants';
-
-function ProductMenuItem(product, { handleClick, modifiers }) {
-  return (
-    <MenuItem
-      active={modifiers.active}
-      key={product.sku}
-      label={`${product.cost.amount} bits`}
-      onClick={handleClick}
-      text={product.displayName}
-    />
-  );
-}
+import { productMenuItemRenderer } from './ProductMenuItem';
 
 function NagStreamerBody({
   translationInfo: { activationInfo },
@@ -46,7 +35,7 @@ function NagStreamerBody({
   const languageKeys = Object.keys(activationInfo.languages);
 
   return (
-    <React.Fragment>
+    <div data-testid="nag-streamer" className={Classes.DIALOG_BODY}>
       <p>The broadcaster currently does not have <b>Stream Closed Captioner</b> turned on.</p>
       { extraBitsBalanceInfo }
       <p>Let the broadcaster know you would like them to turn on <b>Stream Closed Captioner</b> so you can see <b>Translated Closed Captions</b> by visiting <a href="https://stream-cc.gooseman.codes">https://stream-cc.gooseman.codes</a></p>
@@ -58,7 +47,7 @@ function NagStreamerBody({
       <Select
         items={productsCatalog.products}
         filterable={false}
-        itemRenderer={ProductMenuItem}
+        itemRenderer={productMenuItemRenderer}
         noResults={<MenuItem disabled={true} text="Not found." />}
         onItemSelect={(product) => onProductSelect(product)}>
         <Button text={buttonCopy} rightIcon="double-caret-vertical" />
@@ -67,7 +56,7 @@ function NagStreamerBody({
       <Button intent="success" icon="confirm" onClick={() => onUseBits(productsCatalog.selectedProduct.sku)}>
           Submit
       </Button>
-    </React.Fragment>
+    </div>
   );
 }
 
