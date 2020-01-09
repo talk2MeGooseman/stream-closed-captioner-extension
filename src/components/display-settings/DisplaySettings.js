@@ -36,7 +36,7 @@ const Controls = () => {
   });
 
   return (
-    <span className={controlClass}>
+    <span data-testid="display-settings" className={controlClass}>
       <LanguageButton />
       <VisibilityToggle />
       <Popover position="left-bottom" content={<SettingsMenu />} captureDismiss >

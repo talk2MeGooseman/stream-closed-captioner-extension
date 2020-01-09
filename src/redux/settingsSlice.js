@@ -14,6 +14,7 @@ const initialState = {
   isDrawerOpen: false,
   horizontalLineCount: 3,
   boxLineCount: 7,
+  switchSettingsPosition: false,
 };
 
 const settingsSlice = createSlice({
