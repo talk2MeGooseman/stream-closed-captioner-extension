@@ -1,24 +1,24 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 
-import 'typeface-montserrat';
-import 'typeface-raleway';
-import 'typeface-roboto';
+import 'typeface-montserrat'
+import 'typeface-raleway'
+import 'typeface-roboto'
 
-import ClosedCaption from './ClosedCaption';
-import { DisplaySettings } from '../display-settings';
+import ClosedCaption from './ClosedCaption'
+import { DisplaySettings } from '../display-settings'
 
-const classNames = require('classnames');
+const classNames = require('classnames')
 
 class Overlay extends React.PureComponent {
   render() {
-    const { videoPlayerContext, configSettings } = this.props;
+    const { videoPlayerContext, configSettings } = this.props
 
     const containerClass = classNames({
       'standard-position': !videoPlayerContext.arePlayerControlsVisible && !configSettings.isDragged,
       'raise-video-controls': videoPlayerContext.arePlayerControlsVisible || configSettings.isDragged,
-    });
+    })
 
     return (
       <div id="app-container" className={containerClass}>
@@ -27,18 +27,18 @@ class Overlay extends React.PureComponent {
           <DisplaySettings />
         </div>
       </div>
-    );
+    )
   }
 }
 
 Overlay.propTypes = {
   videoPlayerContext: PropTypes.object,
   configSettings: PropTypes.object,
-};
+}
 
 const mapStateToProps = (state) => ({
   configSettings: state.configSettings,
   videoPlayerContext: state.videoPlayerContext,
-});
+})
 
-export default connect(mapStateToProps)(Overlay);
+export default connect(mapStateToProps)(Overlay)

@@ -1,13 +1,13 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Draggable from 'react-draggable';
-import { connect } from 'react-redux';
-import { ccStyles } from '../shared/caption-styles';
+import React from 'react'
+import PropTypes from 'prop-types'
+import Draggable from 'react-draggable'
+import { connect } from 'react-redux'
+import { ccStyles } from '../shared/caption-styles'
 
-import './ClosedCaption.css';
-import { setIsDragged } from '@/redux/settingsSlice';
+import './ClosedCaption.css'
+import { setIsDragged } from '@/redux/settingsSlice'
 
-const classNames = require('classnames');
+const classNames = require('classnames')
 
 // Bits 100 from electrichavoc
 // Resub Nyixxs
@@ -22,32 +22,32 @@ const classNames = require('classnames');
 // Sub DannyKampsGamez
 
 function isEmptyCC(text) {
-  return text.length === 0;
+  return text.length === 0
 }
 
 function shouldHideCC(shouldHide, interimText, finalText) {
-  return shouldHide || isEmptyCC(interimText + finalText);
+  return shouldHide || isEmptyCC(interimText + finalText)
 }
 
 function setFontSizeStyle(size) {
-  let fontSize = '';
+  let fontSize = ''
 
   switch (size) {
   case 'small':
-    fontSize = 'var(--small-font-size)';
-    break;
+    fontSize = 'var(--small-font-size)'
+    break
   case 'medium':
-    fontSize = 'var(--medium-font-size)';
-    break;
+    fontSize = 'var(--medium-font-size)'
+    break
   case 'large':
-    fontSize = 'var(--large-font-size)';
-    break;
+    fontSize = 'var(--large-font-size)'
+    break
   default:
-    fontSize = 'var(--medium-font-size)';
-    break;
+    fontSize = 'var(--medium-font-size)'
+    break
   }
 
-  return fontSize;
+  return fontSize
 }
 
 function ClosedCaption({
@@ -55,38 +55,38 @@ function ClosedCaption({
   ccState: { interimText, finalTextQueue, translations },
   setIsDragged,
 }) {
-  const finalText = finalTextQueue.join(' ');
+  const finalText = finalTextQueue.join(' ')
 
-  const fontSize = setFontSizeStyle(configSettings.size);
-  const textStyles = { ...ccStyles, fontSize };
+  const fontSize = setFontSizeStyle(configSettings.size)
+  const textStyles = { ...ccStyles, fontSize }
 
-  let numberOfLines = configSettings.horizontalLineCount;
+  let numberOfLines = configSettings.horizontalLineCount
   if (configSettings.ccBoxSize) {
     // eslint-disable-next-line no-param-reassign
-    numberOfLines = configSettings.boxLineCount;
+    numberOfLines = configSettings.boxLineCount
   }
 
   const styles = {
     maxHeight: `calc(${fontSize} * var(--line-height) * ${numberOfLines} + var(--caption-pad-bottom))`,
     overflow: 'hidden',
-  };
+  }
 
   const containerClasses = classNames({
     'caption-container': true,
     'box-size': configSettings.ccBoxSize,
     hide: shouldHideCC(configSettings.hideCC, interimText, finalText),
-  });
+  })
 
   const ccTextClasses = classNames({
     'text-capitalize': configSettings.textUppercase,
     'text-mix-case': !configSettings.textUppercase,
-  });
+  })
 
-  let closedCaptionText = '';
+  let closedCaptionText = ''
   if (configSettings.viewerLanguage === 'default') {
-    closedCaptionText = `${finalTextQueue.map(({ text }) => text).join(' ')} ${interimText}`;
+    closedCaptionText = `${finalTextQueue.map(({ text }) => text).join(' ')} ${interimText}`
   } else {
-    closedCaptionText = translations[configSettings.viewerLanguage].textQueue.map(({ text }) => text).join(' ');
+    closedCaptionText = translations[configSettings.viewerLanguage].textQueue.map(({ text }) => text).join(' ')
   }
 
   return (
@@ -97,7 +97,7 @@ function ClosedCaption({
         </div>
       </div>
     </Draggable>
-  );
+  )
 }
 
 ClosedCaption.propTypes = {
@@ -107,19 +107,19 @@ ClosedCaption.propTypes = {
   settings: PropTypes.object,
   numberOfLines: PropTypes.number.isRequired,
   setIsDragged: PropTypes.func,
-};
+}
 
 ClosedCaption.defaultProps = {
   numberOfLines: 3,
-};
+}
 
 const mapStateToProps = (state) => ({
   ccState: state.captionsState,
   configSettings: state.configSettings,
-});
+})
 
 const mapDispatchToProps = (dispatch) => ({
   setIsDragged: () => dispatch(setIsDragged()),
-});
+})
 
-export default connect(mapStateToProps, mapDispatchToProps)(ClosedCaption);
+export default connect(mapStateToProps, mapDispatchToProps)(ClosedCaption)

@@ -1,33 +1,33 @@
-import React from 'react';
-import { MenuDivider, Menu, MenuItem } from '@blueprintjs/core';
+import React from 'react'
+import { MenuDivider, Menu, MenuItem } from '@blueprintjs/core'
 import {
   changeLanguage,
   toggleActivationDrawer,
-} from '@/redux/settingsSlice';
-import { useShallowEqualSelector, useReduxCallbackDispatch } from '@/redux/redux-helpers';
+} from '@/redux/settingsSlice'
+import { useShallowEqualSelector, useReduxCallbackDispatch } from '@/redux/redux-helpers'
 
 export default function LanguageOptions() {
   const isBitsEnabled = useShallowEqualSelector(
     (state) => state.configSettings.isBitsEnabled,
-  );
+  )
   const selectedLanguage = useShallowEqualSelector(
     (state) => state.configSettings.viewerLanguage,
-  );
+  )
   const languages = useShallowEqualSelector(
     (state) => Object.keys(state.captionsState.translations || {}),
-  );
+  )
   const translations = useShallowEqualSelector(
     (state) => state.captionsState.translations,
-  );
-  const onSelectDefaultLanguage = useReduxCallbackDispatch(changeLanguage('default'));
-  const toggleDrawer = useReduxCallbackDispatch(toggleActivationDrawer());
+  )
+  const onSelectDefaultLanguage = useReduxCallbackDispatch(changeLanguage('default'))
+  const toggleDrawer = useReduxCallbackDispatch(toggleActivationDrawer())
 
-  const defaultIcon = selectedLanguage === 'default' ? 'tick' : 'none';
+  const defaultIcon = selectedLanguage === 'default' ? 'tick' : 'none'
 
   const optionEls = languages.map((l) => {
-    const icon = l === selectedLanguage ? 'tick' : 'none';
+    const icon = l === selectedLanguage ? 'tick' : 'none'
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const onClick = useReduxCallbackDispatch(changeLanguage(l));
+    const onClick = useReduxCallbackDispatch(changeLanguage(l))
 
     return (
       <MenuItem
@@ -38,8 +38,8 @@ export default function LanguageOptions() {
         onClick={onClick}
         shouldDismissPopover={false}
       />
-    );
-  });
+    )
+  })
 
   return (
     <Menu>
@@ -63,5 +63,5 @@ export default function LanguageOptions() {
       </>
       }
     </Menu>
-  );
+  )
 }

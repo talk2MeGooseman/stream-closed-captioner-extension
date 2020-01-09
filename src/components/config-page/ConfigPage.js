@@ -1,31 +1,31 @@
-import React from 'react';
-import Authentication from '../Authentication/Authentication';
-import ConfigContainer from './ConfigContainer/ConfigContainer';
+import React from 'react'
+import Authentication from '../Authentication/Authentication'
+import ConfigContainer from './ConfigContainer/ConfigContainer'
 
-import 'typeface-montserrat';
-import 'typeface-raleway';
-import 'typeface-roboto';
+import 'typeface-montserrat'
+import 'typeface-raleway'
+import 'typeface-roboto'
 
-import './Config.css';
+import './Config.css'
 
 export default class ConfigPage extends React.Component {
   constructor(props) {
-    super(props);
-    this.Authentication = new Authentication();
+    super(props)
+    this.Authentication = new Authentication()
 
     // if the extension is running on twitch or dev rig, set the shorthand here.
     // otherwise, set to null.
-    this.twitch = window.Twitch ? window.Twitch.ext : null;
+    this.twitch = window.Twitch ? window.Twitch.ext : null
     this.state = {
       finishedLoading: false,
       theme: 'light',
       commands: [],
-    };
+    }
   }
 
   contextUpdate(context, delta) {
     if (delta.includes('theme')) {
-      this.setState(() => ({ theme: context.theme }));
+      this.setState(() => ({ theme: context.theme }))
     }
   }
 
@@ -33,38 +33,38 @@ export default class ConfigPage extends React.Component {
     // do config page setup as needed here
     if (this.twitch) {
       this.twitch.onAuthorized((auth) => {
-        this.Authentication.setToken(auth.token, auth.userId);
+        this.Authentication.setToken(auth.token, auth.userId)
         if (!this.state.finishedLoading) {
-          this.setState(() => ({ finishedLoading: true }));
+          this.setState(() => ({ finishedLoading: true }))
         }
-      });
+      })
 
       this.twitch.onContext((context, delta) => {
-        this.contextUpdate(context, delta);
-      });
+        this.contextUpdate(context, delta)
+      })
 
       this.twitch.configuration.onChanged(() => {
         let config = this.twitch.configuration.broadcaster
-          ? this.twitch.configuration.broadcaster.content : [];
+          ? this.twitch.configuration.broadcaster.content : []
         try {
-          config = JSON.parse(config);
+          config = JSON.parse(config)
         } catch (e) {
-          config = [];
+          config = []
         }
 
         this.setState(() => ({
           commands: config,
-        }));
-      });
+        }))
+      })
     }
   }
 
   saveConfig(commands) {
-    this.twitch.configuration.set('broadcaster', '1.0', JSON.stringify(commands));
+    this.twitch.configuration.set('broadcaster', '1.0', JSON.stringify(commands))
 
     this.setState(() => ({
       commands,
-    }));
+    }))
   }
 
   render() {
@@ -78,7 +78,7 @@ export default class ConfigPage extends React.Component {
             />
           </div>
         </div>
-      );
+      )
     }
 
     return (
@@ -87,6 +87,6 @@ export default class ConfigPage extends React.Component {
                         Loading...
         </div>
       </div>
-    );
+    )
   }
 }

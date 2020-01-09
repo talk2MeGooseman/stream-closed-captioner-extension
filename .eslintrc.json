@@ -8,7 +8,8 @@
         "plugin:react/recommended",
         "plugin:jest/recommended",
         "plugin:testing-library/react",
-        "plugin:jest-dom/recommended"
+        "plugin:jest-dom/recommended",
+        "plugin:jsx-a11y/recommended"
     ],
     "parser": "babel-eslint",
     "parserOptions": {
@@ -22,7 +23,8 @@
         "react",
         "react-hooks",
         "jest",
-        "jest-dom"
+        "jest-dom",
+        "jsx-a11y"
     ],
     "rules": {
         "indent": [
@@ -31,7 +33,7 @@
         ],
         "semi": [
             "error",
-            "always"
+            "never"
         ],
         "react-hooks/rules-of-hooks": "error",
         "react-hooks/exhaustive-deps": "warn",

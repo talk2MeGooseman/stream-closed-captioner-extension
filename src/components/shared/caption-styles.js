@@ -4,7 +4,7 @@ export const ccStyles = {
   color: '#ffffff',
   // textTransform: "capitalize",
   padding: '0px 8px',
-};
+}
 
 export const captionStyles = {
   leftBottomCorner: {
@@ -15,4 +15,4 @@ export const captionStyles = {
     alignSelf: 'flex-end',
     textAlign: 'right',
   },
-};
+}

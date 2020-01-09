@@ -1,1 +1,1 @@
-export { default as TranslationsDrawer } from './TranslationsDrawer';
+export { default as TranslationsDrawer } from './TranslationsDrawer'

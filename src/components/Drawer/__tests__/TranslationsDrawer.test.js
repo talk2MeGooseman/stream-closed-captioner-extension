@@ -1,9 +1,9 @@
-import React from 'react';
-import { cleanup } from '@testing-library/react';
-import TranslationsDrawer from '../TranslationsDrawer';
-import { renderWithRedux } from '@/setupTests';
+import React from 'react'
+import { cleanup } from '@testing-library/react'
+import TranslationsDrawer from '../TranslationsDrawer'
+import { renderWithRedux } from '@/setupTests'
 
-afterEach(cleanup);
+afterEach(cleanup)
 
 describe('TranslationsDrawer', () => {
   describe('render nothing', () => {
@@ -16,10 +16,10 @@ describe('TranslationsDrawer', () => {
             },
           },
         },
-      );
+      )
 
-      expect(queryByText('Turn on Translations!')).not.toBeInTheDocument();
-    });
+      expect(queryByText('Turn on Translations!')).not.toBeInTheDocument()
+    })
 
     it('if no products', () => {
       const { queryByText } = renderWithRedux(
@@ -35,10 +35,10 @@ describe('TranslationsDrawer', () => {
             },
           },
         },
-      );
+      )
 
-      expect(queryByText('Turn on Translations!')).not.toBeInTheDocument();
-    });
+      expect(queryByText('Turn on Translations!')).not.toBeInTheDocument()
+    })
 
     it('if non-bits enabled viewer', () => {
       const { queryByText } = renderWithRedux(
@@ -64,10 +64,10 @@ describe('TranslationsDrawer', () => {
             },
           },
         },
-      );
-      expect(queryByText('Turn on Translations!')).not.toBeInTheDocument();
-    });
-  });
+      )
+      expect(queryByText('Turn on Translations!')).not.toBeInTheDocument()
+    })
+  })
 
   describe('renders drawer', () => {
     it('with ActivateTranslationBody', () => {
@@ -95,9 +95,9 @@ describe('TranslationsDrawer', () => {
             },
           },
         },
-      );
-      expect(queryByTestId('activate-translation')).toBeInTheDocument();
-    });
+      )
+      expect(queryByTestId('activate-translation')).toBeInTheDocument()
+    })
 
     it('with NagStreamerBody', () => {
       const { queryByTestId } = renderWithRedux(
@@ -124,8 +124,8 @@ describe('TranslationsDrawer', () => {
             },
           },
         },
-      );
-      expect(queryByTestId('nag-streamer')).toBeInTheDocument();
-    });
-  });
-});
+      )
+      expect(queryByTestId('nag-streamer')).toBeInTheDocument()
+    })
+  })
+})

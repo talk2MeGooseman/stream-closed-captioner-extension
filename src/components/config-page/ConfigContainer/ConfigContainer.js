@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
-import React from 'react';
-import { Card, Elevation } from '@blueprintjs/core';
-import './ConfigContainer.css';
+import React from 'react'
+import { Card, Elevation } from '@blueprintjs/core'
+import './ConfigContainer.css'
 
 export default function ConfigContainer() {
   return (
@@ -45,5 +45,5 @@ export default function ConfigContainer() {
         </li>
       </ol>
     </Card>
-  );
+  )
 }

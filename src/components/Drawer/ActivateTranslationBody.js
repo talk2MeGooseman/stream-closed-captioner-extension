@@ -1,13 +1,13 @@
 /* eslint-disable max-len */
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import {
   Button, Classes, MenuItem, Divider,
-} from '@blueprintjs/core';
-import { Select } from '@blueprintjs/select';
-import { useBits, setSelectedProduct } from '@/redux/productsSlice';
-import { productMenuItemRenderer } from './ProductMenuItem';
+} from '@blueprintjs/core'
+import { Select } from '@blueprintjs/select'
+import { useBits, setSelectedProduct } from '@/redux/productsSlice'
+import { productMenuItemRenderer } from './ProductMenuItem'
 
 function ActivateTranslationBody({
   translationInfo: { activationInfo },
@@ -15,12 +15,12 @@ function ActivateTranslationBody({
   onUseBits,
   onProductSelect,
 }) {
-  let buttonCopy = productsCatalog.products[0].displayName;
+  let buttonCopy = productsCatalog.products[0].displayName
   if (productsCatalog.selectedProduct) {
-    buttonCopy = productsCatalog.selectedProduct.displayName;
+    buttonCopy = productsCatalog.selectedProduct.displayName
   }
 
-  const languageKeys = Object.keys(activationInfo.languages);
+  const languageKeys = Object.keys(activationInfo.languages)
 
   return (
     <div data-testid="activate-translation" className={Classes.DIALOG_BODY}>
@@ -45,7 +45,7 @@ function ActivateTranslationBody({
         Submit
       </Button>
     </div>
-  );
+  )
 }
 
 ActivateTranslationBody.propTypes = {
@@ -56,20 +56,20 @@ ActivateTranslationBody.propTypes = {
   }),
   onUseBits: PropTypes.func,
   onProductSelect: PropTypes.func,
-};
+}
 
 const mapStateToProps = (state) => ({
   translationInfo: state.translationInfo,
   productsCatalog: state.productsCatalog,
-});
+})
 
 const mapDispatchToProps = (dispatch) => ({
   // eslint-disable-next-line react-hooks/rules-of-hooks
   onUseBits: (sku) => dispatch(useBits(sku)),
   onProductSelect: (product) => dispatch(setSelectedProduct(product)),
-});
+})
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(ActivateTranslationBody);
+)(ActivateTranslationBody)

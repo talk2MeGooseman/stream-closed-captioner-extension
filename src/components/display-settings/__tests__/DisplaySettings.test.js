@@ -1,18 +1,18 @@
-import React from 'react';
-import { cleanup } from '@testing-library/react';
-import DisplaySettings from '../DisplaySettings';
-import { renderWithRedux } from '@/setupTests';
+import React from 'react'
+import { cleanup } from '@testing-library/react'
+import DisplaySettings from '../DisplaySettings'
+import { renderWithRedux } from '@/setupTests'
 
-afterEach(cleanup);
+afterEach(cleanup)
 
 describe('DisplaySettings', () => {
   describe('not video overlay', () => {
     it('controls are always shown', () => {
-      const { queryByTestId } = renderWithRedux(<DisplaySettings />);
+      const { queryByTestId } = renderWithRedux(<DisplaySettings />)
 
-      expect(queryByTestId('display-settings')).toBeInTheDocument();
-    });
-  });
+      expect(queryByTestId('display-settings')).toBeInTheDocument()
+    })
+  })
 
   describe('is video overlay', () => {
     beforeEach(() => {
@@ -20,8 +20,8 @@ describe('DisplaySettings', () => {
         {},
         'Test Title',
         '/test.html?anchor=video_overlay&platform=web',
-      );
-    });
+      )
+    })
 
     describe('arePlayerControlsVisible is true', () => {
       it('contols are shown', () => {
@@ -29,11 +29,11 @@ describe('DisplaySettings', () => {
           initialState: {
             videoPlayerContext: { arePlayerControlsVisible: true },
           },
-        });
+        })
 
-        expect(queryByTestId('display-settings')).toBeInTheDocument();
-      });
-    });
+        expect(queryByTestId('display-settings')).toBeInTheDocument()
+      })
+    })
 
     describe('arePlayerControlsVisible is false', () => {
       it('renders enable horizontal text', () => {
@@ -41,10 +41,10 @@ describe('DisplaySettings', () => {
           initialState: {
             videoPlayerContext: { arePlayerControlsVisible: false },
           },
-        });
+        })
 
-        expect(queryByTestId('display-settings')).not.toBeInTheDocument();
-      });
-    });
-  });
-});
+        expect(queryByTestId('display-settings')).not.toBeInTheDocument()
+      })
+    })
+  })
+})

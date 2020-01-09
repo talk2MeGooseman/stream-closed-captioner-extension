@@ -1,16 +1,16 @@
-import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { MenuDivider, MenuItem } from '@blueprintjs/core';
-import { faUndo } from '@fortawesome/free-solid-svg-icons';
-import { isVideoOverlay } from '@/helpers/video-helpers';
-import { resetCCText } from '@/redux/settingsSlice';
-import { useReduxCallbackDispatch } from '../../../redux/redux-helpers';
+import React from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { MenuDivider, MenuItem } from '@blueprintjs/core'
+import { faUndo } from '@fortawesome/free-solid-svg-icons'
+import { isVideoOverlay } from '@/helpers/video-helpers'
+import { resetCCText } from '@/redux/settingsSlice'
+import { useReduxCallbackDispatch } from '../../../redux/redux-helpers'
 
 function ResetButton() {
-  const onResetPosition = useReduxCallbackDispatch(resetCCText());
+  const onResetPosition = useReduxCallbackDispatch(resetCCText())
 
   if (!isVideoOverlay()) {
-    return null;
+    return null
   }
 
   return (
@@ -23,9 +23,9 @@ function ResetButton() {
         shouldDismissPopover={false}
       />
     </React.Fragment>
-  );
+  )
 }
 
-ResetButton.propTypes = {};
+ResetButton.propTypes = {}
 
-export default ResetButton;
+export default ResetButton

@@ -1,14 +1,14 @@
 /* eslint-disable max-len */
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import {
   Button, MenuItem, Divider, Classes,
-} from '@blueprintjs/core';
-import { Select } from '@blueprintjs/select';
-import { useBits, setSelectedProduct } from '@/redux/productsSlice';
-import { TRANSLATION_COST } from '@/utils/Constants';
-import { productMenuItemRenderer } from './ProductMenuItem';
+} from '@blueprintjs/core'
+import { Select } from '@blueprintjs/select'
+import { useBits, setSelectedProduct } from '@/redux/productsSlice'
+import { TRANSLATION_COST } from '@/utils/Constants'
+import { productMenuItemRenderer } from './ProductMenuItem'
 
 function NagStreamerBody({
   translationInfo: { activationInfo },
@@ -16,9 +16,9 @@ function NagStreamerBody({
   onUseBits,
   onProductSelect,
 }) {
-  let buttonCopy = productsCatalog.products[0].displayName;
+  let buttonCopy = productsCatalog.products[0].displayName
   if (productsCatalog.selectedProduct) {
-    buttonCopy = productsCatalog.selectedProduct.displayName;
+    buttonCopy = productsCatalog.selectedProduct.displayName
   }
 
   let extraBitsBalanceInfo = (
@@ -26,13 +26,13 @@ function NagStreamerBody({
       <p>But there are enough bits purchased to turn on translations for <b>{Math.floor(activationInfo.balance / TRANSLATION_COST)} stream day(s)</b>.</p>
       <p><i>A stream day is a 24 hours of active translations from the moment the broadcaster turns on Stream Closed Captioner</i></p>
     </React.Fragment>
-  );
+  )
 
   if (activationInfo.activated) {
-    extraBitsBalanceInfo = null;
+    extraBitsBalanceInfo = null
   }
 
-  const languageKeys = Object.keys(activationInfo.languages);
+  const languageKeys = Object.keys(activationInfo.languages)
 
   return (
     <div data-testid="nag-streamer" className={Classes.DIALOG_BODY}>
@@ -57,7 +57,7 @@ function NagStreamerBody({
           Submit
       </Button>
     </div>
-  );
+  )
 }
 
 NagStreamerBody.propTypes = {
@@ -68,20 +68,20 @@ NagStreamerBody.propTypes = {
   }),
   onUseBits: PropTypes.func,
   onProductSelect: PropTypes.func,
-};
+}
 
 const mapStateToProps = (state) => ({
   translationInfo: state.translationInfo,
   productsCatalog: state.productsCatalog,
-});
+})
 
 const mapDispatchToProps = (dispatch) => ({
   // eslint-disable-next-line react-hooks/rules-of-hooks
   onUseBits: (sku) => dispatch(useBits(sku)),
   onProductSelect: (product) => dispatch(setSelectedProduct(product)),
-});
+})
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(NagStreamerBody);
+)(NagStreamerBody)

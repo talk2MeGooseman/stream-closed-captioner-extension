@@ -1,16 +1,16 @@
-import React from 'react';
+import React from 'react'
 
-import 'typeface-montserrat';
-import 'typeface-raleway';
-import 'typeface-roboto';
+import 'typeface-montserrat'
+import 'typeface-raleway'
+import 'typeface-roboto'
 
-import MobileClosedCaption from './MobileClosedCaption';
-import { DisplaySettings } from '../display-settings';
+import MobileClosedCaption from './MobileClosedCaption'
+import { DisplaySettings } from '../display-settings'
 
-const classNames = require('classnames');
+const classNames = require('classnames')
 
 function MobilePanel() {
-  const containerClass = classNames({});
+  const containerClass = classNames({})
 
   return (
     <div id="mobile-container" className={containerClass}>
@@ -19,7 +19,7 @@ function MobilePanel() {
         <DisplaySettings />
       </div>
     </div>
-  );
+  )
 }
 
-export default MobilePanel;
+export default MobilePanel

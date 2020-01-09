@@ -1,9 +1,9 @@
-import { Menu } from '@blueprintjs/core';
-import React from 'react';
-import BoxSizeButton from './BoxSizeButton';
-import FontSizeOptions from './FontSizeOptions';
-import ResetButton from './ResetButton';
-import LineCountOptions from './LineCountOptions';
+import { Menu } from '@blueprintjs/core'
+import React from 'react'
+import BoxSizeButton from './BoxSizeButton'
+import FontSizeOptions from './FontSizeOptions'
+import ResetButton from './ResetButton'
+import LineCountOptions from './LineCountOptions'
 
 const SettingsMenu = () => (
   <Menu>
@@ -12,8 +12,8 @@ const SettingsMenu = () => (
     <ResetButton />
     <BoxSizeButton />
   </Menu>
-);
+)
 
-SettingsMenu.propTypes = {};
+SettingsMenu.propTypes = {}
 
-export default SettingsMenu;
+export default SettingsMenu

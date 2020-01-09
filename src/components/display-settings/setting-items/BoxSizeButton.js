@@ -1,25 +1,25 @@
-import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faExpand, faMinus } from '@fortawesome/free-solid-svg-icons';
-import { MenuDivider, MenuItem } from '@blueprintjs/core';
-import { isVideoOverlay } from '@/helpers/video-helpers';
-import { toggleBoxSize } from '@/redux/settingsSlice';
-import { useShallowEqualSelector, useReduxCallbackDispatch } from '@/redux/redux-helpers';
+import React from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faExpand, faMinus } from '@fortawesome/free-solid-svg-icons'
+import { MenuDivider, MenuItem } from '@blueprintjs/core'
+import { isVideoOverlay } from '@/helpers/video-helpers'
+import { toggleBoxSize } from '@/redux/settingsSlice'
+import { useShallowEqualSelector, useReduxCallbackDispatch } from '@/redux/redux-helpers'
 
 function BoxSizeButton() {
-  const ccBoxSize = useShallowEqualSelector((state) => state.configSettings.ccBoxSize);
-  const onToggleBoxSize = useReduxCallbackDispatch(toggleBoxSize());
+  const ccBoxSize = useShallowEqualSelector((state) => state.configSettings.ccBoxSize)
+  const onToggleBoxSize = useReduxCallbackDispatch(toggleBoxSize())
 
   if (!isVideoOverlay()) {
-    return null;
+    return null
   }
 
-  let text = 'Enable Square Text Box';
-  let icon = faExpand;
+  let text = 'Enable Square Text Box'
+  let icon = faExpand
 
   if (ccBoxSize) {
-    text = 'Enable Horizontal Text Box';
-    icon = faMinus;
+    text = 'Enable Horizontal Text Box'
+    icon = faMinus
   }
 
   return (
@@ -32,9 +32,9 @@ function BoxSizeButton() {
         shouldDismissPopover={false}
       />
     </React.Fragment>
-  );
+  )
 }
 
-BoxSizeButton.propTypes = {};
+BoxSizeButton.propTypes = {}
 
-export default BoxSizeButton;
+export default BoxSizeButton

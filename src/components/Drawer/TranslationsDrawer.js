@@ -1,30 +1,30 @@
 /* eslint-disable no-shadow */
-import React from 'react';
+import React from 'react'
 import {
   Classes, Drawer,
-} from '@blueprintjs/core';
-import { toggleActivationDrawer } from '@/redux/settingsSlice';
-import { isVideoOverlay } from '@/helpers/video-helpers';
-import ActivateTranslationBody from './ActivateTranslationBody';
-import NagStreamerBody from './NagStreamerBody';
-import { useShallowEqualSelector, useReduxCallbackDispatch } from '@/redux/redux-helpers';
+} from '@blueprintjs/core'
+import { toggleActivationDrawer } from '@/redux/settingsSlice'
+import { isVideoOverlay } from '@/helpers/video-helpers'
+import ActivateTranslationBody from './ActivateTranslationBody'
+import NagStreamerBody from './NagStreamerBody'
+import { useShallowEqualSelector, useReduxCallbackDispatch } from '@/redux/redux-helpers'
 
 function TranslationsDrawer() {
-  const { isDrawerOpen, isBitsEnabled } = useShallowEqualSelector((state) => state.configSettings);
-  const { activationInfo } = useShallowEqualSelector((state) => state.translationInfo);
-  const { products } = useShallowEqualSelector((state) => state.productsCatalog);
-  const onToggleActivationDrawer = useReduxCallbackDispatch(toggleActivationDrawer());
+  const { isDrawerOpen, isBitsEnabled } = useShallowEqualSelector((state) => state.configSettings)
+  const { activationInfo } = useShallowEqualSelector((state) => state.translationInfo)
+  const { products } = useShallowEqualSelector((state) => state.productsCatalog)
+  const onToggleActivationDrawer = useReduxCallbackDispatch(toggleActivationDrawer())
 
   if (!activationInfo || products.length === 0 || !isBitsEnabled) {
-    return null;
+    return null
   }
 
-  const drawerWidth = isVideoOverlay() ? Drawer.SIZE_STANDARD : Drawer.SIZE_LARGE;
+  const drawerWidth = isVideoOverlay() ? Drawer.SIZE_STANDARD : Drawer.SIZE_LARGE
 
-  let drawerBody = <ActivateTranslationBody />;
+  let drawerBody = <ActivateTranslationBody />
 
   if (activationInfo.balance >= 100 || activationInfo.activated) {
-    drawerBody = <NagStreamerBody />;
+    drawerBody = <NagStreamerBody />
   }
 
   return (
@@ -42,9 +42,9 @@ function TranslationsDrawer() {
       </div>
       <div className={Classes.DRAWER_FOOTER} />
     </Drawer>
-  );
+  )
 }
 
-TranslationsDrawer.propTypes = {};
+TranslationsDrawer.propTypes = {}
 
-export default TranslationsDrawer;
+export default TranslationsDrawer
