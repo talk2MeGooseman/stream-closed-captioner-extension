@@ -15,6 +15,12 @@ const store = configureStore({
 }, applyMiddleware(thunk))
 const Component = withTwitchData(Overlay, store)
 
+if (process.env.NODE_ENV !== 'production') {
+  // eslint-disable-next-line global-require
+  const axe = require('react-axe')
+  axe(React, ReactDOM, 1000)
+}
+
 ReactDOM.render(
   <Provider store={store}>
     <Component />
