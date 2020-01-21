@@ -5,11 +5,13 @@ import FontSizeOptions from './FontSizeOptions'
 import ResetButton from './ResetButton'
 import LineCountOptions from './LineCountOptions'
 import GrayOutFinalTextOptionButton from './GrayOutFinalTextOptionButton'
+import UppercaseTextOptionButton from './UppercaseTextOptionButton'
 
 const SettingsMenu = () => (
   <Menu>
     <FontSizeOptions />
     <GrayOutFinalTextOptionButton />
+    <UppercaseTextOptionButton />
     <LineCountOptions />
     <ResetButton />
     <BoxSizeButton />

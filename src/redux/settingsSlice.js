@@ -17,6 +17,7 @@ const initialState = {
   boxLineCount: 7,
   switchSettingsPosition: false,
   grayOutFinalText: false,
+  uppercaseText: false,
 }
 
 const settingsSlice = createSlice({
@@ -53,6 +54,9 @@ const settingsSlice = createSlice({
     toggleActivationDrawer(state) {
       state.isDrawerOpen = !state.isDrawerOpen
     },
+    toggleUppercaseText(state) {
+      state.uppercaseText = !state.uppercaseText
+    },
     increaseLineCount(state) {
       if (state.ccBoxSize) {
         state.boxLineCount += 1
@@ -84,6 +88,7 @@ export const {
   increaseLineCount,
   decreaseLineCount,
   toggleGrayOutFinalText,
+  toggleUppercaseText,
 } = settingsSlice.actions
 
 export default settingsSlice.reducer

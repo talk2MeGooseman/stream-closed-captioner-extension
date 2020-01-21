@@ -2,6 +2,7 @@ import React from 'react'
 import { cleanup, fireEvent } from '@testing-library/react'
 import FontSizeOptions from '../FontSizeOptions'
 import { renderWithRedux } from '@/setupTests'
+import { TEXT_SIZES } from '@/utils/Constants'
 
 afterEach(cleanup)
 
@@ -23,7 +24,7 @@ describe('FontSizeOptions', () => {
 
     fireEvent.click(getByText('Large Text'))
     const { configSettings: { size } } = store.getState()
-    expect(size).toEqual('large')
+    expect(size).toEqual(TEXT_SIZES.LARGE)
   })
 
   it('clicking medium text triggers updates state', () => {
@@ -33,7 +34,7 @@ describe('FontSizeOptions', () => {
 
     fireEvent.click(getByText('Medium Text'))
     const { configSettings: { size } } = store.getState()
-    expect(size).toEqual('medium')
+    expect(size).toEqual(TEXT_SIZES.MEDIUM)
   })
 
   it('clicking small text triggers updates state', () => {
@@ -43,6 +44,6 @@ describe('FontSizeOptions', () => {
 
     fireEvent.click(getByText('Small Text'))
     const { configSettings: { size } } = store.getState()
-    expect(size).toEqual('small')
+    expect(size).toEqual(TEXT_SIZES.SMALL)
   })
 })

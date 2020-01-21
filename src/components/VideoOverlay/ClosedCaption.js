@@ -94,6 +94,12 @@ function ClosedCaption({
     finalTextCaptions = translations[configSettings.viewerLanguage].textQueue.map(({ text }) => text).join(' ')
   }
 
+  if (configSettings.uppercaseText) {
+    finalTextCaptions = finalTextCaptions.toUpperCase()
+    // eslint-disable-next-line no-param-reassign
+    interimText = interimText.toUpperCase()
+  }
+
   return (
     <Draggable grid={[8, 8]} bounds="parent" onStop={setIsDragged}>
       <div className={containerClasses} style={styles}>
