@@ -6,6 +6,7 @@ import { ccStyles } from '../shared/caption-styles'
 
 import './ClosedCaption.css'
 import { setIsDragged } from '@/redux/settingsSlice'
+import { TEXT_SIZES } from '@/utils/Constants'
 
 const classNames = require('classnames')
 
@@ -33,13 +34,13 @@ function setFontSizeStyle(size) {
   let fontSize = ''
 
   switch (size) {
-  case 'small':
+  case TEXT_SIZES.SMALL:
     fontSize = 'var(--small-font-size)'
     break
-  case 'medium':
+  case TEXT_SIZES.MEDIUM:
     fontSize = 'var(--medium-font-size)'
     break
-  case 'large':
+  case TEXT_SIZES.LARGE:
     fontSize = 'var(--large-font-size)'
     break
   default:
@@ -82,19 +83,24 @@ function ClosedCaption({
     'text-mix-case': !configSettings.textUppercase,
   })
 
-  let closedCaptionText = ''
+  const finalTextClasses = classNames({
+    'gray-text': configSettings.grayOutFinalText,
+  })
+
+  let finalTextCaptions = ''
   if (configSettings.viewerLanguage === 'default') {
-    closedCaptionText = `${finalTextQueue.map(({ text }) => text).join(' ')} ${interimText}`
+    finalTextCaptions = finalTextQueue.map(({ text }) => text).join(' ')
   } else {
-    closedCaptionText = translations[configSettings.viewerLanguage].textQueue.map(({ text }) => text).join(' ')
+    finalTextCaptions = translations[configSettings.viewerLanguage].textQueue.map(({ text }) => text).join(' ')
   }
 
   return (
     <Draggable grid={[8, 8]} bounds="parent" onStop={setIsDragged}>
       <div className={containerClasses} style={styles}>
-        <div className={ccTextClasses} style={textStyles} >
-          {closedCaptionText}
-        </div>
+        <main className={ccTextClasses} style={textStyles} >
+          <span className={finalTextClasses}>{finalTextCaptions}</span>
+          <span className="interim-text">{interimText}</span>
+        </main>
       </div>
     </Draggable>
   )

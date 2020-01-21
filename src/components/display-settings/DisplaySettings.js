@@ -36,7 +36,7 @@ const Controls = () => {
   })
 
   return (
-    <span data-testid="display-settings" className={controlClass}>
+    <nav data-testid="display-settings" className={controlClass}>
       <LanguageButton />
       <VisibilityToggle />
       <Popover position="left-bottom" content={<SettingsMenu />} captureDismiss >
@@ -44,7 +44,7 @@ const Controls = () => {
           <FontAwesomeIcon size="2x" icon={faCog} />
         </Tooltip>
       </Popover>
-    </span>
+    </nav>
   )
 }
 

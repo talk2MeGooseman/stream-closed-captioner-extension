@@ -1,13 +1,14 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit'
 import uuid from 'uuid/v4'
+import { TEXT_SIZES } from '@/utils/Constants'
 
 const initialState = {
   viewerLanguage: 'default',
   broadcasterLanguage: 'en-US',
   ccKey: uuid(),
   isDragged: false,
-  size: 'medium',
+  size: TEXT_SIZES.MEDIUM,
   hideCC: false,
   ccBoxSize: false,
   isBitsEnabled: false,
@@ -15,6 +16,7 @@ const initialState = {
   horizontalLineCount: 3,
   boxLineCount: 7,
   switchSettingsPosition: false,
+  grayOutFinalText: false,
 }
 
 const settingsSlice = createSlice({
@@ -26,6 +28,9 @@ const settingsSlice = createSlice({
       Object.keys(settings).forEach((key) => {
         state[key] = settings[key]
       })
+    },
+    toggleGrayOutFinalText(state) {
+      state.grayOutFinalText = !state.grayOutFinalText
     },
     changeTextSize(state, action) {
       state.size = action.payload
@@ -78,6 +83,7 @@ export const {
   resetCCText,
   increaseLineCount,
   decreaseLineCount,
+  toggleGrayOutFinalText,
 } = settingsSlice.actions
 
 export default settingsSlice.reducer

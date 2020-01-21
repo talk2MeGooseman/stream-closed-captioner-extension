@@ -4,6 +4,12 @@ export const CONTEXT_EVENTS_WHITELIST = [
   'displayResolution',
 ]
 
+export const TEXT_SIZES = {
+  SMALL: 1,
+  MEDIUM: 2,
+  LARGE: 3,
+}
+
 export const SECOND = 1000
 export const MAX_TEXT_DISPLAY_TIME = SECOND * 120
 export const MINIMUM_VID_WIDTH = 600

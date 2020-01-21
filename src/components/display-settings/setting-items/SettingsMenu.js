@@ -4,10 +4,12 @@ import BoxSizeButton from './BoxSizeButton'
 import FontSizeOptions from './FontSizeOptions'
 import ResetButton from './ResetButton'
 import LineCountOptions from './LineCountOptions'
+import GrayOutFinalTextOptionButton from './GrayOutFinalTextOptionButton'
 
 const SettingsMenu = () => (
   <Menu>
     <FontSizeOptions />
+    <GrayOutFinalTextOptionButton />
     <LineCountOptions />
     <ResetButton />
     <BoxSizeButton />
