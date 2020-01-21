@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { ccStyles } from '../shared/caption-styles'
 import './MobileClosedCaption.css'
+import { TEXT_SIZES } from '@/utils/Constants'
 
 const classNames = require('classnames')
 
@@ -22,13 +23,13 @@ function setFontSizeStyle(size) {
   let fontSize = ''
 
   switch (size) {
-  case 'small':
+  case TEXT_SIZES.SMALL:
     fontSize = 'var(--mobile-small-font-size)'
     break
-  case 'medium':
+  case TEXT_SIZES.MEDIUM:
     fontSize = 'var(--mobile-medium-font-size)'
     break
-  case 'large':
+  case TEXT_SIZES.LARGE:
     fontSize = 'var(--mobile-large-font-size)'
     break
   default:
@@ -48,26 +49,31 @@ function MobileClosedCaption({
   const textStyles = { ...ccStyles, fontSize }
 
   const ccTextClasses = classNames({
-    'text-capitalize': configSettings.textUppercase,
-    'text-mix-case': !configSettings.textUppercase,
+    'text-capitalize': configSettings.uppercaseText,
+    'text-mix-case': !configSettings.uppercaseText,
   })
 
-  let closedCaptionText = ''
+  const finalTextClasses = classNames({
+    'gray-text': configSettings.grayOutFinalText,
+  })
+
+  let finalTextCaptions = ''
   if (configSettings.viewerLanguage === 'default') {
-    closedCaptionText = `${finalTextQueue
+    finalTextCaptions = finalTextQueue
       .map(({ text }) => text)
-      .join(' ')} ${interimText}`
+      .join(' ')
   } else {
-    closedCaptionText = translations[configSettings.viewerLanguage].textQueue
+    finalTextCaptions = translations[configSettings.viewerLanguage].textQueue
       .map(({ text }) => text)
       .join(' ')
   }
 
   return (
     <div className="caption-container">
-      <div className={ccTextClasses} style={textStyles}>
-        {closedCaptionText}
-      </div>
+      <main className={ccTextClasses} style={textStyles}>
+        <span className={finalTextClasses}>{finalTextCaptions}</span>
+        <span className="interim-text">{interimText}</span>
+      </main>
     </div>
   )
 }

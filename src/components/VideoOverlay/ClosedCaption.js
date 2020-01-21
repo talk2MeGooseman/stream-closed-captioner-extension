@@ -79,8 +79,8 @@ function ClosedCaption({
   })
 
   const ccTextClasses = classNames({
-    'text-capitalize': configSettings.textUppercase,
-    'text-mix-case': !configSettings.textUppercase,
+    'text-capitalize': configSettings.uppercaseText,
+    'text-mix-case': !configSettings.uppercaseText,
   })
 
   const finalTextClasses = classNames({
@@ -92,12 +92,6 @@ function ClosedCaption({
     finalTextCaptions = finalTextQueue.map(({ text }) => text).join(' ')
   } else {
     finalTextCaptions = translations[configSettings.viewerLanguage].textQueue.map(({ text }) => text).join(' ')
-  }
-
-  if (configSettings.uppercaseText) {
-    finalTextCaptions = finalTextCaptions.toUpperCase()
-    // eslint-disable-next-line no-param-reassign
-    interimText = interimText.toUpperCase()
   }
 
   return (
