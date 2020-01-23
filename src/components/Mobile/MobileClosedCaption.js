@@ -1,9 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { ccStyles } from '../shared/caption-styles'
+import { Captions, MobileCaptionsContainer } from '../shared/caption-styles'
 import './MobileClosedCaption.css'
-import { TEXT_SIZES } from '@/utils/Constants'
+import { TEXT_SIZES, FONT_FAMILIES } from '@/utils/Constants'
 
 const classNames = require('classnames')
 
@@ -24,16 +24,16 @@ function setFontSizeStyle(size) {
 
   switch (size) {
   case TEXT_SIZES.SMALL:
-    fontSize = 'var(--mobile-small-font-size)'
+    fontSize = '--mobile-small-font-size'
     break
   case TEXT_SIZES.MEDIUM:
-    fontSize = 'var(--mobile-medium-font-size)'
+    fontSize = '--mobile-medium-font-size'
     break
   case TEXT_SIZES.LARGE:
-    fontSize = 'var(--mobile-large-font-size)'
+    fontSize = '--mobile-large-font-size'
     break
   default:
-    fontSize = 'var(--mobile-medium-font-size)'
+    fontSize = '--mobile-medium-font-size'
     break
   }
 
@@ -45,13 +45,9 @@ function MobileClosedCaption({
   configSettings,
 }) {
   const fontSize = setFontSizeStyle(configSettings.size)
-
-  const textStyles = { ...ccStyles, fontSize }
-
-  const ccTextClasses = classNames({
-    'text-capitalize': configSettings.uppercaseText,
-    'text-mix-case': !configSettings.uppercaseText,
-  })
+  const fontFamily = configSettings.dyslexiaFontEnabled
+    ? FONT_FAMILIES.DYSLEXIA
+    : FONT_FAMILIES.ROBOT
 
   const finalTextClasses = classNames({
     'gray-text': configSettings.grayOutFinalText,
@@ -59,9 +55,7 @@ function MobileClosedCaption({
 
   let finalTextCaptions = ''
   if (configSettings.viewerLanguage === 'default') {
-    finalTextCaptions = finalTextQueue
-      .map(({ text }) => text)
-      .join(' ')
+    finalTextCaptions = finalTextQueue.map(({ text }) => text).join(' ')
   } else {
     finalTextCaptions = translations[configSettings.viewerLanguage].textQueue
       .map(({ text }) => text)
@@ -69,12 +63,16 @@ function MobileClosedCaption({
   }
 
   return (
-    <div className="caption-container">
-      <main className={ccTextClasses} style={textStyles}>
+    <MobileCaptionsContainer>
+      <Captions
+        fontFamily={fontFamily}
+        fontSize={fontSize}
+        uppercase={configSettings.uppercaseText}
+      >
         <span className={finalTextClasses}>{finalTextCaptions}</span>
         <span className="interim-text">{interimText}</span>
-      </main>
-    </div>
+      </Captions>
+    </MobileCaptionsContainer>
   )
 }
 

@@ -1,10 +1,22 @@
 import styled, { css } from 'styled-components'
 
+export const MobileCaptionsContainer = styled.div`
+  display: inline-block;
+  padding: 0px 0px;
+  background: rgba(0, 0, 0, 0.7);
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column-reverse;
+  overflow: hidden;
+  padding-bottom: 0.25em;
+`
+
 export const CaptionsContainer = styled.div`
+  display: flex;
   padding: 0px 0px;
   background: rgba(0, 0, 0, 0.7);
   width: 85%;
-  display: flex;
   flex-direction: column-reverse;
   line-height: var(--line-height);
   padding-bottom: var(--caption-pad-bottom);
