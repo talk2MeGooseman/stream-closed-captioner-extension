@@ -18,6 +18,7 @@ const initialState = {
   switchSettingsPosition: false,
   grayOutFinalText: false,
   uppercaseText: false,
+  dyslexiaFontEnabled: false,
 }
 
 const settingsSlice = createSlice({
@@ -64,6 +65,9 @@ const settingsSlice = createSlice({
 
       state.horizontalLineCount += 1
     },
+    toggleDyslexiaFamily(state) {
+      state.dyslexiaFontEnabled = !state.dyslexiaFontEnabled
+    },
     decreaseLineCount(state) {
       if (state.ccBoxSize && state.boxLineCount !== 1) {
         state.boxLineCount -= 1
@@ -89,6 +93,7 @@ export const {
   decreaseLineCount,
   toggleGrayOutFinalText,
   toggleUppercaseText,
+  toggleDyslexiaFamily,
 } = settingsSlice.actions
 
 export default settingsSlice.reducer

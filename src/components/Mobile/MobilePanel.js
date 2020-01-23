@@ -1,9 +1,4 @@
 import React from 'react'
-
-import 'typeface-montserrat'
-import 'typeface-raleway'
-import 'typeface-roboto'
-
 import MobileClosedCaption from './MobileClosedCaption'
 import { DisplaySettings } from '../display-settings'
 

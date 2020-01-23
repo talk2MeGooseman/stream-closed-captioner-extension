@@ -1,11 +1,6 @@
 import React from 'react'
 import Authentication from '../Authentication/Authentication'
 import ConfigContainer from './ConfigContainer/ConfigContainer'
-
-import 'typeface-montserrat'
-import 'typeface-raleway'
-import 'typeface-roboto'
-
 import './Config.css'
 
 export default class ConfigPage extends React.Component {

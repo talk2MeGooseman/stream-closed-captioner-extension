@@ -10,6 +10,11 @@ export const TEXT_SIZES = {
   LARGE: 3,
 }
 
+export const FONT_FAMILIES = {
+  ROBOTO: 'roboto',
+  DYSLEXIA: 'dsylexic-regular',
+}
+
 export const SECOND = 1000
 export const MAX_TEXT_DISPLAY_TIME = SECOND * 120
 export const MINIMUM_VID_WIDTH = 600

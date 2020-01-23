@@ -2,11 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Draggable from 'react-draggable'
 import { connect } from 'react-redux'
-import { ccStyles } from '../shared/caption-styles'
-
+import { CaptionsContainer, Captions } from '../shared/caption-styles'
 import './ClosedCaption.css'
 import { setIsDragged } from '@/redux/settingsSlice'
-import { TEXT_SIZES } from '@/utils/Constants'
+import { TEXT_SIZES, FONT_FAMILIES } from '@/utils/Constants'
 
 const classNames = require('classnames')
 
@@ -35,16 +34,16 @@ function setFontSizeStyle(size) {
 
   switch (size) {
   case TEXT_SIZES.SMALL:
-    fontSize = 'var(--small-font-size)'
+    fontSize = '--small-font-size'
     break
   case TEXT_SIZES.MEDIUM:
-    fontSize = 'var(--medium-font-size)'
+    fontSize = '--medium-font-size'
     break
   case TEXT_SIZES.LARGE:
-    fontSize = 'var(--large-font-size)'
+    fontSize = '--large-font-size'
     break
   default:
-    fontSize = 'var(--medium-font-size)'
+    fontSize = '--medium-font-size'
     break
   }
 
@@ -57,31 +56,17 @@ function ClosedCaption({
   setIsDragged,
 }) {
   const finalText = finalTextQueue.join(' ')
-
   const fontSize = setFontSizeStyle(configSettings.size)
-  const textStyles = { ...ccStyles, fontSize }
+  const isHidden = shouldHideCC(configSettings.hideCC, interimText, finalText)
+  const fontFamily = configSettings.dyslexiaFontEnabled
+    ? FONT_FAMILIES.DYSLEXIA
+    : FONT_FAMILIES.ROBOTO
 
   let numberOfLines = configSettings.horizontalLineCount
   if (configSettings.ccBoxSize) {
     // eslint-disable-next-line no-param-reassign
     numberOfLines = configSettings.boxLineCount
   }
-
-  const styles = {
-    maxHeight: `calc(${fontSize} * var(--line-height) * ${numberOfLines} + var(--caption-pad-bottom))`,
-    overflow: 'hidden',
-  }
-
-  const containerClasses = classNames({
-    'caption-container': true,
-    'box-size': configSettings.ccBoxSize,
-    hide: shouldHideCC(configSettings.hideCC, interimText, finalText),
-  })
-
-  const ccTextClasses = classNames({
-    'text-capitalize': configSettings.uppercaseText,
-    'text-mix-case': !configSettings.uppercaseText,
-  })
 
   const finalTextClasses = classNames({
     'gray-text': configSettings.grayOutFinalText,
@@ -91,17 +76,28 @@ function ClosedCaption({
   if (configSettings.viewerLanguage === 'default') {
     finalTextCaptions = finalTextQueue.map(({ text }) => text).join(' ')
   } else {
-    finalTextCaptions = translations[configSettings.viewerLanguage].textQueue.map(({ text }) => text).join(' ')
+    finalTextCaptions = translations[configSettings.viewerLanguage].textQueue
+      .map(({ text }) => text)
+      .join(' ')
   }
 
   return (
     <Draggable grid={[8, 8]} bounds="parent" onStop={setIsDragged}>
-      <div className={containerClasses} style={styles}>
-        <main className={ccTextClasses} style={textStyles} >
+      <CaptionsContainer
+        fontSize={fontSize}
+        numberOfLines={numberOfLines}
+        isHidden={isHidden}
+        boxSize={configSettings.ccBoxSize}
+      >
+        <Captions
+          fontFamily={fontFamily}
+          fontSize={fontSize}
+          uppercase={configSettings.uppercaseText}
+        >
           <span className={finalTextClasses}>{finalTextCaptions}</span>
           <span className="interim-text">{interimText}</span>
-        </main>
-      </div>
+        </Captions>
+      </CaptionsContainer>
     </Draggable>
   )
 }

@@ -1,3 +1,9 @@
+@import "~normalize.css";
+@import "~@blueprintjs/core/lib/css/blueprint.css";
+@import "~@blueprintjs/icons/lib/css/blueprint-icons.css";
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+@import '../fonts/stylesheet.css';
+
 :root {
   --small-font-size: 1.5vw;
   --medium-font-size: 2vw;
@@ -20,13 +26,12 @@ html {
 }
 
 .App {
-    font-family: Arial, Helvetica, sans-serif;
 }
 
 body {
-  /* background:aqua; */
   margin: 0;
   padding: 0;
+  font-family: Roboto, Arial, Helvetica, sans-serif;
 }
 
 #root {
@@ -89,6 +94,3 @@ body {
   background: rgba(0,0,0,0.5);
 }
 
-@import "~normalize.css";
-@import "~@blueprintjs/core/lib/css/blueprint.css";
-@import "~@blueprintjs/icons/lib/css/blueprint-icons.css";

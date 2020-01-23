@@ -6,10 +6,12 @@ import ResetButton from './ResetButton'
 import LineCountOptions from './LineCountOptions'
 import GrayOutFinalTextOptionButton from './GrayOutFinalTextOptionButton'
 import UppercaseTextOptionButton from './UppercaseTextOptionButton'
+import FontFamilyOptions from './FontFamilyOptions'
 
 const SettingsMenu = () => (
   <Menu>
     <FontSizeOptions />
+    <FontFamilyOptions />
     <GrayOutFinalTextOptionButton />
     <UppercaseTextOptionButton />
     <LineCountOptions />
