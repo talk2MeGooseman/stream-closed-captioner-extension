@@ -2,8 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import ClosedCaption from './ClosedCaption'
-import { DisplaySettingsMenu } from '../display-settings-menu'
+import { ClosedCaption } from '@/components/Captions'
+import { DisplaySettingsMenu } from '@/components/display-settings-menu'
 
 const classNames = require('classnames')
 

@@ -2,12 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Draggable from 'react-draggable'
 import { connect } from 'react-redux'
-import { CaptionsContainer, Captions } from '../shared/caption-styles'
+import { CaptionsContainer, Captions, CaptionText } from '../shared/caption-styles'
 import './ClosedCaption.css'
 import { setIsDragged } from '@/redux/settingsSlice'
-import { TEXT_SIZES, FONT_FAMILIES } from '@/utils/Constants'
-
-const classNames = require('classnames')
+import { FONT_FAMILIES } from '@/utils/Constants'
+import { getFontSizeStyle } from './helpers'
 
 // Bits 100 from electrichavoc
 // Resub Nyixxs
@@ -29,34 +28,13 @@ function shouldHideCC(shouldHide, interimText, finalText) {
   return shouldHide || isEmptyCC(interimText + finalText)
 }
 
-function setFontSizeStyle(size) {
-  let fontSize = ''
-
-  switch (size) {
-  case TEXT_SIZES.SMALL:
-    fontSize = '--small-font-size'
-    break
-  case TEXT_SIZES.MEDIUM:
-    fontSize = '--medium-font-size'
-    break
-  case TEXT_SIZES.LARGE:
-    fontSize = '--large-font-size'
-    break
-  default:
-    fontSize = '--medium-font-size'
-    break
-  }
-
-  return fontSize
-}
-
 function ClosedCaption({
   configSettings,
   ccState: { interimText, finalTextQueue, translations },
   setIsDragged,
 }) {
   const finalText = finalTextQueue.join(' ')
-  const fontSize = setFontSizeStyle(configSettings.size)
+  const fontSize = getFontSizeStyle(configSettings.size)
   const isHidden = shouldHideCC(configSettings.hideCC, interimText, finalText)
   const fontFamily = configSettings.dyslexiaFontEnabled
     ? FONT_FAMILIES.DYSLEXIA
@@ -67,10 +45,6 @@ function ClosedCaption({
     // eslint-disable-next-line no-param-reassign
     numberOfLines = configSettings.boxLineCount
   }
-
-  const finalTextClasses = classNames({
-    'gray-text': configSettings.grayOutFinalText,
-  })
 
   let finalTextCaptions = ''
   if (configSettings.viewerLanguage === 'default') {
@@ -94,8 +68,10 @@ function ClosedCaption({
           fontSize={fontSize}
           uppercase={configSettings.uppercaseText}
         >
-          <span className={finalTextClasses}>{finalTextCaptions}</span>
-          <span className="interim-text">{interimText}</span>
+          <CaptionText grayOutText={configSettings.grayOutFinalText}>
+            {finalTextCaptions}
+          </CaptionText>
+          <CaptionText interim>{interimText}</CaptionText>
         </Captions>
       </CaptionsContainer>
     </Draggable>

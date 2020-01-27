@@ -1,9 +1,8 @@
 import React from 'react'
-import { Captions, MobileCaptionsContainer, CaptionText } from '../shared/caption-styles'
-import './MobileClosedCaption.css'
-import { TEXT_SIZES, FONT_FAMILIES } from '@/utils/Constants'
+import { Captions, CaptionText, CaptionsContainer } from '../shared/caption-styles'
+import { FONT_FAMILIES } from '@/utils/Constants'
 import { useShallowEqualSelector } from '@/redux/redux-helpers'
-
+import { getMobileFontSizeStyle } from './helpers'
 // Bits - phrakberg
 // Resub - phrakberg
 // Donation -pikaia_xy
@@ -16,27 +15,6 @@ import { useShallowEqualSelector } from '@/redux/redux-helpers'
 // Sub - el_psychic
 // Resub - CreativeBuilds
 
-function setFontSizeStyle(size) {
-  let fontSize = ''
-
-  switch (size) {
-  case TEXT_SIZES.SMALL:
-    fontSize = '--mobile-small-font-size'
-    break
-  case TEXT_SIZES.MEDIUM:
-    fontSize = '--mobile-medium-font-size'
-    break
-  case TEXT_SIZES.LARGE:
-    fontSize = '--mobile-large-font-size'
-    break
-  default:
-    fontSize = '--mobile-medium-font-size'
-    break
-  }
-
-  return fontSize
-}
-
 function MobileClosedCaption() {
   const { interimText, finalTextQueue, translations } = useShallowEqualSelector(
     (state) => state.captionsState,
@@ -45,7 +23,7 @@ function MobileClosedCaption() {
     (state) => state.configSettings,
   )
 
-  const fontSize = setFontSizeStyle(configSettings.size)
+  const fontSize = getMobileFontSizeStyle(configSettings.size)
   const fontFamily = configSettings.dyslexiaFontEnabled
     ? FONT_FAMILIES.DYSLEXIA
     : FONT_FAMILIES.ROBOT
@@ -60,16 +38,16 @@ function MobileClosedCaption() {
   }
 
   return (
-    <MobileCaptionsContainer>
+    <CaptionsContainer mobilePanel>
       <Captions
         fontFamily={fontFamily}
         fontSize={fontSize}
         uppercase={configSettings.uppercaseText}
       >
         <CaptionText grayOutText={configSettings.grayOutFinalText}>{finalTextCaptions}</CaptionText>
-        <CaptionText className="interim-text">{interimText}</CaptionText>
+        <CaptionText interim>{interimText}</CaptionText>
       </Captions>
-    </MobileCaptionsContainer>
+    </CaptionsContainer >
   )
 }
 
