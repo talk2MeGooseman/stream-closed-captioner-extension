@@ -5,8 +5,7 @@ import {
 } from '@blueprintjs/core'
 import { toggleActivationDrawer } from '@/redux/settingsSlice'
 import { isVideoOverlay } from '@/helpers/video-helpers'
-import ActivateTranslationBody from './ActivateTranslationBody'
-import NagStreamerBody from './NagStreamerBody'
+import { NagStreamerBody, ActivateTranslationBody } from './Body'
 import { useShallowEqualSelector, useReduxCallbackDispatch } from '@/redux/redux-helpers'
 
 function TranslationsDrawer() {

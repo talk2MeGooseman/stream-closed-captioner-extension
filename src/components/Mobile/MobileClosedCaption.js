@@ -1,11 +1,8 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
-import { Captions, MobileCaptionsContainer } from '../shared/caption-styles'
+import { Captions, MobileCaptionsContainer, CaptionText } from '../shared/caption-styles'
 import './MobileClosedCaption.css'
 import { TEXT_SIZES, FONT_FAMILIES } from '@/utils/Constants'
-
-const classNames = require('classnames')
+import { useShallowEqualSelector } from '@/redux/redux-helpers'
 
 // Bits - phrakberg
 // Resub - phrakberg
@@ -40,18 +37,18 @@ function setFontSizeStyle(size) {
   return fontSize
 }
 
-function MobileClosedCaption({
-  ccState: { interimText, finalTextQueue, translations },
-  configSettings,
-}) {
+function MobileClosedCaption() {
+  const { interimText, finalTextQueue, translations } = useShallowEqualSelector(
+    (state) => state.captionsState,
+  )
+  const configSettings = useShallowEqualSelector(
+    (state) => state.configSettings,
+  )
+
   const fontSize = setFontSizeStyle(configSettings.size)
   const fontFamily = configSettings.dyslexiaFontEnabled
     ? FONT_FAMILIES.DYSLEXIA
     : FONT_FAMILIES.ROBOT
-
-  const finalTextClasses = classNames({
-    'gray-text': configSettings.grayOutFinalText,
-  })
 
   let finalTextCaptions = ''
   if (configSettings.viewerLanguage === 'default') {
@@ -69,23 +66,11 @@ function MobileClosedCaption({
         fontSize={fontSize}
         uppercase={configSettings.uppercaseText}
       >
-        <span className={finalTextClasses}>{finalTextCaptions}</span>
-        <span className="interim-text">{interimText}</span>
+        <CaptionText grayOutText={configSettings.grayOutFinalText}>{finalTextCaptions}</CaptionText>
+        <CaptionText className="interim-text">{interimText}</CaptionText>
       </Captions>
     </MobileCaptionsContainer>
   )
 }
 
-MobileClosedCaption.propTypes = {
-  configSettings: PropTypes.object,
-  ccState: PropTypes.object,
-}
-
-MobileClosedCaption.defaultProps = {}
-
-const mapStateToProps = (state) => ({
-  ccState: state.captionsState,
-  configSettings: state.configSettings,
-})
-
-export default connect(mapStateToProps)(MobileClosedCaption)
+export default MobileClosedCaption

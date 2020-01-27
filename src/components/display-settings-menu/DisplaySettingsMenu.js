@@ -7,7 +7,7 @@ import { useShallowEqualSelector } from '@/redux/redux-helpers'
 import { LanguageButton } from '@/components/language-button'
 import { isVideoOverlay } from '@/helpers/video-helpers'
 import VisibilityToggle from '@/components/VideoOverlay/VisibilityToggle'
-import { SettingsMenu } from './setting-items'
+import { SettingsMenuItems } from './menu-items'
 
 
 function isPositionLeft(configSettings) {
@@ -39,7 +39,7 @@ const Controls = () => {
     <nav data-testid="display-settings" className={controlClass}>
       <LanguageButton />
       <VisibilityToggle />
-      <Popover position="left-bottom" content={<SettingsMenu />} captureDismiss >
+      <Popover position="left-bottom" content={<SettingsMenuItems />} captureDismiss >
         <Tooltip content={'Settings'}>
           <FontAwesomeIcon size="2x" icon={faCog} />
         </Tooltip>
@@ -47,9 +47,5 @@ const Controls = () => {
     </nav>
   )
 }
-
-Controls.propTypes = {
-}
-
 
 export default Controls

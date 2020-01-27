@@ -1,10 +1,10 @@
 import React from 'react'
 import { MenuDivider, Menu, MenuItem } from '@blueprintjs/core'
+import { changeLanguage, toggleActivationDrawer } from '@/redux/settingsSlice'
 import {
-  changeLanguage,
-  toggleActivationDrawer,
-} from '@/redux/settingsSlice'
-import { useShallowEqualSelector, useReduxCallbackDispatch } from '@/redux/redux-helpers'
+  useShallowEqualSelector,
+  useReduxCallbackDispatch,
+} from '@/redux/redux-helpers'
 
 export default function LanguageOptions() {
   const isBitsEnabled = useShallowEqualSelector(
@@ -53,15 +53,16 @@ export default function LanguageOptions() {
       />
       <MenuDivider />
       {optionEls}
-      { isBitsEnabled && <>
-        <MenuDivider />
-        <MenuItem
-          text="Add Translation Days"
-          onClick={toggleDrawer}
-          shouldDismissPopover={false}
-        />
-      </>
-      }
+      {isBitsEnabled && (
+        <>
+          <MenuDivider />
+          <MenuItem
+            text="Add Translation Days"
+            onClick={toggleDrawer}
+            shouldDismissPopover={false}
+          />
+        </>
+      )}
     </Menu>
   )
 }

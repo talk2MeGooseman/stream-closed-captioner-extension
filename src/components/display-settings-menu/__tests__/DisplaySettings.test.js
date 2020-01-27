@@ -1,6 +1,6 @@
 import React from 'react'
 import { cleanup } from '@testing-library/react'
-import DisplaySettings from '../DisplaySettings'
+import DisplaySettingsMenu from '../DisplaySettingsMenu'
 import { renderWithRedux } from '@/setupTests'
 
 afterEach(cleanup)
@@ -8,7 +8,7 @@ afterEach(cleanup)
 describe('DisplaySettings', () => {
   describe('not video overlay', () => {
     it('controls are always shown', () => {
-      const { queryByTestId } = renderWithRedux(<DisplaySettings />)
+      const { queryByTestId } = renderWithRedux(<DisplaySettingsMenu />)
 
       expect(queryByTestId('display-settings')).toBeInTheDocument()
     })
@@ -25,7 +25,7 @@ describe('DisplaySettings', () => {
 
     describe('arePlayerControlsVisible is true', () => {
       it('contols are shown', () => {
-        const { queryByTestId } = renderWithRedux(<DisplaySettings />, {
+        const { queryByTestId } = renderWithRedux(<DisplaySettingsMenu />, {
           initialState: {
             videoPlayerContext: { arePlayerControlsVisible: true },
           },
@@ -37,7 +37,7 @@ describe('DisplaySettings', () => {
 
     describe('arePlayerControlsVisible is false', () => {
       it('renders enable horizontal text', () => {
-        const { queryByTestId } = renderWithRedux(<DisplaySettings />, {
+        const { queryByTestId } = renderWithRedux(<DisplaySettingsMenu />, {
           initialState: {
             videoPlayerContext: { arePlayerControlsVisible: false },
           },

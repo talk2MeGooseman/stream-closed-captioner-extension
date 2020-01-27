@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 import ClosedCaption from './ClosedCaption'
-import { DisplaySettings } from '../display-settings'
+import { DisplaySettingsMenu } from '../display-settings-menu'
 
 const classNames = require('classnames')
 
@@ -20,7 +20,7 @@ class Overlay extends React.PureComponent {
       <div id="app-container" className={containerClass}>
         <div className="drag-boundary">
           <ClosedCaption key={configSettings.ccKey} />
-          <DisplaySettings />
+          <DisplaySettingsMenu />
         </div>
       </div>
     )

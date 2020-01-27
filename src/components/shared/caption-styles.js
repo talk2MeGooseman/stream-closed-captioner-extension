@@ -38,3 +38,9 @@ export const Captions = styled.main`
     text-transform: uppercase;
   `}
 `
+
+export const CaptionText = styled.span`
+  ${(props) => props.grayOutText && css`
+    color: #D2D7D3;
+  `}
+`

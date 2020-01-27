@@ -1,17 +1,13 @@
 import React from 'react'
 import MobileClosedCaption from './MobileClosedCaption'
-import { DisplaySettings } from '../display-settings'
-
-const classNames = require('classnames')
+import { DisplaySettingsMenu } from '../display-settings-menu'
 
 function MobilePanel() {
-  const containerClass = classNames({})
-
   return (
-    <div id="mobile-container" className={containerClass}>
-      <div className="">
+    <div id="mobile-container">
+      <div>
         <MobileClosedCaption />
-        <DisplaySettings />
+        <DisplaySettingsMenu />
       </div>
     </div>
   )

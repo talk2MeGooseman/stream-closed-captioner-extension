@@ -12,7 +12,7 @@ import {
   completeBitsTransaction,
   setChannelId,
 } from './redux/productsSlice'
-import { TranslationsDrawer } from '@/components/Drawer'
+import { TranslationsDrawer } from '@/components/TranslationDrawer'
 
 const debounce = require('lodash/debounce')
 

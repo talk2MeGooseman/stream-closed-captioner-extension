@@ -8,7 +8,7 @@ import GrayOutFinalTextOptionButton from './GrayOutFinalTextOptionButton'
 import UppercaseTextOptionButton from './UppercaseTextOptionButton'
 import FontFamilyOptions from './FontFamilyOptions'
 
-const SettingsMenu = () => (
+const SettingsMenuItems = () => (
   <Menu>
     <FontSizeOptions />
     <FontFamilyOptions />
@@ -20,6 +20,6 @@ const SettingsMenu = () => (
   </Menu>
 )
 
-SettingsMenu.propTypes = {}
+SettingsMenuItems.propTypes = {}
 
-export default SettingsMenu
+export default SettingsMenuItems
