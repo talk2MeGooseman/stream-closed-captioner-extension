@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import React from 'react'
+import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import {
@@ -32,7 +32,10 @@ function NagStreamerBody({
     extraBitsBalanceInfo = null
   }
 
-  const languageKeys = Object.keys(activationInfo.languages)
+  const languageList = useMemo(() => {
+    const languageKeys = Object.keys(activationInfo.languages)
+    return languageKeys.map((langKey) => <li key={langKey}>{activationInfo.languages[langKey]}</li>)
+  }, [activationInfo.languages])
 
   return (
     <div data-testid="nag-streamer" className={Classes.DIALOG_BODY}>
@@ -41,7 +44,7 @@ function NagStreamerBody({
       <p>Let the broadcaster know you would like them to turn on <b>Stream Closed Captioner</b> so you can see <b>Translated Closed Captions</b> by visiting <a href="https://stream-cc.gooseman.codes">https://stream-cc.gooseman.codes</a></p>
       <p>Current languages supported:</p>
       <ul>
-        { languageKeys.map((langKey) => <li key={langKey}>{activationInfo.languages[langKey]}</li>)}
+        { languageList }
       </ul>
       <p>You can add more translation stream days by selecting an option below and click Submit.</p>
       <Select

@@ -5,7 +5,8 @@ export const CaptionsContainer = styled.div`
   padding: 0px 0px;
   background: rgba(0, 0, 0, 0.7);
   flex-direction: column-reverse;
-   ${(props) => props.boxSize && css`
+  visibility: ${(props) => (props.isHidden ? 'hidden' : 'visible')};
+  ${(props) => props.boxSize && css`
     width: 30%;
     align-self: flex-end;
   `} overflow: hidden;
@@ -15,7 +16,6 @@ export const CaptionsContainer = styled.div`
     line-height: var(--line-height);
     padding-bottom: var(--caption-pad-bottom);
     max-height: ${(props) => (`calc(var(${props.fontSize || '--medium-font-size'}) * var(--line-height) * ${props.numberOfLines || 3} + var(--caption-pad-bottom))`)};
-    visibility: var(${(props) => (props.isHidden ? 'hidden' : 'visible')});
   `}
   ${(props) => props.mobilePanel && css`
     width: 100vw;

@@ -44,6 +44,4 @@ function TranslationsDrawer() {
   )
 }
 
-TranslationsDrawer.propTypes = {}
-
 export default TranslationsDrawer

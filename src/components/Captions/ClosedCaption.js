@@ -47,6 +47,7 @@ function ClosedCaption({
   }
 
   let finalTextCaptions = ''
+
   if (configSettings.viewerLanguage === 'default') {
     finalTextCaptions = finalTextQueue.map(({ text }) => text).join(' ')
   } else {

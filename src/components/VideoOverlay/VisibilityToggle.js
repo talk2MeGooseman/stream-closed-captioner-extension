@@ -1,13 +1,16 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faClosedCaptioning, faBan } from '@fortawesome/free-solid-svg-icons'
 import { Tooltip } from '@blueprintjs/core'
 import { isVideoOverlay } from '@/helpers/video-helpers'
 import { toggleVisibility } from '@/redux/settingsSlice'
+import { useShallowEqualSelector, useReduxCallbackDispatch } from '@/redux/redux-helpers'
 
-const VisibilityToggle = ({ videoPlayerContext, configSettings, toggleVisibility }) => {
+const VisibilityToggle = () => {
+  const videoPlayerContext = useShallowEqualSelector((state) => (state.videoPlayerContext))
+  const configSettings = useShallowEqualSelector((state) => (state.configSettings))
+  const onClick = useReduxCallbackDispatch(toggleVisibility())
+
   let ccDisabledElement = null
   let buttonCTA = 'Hide'
 
@@ -22,7 +25,7 @@ const VisibilityToggle = ({ videoPlayerContext, configSettings, toggleVisibility
 
   return (
     <Tooltip content={`${buttonCTA} CC Text`}>
-      <span role="button" tabIndex="0" onClick={toggleVisibility} onKeyUp={toggleVisibility} className="fa-layers fa-fw fa-2x cc-visibility-toggle">
+      <span role="button" tabIndex="0" onClick={onClick} onKeyUp={onClick} className="fa-layers fa-fw fa-2x cc-visibility-toggle">
         <FontAwesomeIcon icon={faClosedCaptioning} />
         {ccDisabledElement}
       </span>
@@ -30,19 +33,4 @@ const VisibilityToggle = ({ videoPlayerContext, configSettings, toggleVisibility
   )
 }
 
-VisibilityToggle.propTypes = {
-  videoPlayerContext: PropTypes.object,
-  configSettings: PropTypes.object,
-  toggleVisibility: PropTypes.func,
-}
-
-const mapStateToProps = (state) => ({
-  videoPlayerContext: state.videoPlayerContext,
-  configSettings: state.configSettings,
-})
-
-const mapDispatchToProps = (dispatch) => ({
-  toggleVisibility: () => dispatch(toggleVisibility()),
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(VisibilityToggle)
+export default VisibilityToggle

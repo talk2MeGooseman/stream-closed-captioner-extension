@@ -1,40 +1,31 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-
 import { ClosedCaption } from '@/components/Captions'
 import { DisplaySettingsMenu } from '@/components/display-settings-menu'
+import { useShallowEqualSelector } from '@/redux/redux-helpers'
 
 const classNames = require('classnames')
 
-class Overlay extends React.PureComponent {
-  render() {
-    const { videoPlayerContext, configSettings } = this.props
+function Overlay() {
+  const { isDragged, ccKey } = useShallowEqualSelector((state) => (state.configSettings))
+  const { arePlayerControlsVisible } = useShallowEqualSelector(
+    (state) => state.videoPlayerContext,
+  )
 
-    const containerClass = classNames({
-      'standard-position': !videoPlayerContext.arePlayerControlsVisible && !configSettings.isDragged,
-      'raise-video-controls': videoPlayerContext.arePlayerControlsVisible || configSettings.isDragged,
-    })
+  const containerClass = classNames({
+    'standard-position':
+      !arePlayerControlsVisible && !isDragged,
+    'raise-video-controls':
+      arePlayerControlsVisible || isDragged,
+  })
 
-    return (
-      <div id="app-container" className={containerClass}>
-        <div className="drag-boundary">
-          <ClosedCaption key={configSettings.ccKey} />
-          <DisplaySettingsMenu />
-        </div>
+  return (
+    <div id="app-container" className={containerClass}>
+      <div className="drag-boundary">
+        <ClosedCaption key={ccKey} />
+        <DisplaySettingsMenu />
       </div>
-    )
-  }
+    </div>
+  )
 }
 
-Overlay.propTypes = {
-  videoPlayerContext: PropTypes.object,
-  configSettings: PropTypes.object,
-}
-
-const mapStateToProps = (state) => ({
-  configSettings: state.configSettings,
-  videoPlayerContext: state.videoPlayerContext,
-})
-
-export default connect(mapStateToProps)(Overlay)
+export default Overlay

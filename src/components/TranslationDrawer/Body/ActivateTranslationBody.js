@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import React from 'react'
+import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import {
@@ -20,7 +20,10 @@ function ActivateTranslationBody({
     buttonCopy = productsCatalog.selectedProduct.displayName
   }
 
-  const languageKeys = Object.keys(activationInfo.languages)
+  const languageList = useMemo(() => {
+    const languageKeys = Object.keys(activationInfo.languages)
+    return languageKeys.map((langKey) => <li key={langKey}>{activationInfo.languages[langKey]}</li>)
+  }, [activationInfo.languages])
 
   return (
     <div data-testid="activate-translation" className={Classes.DIALOG_BODY}>
@@ -29,7 +32,7 @@ function ActivateTranslationBody({
       <p>Once <b>Translated Closed Captions</b> is turned on you and everyone in the channel can enjoy reading closed captions in a select number of languages.</p>
       <p>Current languages supported:</p>
       <ul>
-        { languageKeys.map((langKey) => <li key={langKey}>{activationInfo.languages[langKey]}</li>)}
+        { languageList }
       </ul>
       <p>Select how may stream days you would like to have <b>Translated Closed Captions</b> on for below.</p>
       <Select
