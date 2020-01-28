@@ -45,7 +45,7 @@ function MobileClosedCaption() {
         uppercase={configSettings.uppercaseText}
       >
         <CaptionText grayOutText={configSettings.grayOutFinalText}>{finalTextCaptions}</CaptionText>
-        <CaptionText interim>{interimText}</CaptionText>
+        { configSettings.viewerLanguage === 'default' && <CaptionText interim>{interimText}</CaptionText> }
       </Captions>
     </CaptionsContainer >
   )
