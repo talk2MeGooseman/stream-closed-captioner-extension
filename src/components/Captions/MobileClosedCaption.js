@@ -1,5 +1,9 @@
 import React from 'react'
-import { Captions, CaptionText, CaptionsContainer } from '../shared/caption-styles'
+import {
+  Captions,
+  CaptionText,
+  CaptionsContainer,
+} from '../shared/caption-styles'
 import { FONT_FAMILIES } from '@/utils/Constants'
 import { useShallowEqualSelector } from '@/redux/redux-helpers'
 import { getMobileFontSizeStyle } from './helpers'
@@ -44,10 +48,14 @@ function MobileClosedCaption() {
         fontSize={fontSize}
         uppercase={configSettings.uppercaseText}
       >
-        <CaptionText grayOutText={configSettings.grayOutFinalText}>{finalTextCaptions}</CaptionText>
-        { configSettings.viewerLanguage === 'default' && <CaptionText interim>{interimText}</CaptionText> }
+        <CaptionText grayOutText={configSettings.grayOutFinalText}>
+          {finalTextCaptions}
+        </CaptionText>
+        {configSettings.viewerLanguage === 'default' && (
+          <CaptionText interim>{interimText}</CaptionText>
+        )}
       </Captions>
-    </CaptionsContainer >
+    </CaptionsContainer>
   )
 }
 

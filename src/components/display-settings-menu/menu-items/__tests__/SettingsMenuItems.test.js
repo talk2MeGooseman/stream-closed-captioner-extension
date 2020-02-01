@@ -8,9 +8,7 @@ afterEach(cleanup)
 describe('SettingsMenuItems', () => {
   describe('not video overlay', () => {
     it('render expected menu items', () => {
-      const { queryByText } = renderWithRedux(
-        <SettingsMenuItems />,
-      )
+      const { queryByText } = renderWithRedux(<SettingsMenuItems />)
 
       expect(queryByText('Reset Position')).not.toBeInTheDocument()
       expect(queryByText('Decrease Line Count')).not.toBeInTheDocument()
@@ -24,13 +22,15 @@ describe('SettingsMenuItems', () => {
 
   describe('is video overlay', () => {
     beforeEach(() => {
-      window.history.pushState({}, 'Test Title', '/test.html?anchor=video_overlay&platform=web')
+      window.history.pushState(
+        {},
+        'Test Title',
+        '/test.html?anchor=video_overlay&platform=web',
+      )
     })
 
     it('renders reset button', () => {
-      const { queryByText } = renderWithRedux(
-        <SettingsMenuItems />,
-      )
+      const { queryByText } = renderWithRedux(<SettingsMenuItems />)
 
       expect(queryByText('Reset Position')).toBeInTheDocument()
       expect(queryByText('Enable Square Text Box')).toBeInTheDocument()

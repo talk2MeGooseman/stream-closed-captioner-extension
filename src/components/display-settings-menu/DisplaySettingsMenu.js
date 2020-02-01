@@ -9,7 +9,6 @@ import { isVideoOverlay } from '@/helpers/video-helpers'
 import VisibilityToggle from '@/components/VideoOverlay/VisibilityToggle'
 import { SettingsMenuItems } from './menu-items'
 
-
 function isPositionLeft(configSettings) {
   return isVideoOverlay() && configSettings.switchSettingsPosition
 }
@@ -39,7 +38,11 @@ const Controls = () => {
     <nav data-testid="display-settings" className={controlClass}>
       <LanguageButton />
       <VisibilityToggle />
-      <Popover position="left-bottom" content={<SettingsMenuItems />} captureDismiss >
+      <Popover
+        position="left-bottom"
+        content={<SettingsMenuItems />}
+        captureDismiss
+      >
         <Tooltip content={'Settings'}>
           <FontAwesomeIcon size="2x" icon={faCog} />
         </Tooltip>

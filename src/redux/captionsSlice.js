@@ -32,11 +32,15 @@ const captionsSlice = createSlice({
       if (action.payload.translations) {
         const langs = Object.keys(action.payload.translations)
         langs.forEach((l) => {
-          const currentLangTranslation = state.translations[l] || { textQueue: [] }
+          const currentLangTranslation = state.translations[l] || {
+            textQueue: [],
+          }
           const newTranslation = action.payload.translations[l]
 
-          const lastTranslationIndex = currentLangTranslation.textQueue.length - 1
-          const lastTranslationText = currentLangTranslation.textQueue[lastTranslationIndex] || {}
+          const lastTranslationIndex =
+            currentLangTranslation.textQueue.length - 1
+          const lastTranslationText =
+            currentLangTranslation.textQueue[lastTranslationIndex] || {}
 
           if (lastTranslationText.text !== newTranslation.text) {
             const newTextQueue = [

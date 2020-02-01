@@ -7,9 +7,7 @@ afterEach(cleanup)
 
 describe('GrayOutFinalTextOptionButton ', () => {
   it('renders reset button', () => {
-    const { queryByText } = renderWithRedux(
-      <GrayOutFinalTextOptionButton />,
-    )
+    const { queryByText } = renderWithRedux(<GrayOutFinalTextOptionButton />)
 
     expect(queryByText('Gray Out Finished Text')).toBeInTheDocument()
   })

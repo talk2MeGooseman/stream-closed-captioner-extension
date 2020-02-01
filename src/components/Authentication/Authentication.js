@@ -76,11 +76,11 @@ export default class Authentication {
   }
 
   /**
-     * Makes a call against a given endpoint using a specific method.
-     *
-     * Returns a Promise with the Request() object per fetch documentation.
-     *
-     */
+   * Makes a call against a given endpoint using a specific method.
+   *
+   * Returns a Promise with the Request() object per fetch documentation.
+   *
+   */
 
   makeCall(url, method = 'GET') {
     return new Promise((resolve, reject) => {
@@ -90,11 +90,10 @@ export default class Authentication {
           Authorization: `Bearer ${this.state.token}`,
         }
 
-        fetch(url,
-          {
-            method,
-            headers,
-          })
+        fetch(url, {
+          method,
+          headers,
+        })
           .then((response) => resolve(response))
           .catch((e) => reject(e))
       } else {

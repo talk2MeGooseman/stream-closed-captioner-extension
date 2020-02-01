@@ -1,7 +1,11 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react'
 import { connect, Provider } from 'react-redux'
-import { MAX_TEXT_DISPLAY_TIME, SECOND, CONTEXT_EVENTS_WHITELIST } from './utils/Constants'
+import {
+  MAX_TEXT_DISPLAY_TIME,
+  SECOND,
+  CONTEXT_EVENTS_WHITELIST,
+} from './utils/Constants'
 import Authentication from './components/Authentication/Authentication'
 import { updateCCText } from './redux/captionsSlice'
 import { updateBroadcasterSettings } from '@/redux/settingsSlice'
@@ -36,7 +40,7 @@ export function withTwitchData(WrappedComponent, store) {
   class TwitchWrapper extends Component {
     state = {
       ready: false,
-    };
+    }
 
     constructor(props) {
       super(props)
@@ -69,23 +73,22 @@ export function withTwitchData(WrappedComponent, store) {
       this.props.onChannelIdReceived(auth.channelId)
       this.Authentication.setToken(auth.token, auth.userId)
       this.props.fetchTranslationStatus()
-    };
+    }
 
     parseProducts = (products) => {
       this.props.setProducts(products)
-    };
+    }
 
     onTransactionComplete = (transaction) => {
       this.props.onCompleteTransaction(transaction)
-    };
+    }
 
     contextUpdate = (context, delta) => {
       if (contextStateUpdated(delta)) {
         const newContext = fetchChangedContextValues(context, delta)
         this.props.updateVideoPlayerContext(newContext)
       }
-    };
-
+    }
 
     setConfigurationSettings = () => {
       let config = this.twitch.configuration.broadcaster
@@ -106,7 +109,7 @@ export function withTwitchData(WrappedComponent, store) {
       this.setState({
         ready: true,
       })
-    };
+    }
 
     pubSubMessageHandler = (target, contentType, message) => {
       let parsedMessage
@@ -119,7 +122,7 @@ export function withTwitchData(WrappedComponent, store) {
       }
 
       this.displayClosedCaptioningText(parsedMessage)
-    };
+    }
 
     displayClosedCaptioningText(message) {
       const { hlsLatencyBroadcaster } = this.props.videoPlayerContext
@@ -134,7 +137,7 @@ export function withTwitchData(WrappedComponent, store) {
       }, delayTime)
     }
 
-    clearClosedCaptioning = debounce(() => {}, MAX_TEXT_DISPLAY_TIME);
+    clearClosedCaptioning = debounce(() => {}, MAX_TEXT_DISPLAY_TIME)
 
     render() {
       const { ready } = this.state
@@ -159,11 +162,14 @@ export function withTwitchData(WrappedComponent, store) {
   })
 
   const mapDispatchToProps = (dispatch) => ({
-    updateVideoPlayerContext: (state) => dispatch(updateVideoPlayerContext(state)),
+    updateVideoPlayerContext: (state) =>
+      dispatch(updateVideoPlayerContext(state)),
     updateCCText: (state) => dispatch(updateCCText(state)),
-    updateBroadcasterSettings: (settings) => dispatch(updateBroadcasterSettings(settings)),
+    updateBroadcasterSettings: (settings) =>
+      dispatch(updateBroadcasterSettings(settings)),
     setProducts: (products) => dispatch(setProducts(products)),
-    onCompleteTransaction: (transaction) => dispatch(completeBitsTransaction(transaction)),
+    onCompleteTransaction: (transaction) =>
+      dispatch(completeBitsTransaction(transaction)),
     onChannelIdReceived: (channelId) => dispatch(setChannelId(channelId)),
     fetchTranslationStatus: () => dispatch(requestTranslationStatus()),
   })

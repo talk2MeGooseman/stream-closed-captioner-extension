@@ -2,7 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Draggable from 'react-draggable'
 import { connect } from 'react-redux'
-import { CaptionsContainer, Captions, CaptionText } from '../shared/caption-styles'
+import {
+  CaptionsContainer,
+  Captions,
+  CaptionText,
+} from '../shared/caption-styles'
 import './ClosedCaption.css'
 import { setIsDragged } from '@/redux/settingsSlice'
 import { FONT_FAMILIES } from '@/utils/Constants'
@@ -72,7 +76,9 @@ function ClosedCaption({
           <CaptionText grayOutText={configSettings.grayOutFinalText}>
             {finalTextCaptions}
           </CaptionText>
-          { configSettings.viewerLanguage === 'default' && <CaptionText interim>{interimText}</CaptionText>}
+          {configSettings.viewerLanguage === 'default' && (
+            <CaptionText interim>{interimText}</CaptionText>
+          )}
         </Captions>
       </CaptionsContainer>
     </Draggable>

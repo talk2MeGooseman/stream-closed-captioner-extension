@@ -13,13 +13,15 @@ export default function LanguageOptions() {
   const selectedLanguage = useShallowEqualSelector(
     (state) => state.configSettings.viewerLanguage,
   )
-  const languages = useShallowEqualSelector(
-    (state) => Object.keys(state.captionsState.translations || {}),
+  const languages = useShallowEqualSelector((state) =>
+    Object.keys(state.captionsState.translations || {}),
   )
   const translations = useShallowEqualSelector(
     (state) => state.captionsState.translations,
   )
-  const onSelectDefaultLanguage = useReduxCallbackDispatch(changeLanguage('default'))
+  const onSelectDefaultLanguage = useReduxCallbackDispatch(
+    changeLanguage('default'),
+  )
   const toggleDrawer = useReduxCallbackDispatch(toggleActivationDrawer())
 
   const defaultIcon = selectedLanguage === 'default' ? 'tick' : 'none'

@@ -7,9 +7,7 @@ afterEach(cleanup)
 
 describe('UppercaseTextOptionButton', () => {
   it('renders reset button', () => {
-    const { queryByText } = renderWithRedux(
-      <UppercaseTextOptionButton />,
-    )
+    const { queryByText } = renderWithRedux(<UppercaseTextOptionButton />)
 
     expect(queryByText('Uppercase All Text')).toBeInTheDocument()
   })

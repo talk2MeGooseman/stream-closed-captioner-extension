@@ -10,9 +10,12 @@ import { withTwitchData } from '../TwitchWrapper'
 import rootReducer from '../redux/reducers'
 import './App.css'
 
-const store = configureStore({
-  reducer: rootReducer,
-}, applyMiddleware(thunk))
+const store = configureStore(
+  {
+    reducer: rootReducer,
+  },
+  applyMiddleware(thunk),
+)
 const Component = withTwitchData(Overlay, store)
 
 if (process.env.NODE_ENV !== 'production') {

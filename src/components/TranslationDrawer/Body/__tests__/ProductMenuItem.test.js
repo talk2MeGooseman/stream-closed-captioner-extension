@@ -20,7 +20,11 @@ const modifier = {
 describe('ProductMenuItem', () => {
   it('display product info', () => {
     const { queryByText } = renderWithRedux(
-      <ProductMenuItem product={product} modifiers={modifier} handleClick={() => {}} />,
+      <ProductMenuItem
+        product={product}
+        modifiers={modifier}
+        handleClick={() => {}}
+      />,
     )
 
     expect(queryByText(product.displayName)).toBeInTheDocument()
