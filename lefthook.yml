@@ -14,3 +14,5 @@ pre-commit:
     eslint:
       glob: "*.{js,ts}"
       run: yarn eslint {staged_files}
+    jest:
+      run: yarn test
