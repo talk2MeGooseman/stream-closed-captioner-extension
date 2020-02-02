@@ -1,22 +1,15 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react'
 import { connect, Provider } from 'react-redux'
-import {
-  MAX_TEXT_DISPLAY_TIME,
-  SECOND,
-  CONTEXT_EVENTS_WHITELIST,
-} from './utils/Constants'
+import { MAX_TEXT_DISPLAY_TIME, SECOND, CONTEXT_EVENTS_WHITELIST } from './utils/Constants'
 import Authentication from './components/Authentication/Authentication'
 import { updateCCText } from './redux/captionsSlice'
 import { updateBroadcasterSettings } from '@/redux/settingsSlice'
 import { requestTranslationStatus } from '@/redux/translationSlice'
 import { updateVideoPlayerContext } from '@/redux/videoPlayerContextSlice'
-import {
-  setProducts,
-  completeBitsTransaction,
-  setChannelId,
-} from './redux/productsSlice'
+import { setProducts, completeBitsTransaction, setChannelId } from './redux/productsSlice'
 import { TranslationsDrawer } from '@/components/TranslationDrawer'
+import { getLocalStorageJson } from './utils/BrowserStorage'
 
 const debounce = require('lodash/debounce')
 
@@ -162,14 +155,11 @@ export function withTwitchData(WrappedComponent, store) {
   })
 
   const mapDispatchToProps = (dispatch) => ({
-    updateVideoPlayerContext: (state) =>
-      dispatch(updateVideoPlayerContext(state)),
+    updateVideoPlayerContext: (state) => dispatch(updateVideoPlayerContext(state)),
     updateCCText: (state) => dispatch(updateCCText(state)),
-    updateBroadcasterSettings: (settings) =>
-      dispatch(updateBroadcasterSettings(settings)),
+    updateBroadcasterSettings: (settings) => dispatch(updateBroadcasterSettings(settings)),
     setProducts: (products) => dispatch(setProducts(products)),
-    onCompleteTransaction: (transaction) =>
-      dispatch(completeBitsTransaction(transaction)),
+    onCompleteTransaction: (transaction) => dispatch(completeBitsTransaction(transaction)),
     onChannelIdReceived: (channelId) => dispatch(setChannelId(channelId)),
     fetchTranslationStatus: () => dispatch(requestTranslationStatus()),
   })

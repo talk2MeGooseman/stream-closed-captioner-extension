@@ -3,6 +3,16 @@ import { createSlice } from '@reduxjs/toolkit'
 import uuid from 'uuid/v4'
 import { TEXT_SIZES } from '@/utils/Constants'
 
+export const WHITE_LISTED_VIEWER_SETTINGS = [
+  'size',
+  'hideCC',
+  'horizontalLineCount',
+  'boxLineCount',
+  'grayOutFinalText',
+  'uppercaseText',
+  'dyslexiaFontEnabled',
+]
+
 export const initialState = {
   viewerLanguage: 'default',
   broadcasterLanguage: 'en-US',
