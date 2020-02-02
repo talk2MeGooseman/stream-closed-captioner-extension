@@ -1,9 +1,5 @@
 import React from 'react'
-import {
-  Captions,
-  CaptionText,
-  CaptionsContainer,
-} from '../shared/caption-styles'
+import { Captions, CaptionText, MobileCaptionsContainer } from '../shared/caption-styles'
 import { FONT_FAMILIES } from '@/utils/Constants'
 import { useShallowEqualSelector } from '@/redux/redux-helpers'
 import { getMobileFontSizeStyle } from './helpers'
@@ -23,9 +19,7 @@ function MobileClosedCaption() {
   const { interimText, finalTextQueue, translations } = useShallowEqualSelector(
     (state) => state.captionsState,
   )
-  const configSettings = useShallowEqualSelector(
-    (state) => state.configSettings,
-  )
+  const configSettings = useShallowEqualSelector((state) => state.configSettings)
 
   const fontSize = getMobileFontSizeStyle(configSettings.size)
   const fontFamily = configSettings.dyslexiaFontEnabled
@@ -42,20 +36,18 @@ function MobileClosedCaption() {
   }
 
   return (
-    <CaptionsContainer mobilePanel>
+    <MobileCaptionsContainer mobilePanel>
       <Captions
         fontFamily={fontFamily}
         fontSize={fontSize}
         uppercase={configSettings.uppercaseText}
       >
-        <CaptionText grayOutText={configSettings.grayOutFinalText}>
-          {finalTextCaptions}
-        </CaptionText>
+        <CaptionText grayOutText={configSettings.grayOutFinalText}>{finalTextCaptions}</CaptionText>
         {configSettings.viewerLanguage === 'default' && (
           <CaptionText interim>{interimText}</CaptionText>
         )}
       </Captions>
-    </CaptionsContainer>
+    </MobileCaptionsContainer>
   )
 }
 

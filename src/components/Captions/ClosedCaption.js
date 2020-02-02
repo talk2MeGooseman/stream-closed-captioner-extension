@@ -2,11 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Draggable from 'react-draggable'
 import { connect } from 'react-redux'
-import {
-  CaptionsContainer,
-  Captions,
-  CaptionText,
-} from '../shared/caption-styles'
+import { VideoCaptionsContainer, Captions, CaptionText } from '../shared/caption-styles'
 import './ClosedCaption.css'
 import { setIsDragged } from '@/redux/settingsSlice'
 import { FONT_FAMILIES } from '@/utils/Constants'
@@ -62,7 +58,7 @@ function ClosedCaption({
 
   return (
     <Draggable grid={[8, 8]} bounds="parent" onStop={setIsDragged}>
-      <CaptionsContainer
+      <VideoCaptionsContainer
         fontSize={fontSize}
         numberOfLines={numberOfLines}
         isHidden={isHidden}
@@ -80,7 +76,7 @@ function ClosedCaption({
             <CaptionText interim>{interimText}</CaptionText>
           )}
         </Captions>
-      </CaptionsContainer>
+      </VideoCaptionsContainer>
     </Draggable>
   )
 }
