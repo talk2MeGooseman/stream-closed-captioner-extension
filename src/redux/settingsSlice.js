@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import uuid from 'uuid/v4'
 import { TEXT_SIZES } from '@/utils/Constants'
 
-const initialState = {
+export const initialState = {
   viewerLanguage: 'default',
   broadcasterLanguage: 'en-US',
   ccKey: uuid(),
@@ -58,22 +58,20 @@ const settingsSlice = createSlice({
     toggleUppercaseText(state) {
       state.uppercaseText = !state.uppercaseText
     },
+    toggleDyslexiaFamily(state) {
+      state.dyslexiaFontEnabled = !state.dyslexiaFontEnabled
+    },
     increaseLineCount(state) {
       if (state.ccBoxSize) {
         state.boxLineCount += 1
+      } else {
+        state.horizontalLineCount += 1
       }
-
-      state.horizontalLineCount += 1
-    },
-    toggleDyslexiaFamily(state) {
-      state.dyslexiaFontEnabled = !state.dyslexiaFontEnabled
     },
     decreaseLineCount(state) {
       if (state.ccBoxSize && state.boxLineCount !== 1) {
         state.boxLineCount -= 1
-      }
-
-      if (state.horizontalLineCount !== 1) {
+      } else if (!state.ccBoxSize && state.horizontalLineCount !== 1) {
         state.horizontalLineCount -= 1
       }
     },

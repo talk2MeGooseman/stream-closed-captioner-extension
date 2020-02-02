@@ -1,5 +1,5 @@
 import React from 'react'
-import { Captions, CaptionText, MobileCaptionsContainer } from '../shared/caption-styles'
+import { Captions, CaptionText, MobileCaptionsContainer } from './captions.styled'
 import { FONT_FAMILIES } from '@/utils/Constants'
 import { useShallowEqualSelector } from '@/redux/redux-helpers'
 import { getMobileFontSizeStyle } from './helpers'
