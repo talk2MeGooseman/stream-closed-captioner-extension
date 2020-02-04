@@ -4,12 +4,11 @@ import { connect, Provider } from 'react-redux'
 import { MAX_TEXT_DISPLAY_TIME, SECOND, CONTEXT_EVENTS_WHITELIST } from './utils/Constants'
 import Authentication from './components/Authentication/Authentication'
 import { updateCCText } from './redux/captionsSlice'
-import { updateBroadcasterSettings } from '@/redux/settingsSlice'
+import { updateBroadcasterSettings, loadLocalStorageSettings } from '@/redux/settingsSlice'
 import { requestTranslationStatus } from '@/redux/translationSlice'
 import { updateVideoPlayerContext } from '@/redux/videoPlayerContextSlice'
 import { setProducts, completeBitsTransaction, setChannelId } from './redux/productsSlice'
 import { TranslationsDrawer } from '@/components/TranslationDrawer'
-import { getLocalStorageJson } from './utils/BrowserStorage'
 
 const debounce = require('lodash/debounce')
 
@@ -94,10 +93,14 @@ export function withTwitchData(WrappedComponent, store) {
         config = {}
       }
 
+      // Load the setting saved by the broadcaster
       this.props.updateBroadcasterSettings({
         ...config,
         isBitsEnabled: this.twitch.features.isBitsEnabled,
       })
+
+      // Load the settings that users prefers
+      this.props.loadLocalStorageSettings()
 
       this.setState({
         ready: true,
@@ -158,6 +161,7 @@ export function withTwitchData(WrappedComponent, store) {
     updateVideoPlayerContext: (state) => dispatch(updateVideoPlayerContext(state)),
     updateCCText: (state) => dispatch(updateCCText(state)),
     updateBroadcasterSettings: (settings) => dispatch(updateBroadcasterSettings(settings)),
+    loadLocalStorageSettings: () => dispatch(loadLocalStorageSettings()),
     setProducts: (products) => dispatch(setProducts(products)),
     onCompleteTransaction: (transaction) => dispatch(completeBitsTransaction(transaction)),
     onChannelIdReceived: (channelId) => dispatch(setChannelId(channelId)),

@@ -31,7 +31,7 @@ export function localStorageAvailable() {
 }
 
 export function getLocalStorageJson(key) {
-  if (!localStorageAvailable()) return null
+  if (!localStorageAvailable()) return {}
 
   const value = localStorage.getItem(key)
   if (value) {

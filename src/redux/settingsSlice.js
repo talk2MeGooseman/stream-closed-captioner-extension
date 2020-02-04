@@ -2,6 +2,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import uuid from 'uuid/v4'
 import { TEXT_SIZES } from '@/utils/Constants'
+import { getLocalStorageJson } from '@/utils/BrowserStorage'
 
 export const WHITE_LISTED_VIEWER_SETTINGS = [
   'size',
@@ -11,6 +12,7 @@ export const WHITE_LISTED_VIEWER_SETTINGS = [
   'grayOutFinalText',
   'uppercaseText',
   'dyslexiaFontEnabled',
+  'ccBoxSize',
 ]
 
 export const initialState = {
@@ -37,6 +39,12 @@ const settingsSlice = createSlice({
   reducers: {
     updateBroadcasterSettings(state, action) {
       const settings = action.payload
+      Object.keys(settings).forEach((key) => {
+        state[key] = settings[key]
+      })
+    },
+    loadLocalStorageSettings(state) {
+      const settings = getLocalStorageJson('viewerSettings')
       Object.keys(settings).forEach((key) => {
         state[key] = settings[key]
       })
@@ -90,6 +98,7 @@ const settingsSlice = createSlice({
 
 export const {
   updateBroadcasterSettings,
+  loadLocalStorageSettings,
   changeTextSize,
   changeLanguage,
   toggleActivationDrawer,
