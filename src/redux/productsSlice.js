@@ -19,6 +19,7 @@ const initialState = {
   processing: false,
   sent_sku: null,
   transaction: null,
+  selectedProduct: null,
 }
 
 const productsSlice = createSlice({

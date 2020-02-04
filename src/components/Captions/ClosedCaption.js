@@ -1,12 +1,11 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import Draggable from 'react-draggable'
-import { connect } from 'react-redux'
 import { VideoCaptionsContainer, Captions, CaptionText } from './captions.styled'
 import './ClosedCaption.css'
 import { setIsDragged } from '@/redux/settingsSlice'
 import { FONT_FAMILIES } from '@/utils/Constants'
 import { getFontSizeStyle } from './helpers'
+import { useShallowEqualSelector, useReduxCallbackDispatch } from '@/redux/redux-helpers'
 
 // Bits 100 from electrichavoc
 // Resub Nyixxs
@@ -28,11 +27,13 @@ function shouldHideCC(shouldHide, interimText, finalText) {
   return shouldHide || isEmptyCC(interimText + finalText)
 }
 
-function ClosedCaption({
-  configSettings,
-  ccState: { interimText, finalTextQueue, translations },
-  setIsDragged,
-}) {
+function ClosedCaption() {
+  const onDrag = useReduxCallbackDispatch(setIsDragged())
+  const configSettings = useShallowEqualSelector((state) => state.configSettings)
+  const { interimText, finalTextQueue, translations } = useShallowEqualSelector(
+    (state) => state.captionsState,
+  )
+
   const finalText = finalTextQueue.join(' ')
   const fontSize = getFontSizeStyle(configSettings.size)
   const isHidden = shouldHideCC(configSettings.hideCC, interimText, finalText)
@@ -42,7 +43,6 @@ function ClosedCaption({
 
   let numberOfLines = configSettings.horizontalLineCount
   if (configSettings.ccBoxSize) {
-    // eslint-disable-next-line no-param-reassign
     numberOfLines = configSettings.boxLineCount
   }
 
@@ -57,7 +57,7 @@ function ClosedCaption({
   }
 
   return (
-    <Draggable grid={[8, 8]} bounds="parent" onStop={setIsDragged}>
+    <Draggable grid={[8, 8]} bounds="parent" onStop={onDrag}>
       <VideoCaptionsContainer
         fontSize={fontSize}
         numberOfLines={numberOfLines}
@@ -81,26 +81,4 @@ function ClosedCaption({
   )
 }
 
-ClosedCaption.propTypes = {
-  configSettings: PropTypes.object,
-  ccState: PropTypes.object.isRequired,
-  hide: PropTypes.bool,
-  settings: PropTypes.object,
-  numberOfLines: PropTypes.number.isRequired,
-  setIsDragged: PropTypes.func,
-}
-
-ClosedCaption.defaultProps = {
-  numberOfLines: 3,
-}
-
-const mapStateToProps = (state) => ({
-  ccState: state.captionsState,
-  configSettings: state.configSettings,
-})
-
-const mapDispatchToProps = (dispatch) => ({
-  setIsDragged: () => dispatch(setIsDragged()),
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(ClosedCaption)
+export default ClosedCaption

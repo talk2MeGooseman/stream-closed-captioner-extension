@@ -38,11 +38,7 @@ const Controls = () => {
     <nav data-testid="display-settings" className={controlClass}>
       <LanguageButton />
       <VisibilityToggle />
-      <Popover
-        position="left-bottom"
-        content={<SettingsMenuItems />}
-        captureDismiss
-      >
+      <Popover position="left-bottom" content={<SettingsMenuItems />} captureDismiss>
         <Tooltip content={'Settings'}>
           <FontAwesomeIcon size="2x" icon={faCog} />
         </Tooltip>

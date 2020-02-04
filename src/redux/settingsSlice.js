@@ -48,6 +48,8 @@ const settingsSlice = createSlice({
       Object.keys(settings).forEach((key) => {
         state[key] = settings[key]
       })
+      // eslint-disable-next-line no-use-before-define
+      resetCCText()
     },
     toggleGrayOutFinalText(state) {
       state.grayOutFinalText = !state.grayOutFinalText

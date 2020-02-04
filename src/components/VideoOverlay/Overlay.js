@@ -6,12 +6,8 @@ import { useShallowEqualSelector } from '@/redux/redux-helpers'
 const classNames = require('classnames')
 
 function Overlay() {
-  const { isDragged, ccKey } = useShallowEqualSelector(
-    (state) => state.configSettings,
-  )
-  const { arePlayerControlsVisible } = useShallowEqualSelector(
-    (state) => state.videoPlayerContext,
-  )
+  const { isDragged, ccKey } = useShallowEqualSelector((state) => state.configSettings)
+  const { arePlayerControlsVisible } = useShallowEqualSelector((state) => state.videoPlayerContext)
 
   const containerClass = classNames({
     'standard-position': !arePlayerControlsVisible && !isDragged,
