@@ -1,27 +1,16 @@
 import React from 'react'
 import { MenuDivider, Menu, MenuItem } from '@blueprintjs/core'
 import { changeLanguage, toggleActivationDrawer } from '@/redux/settingsSlice'
-import {
-  useShallowEqualSelector,
-  useReduxCallbackDispatch,
-} from '@/redux/redux-helpers'
+import { useShallowEqualSelector, useReduxCallbackDispatch } from '@/redux/redux-helpers'
 
 export default function LanguageOptions() {
-  const isBitsEnabled = useShallowEqualSelector(
-    (state) => state.configSettings.isBitsEnabled,
-  )
-  const selectedLanguage = useShallowEqualSelector(
-    (state) => state.configSettings.viewerLanguage,
-  )
+  const isBitsEnabled = useShallowEqualSelector((state) => state.configSettings.isBitsEnabled)
+  const selectedLanguage = useShallowEqualSelector((state) => state.configSettings.viewerLanguage)
   const languages = useShallowEqualSelector((state) =>
     Object.keys(state.captionsState.translations || {}),
   )
-  const translations = useShallowEqualSelector(
-    (state) => state.captionsState.translations,
-  )
-  const onSelectDefaultLanguage = useReduxCallbackDispatch(
-    changeLanguage('default'),
-  )
+  const translations = useShallowEqualSelector((state) => state.captionsState.translations)
+  const onSelectDefaultLanguage = useReduxCallbackDispatch(changeLanguage('default'))
   const toggleDrawer = useReduxCallbackDispatch(toggleActivationDrawer())
 
   const defaultIcon = selectedLanguage === 'default' ? 'tick' : 'none'

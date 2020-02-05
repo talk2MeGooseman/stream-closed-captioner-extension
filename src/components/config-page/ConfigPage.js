@@ -56,11 +56,7 @@ export default class ConfigPage extends React.Component {
   }
 
   saveConfig(commands) {
-    this.twitch.configuration.set(
-      'broadcaster',
-      '1.0',
-      JSON.stringify(commands),
-    )
+    this.twitch.configuration.set('broadcaster', '1.0', JSON.stringify(commands))
 
     this.setState(() => ({
       commands,
@@ -71,11 +67,7 @@ export default class ConfigPage extends React.Component {
     if (this.state.finishedLoading && this.Authentication.isModerator()) {
       return (
         <div className="Config">
-          <div
-            className={
-              this.state.theme === 'light' ? 'Config-light' : 'Config-dark'
-            }
-          >
+          <div className={this.state.theme === 'light' ? 'Config-light' : 'Config-dark'}>
             <ConfigContainer
               commands={this.state.commands}
               saveConfig={(commands) => this.saveConfig(commands)}
@@ -87,11 +79,7 @@ export default class ConfigPage extends React.Component {
 
     return (
       <div className="Config">
-        <div
-          className={
-            this.state.theme === 'light' ? 'Config-light' : 'Config-dark'
-          }
-        >
+        <div className={this.state.theme === 'light' ? 'Config-light' : 'Config-dark'}>
           Loading...
         </div>
       </div>

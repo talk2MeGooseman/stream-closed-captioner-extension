@@ -32,16 +32,13 @@ export function requestTranslationStatus() {
     dispatch(requestingTranslationStatus())
 
     const { channelId } = getState().productsCatalog
-    return fetch(
-      `https://stream-cc.gooseman.codes/api/translation_status/${channelId}`,
-      {
-        cache: 'no-cache',
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+    return fetch(`https://stream-cc.gooseman.codes/api/translation_status/${channelId}`, {
+      cache: 'no-cache',
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
       },
-    )
+    })
       .then((response) => response.json())
       .then((data) => {
         dispatch(doneRequestingTranslationStatus(data))

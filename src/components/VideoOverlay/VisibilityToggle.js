@@ -4,18 +4,11 @@ import { faClosedCaptioning, faBan } from '@fortawesome/free-solid-svg-icons'
 import { Tooltip } from '@blueprintjs/core'
 import { isVideoOverlay } from '@/helpers/video-helpers'
 import { toggleVisibility } from '@/redux/settingsSlice'
-import {
-  useShallowEqualSelector,
-  useReduxCallbackDispatch,
-} from '@/redux/redux-helpers'
+import { useShallowEqualSelector, useReduxCallbackDispatch } from '@/redux/redux-helpers'
 
 const VisibilityToggle = () => {
-  const videoPlayerContext = useShallowEqualSelector(
-    (state) => state.videoPlayerContext,
-  )
-  const configSettings = useShallowEqualSelector(
-    (state) => state.configSettings,
-  )
+  const videoPlayerContext = useShallowEqualSelector((state) => state.videoPlayerContext)
+  const configSettings = useShallowEqualSelector((state) => state.configSettings)
   const onClick = useReduxCallbackDispatch(toggleVisibility())
 
   let ccDisabledElement = null
@@ -26,9 +19,7 @@ const VisibilityToggle = () => {
   }
 
   if (configSettings.hideCC) {
-    ccDisabledElement = (
-      <FontAwesomeIcon icon={faBan} color="red" className="fa-stack-1x" />
-    )
+    ccDisabledElement = <FontAwesomeIcon icon={faBan} color="red" className="fa-stack-1x" />
     buttonCTA = 'Show'
   }
 

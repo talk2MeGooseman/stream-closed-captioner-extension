@@ -13,9 +13,7 @@ describe('GrayOutFinalTextOptionButton ', () => {
   })
 
   it('triggers reset on click', () => {
-    const { queryByText, store } = renderWithRedux(
-      <GrayOutFinalTextOptionButton />,
-    )
+    const { queryByText, store } = renderWithRedux(<GrayOutFinalTextOptionButton />)
 
     const { configSettings: defaultSetting } = store.getState()
     expect(defaultSetting.grayOutFinalText).toEqual(false)

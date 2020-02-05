@@ -3,16 +3,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLanguage } from '@fortawesome/free-solid-svg-icons'
 import { Tooltip, Popover } from '@blueprintjs/core'
 import LanguageOptions from './LanguageOptions'
-import {
-  useShallowEqualSelector,
-  useReduxCallbackDispatch,
-} from '../../redux/redux-helpers'
+import { useShallowEqualSelector, useReduxCallbackDispatch } from '../../redux/redux-helpers'
 import { toggleActivationDrawer } from '@/redux/settingsSlice'
 
 export default function LanguageButton() {
-  const isBitsEnabled = useShallowEqualSelector(
-    (state) => state.configSettings.isBitsEnabled,
-  )
+  const isBitsEnabled = useShallowEqualSelector((state) => state.configSettings.isBitsEnabled)
   const hasTranslations = useShallowEqualSelector(
     (state) => Object.keys(state.captionsState.translations || {}).length > 0,
   )
@@ -30,9 +25,7 @@ export default function LanguageButton() {
       </Popover>
     )
   } else {
-    button = (
-      <FontAwesomeIcon size="2x" icon={faLanguage} onClick={toggleDrawer} />
-    )
+    button = <FontAwesomeIcon size="2x" icon={faLanguage} onClick={toggleDrawer} />
   }
 
   // Display activate dialog/text

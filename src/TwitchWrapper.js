@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
-import React, { Component } from 'react'
-import { connect, Provider } from 'react-redux'
-import { MAX_TEXT_DISPLAY_TIME, SECOND, CONTEXT_EVENTS_WHITELIST } from './utils/Constants'
+import React, { useState, useRef, useEffect, useCallback } from 'react'
+import { Provider, useDispatch } from 'react-redux'
+import { SECOND, CONTEXT_EVENTS_WHITELIST } from './utils/Constants'
 import Authentication from './components/Authentication/Authentication'
 import { updateCCText } from './redux/captionsSlice'
 import { updateBroadcasterSettings, loadLocalStorageSettings } from '@/redux/settingsSlice'
@@ -9,8 +9,7 @@ import { requestTranslationStatus } from '@/redux/translationSlice'
 import { updateVideoPlayerContext } from '@/redux/videoPlayerContextSlice'
 import { setProducts, completeBitsTransaction, setChannelId } from './redux/productsSlice'
 import { TranslationsDrawer } from '@/components/TranslationDrawer'
-
-const debounce = require('lodash/debounce')
+import { useShallowEqualSelector, useReduxCallbackDispatch } from './redux/redux-helpers'
 
 // Resub - rw_grim
 //
@@ -29,62 +28,69 @@ function contextStateUpdated(delta) {
 }
 
 export function withTwitchData(WrappedComponent, store) {
-  class TwitchWrapper extends Component {
-    state = {
-      ready: false,
-    }
+  function TwitchWrapper() {
+    const [ready, setReady] = useState(false)
+    const authenticationRef = useRef(null)
+    const twitchRef = useRef(null)
+    const dispatch = useDispatch()
 
-    constructor(props) {
-      super(props)
+    const onUpdateVideoPlayerContext = useCallback(
+      (state) => dispatch(updateVideoPlayerContext(state)),
+      [dispatch],
+    )
+    const onUpdateCCText = useCallback(
+      (state) => {
+        dispatch(updateCCText(state))
+      },
+      [dispatch],
+    )
+    const onUpdateBroadcasterSettings = useReduxCallbackDispatch((settings) =>
+      updateBroadcasterSettings(settings),
+    )
+    const onLoadLocalStorageSettings = useReduxCallbackDispatch(loadLocalStorageSettings())
+    const onSetProducts = useReduxCallbackDispatch((products) => setProducts(products))
+    const onCompleteTransaction = useReduxCallbackDispatch((transaction) =>
+      completeBitsTransaction(transaction),
+    )
+    const onChannelIdReceived = useReduxCallbackDispatch((channelId) => setChannelId(channelId))
+    const fetchTranslationStatus = useReduxCallbackDispatch(requestTranslationStatus())
 
-      this.Authentication = new Authentication()
-      this.twitch = window.Twitch ? window.Twitch.ext : null
-    }
+    const onAuthorized = useCallback(
+      (auth) => {
+        onChannelIdReceived(auth.channelId)
+        authenticationRef.current.setToken(auth.token, auth.userId)
+        fetchTranslationStatus()
+      },
+      [fetchTranslationStatus, onChannelIdReceived],
+    )
 
-    componentDidMount() {
-      if (this.twitch) {
-        // TODO: Comment out below when releasing
-        // this.twitch.bits.setUseLoopback = true;
+    const parseProducts = useCallback(
+      (products) => {
+        onSetProducts(products)
+      },
+      [onSetProducts],
+    )
 
-        this.twitch.onAuthorized(this.onAuthorized)
-        this.twitch.onContext(this.contextUpdate)
-        this.twitch.configuration.onChanged(this.setConfigurationSettings)
-        this.twitch.listen('broadcast', this.pubSubMessageHandler)
-        this.twitch.bits.getProducts().then(this.parseProducts)
-        this.twitch.bits.onTransactionComplete(this.onTransactionComplete)
-      }
-    }
+    const onTransactionComplete = useCallback(
+      (transaction) => {
+        onCompleteTransaction(transaction)
+      },
+      [onCompleteTransaction],
+    )
 
-    componentWillUnmount() {
-      if (this.twitch) {
-        this.twitch.unlisten('broadcast', () => null)
-      }
-    }
+    const contextUpdate = useCallback(
+      (context, delta) => {
+        if (contextStateUpdated(delta)) {
+          const newContext = fetchChangedContextValues(context, delta)
+          onUpdateVideoPlayerContext(newContext)
+        }
+      },
+      [onUpdateVideoPlayerContext],
+    )
 
-    onAuthorized = (auth) => {
-      this.props.onChannelIdReceived(auth.channelId)
-      this.Authentication.setToken(auth.token, auth.userId)
-      this.props.fetchTranslationStatus()
-    }
-
-    parseProducts = (products) => {
-      this.props.setProducts(products)
-    }
-
-    onTransactionComplete = (transaction) => {
-      this.props.onCompleteTransaction(transaction)
-    }
-
-    contextUpdate = (context, delta) => {
-      if (contextStateUpdated(delta)) {
-        const newContext = fetchChangedContextValues(context, delta)
-        this.props.updateVideoPlayerContext(newContext)
-      }
-    }
-
-    setConfigurationSettings = () => {
-      let config = this.twitch.configuration.broadcaster
-        ? this.twitch.configuration.broadcaster.content
+    const setConfigurationSettings = useCallback(() => {
+      let config = twitchRef.current.configuration.broadcaster
+        ? twitchRef.current.configuration.broadcaster.content
         : ''
 
       try {
@@ -94,79 +100,82 @@ export function withTwitchData(WrappedComponent, store) {
       }
 
       // Load the setting saved by the broadcaster
-      this.props.updateBroadcasterSettings({
+      onUpdateBroadcasterSettings({
         ...config,
-        isBitsEnabled: this.twitch.features.isBitsEnabled,
+        isBitsEnabled: twitchRef.current.features.isBitsEnabled,
       })
 
       // Load the settings that users prefers
-      this.props.loadLocalStorageSettings()
+      onLoadLocalStorageSettings()
 
-      this.setState({
-        ready: true,
-      })
-    }
+      setReady(true)
+    }, [onLoadLocalStorageSettings, onUpdateBroadcasterSettings])
 
-    pubSubMessageHandler = (target, contentType, message) => {
-      let parsedMessage
-      try {
-        parsedMessage = JSON.parse(message)
-      } catch (error) {
-        parsedMessage = {
-          interim: message,
+    const { hlsLatencyBroadcaster } = useShallowEqualSelector((state) => state.videoPlayerContext)
+    const pubSubMessageHandler = useCallback(
+      (target, contentType, message) => {
+        let parsedMessage
+        try {
+          parsedMessage = JSON.parse(message)
+        } catch (error) {
+          parsedMessage = {
+            interim: message,
+          }
+        }
+
+        let delayTime = hlsLatencyBroadcaster * SECOND
+        if (message.delay) {
+          delayTime -= message.delay * SECOND
+        }
+
+        setTimeout(() => {
+          onUpdateCCText(parsedMessage)
+        }, delayTime)
+      },
+      [hlsLatencyBroadcaster, onUpdateCCText],
+    )
+
+    useEffect(() => {
+      authenticationRef.current = new Authentication()
+      twitchRef.current = window.Twitch ? window.Twitch.ext : null
+
+      if (twitchRef.current) {
+        // TODO: Comment out below when releasing
+        // twitchRef.current.bits.setUseLoopback = true;
+
+        twitchRef.current.onAuthorized(onAuthorized)
+        twitchRef.current.onContext(contextUpdate)
+        twitchRef.current.configuration.onChanged(setConfigurationSettings)
+        twitchRef.current.listen('broadcast', pubSubMessageHandler)
+        twitchRef.current.bits.getProducts().then(parseProducts)
+        twitchRef.current.bits.onTransactionComplete(onTransactionComplete)
+      }
+
+      return () => {
+        if (twitchRef.current) {
+          twitchRef.current.unlisten('broadcast', () => null)
         }
       }
+    }, [
+      contextUpdate,
+      onAuthorized,
+      onTransactionComplete,
+      parseProducts,
+      pubSubMessageHandler,
+      setConfigurationSettings,
+    ])
 
-      this.displayClosedCaptioningText(parsedMessage)
+    if (!ready) {
+      return null
     }
 
-    displayClosedCaptioningText(message) {
-      const { hlsLatencyBroadcaster } = this.props.videoPlayerContext
-      let delayTime = hlsLatencyBroadcaster * SECOND
-      if (message.delay) {
-        delayTime -= message.delay * SECOND
-      }
-
-      // this.clearClosedCaptioning();
-      setTimeout(() => {
-        this.props.updateCCText(message)
-      }, delayTime)
-    }
-
-    clearClosedCaptioning = debounce(() => {}, MAX_TEXT_DISPLAY_TIME)
-
-    render() {
-      const { ready } = this.state
-
-      if (!ready) {
-        return null
-      }
-
-      return (
-        <Provider store={store}>
-          <TranslationsDrawer />
-          <WrappedComponent />
-        </Provider>
-      )
-    }
+    return (
+      <Provider store={store}>
+        <TranslationsDrawer />
+        <WrappedComponent />
+      </Provider>
+    )
   }
 
-  const mapStateToProps = (state) => ({
-    ccState: state.captionsState,
-    configSettings: state.configSettings,
-    videoPlayerContext: state.videoPlayerContext,
-  })
-
-  const mapDispatchToProps = (dispatch) => ({
-    updateVideoPlayerContext: (state) => dispatch(updateVideoPlayerContext(state)),
-    updateCCText: (state) => dispatch(updateCCText(state)),
-    updateBroadcasterSettings: (settings) => dispatch(updateBroadcasterSettings(settings)),
-    loadLocalStorageSettings: () => dispatch(loadLocalStorageSettings()),
-    setProducts: (products) => dispatch(setProducts(products)),
-    onCompleteTransaction: (transaction) => dispatch(completeBitsTransaction(transaction)),
-    onChannelIdReceived: (channelId) => dispatch(setChannelId(channelId)),
-    fetchTranslationStatus: () => dispatch(requestTranslationStatus()),
-  })
-
-  return connect(mapStateToProps, mapDispatchToProps)(TwitchWrapper)
+  return TwitchWrapper
 }

@@ -13,9 +13,7 @@ describe('UppercaseTextOptionButton', () => {
   })
 
   it('triggers reset on click', () => {
-    const { queryByText, store } = renderWithRedux(
-      <UppercaseTextOptionButton />,
-    )
+    const { queryByText, store } = renderWithRedux(<UppercaseTextOptionButton />)
 
     const { configSettings: defaultSetting } = store.getState()
     expect(defaultSetting.uppercaseText).toEqual(false)

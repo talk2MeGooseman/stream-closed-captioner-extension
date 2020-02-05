@@ -16,11 +16,7 @@ describe('ResetButton', () => {
 
   describe('is video overlay', () => {
     beforeEach(() => {
-      window.history.pushState(
-        {},
-        'Test Title',
-        '/test.html?anchor=video_overlay&platform=web',
-      )
+      window.history.pushState({}, 'Test Title', '/test.html?anchor=video_overlay&platform=web')
     })
 
     it('renders reset button', () => {
