@@ -6,8 +6,8 @@ import thunk from 'redux-thunk'
 import { Provider } from 'react-redux'
 // import logger from "redux-logger";
 import Overlay from '../components/VideoOverlay/Overlay'
-import { withTwitchData } from '../TwitchWrapper'
-import rootReducer from '../redux/reducers'
+import { withTwitchData } from '@/components/TwitchWrapper'
+import rootReducer from '@/redux/reducers'
 import './App.css'
 
 const store = configureStore(

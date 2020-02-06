@@ -5,6 +5,16 @@ import { renderWithRedux } from '@/setupTests'
 
 afterEach(cleanup)
 
+beforeEach(() => {
+  window.Twitch = {
+    ext: {
+      bits: {
+        showBitsBalance: () => {},
+      },
+    },
+  }
+})
+
 describe('TranslationsDrawer', () => {
   describe('render nothing', () => {
     it('if no activation info', () => {

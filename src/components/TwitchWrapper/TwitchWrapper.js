@@ -1,15 +1,20 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useRef, useEffect, useCallback } from 'react'
-import { Provider, useDispatch } from 'react-redux'
-import { SECOND, CONTEXT_EVENTS_WHITELIST } from './utils/Constants'
-import Authentication from './components/Authentication/Authentication'
-import { updateCCText } from './redux/captionsSlice'
+import { Provider, useDispatch, useSelector, useStore } from 'react-redux'
+import { SECOND, CONTEXT_EVENTS_WHITELIST } from '@/utils/Constants'
+import Authentication from '../Authentication/Authentication'
+import { updateCCText } from '@/redux/captionsSlice'
 import { updateBroadcasterSettings, loadLocalStorageSettings } from '@/redux/settingsSlice'
 import { requestTranslationStatus } from '@/redux/translationSlice'
 import { updateVideoPlayerContext } from '@/redux/videoPlayerContextSlice'
-import { setProducts, completeBitsTransaction, setChannelId } from './redux/productsSlice'
+import {
+  setProducts,
+  completeBitsTransaction,
+  setChannelId,
+  cancelUseBits,
+} from '@/redux/productsSlice'
 import { TranslationsDrawer } from '@/components/TranslationDrawer'
-import { useShallowEqualSelector, useReduxCallbackDispatch } from './redux/redux-helpers'
+import { useReduxCallbackDispatch } from '@/redux/redux-helpers'
 
 // Resub - rw_grim
 //
@@ -27,33 +32,40 @@ function contextStateUpdated(delta) {
   return delta.find((event) => CONTEXT_EVENTS_WHITELIST.includes(event))
 }
 
-export function withTwitchData(WrappedComponent, store) {
+export default function withTwitchData(WrappedComponent, store) {
   function TwitchWrapper() {
     const [ready, setReady] = useState(false)
     const authenticationRef = useRef(null)
     const twitchRef = useRef(null)
     const dispatch = useDispatch()
+    const store = useStore()
 
+    const onLoadLocalStorageSettings = useReduxCallbackDispatch(loadLocalStorageSettings())
+    const fetchTranslationStatus = useReduxCallbackDispatch(requestTranslationStatus())
+    const onCancelUseBits = useReduxCallbackDispatch(cancelUseBits())
     const onUpdateVideoPlayerContext = useCallback(
       (state) => dispatch(updateVideoPlayerContext(state)),
       [dispatch],
     )
+
     const onUpdateCCText = useCallback(
       (state) => {
         dispatch(updateCCText(state))
       },
       [dispatch],
     )
-    const onUpdateBroadcasterSettings = useReduxCallbackDispatch((settings) =>
-      updateBroadcasterSettings(settings),
+    const onUpdateBroadcasterSettings = useCallback(
+      (settings) => dispatch(updateBroadcasterSettings(settings)),
+      [dispatch],
     )
-    const onLoadLocalStorageSettings = useReduxCallbackDispatch(loadLocalStorageSettings())
-    const onSetProducts = useReduxCallbackDispatch((products) => setProducts(products))
-    const onCompleteTransaction = useReduxCallbackDispatch((transaction) =>
-      completeBitsTransaction(transaction),
+    const onSetProducts = useCallback((products) => dispatch(setProducts(products)), [dispatch])
+    const onCompleteTransaction = useCallback(
+      (transaction) => dispatch(completeBitsTransaction(transaction)),
+      [dispatch],
     )
-    const onChannelIdReceived = useReduxCallbackDispatch((channelId) => setChannelId(channelId))
-    const fetchTranslationStatus = useReduxCallbackDispatch(requestTranslationStatus())
+    const onChannelIdReceived = useCallback((channelId) => dispatch(setChannelId(channelId)), [
+      dispatch,
+    ])
 
     const onAuthorized = useCallback(
       (auth) => {
@@ -62,20 +74,6 @@ export function withTwitchData(WrappedComponent, store) {
         fetchTranslationStatus()
       },
       [fetchTranslationStatus, onChannelIdReceived],
-    )
-
-    const parseProducts = useCallback(
-      (products) => {
-        onSetProducts(products)
-      },
-      [onSetProducts],
-    )
-
-    const onTransactionComplete = useCallback(
-      (transaction) => {
-        onCompleteTransaction(transaction)
-      },
-      [onCompleteTransaction],
     )
 
     const contextUpdate = useCallback(
@@ -111,29 +109,27 @@ export function withTwitchData(WrappedComponent, store) {
       setReady(true)
     }, [onLoadLocalStorageSettings, onUpdateBroadcasterSettings])
 
-    const { hlsLatencyBroadcaster } = useShallowEqualSelector((state) => state.videoPlayerContext)
-    const pubSubMessageHandler = useCallback(
-      (target, contentType, message) => {
-        let parsedMessage
-        try {
-          parsedMessage = JSON.parse(message)
-        } catch (error) {
-          parsedMessage = {
-            interim: message,
-          }
-        }
+    const pubSubMessageHandler = (target, contentType, message) => {
+      const { videoPlayerContext } = store.getState()
 
-        let delayTime = hlsLatencyBroadcaster * SECOND
-        if (message.delay) {
-          delayTime -= message.delay * SECOND
+      let parsedMessage
+      try {
+        parsedMessage = JSON.parse(message)
+      } catch (error) {
+        parsedMessage = {
+          interim: message,
         }
+      }
 
-        setTimeout(() => {
-          onUpdateCCText(parsedMessage)
-        }, delayTime)
-      },
-      [hlsLatencyBroadcaster, onUpdateCCText],
-    )
+      let delayTime = videoPlayerContext.hlsLatencyBroadcaster * SECOND
+      if (message.delay) {
+        delayTime -= message.delay * SECOND
+      }
+
+      setTimeout(() => {
+        onUpdateCCText(parsedMessage)
+      }, delayTime)
+    }
 
     useEffect(() => {
       authenticationRef.current = new Authentication()
@@ -141,14 +137,15 @@ export function withTwitchData(WrappedComponent, store) {
 
       if (twitchRef.current) {
         // TODO: Comment out below when releasing
-        // twitchRef.current.bits.setUseLoopback = true;
+        twitchRef.current.bits.setUseLoopback = true
 
         twitchRef.current.onAuthorized(onAuthorized)
         twitchRef.current.onContext(contextUpdate)
         twitchRef.current.configuration.onChanged(setConfigurationSettings)
         twitchRef.current.listen('broadcast', pubSubMessageHandler)
-        twitchRef.current.bits.getProducts().then(parseProducts)
-        twitchRef.current.bits.onTransactionComplete(onTransactionComplete)
+        twitchRef.current.bits.getProducts().then(onSetProducts)
+        twitchRef.current.bits.onTransactionComplete(onCompleteTransaction)
+        twitchRef.current.bits.onTransactionCancelled(onCancelUseBits)
       }
 
       return () => {
@@ -156,14 +153,8 @@ export function withTwitchData(WrappedComponent, store) {
           twitchRef.current.unlisten('broadcast', () => null)
         }
       }
-    }, [
-      contextUpdate,
-      onAuthorized,
-      onTransactionComplete,
-      parseProducts,
-      pubSubMessageHandler,
-      setConfigurationSettings,
-    ])
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     if (!ready) {
       return null

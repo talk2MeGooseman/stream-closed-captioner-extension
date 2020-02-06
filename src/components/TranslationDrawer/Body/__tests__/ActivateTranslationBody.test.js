@@ -35,6 +35,16 @@ const defaultState = {
   },
 }
 
+beforeEach(() => {
+  window.Twitch = {
+    ext: {
+      bits: {
+        showBitsBalance: () => {},
+      },
+    },
+  }
+})
+
 describe('ActivateTranslationBody', () => {
   it('it renders', () => {
     const { queryByTestId } = renderWithRedux(<ActivateTranslationBody />, {

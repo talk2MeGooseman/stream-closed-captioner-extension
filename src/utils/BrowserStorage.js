@@ -38,7 +38,7 @@ export function getLocalStorageJson(key) {
     return JSON.parse(value)
   }
 
-  return value
+  return {}
 }
 
 export function setLocalStorageJson(key, value) {

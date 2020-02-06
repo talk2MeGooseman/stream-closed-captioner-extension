@@ -30,9 +30,10 @@ const productsSlice = createSlice({
       state.channelId = action.payload
     },
     setProducts(state, action) {
-      const sortedProduct = action.payload.sort(compare)
-      const [firstProduct] = sortedProduct
-      state.products = sortedProduct
+      const products = action.payload
+      const sortedProducts = products.sort(compare)
+      const [firstProduct] = sortedProducts
+      state.products = sortedProducts
       state.selectedProduct = firstProduct
     },
     setSelectedProduct(state, action) {
@@ -41,6 +42,11 @@ const productsSlice = createSlice({
     sendUseBits(state, action) {
       state.sent_sku = action.payload
       state.processing = true
+    },
+    cancelUseBits(state) {
+      console.log('Cancelled')
+      state.sent_sku = null
+      state.processing = false
     },
     completeUseBits(state, action) {
       state.sent_sku = null
@@ -56,6 +62,7 @@ export const {
   setSelectedProduct,
   sendUseBits,
   completeUseBits,
+  cancelUseBits,
 } = productsSlice.actions
 
 export function useBits(sku) {

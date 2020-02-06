@@ -5,6 +5,7 @@ import { Tooltip, Popover } from '@blueprintjs/core'
 import LanguageOptions from './LanguageOptions'
 import { useShallowEqualSelector, useReduxCallbackDispatch } from '../../redux/redux-helpers'
 import { toggleActivationDrawer } from '@/redux/settingsSlice'
+import styled from 'styled-components'
 
 export default function LanguageButton() {
   const isBitsEnabled = useShallowEqualSelector((state) => state.configSettings.isBitsEnabled)
@@ -17,21 +18,35 @@ export default function LanguageButton() {
     return null
   }
 
-  let button = null
+  let button = <FontAwesomeIcon size="2x" icon={faLanguage} onClick={toggleDrawer} />
+  let tooltipText = 'Turn on Translations'
+
   if (hasTranslations) {
+    const FAPulse = styled(FontAwesomeIcon)`
+      animation: pulse 2s infinite;
+      @keyframes pulse {
+        0% {
+          color: #ffffff;
+        }
+        50% {
+          color: #9ccc65;
+        }
+        100% {
+          color: #ffffff;
+        }
+      }
+    `
+    tooltipText = 'Select a Language'
     button = (
       <Popover position="left-bottom" content={<LanguageOptions />}>
-        <FontAwesomeIcon size="2x" icon={faLanguage} />
+        <FAPulse size="2x" icon={faLanguage} pulse />
       </Popover>
     )
-  } else {
-    button = <FontAwesomeIcon size="2x" icon={faLanguage} onClick={toggleDrawer} />
   }
 
-  // Display activate dialog/text
   return (
     <>
-      <Tooltip content={'Translations'}>{button}</Tooltip>
+      <Tooltip content={tooltipText}>{button}</Tooltip>
     </>
   )
 }

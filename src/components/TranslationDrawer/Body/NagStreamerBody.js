@@ -2,17 +2,22 @@
 import React, { useMemo, useCallback } from 'react'
 import { Button, MenuItem, Divider, Classes } from '@blueprintjs/core'
 import { Select } from '@blueprintjs/select'
+import { useDispatch } from 'react-redux'
 import { useBits, setSelectedProduct } from '@/redux/productsSlice'
 import { TRANSLATION_COST } from '@/utils/Constants'
 import { productMenuItemRenderer } from './ProductMenuItem'
-import { useShallowEqualSelector, useReduxCallbackDispatch } from '@/redux/redux-helpers'
+import { useShallowEqualSelector } from '@/redux/redux-helpers'
 
 function NagStreamerBody() {
+  const dispatch = useDispatch()
   const { activationInfo } = useShallowEqualSelector((state) => state.translationInfo)
   const { products, selectedProduct } = useShallowEqualSelector((state) => state.productsCatalog)
 
-  const onUseBits = useReduxCallbackDispatch(useBits())
-  const onProductSelect = useReduxCallbackDispatch(setSelectedProduct())
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const onUseBits = useCallback((sku) => dispatch(useBits(sku)), [dispatch])
+  const onProductSelect = useCallback((product) => dispatch(setSelectedProduct(product)), [
+    dispatch,
+  ])
 
   let buttonCopy = products[0].displayName
   if (selectedProduct) {
@@ -20,6 +25,7 @@ function NagStreamerBody() {
   }
 
   const onClick = useCallback(() => onUseBits(selectedProduct.sku), [onUseBits, selectedProduct])
+  window.Twitch.ext.bits.showBitsBalance()
 
   const languageList = useMemo(() => {
     const languageKeys = Object.keys(activationInfo.languages)
@@ -28,40 +34,42 @@ function NagStreamerBody() {
 
   return (
     <div data-testid="nag-streamer" className={Classes.DIALOG_BODY}>
-      <p>
-        The broadcaster currently does not have <b>Stream Closed Captioner</b> turned on.
-      </p>
       {!activationInfo.activated && (
-        <>
-          <p>
-            But there are enough bits purchased to turn on translations for{' '}
-            <b>{Math.floor(activationInfo.balance / TRANSLATION_COST)} stream day(s)</b>.
-          </p>
-          <p>
-            <i>
-              A stream day is a 24 hours of active translations from the moment the broadcaster
-              turns on Stream Closed Captioner
-            </i>
-          </p>
-        </>
+        <p>
+          The broadcaster currently does not have <b>Stream Closed Captioner</b> turned on.
+        </p>
       )}
-      <p>
-        Let the broadcaster know you would like them to turn on <b>Stream Closed Captioner</b> so
-        you can see <b>Translated Closed Captions</b> by visiting{' '}
-        <a href="https://stream-cc.gooseman.codes">https://stream-cc.gooseman.codes</a>
-      </p>
+      {!activationInfo.balance >= TRANSLATION_COST && (
+        <p>
+          There are enough bits purchased to turn on translations for{' '}
+          <b>{Math.floor(activationInfo.balance / TRANSLATION_COST)} day(s)</b>.
+        </p>
+      )}
+      {!activationInfo.activated && (
+        <p>
+          Let the broadcaster know you would like them to turn on <b>Stream Closed Captioner</b> so
+          you can see <b>Translated Closed Captions</b> by visiting{' '}
+          <a href="https://stream-cc.gooseman.codes">https://stream-cc.gooseman.codes</a>
+        </p>
+      )}
       <p>Current languages supported:</p>
       <ul>{languageList}</ul>
-      <p>You can add more translation stream days by selecting an option below and click Submit.</p>
+      <p>You can add more translation days by selecting an option below and click Submit.</p>
       <Select
         items={products}
         filterable={false}
         itemRenderer={productMenuItemRenderer}
         noResults={<MenuItem disabled={true} text="Not found." />}
-        onItemSelect={(product) => onProductSelect(product)}
+        onItemSelect={onProductSelect}
       >
         <Button text={buttonCopy} rightIcon="double-caret-vertical" />
       </Select>
+      <p>
+        <i>
+          When you add 1 day of translations, Closed Caption translations will be on for the next 24
+          hours.
+        </i>
+      </p>
       <Divider />
       <Button intent="success" icon="confirm" onClick={onClick}>
         Submit

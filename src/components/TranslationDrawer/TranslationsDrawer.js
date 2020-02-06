@@ -5,6 +5,7 @@ import { toggleActivationDrawer } from '@/redux/settingsSlice'
 import { isVideoOverlay } from '@/helpers/video-helpers'
 import { NagStreamerBody, ActivateTranslationBody } from './Body'
 import { useShallowEqualSelector, useReduxCallbackDispatch } from '@/redux/redux-helpers'
+import { TRANSLATION_COST } from '@/utils/Constants'
 
 function TranslationsDrawer() {
   const { isDrawerOpen, isBitsEnabled } = useShallowEqualSelector((state) => state.configSettings)
@@ -19,15 +20,17 @@ function TranslationsDrawer() {
   const drawerWidth = isVideoOverlay() ? Drawer.SIZE_STANDARD : Drawer.SIZE_LARGE
 
   let drawerBody = <ActivateTranslationBody />
+  let title = 'Turn on Translations!'
 
-  if (activationInfo.balance >= 100 || activationInfo.activated) {
+  if (activationInfo.balance >= TRANSLATION_COST || activationInfo.activated) {
+    title = 'Add More Days of Translation'
     drawerBody = <NagStreamerBody />
   }
 
   return (
     <Drawer
       position="left"
-      title="Turn on Translations!"
+      title={title}
       canOutsideClickClose={true}
       isOpen={isDrawerOpen}
       onClose={onToggleActivationDrawer}
