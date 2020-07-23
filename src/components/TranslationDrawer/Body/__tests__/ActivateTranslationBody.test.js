@@ -36,33 +36,38 @@ const defaultState = {
 }
 
 describe('ActivateTranslationBody', () => {
-  it('it renders', () => {
-    const { queryByTestId } = renderWithRedux(
-      <ActivateTranslationBody />, {
-        initialState: defaultState,
+  beforeEach(() => {
+    global.document.createRange = () => ({
+      setStart: () => {},
+      setEnd: () => {},
+      commonAncestorContainer: {
+        nodeName: 'BODY',
+        ownerDocument: document,
       },
-    )
+    })
+  })
+
+  it('it renders', () => {
+    const { queryByTestId } = renderWithRedux(<ActivateTranslationBody />, {
+      initialState: defaultState,
+    })
 
     expect(queryByTestId('activate-translation')).toBeInTheDocument()
   })
 
   it('displays languages that are available for translation', () => {
-    const { queryByText } = renderWithRedux(
-      <ActivateTranslationBody />, {
-        initialState: defaultState,
-      },
-    )
+    const { queryByText } = renderWithRedux(<ActivateTranslationBody />, {
+      initialState: defaultState,
+    })
 
     expect(queryByText('Spanish')).toBeInTheDocument()
     expect(queryByText('German')).toBeInTheDocument()
   })
 
   it('display product options in the dropdown', () => {
-    const { queryByText } = renderWithRedux(
-      <ActivateTranslationBody />, {
-        initialState: defaultState,
-      },
-    )
+    const { queryByText } = renderWithRedux(<ActivateTranslationBody />, {
+      initialState: defaultState,
+    })
 
     const dropDown = queryByText('1 Bit')
     expect(dropDown).toBeInTheDocument()

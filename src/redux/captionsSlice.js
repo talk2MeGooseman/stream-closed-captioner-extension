@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-case-declarations */
 import { createSlice } from '@reduxjs/toolkit'
-import uuid from 'uuid/v4'
+import { v4 as uuid } from 'uuid'
 import { TEXT_QUEUE_SIZE } from '@/utils/Constants'
 
 const initialState = {

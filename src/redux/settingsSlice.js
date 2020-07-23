@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit'
-import uuid from 'uuid/v4'
+import { v4 as uuid } from 'uuid'
 import { TEXT_SIZES } from '@/utils/Constants'
 
 const initialState = {
