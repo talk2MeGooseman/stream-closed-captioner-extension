@@ -8,6 +8,7 @@ import { LanguageButton } from '@/components/language-button'
 import { isVideoOverlay } from '@/helpers/video-helpers'
 import VisibilityToggle from '@/components/VideoOverlay/VisibilityToggle'
 import { SettingsMenuItems } from './menu-items'
+import { AdvancedSettingsDialog } from '../AdvancedSettingsDialog'
 
 export function positionLeft(switchSettingsPosition) {
   return isVideoOverlay() && switchSettingsPosition
@@ -43,6 +44,7 @@ const Controls = () => {
           <FontAwesomeIcon size="2x" icon={faCog} />
         </Tooltip>
       </Popover>
+      <AdvancedSettingsDialog />
     </nav>
   )
 }
