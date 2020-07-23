@@ -1,11 +1,39 @@
 import React from 'react'
 import { cleanup } from '@testing-library/react'
-import DisplaySettingsMenu from '../DisplaySettingsMenu'
 import { renderWithRedux } from '@/setupTests'
+import DisplaySettingsMenu, { positionLeft } from '../DisplaySettingsMenu'
 
 afterEach(cleanup)
 
+function setAsVideoOverlay() {
+  window.history.pushState(
+    {},
+    'Test Title',
+    '/test.html?anchor=video_overlay&platform=web',
+  )
+}
+
 describe('DisplaySettings', () => {
+  afterEach(() => {
+    window.history.pushState({}, 'Test Title', '/test.html?platform=web')
+  })
+
+  describe('positionLeft', () => {
+    it('return false if not a video overlay', () => {
+      expect(positionLeft(true)).toBeFalsy()
+    })
+
+    it('return false if a video overlay but setting is false', () => {
+      setAsVideoOverlay()
+      expect(positionLeft(false)).toBeFalsy()
+    })
+
+    it('return true if a video overlay but setting is true', () => {
+      setAsVideoOverlay()
+      expect(positionLeft(true)).toBeTruthy()
+    })
+  })
+
   describe('not video overlay', () => {
     it('controls are always shown', () => {
       const { queryByTestId } = renderWithRedux(<DisplaySettingsMenu />)
@@ -16,11 +44,7 @@ describe('DisplaySettings', () => {
 
   describe('is video overlay', () => {
     beforeEach(() => {
-      window.history.pushState(
-        {},
-        'Test Title',
-        '/test.html?anchor=video_overlay&platform=web',
-      )
+      setAsVideoOverlay()
     })
 
     describe('arePlayerControlsVisible is true', () => {

@@ -9,9 +9,8 @@ import { isVideoOverlay } from '@/helpers/video-helpers'
 import VisibilityToggle from '@/components/VideoOverlay/VisibilityToggle'
 import { SettingsMenuItems } from './menu-items'
 
-
-function isPositionLeft(configSettings) {
-  return isVideoOverlay() && configSettings.switchSettingsPosition
+export function positionLeft(switchSettingsPosition) {
+  return isVideoOverlay() && switchSettingsPosition
 }
 
 const Controls = () => {
@@ -29,8 +28,8 @@ const Controls = () => {
 
   const controlClass = classnames({
     'controls-container': isVideoOverlay(),
-    'position-right': !isPositionLeft(switchSettingsPosition),
-    'position-left': isPositionLeft(switchSettingsPosition),
+    'position-right': !positionLeft(switchSettingsPosition),
+    'position-left': positionLeft(switchSettingsPosition),
     'mobile-controls-button': !isVideoOverlay(),
     'bg-black-transparent': true,
   })
