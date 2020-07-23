@@ -1,33 +1,54 @@
 {
+  "allowHttpBackend": false,
   "backendCommand": "",
   "backendFolderName": "",
+  "certificateExceptions": [],
   "extensionViews": [
     {
-      "id": "1",
-      "label": "",
-      "channelId": "85581832",
+      "channelId": "120750024",
       "configurationAnchor": "panel",
-      "displayChannelName": "jennajulien",
-      "type": "video_overlay",
+      "displayChannelName": "talk2megooseman",
       "features": {
         "isBitsEnabled": true,
         "isChatEnabled": false,
         "isSubscriptionStatusAvailable": false
       },
-      "linked": false,
-      "linkedUserId": "",
-      "mode": "viewer",
-      "isPopout": false,
-      "role": "Broadcaster",
-      "orientation": "Portrait",
       "frameSize": {
         "width": 1280,
         "height": 720
-      }
+      },
+      "id": "1",
+      "isPopout": false,
+      "label": "",
+      "linked": false,
+      "linkedUserId": "",
+      "orientation": "Portrait",
+      "type": "video_overlay",
+      "viewerType": "Broadcaster"
+    },
+    {
+      "channelId": "120750024",
+      "configurationAnchor": "panel",
+      "displayChannelName": "talk2megooseman",
+      "features": {
+        "isBitsEnabled": true,
+        "isChatEnabled": false,
+        "isSubscriptionStatusAvailable": false
+      },
+      "frameSize": {
+        "width": 1280,
+        "height": 720
+      },
+      "id": "2",
+      "isPopout": false,
+      "label": "",
+      "linked": false,
+      "linkedUserId": "",
+      "orientation": "Portrait",
+      "type": "panel",
+      "viewerType": "Broadcaster"
     }
   ],
-  "frontendCommand": "yarn host",
-  "frontendFolderName": "dist/",
   "manifest": {
     "anchor": "panel",
     "assetUrls": [],
@@ -67,7 +88,7 @@
     "summary": "Easily provide Closed Captioning for your viewers. All you have to do is install the extension, go to stream-cc.gooseman.codes, click \"On\"",
     "supportEmail": "help@gooseman.codes",
     "vendorCode": "",
-    "version": "1.4.0",
+    "version": "1.4.3",
     "viewerSummary": "Provide Closed Captioning for your viewers, with bit enabled translations. Install the extension, go to the companion website and click \"On\"",
     "viewerUrl": "https://localhost:8080/mobile.html",
     "viewerUrls": {
@@ -102,21 +123,8 @@
     ],
     "whitelistedPanelUrls": []
   },
+  "frontendCommand": "",
+  "frontendFolderName": "",
   "name": "Stream Closed Captioner",
-  "allowHttpBackend": true,
-  "certificateExceptions": [
-    {
-      "isAllowed": true,
-      "isEphemeral": false,
-      "isOrigin": true,
-      "value": "https://localhost:8080"
-    },
-    {
-      "isAllowed": true,
-      "isEphemeral": false,
-      "isOrigin": true,
-      "value": "wss://localhost:8080"
-    }
-  ],
-  "version": 1
+  "version": 2
 }
