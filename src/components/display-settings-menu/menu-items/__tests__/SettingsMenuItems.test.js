@@ -19,6 +19,7 @@ describe('SettingsMenuItems', () => {
       expect(queryByText('Small Text')).toBeInTheDocument()
       expect(queryByText('Medium Text')).toBeInTheDocument()
       expect(queryByText('Large Text')).toBeInTheDocument()
+      expect(queryByText('Advanced Settings')).toBeInTheDocument()
     })
   })
 
@@ -37,6 +38,7 @@ describe('SettingsMenuItems', () => {
       expect(queryByText('Small Text')).toBeInTheDocument()
       expect(queryByText('Medium Text')).toBeInTheDocument()
       expect(queryByText('Large Text')).toBeInTheDocument()
+      expect(queryByText('Advanced Settings')).toBeInTheDocument()
     })
   })
 })

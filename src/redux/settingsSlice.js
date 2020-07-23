@@ -19,6 +19,8 @@ const initialState = {
   grayOutFinalText: false,
   uppercaseText: false,
   dyslexiaFontEnabled: false,
+  displayAdvancedSettingsDialog: false,
+  boxWidth: 30,
 }
 
 const settingsSlice = createSlice({
@@ -58,6 +60,9 @@ const settingsSlice = createSlice({
     toggleUppercaseText(state) {
       state.uppercaseText = !state.uppercaseText
     },
+    toggleAdvancedSettingsDialog(state) {
+      state.displayAdvancedSettingsDialog = !state.displayAdvancedSettingsDialog
+    },
     increaseLineCount(state) {
       if (state.ccBoxSize) {
         state.boxLineCount += 1
@@ -77,6 +82,16 @@ const settingsSlice = createSlice({
         state.horizontalLineCount -= 1
       }
     },
+    changeBoxWidth(state, action) {
+      let newWidth = action.payload
+      if (newWidth < 30) {
+        newWidth = 30
+      } else if (newWidth > 80) {
+        newWidth = 80
+      }
+
+      state.boxWidth = newWidth
+    },
   },
 })
 
@@ -94,6 +109,8 @@ export const {
   toggleGrayOutFinalText,
   toggleUppercaseText,
   toggleDyslexiaFamily,
+  toggleAdvancedSettingsDialog,
+  changeBoxWidth,
 } = settingsSlice.actions
 
 export default settingsSlice.reducer
