@@ -1,7 +1,7 @@
 import React from 'react'
 import { cleanup } from '@testing-library/react'
-import TranslationsDrawer from '../TranslationsDrawer'
 import { renderWithRedux } from '@/setupTests'
+import TranslationsDrawer from '../TranslationsDrawer'
 
 afterEach(cleanup)
 

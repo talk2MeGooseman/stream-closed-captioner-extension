@@ -1,18 +1,18 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react'
 import { connect, Provider } from 'react-redux'
-import { MAX_TEXT_DISPLAY_TIME, SECOND, CONTEXT_EVENTS_WHITELIST } from './utils/Constants'
-import Authentication from './components/Authentication/Authentication'
-import { updateCCText } from './redux/captionsSlice'
 import { updateBroadcasterSettings } from '@/redux/settingsSlice'
 import { requestTranslationStatus } from '@/redux/translationSlice'
 import { updateVideoPlayerContext } from '@/redux/videoPlayerContextSlice'
+import { TranslationsDrawer } from '@/components/TranslationDrawer'
+import { MAX_TEXT_DISPLAY_TIME, SECOND, CONTEXT_EVENTS_WHITELIST } from './utils/Constants'
+import Authentication from './components/Authentication/Authentication'
+import { updateCCText } from './redux/captionsSlice'
 import {
   setProducts,
   completeBitsTransaction,
   setChannelId,
 } from './redux/productsSlice'
-import { TranslationsDrawer } from '@/components/TranslationDrawer'
 
 const debounce = require('lodash/debounce')
 
@@ -85,7 +85,6 @@ export function withTwitchData(WrappedComponent, store) {
         this.props.updateVideoPlayerContext(newContext)
       }
     };
-
 
     setConfigurationSettings = () => {
       let config = this.twitch.configuration.broadcaster

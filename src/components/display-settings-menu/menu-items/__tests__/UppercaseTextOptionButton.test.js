@@ -1,7 +1,7 @@
 import React from 'react'
 import { cleanup, fireEvent } from '@testing-library/react'
-import UppercaseTextOptionButton from '../UppercaseTextOptionButton'
 import { renderWithRedux } from '@/setupTests'
+import UppercaseTextOptionButton from '../UppercaseTextOptionButton'
 
 afterEach(cleanup)
 

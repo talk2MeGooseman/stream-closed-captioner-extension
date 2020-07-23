@@ -2,10 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Draggable from 'react-draggable'
 import { connect } from 'react-redux'
-import { CaptionsContainer, Captions, CaptionText } from '../shared/caption-styles'
 import './ClosedCaption.css'
 import { setIsDragged } from '@/redux/settingsSlice'
 import { FONT_FAMILIES } from '@/utils/Constants'
+import { CaptionsContainer, Captions, CaptionText } from '../shared/caption-styles'
 import { getFontSizeStyle } from './helpers'
 
 // Bits 100 from electrichavoc

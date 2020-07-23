@@ -5,8 +5,8 @@ import {
 } from '@blueprintjs/core'
 import { toggleActivationDrawer } from '@/redux/settingsSlice'
 import { isVideoOverlay } from '@/helpers/video-helpers'
-import { NagStreamerBody, ActivateTranslationBody } from './Body'
 import { useShallowEqualSelector, useReduxCallbackDispatch } from '@/redux/redux-helpers'
+import { NagStreamerBody, ActivateTranslationBody } from './Body'
 
 function TranslationsDrawer() {
   const { isDrawerOpen, isBitsEnabled } = useShallowEqualSelector((state) => state.configSettings)

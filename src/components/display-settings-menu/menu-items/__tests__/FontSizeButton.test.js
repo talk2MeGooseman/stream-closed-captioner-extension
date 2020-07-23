@@ -1,8 +1,8 @@
 import React from 'react'
 import { cleanup, fireEvent } from '@testing-library/react'
-import FontSizeOptions from '../FontSizeOptions'
 import { renderWithRedux } from '@/setupTests'
 import { TEXT_SIZES } from '@/utils/Constants'
+import FontSizeOptions from '../FontSizeOptions'
 
 afterEach(cleanup)
 

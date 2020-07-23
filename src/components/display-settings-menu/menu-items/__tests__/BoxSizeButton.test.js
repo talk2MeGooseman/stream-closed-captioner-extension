@@ -1,7 +1,7 @@
 import React from 'react'
 import { cleanup } from '@testing-library/react'
-import BoxSizeButton from '../BoxSizeButton'
 import { renderWithRedux } from '@/setupTests'
+import BoxSizeButton from '../BoxSizeButton'
 
 afterEach(cleanup)
 

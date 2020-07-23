@@ -1,7 +1,7 @@
 import React from 'react'
 import { cleanup, fireEvent } from '@testing-library/react'
-import FontFamilyOptions from '../FontFamilyOptions'
 import { renderWithRedux } from '@/setupTests'
+import FontFamilyOptions from '../FontFamilyOptions'
 
 afterEach(cleanup)
 

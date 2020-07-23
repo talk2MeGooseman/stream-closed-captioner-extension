@@ -1,7 +1,7 @@
 import React from 'react'
 import { cleanup } from '@testing-library/react'
-import LanguageButton from '../LanguageButton'
 import { renderWithRedux } from '@/setupTests'
+import LanguageButton from '../LanguageButton'
 
 afterEach(cleanup)
 

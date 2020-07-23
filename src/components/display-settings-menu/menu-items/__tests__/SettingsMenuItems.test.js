@@ -1,7 +1,7 @@
 import React from 'react'
 import { cleanup } from '@testing-library/react'
-import SettingsMenuItems from '../SettingsMenuItems'
 import { renderWithRedux } from '@/setupTests'
+import SettingsMenuItems from '../SettingsMenuItems'
 
 afterEach(cleanup)
 

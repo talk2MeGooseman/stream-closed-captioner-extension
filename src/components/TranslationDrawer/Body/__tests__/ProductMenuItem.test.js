@@ -1,7 +1,7 @@
 import React from 'react'
 import { cleanup } from '@testing-library/react'
-import ProductMenuItem from '../ProductMenuItem'
 import { renderWithRedux } from '@/setupTests'
+import ProductMenuItem from '../ProductMenuItem'
 
 afterEach(cleanup)
 

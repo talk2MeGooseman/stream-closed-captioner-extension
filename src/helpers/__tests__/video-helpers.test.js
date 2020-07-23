@@ -6,7 +6,6 @@ describe('video-helpers', () => {
     expect(isVideoOverlay()).toBeTruthy()
   })
 
-
   it('returns false if video overlay', () => {
     window.history.pushState({}, 'Test Title', '/test.html?platform=web')
     expect(isVideoOverlay()).not.toBeTruthy()

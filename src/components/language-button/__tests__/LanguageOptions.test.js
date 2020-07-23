@@ -1,7 +1,7 @@
 import React from 'react'
 import { cleanup, fireEvent } from '@testing-library/react'
-import LanguageOptions from '../LanguageOptions'
 import { renderWithRedux } from '@/setupTests'
+import LanguageOptions from '../LanguageOptions'
 
 afterEach(cleanup)
 

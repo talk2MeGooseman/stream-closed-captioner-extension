@@ -1,7 +1,7 @@
 import React from 'react'
 import { cleanup } from '@testing-library/react'
-import MobilePanel from '../MobilePanel'
 import { renderWithRedux } from '@/setupTests'
+import MobilePanel from '../MobilePanel'
 
 afterEach(cleanup)
 

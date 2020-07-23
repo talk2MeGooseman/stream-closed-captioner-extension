@@ -1,7 +1,7 @@
 import React from 'react'
 import { cleanup, fireEvent } from '@testing-library/react'
-import ResetButton from '../ResetButton'
 import { renderWithRedux } from '@/setupTests'
+import ResetButton from '../ResetButton'
 
 afterEach(cleanup)
 

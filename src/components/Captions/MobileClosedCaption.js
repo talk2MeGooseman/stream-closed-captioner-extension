@@ -1,7 +1,7 @@
 import React from 'react'
-import { Captions, CaptionText, CaptionsContainer } from '../shared/caption-styles'
 import { FONT_FAMILIES } from '@/utils/Constants'
 import { useShallowEqualSelector } from '@/redux/redux-helpers'
+import { Captions, CaptionText, CaptionsContainer } from '../shared/caption-styles'
 import { getMobileFontSizeStyle } from './helpers'
 // Bits - phrakberg
 // Resub - phrakberg

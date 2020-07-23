@@ -1,7 +1,7 @@
 import React from 'react'
 import { cleanup, fireEvent } from '@testing-library/react'
-import ActivateTranslationBody from '../ActivateTranslationBody'
 import { renderWithRedux } from '@/setupTests'
+import ActivateTranslationBody from '../ActivateTranslationBody'
 
 afterEach(cleanup)
 

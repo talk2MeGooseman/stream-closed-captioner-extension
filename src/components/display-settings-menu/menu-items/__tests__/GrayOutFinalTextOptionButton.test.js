@@ -1,7 +1,7 @@
 import React from 'react'
 import { cleanup, fireEvent } from '@testing-library/react'
-import GrayOutFinalTextOptionButton from '../GrayOutFinalTextOptionButton'
 import { renderWithRedux } from '@/setupTests'
+import GrayOutFinalTextOptionButton from '../GrayOutFinalTextOptionButton'
 
 afterEach(cleanup)
 

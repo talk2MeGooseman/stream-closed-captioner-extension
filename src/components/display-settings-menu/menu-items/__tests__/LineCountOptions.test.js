@@ -1,7 +1,7 @@
 import React from 'react'
 import { cleanup } from '@testing-library/react'
-import LineCountOptions from '../LineCountOptions'
 import { renderWithRedux } from '@/setupTests'
+import LineCountOptions from '../LineCountOptions'
 
 afterEach(cleanup)
 
