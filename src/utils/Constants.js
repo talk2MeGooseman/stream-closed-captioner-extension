@@ -15,6 +15,12 @@ export const FONT_FAMILIES = {
   DYSLEXIA: 'dsylexic-regular',
 }
 
+export const BOX_SIZE = {
+  minWidth: 10,
+  maxWidth: 90,
+  defaultWidth: 30,
+}
+
 export const SECOND = 1000
 export const MAX_TEXT_DISPLAY_TIME = SECOND * 120
 export const MINIMUM_VID_WIDTH = 600

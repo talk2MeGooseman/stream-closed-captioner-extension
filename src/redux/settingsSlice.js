@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit'
 import { v4 as uuid } from 'uuid'
-import { TEXT_SIZES } from '@/utils/Constants'
+import { TEXT_SIZES, BOX_SIZE } from '@/utils/Constants'
 
 const initialState = {
   viewerLanguage: 'default',
@@ -20,7 +20,7 @@ const initialState = {
   uppercaseText: false,
   dyslexiaFontEnabled: false,
   displayAdvancedSettingsDialog: false,
-  boxWidth: 30,
+  boxWidth: BOX_SIZE.defaultWidth,
 }
 
 const settingsSlice = createSlice({
@@ -84,10 +84,10 @@ const settingsSlice = createSlice({
     },
     changeBoxWidth(state, action) {
       let newWidth = action.payload
-      if (newWidth < 30) {
-        newWidth = 30
-      } else if (newWidth > 80) {
-        newWidth = 80
+      if (newWidth < BOX_SIZE.minWidth) {
+        newWidth = BOX_SIZE.minWidth
+      } else if (newWidth > BOX_SIZE.maxWidth) {
+        newWidth = BOX_SIZE.maxWidth
       }
 
       state.boxWidth = newWidth

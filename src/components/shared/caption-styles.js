@@ -19,7 +19,7 @@ export const CaptionsContainer = styled.div`
     max-height: ${(props) => (`calc(var(${props.fontSize || '--medium-font-size'}) * var(--line-height) * ${props.numberOfLines || 3} + var(--caption-pad-bottom))`)};
   `}
   ${(props) => props.boxSize && css`
-    width: 30%;
+    width: ${props.boxWidth}%;
     align-self: flex-end;
   `} overflow: hidden;
 `
