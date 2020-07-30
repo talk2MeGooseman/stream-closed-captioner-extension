@@ -41,3 +41,18 @@ export const CaptionText = styled.span`
     margin-left: 5px;
   `}
 `
+
+export const Pulse = styled.div`
+  animation: pulse 2s infinite;
+  @keyframes pulse {
+    0% {
+      color: #ffffff;
+    }
+    50% {
+      color: ${({ color }) => color};
+    }
+    100% {
+      color: #ffffff;
+    }
+  }
+`

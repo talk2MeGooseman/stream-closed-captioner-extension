@@ -9,6 +9,7 @@ import { isVideoOverlay } from '@/helpers/video-helpers'
 import VisibilityToggle from '@/components/VideoOverlay/VisibilityToggle'
 import { SettingsMenuItems } from './menu-items'
 import { AdvancedSettingsDialog } from '../AdvancedSettingsDialog'
+import { IssueDetected } from '../issue-detected'
 
 export function positionLeft(switchSettingsPosition) {
   return isVideoOverlay() && switchSettingsPosition
@@ -37,6 +38,7 @@ const Controls = () => {
 
   return (
     <nav data-testid="display-settings" className={controlClass}>
+      <IssueDetected />
       <LanguageButton />
       <VisibilityToggle />
       <Popover position="left-bottom" content={<SettingsMenuItems />} captureDismiss >
