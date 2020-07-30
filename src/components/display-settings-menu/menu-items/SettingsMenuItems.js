@@ -7,7 +7,7 @@ import LineCountOptions from './LineCountOptions'
 import GrayOutFinalTextOptionButton from './GrayOutFinalTextOptionButton'
 import UppercaseTextOptionButton from './UppercaseTextOptionButton'
 import FontFamilyOptions from './FontFamilyOptions'
-import AdvancedSettings from './AdvancedSettings'
+// import AdvancedSettings from './AdvancedSettings'
 
 const SettingsMenuItems = () => (
   <Menu>
@@ -18,7 +18,7 @@ const SettingsMenuItems = () => (
     <LineCountOptions />
     <ResetButton />
     <BoxSizeButton />
-    <AdvancedSettings />
+    {/* <AdvancedSettings /> */}
   </Menu>
 )
 
