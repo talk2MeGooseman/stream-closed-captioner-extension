@@ -33,8 +33,8 @@ const IssueButton = () => {
 
   return (
     <>
-      <Tooltip content={'Captions issue detected'}>
-        <Pulse color="#B33A3A">
+      <Tooltip content={'Captions Issue Detected'}>
+        <Pulse color="#ff0000">
           <FontAwesomeIcon
             size="2x"
             icon={faExclamationTriangle}
