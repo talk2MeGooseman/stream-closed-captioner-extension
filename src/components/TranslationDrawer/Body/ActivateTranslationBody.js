@@ -1,20 +1,27 @@
 /* eslint-disable max-len */
-import React, { useMemo } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import React, { useMemo, useCallback } from 'react'
+import { useDispatch } from 'react-redux'
 import {
   Button, Classes, MenuItem, Divider,
 } from '@blueprintjs/core'
 import { Select } from '@blueprintjs/select'
+import { useShallowEqualSelector } from '@/redux/redux-helpers'
 import { useBits, setSelectedProduct } from '@/redux/productsSlice'
 import { productMenuItemRenderer } from './ProductMenuItem'
 
-function ActivateTranslationBody({
-  translationInfo: { activationInfo },
-  productsCatalog,
-  onUseBits,
-  onProductSelect,
-}) {
+function ActivateTranslationBody() {
+  const dispatch = useDispatch()
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const onUseBits = useCallback((sku) => dispatch(useBits(sku)), [dispatch])
+  const onProductSelect = useCallback((product) => dispatch(setSelectedProduct(product)), [dispatch])
+
+  const activationInfo = useShallowEqualSelector(
+    (state) => state.translationInfo.activationInfo,
+  )
+  const productsCatalog = useShallowEqualSelector(
+    (state) => state.productsCatalog,
+  )
+
   let buttonCopy = productsCatalog.products[0].displayName
   if (productsCatalog.selectedProduct) {
     buttonCopy = productsCatalog.selectedProduct.displayName
@@ -34,6 +41,7 @@ function ActivateTranslationBody({
       <ul>
         { languageList }
       </ul>
+      <p>Note: Captions are free for the streamer native language.</p>
       <p>Select how may stream days you would like to have <b>Translated Closed Captions</b> on for below.</p>
       <Select
         items={productsCatalog.products}
@@ -51,28 +59,4 @@ function ActivateTranslationBody({
   )
 }
 
-ActivateTranslationBody.propTypes = {
-  translationInfo: PropTypes.object.isRequired,
-  productsCatalog: PropTypes.shape({
-    products: PropTypes.array,
-    selectedProduct: PropTypes.object,
-  }),
-  onUseBits: PropTypes.func,
-  onProductSelect: PropTypes.func,
-}
-
-const mapStateToProps = (state) => ({
-  translationInfo: state.translationInfo,
-  productsCatalog: state.productsCatalog,
-})
-
-const mapDispatchToProps = (dispatch) => ({
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  onUseBits: (sku) => dispatch(useBits(sku)),
-  onProductSelect: (product) => dispatch(setSelectedProduct(product)),
-})
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ActivateTranslationBody)
+export default ActivateTranslationBody
