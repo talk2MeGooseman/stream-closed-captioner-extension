@@ -1,7 +1,7 @@
 import React from 'react'
 import { cleanup, fireEvent } from '@testing-library/react'
 import { renderWithRedux } from '@/setupTests'
-import ActivateTranslationBody from '../ActivateTranslationBody'
+import NagStreamerBody from '../NagStreamerBody'
 
 afterEach(cleanup)
 
@@ -36,7 +36,7 @@ const defaultState = {
   },
 }
 
-describe('ActivateTranslationBody', () => {
+describe('NagStreamerBody', () => {
   beforeEach(() => {
     global.document.createRange = () => ({
       setStart: () => {},
@@ -49,16 +49,15 @@ describe('ActivateTranslationBody', () => {
   })
 
   it('it renders', () => {
-    const { queryByTestId } = renderWithRedux(<ActivateTranslationBody />, {
+    const { queryByTestId } = renderWithRedux(<NagStreamerBody />, {
       initialState: defaultState,
     })
-
-    expect(queryByTestId('activate-translation')).toBeInTheDocument()
+    expect(queryByTestId('nag-streamer')).toBeInTheDocument()
   })
 
   describe('Displays languages available for translations', () => {
     it('excludes current language from list', () => {
-      const { queryByText } = renderWithRedux(<ActivateTranslationBody />, {
+      const { queryByText } = renderWithRedux(<NagStreamerBody />, {
         initialState: defaultState,
       })
 
@@ -69,7 +68,7 @@ describe('ActivateTranslationBody', () => {
   })
 
   it('display product options in the dropdown', () => {
-    const { queryByText } = renderWithRedux(<ActivateTranslationBody />, {
+    const { queryByText } = renderWithRedux(<NagStreamerBody />, {
       initialState: defaultState,
     })
 
