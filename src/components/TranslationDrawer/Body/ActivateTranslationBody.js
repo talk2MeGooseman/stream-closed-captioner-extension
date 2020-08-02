@@ -22,15 +22,20 @@ function ActivateTranslationBody() {
     (state) => state.productsCatalog,
   )
 
+  const currentLanguage = useShallowEqualSelector(
+    (state) => state.configSettings.language,
+  )
+
   let buttonCopy = productsCatalog.products[0].displayName
   if (productsCatalog.selectedProduct) {
     buttonCopy = productsCatalog.selectedProduct.displayName
   }
 
   const languageList = useMemo(() => {
-    const languageKeys = Object.keys(activationInfo.languages)
+    const currentLanguageKey = currentLanguage.split('-')[0]
+    const languageKeys = Object.keys(activationInfo.languages).filter((langKey) => langKey !== currentLanguageKey)
     return languageKeys.map((langKey) => <li key={langKey}>{activationInfo.languages[langKey]}</li>)
-  }, [activationInfo.languages])
+  }, [activationInfo.languages, currentLanguage])
 
   return (
     <div data-testid="activate-translation" className={Classes.DIALOG_BODY}>

@@ -6,6 +6,7 @@ import {
 import { toggleActivationDrawer } from '@/redux/settingsSlice'
 import { isVideoOverlay } from '@/helpers/video-helpers'
 import { useShallowEqualSelector, useReduxCallbackDispatch } from '@/redux/redux-helpers'
+import { TRANSLATION_COST } from '@/utils/Constants'
 import { NagStreamerBody, ActivateTranslationBody } from './Body'
 
 function TranslationsDrawer() {
@@ -22,7 +23,7 @@ function TranslationsDrawer() {
 
   let drawerBody = <ActivateTranslationBody />
 
-  if (activationInfo.balance >= 100 || activationInfo.activated) {
+  if (activationInfo.balance >= TRANSLATION_COST || activationInfo.activated) {
     drawerBody = <NagStreamerBody />
   }
 

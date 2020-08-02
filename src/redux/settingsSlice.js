@@ -5,7 +5,7 @@ import { TEXT_SIZES, BOX_SIZE } from '@/utils/Constants'
 
 const initialState = {
   viewerLanguage: 'default',
-  broadcasterLanguage: 'en-US',
+  language: 'en-US',
   ccKey: uuid(),
   isDragged: false,
   size: TEXT_SIZES.MEDIUM,
