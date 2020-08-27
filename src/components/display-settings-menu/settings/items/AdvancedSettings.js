@@ -1,7 +1,7 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { MenuDivider, MenuItem } from '@blueprintjs/core'
-import { faTextHeight } from '@fortawesome/free-solid-svg-icons'
+import { faCogs } from '@fortawesome/free-solid-svg-icons'
 import { toggleAdvancedSettingsDialog } from '@/redux/settingsSlice'
 import { useReduxCallbackDispatch } from '@/redux/redux-helpers'
 
@@ -14,7 +14,7 @@ function AdvancedSettings() {
       <MenuItem
         active={false}
         onClick={onClick}
-        icon={<FontAwesomeIcon icon={faTextHeight} size="lg" />}
+        icon={<FontAwesomeIcon icon={faCogs} size="lg" />}
         text="Advanced Settings"
         shouldDismissPopover={false}
       />

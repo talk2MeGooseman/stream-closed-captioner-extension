@@ -75,6 +75,7 @@ describe('TranslationsDrawer', () => {
         <TranslationsDrawer />, {
           initialState: {
             configSettings: {
+              language: 'en-US',
               isBitsEnabled: true,
               isDrawerOpen: true,
             },
@@ -104,6 +105,7 @@ describe('TranslationsDrawer', () => {
         <TranslationsDrawer />, {
           initialState: {
             configSettings: {
+              language: 'en-US',
               isBitsEnabled: true,
               isDrawerOpen: true,
             },

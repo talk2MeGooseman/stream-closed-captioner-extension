@@ -12,7 +12,7 @@ describe('ResetButton', () => {
         <ResetButton />,
       )
 
-      expect(container).toBeEmpty()
+      expect(container).toBeEmptyDOMElement()
     })
   })
 

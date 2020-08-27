@@ -1,15 +1,15 @@
 import React from 'react'
 import { cleanup } from '@testing-library/react'
 import { renderWithRedux } from '@/setupTests'
-import SettingsMenuItems from '../SettingsMenuItems'
+import SettingMenu from '../SettingMenu'
 
 afterEach(cleanup)
 
-describe('SettingsMenuItems', () => {
+describe('SettingMenu', () => {
   describe('not video overlay', () => {
     it('render expected menu items', () => {
       const { queryByText } = renderWithRedux(
-        <SettingsMenuItems />,
+        <SettingMenu />,
       )
 
       expect(queryByText('Reset Position')).not.toBeInTheDocument()
@@ -30,7 +30,7 @@ describe('SettingsMenuItems', () => {
 
     it('renders reset button', () => {
       const { queryByText } = renderWithRedux(
-        <SettingsMenuItems />,
+        <SettingMenu />,
       )
 
       expect(queryByText('Reset Position')).toBeInTheDocument()

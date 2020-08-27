@@ -15,10 +15,11 @@ export const FONT_FAMILIES = {
   DYSLEXIA: 'dsylexic-regular',
 }
 
-export const BOX_SIZE = {
+export const CAPTIONS_SIZE = {
   minWidth: 10,
   maxWidth: 90,
-  defaultWidth: 30,
+  defaultBoxWidth: 30,
+  defaultHorizontalWidth: 85,
 }
 
 export const SECOND = 1000

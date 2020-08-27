@@ -7,7 +7,7 @@ import { useShallowEqualSelector } from '@/redux/redux-helpers'
 import { LanguageButton } from '@/components/language-button'
 import { isVideoOverlay } from '@/helpers/video-helpers'
 import VisibilityToggle from '@/components/VideoOverlay/VisibilityToggle'
-import { SettingsMenuItems } from './menu-items'
+import { SettingsMenu } from './settings'
 import { AdvancedSettingsDialog } from '../AdvancedSettingsDialog'
 import { IssueDetected } from '../issue-detected'
 
@@ -37,17 +37,19 @@ const Controls = () => {
   })
 
   return (
-    <nav data-testid="display-settings" className={controlClass}>
-      <IssueDetected />
-      <LanguageButton />
-      <VisibilityToggle />
-      <Popover position="left-bottom" content={<SettingsMenuItems />} captureDismiss >
-        <Tooltip content={'Settings'}>
-          <FontAwesomeIcon size="2x" icon={faCog} />
-        </Tooltip>
-      </Popover>
+    <>
+      <nav data-testid="display-settings" className={controlClass}>
+        <IssueDetected />
+        <LanguageButton />
+        <VisibilityToggle />
+        <Popover position="left-bottom" content={<SettingsMenu />} captureDismiss >
+          <Tooltip content={'Settings'}>
+            <FontAwesomeIcon size="2x" icon={faCog} />
+          </Tooltip>
+        </Popover>
+      </nav>
       <AdvancedSettingsDialog />
-    </nav>
+    </>
   )
 }
 

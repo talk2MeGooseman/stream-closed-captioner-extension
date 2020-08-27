@@ -1,29 +1,35 @@
 import React from 'react'
-import { cleanup } from '@testing-library/react'
 import { renderWithRedux } from '@/setupTests'
 import LanguageButton from '../LanguageButton'
 
-afterEach(cleanup)
-
-describe('LanguageSettings ', () => {
+describe('LanguageButton', () => {
   describe('translations are enabled', () => {
     describe('bits enabled user', () => {
       it('renders button', () => {
-        const { container } = renderWithRedux(
-          <LanguageButton />,
-          { initialState: { configSettings: { isBitsEnabled: true }, captionsState: { translations: { en: '' } } } },
-        )
-
+        const { container } = renderWithRedux(<LanguageButton />, {
+          initialState: {
+            configSettings: {
+              isBitsEnabled: true,
+            },
+            captionsState: {
+              finalTextQueue: [],
+              interimText: 'Something',
+              translations: { en: '' },
+            },
+          },
+        })
         expect(container.querySelector('svg')).toHaveClass('fa-language')
       })
     })
 
     describe('non-bits enabled user', () => {
       it('renders button', () => {
-        const { container } = renderWithRedux(
-          <LanguageButton />,
-          { initialState: { configSettings: { isBitsEnabled: false }, captionsState: { translations: { en: '' } } } },
-        )
+        const { container } = renderWithRedux(<LanguageButton />, {
+          initialState: {
+            configSettings: { isBitsEnabled: false },
+            captionsState: { translations: { en: '' } },
+          },
+        })
 
         expect(container.querySelector('svg')).toHaveClass('fa-language')
       })
@@ -33,10 +39,9 @@ describe('LanguageSettings ', () => {
   describe('translations are disabled', () => {
     describe('bits enabled user', () => {
       it('renders button', () => {
-        const { container } = renderWithRedux(
-          <LanguageButton />,
-          { initialState: { configSettings: { isBitsEnabled: true } } },
-        )
+        const { container } = renderWithRedux(<LanguageButton />, {
+          initialState: { configSettings: { isBitsEnabled: true } },
+        })
 
         expect(container.querySelector('svg')).toHaveClass('fa-language')
       })
@@ -44,11 +49,9 @@ describe('LanguageSettings ', () => {
 
     describe('non-bits enabled user', () => {
       it('renders nothing', () => {
-        const { container } = renderWithRedux(
-          <LanguageButton />,
-        )
+        const { container } = renderWithRedux(<LanguageButton />)
 
-        expect(container).toBeEmpty()
+        expect(container).toBeEmptyDOMElement()
       })
     })
   })

@@ -34,13 +34,11 @@ export default function LanguageButton() {
       </Popover>
     )
   } else {
-    button = <FontAwesomeIcon size="2x" icon={faLanguage} onClick={toggleDrawer } />
+    button = <FontAwesomeIcon size="2x" icon={faLanguage} onClick={toggleDrawer} />
   }
 
   // Display activate dialog/text
   return (
-    <>
-      <Tooltip content={'Translations'}>{button}</Tooltip>
-    </>
+    <Tooltip content={'Translations'}>{button}</Tooltip>
   )
 }

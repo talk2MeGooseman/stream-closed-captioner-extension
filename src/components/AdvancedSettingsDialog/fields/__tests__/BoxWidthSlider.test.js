@@ -1,7 +1,7 @@
 import React from 'react'
 import { renderWithRedux } from '@/setupTests'
 import { screen } from '@testing-library/react'
-import { BOX_SIZE } from '@/utils/Constants'
+import { CAPTIONS_SIZE } from '@/utils/Constants'
 import { BoxWidthSlider } from '../BoxWidthSlider'
 
 describe('BoxWidthSlider', () => {
@@ -24,14 +24,14 @@ describe('BoxWidthSlider', () => {
 
     it('renders the slider', () => {
       renderWithRedux(<BoxWidthSlider />)
-      expect(screen.queryByText('Box Captions Width')).toBeInTheDocument()
+      expect(screen.queryByText('Captions Text Width')).toBeInTheDocument()
     })
 
     it('slider has default value for store', () => {
       const { store } = renderWithRedux(<BoxWidthSlider />)
 
       const { configSettings: defaultSetting } = store.getState()
-      expect(defaultSetting.boxWidth).toEqual(BOX_SIZE.defaultWidth)
+      expect(defaultSetting.captionsWidth).toEqual(CAPTIONS_SIZE.defaultHorizontalWidth)
     })
   })
 })

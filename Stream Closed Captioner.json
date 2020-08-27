@@ -2,7 +2,20 @@
   "allowHttpBackend": false,
   "backendCommand": "",
   "backendFolderName": "",
-  "certificateExceptions": [],
+  "certificateExceptions": [
+    {
+      "isAllowed": true,
+      "isEphemeral": false,
+      "isOrigin": true,
+      "value": "https://localhost:8080"
+    },
+    {
+      "isAllowed": true,
+      "isEphemeral": false,
+      "isOrigin": true,
+      "value": "wss://localhost:8080"
+    }
+  ],
   "extensionViews": [
     {
       "channelId": "120750024",
@@ -23,28 +36,6 @@
       "linked": false,
       "linkedUserId": "",
       "orientation": "Portrait",
-      "type": "video_overlay",
-      "viewerType": "Broadcaster"
-    },
-    {
-      "channelId": "120750024",
-      "configurationAnchor": "panel",
-      "displayChannelName": "talk2megooseman",
-      "features": {
-        "isBitsEnabled": true,
-        "isChatEnabled": false,
-        "isSubscriptionStatusAvailable": false
-      },
-      "frameSize": {
-        "width": 1280,
-        "height": 720
-      },
-      "id": "2",
-      "isPopout": false,
-      "label": "",
-      "linked": false,
-      "linkedUserId": "",
-      "orientation": "Portrait",
       "type": "panel",
       "viewerType": "Broadcaster"
     }
@@ -57,7 +48,7 @@
     "canInstall": true,
     "configUrl": "https://localhost:8080/config.html",
     "configurationLocation": "hosted",
-    "description": "Stream CC now includes Bit Enabled Language Translations. User can activate translation for several languages for 1 day. Easily increase the accessibility of your stream by adding Closed Captioning for your viewers. All you have to do is enable the Video Overlay or Panel, log in to the Companion Site and Start Closed Captioning. Now your viewers with accessibility needs can experience your stream in a whole new way, automatically offering more value to your channel for viewers from all walks of life. Viewers can hide the text or change the text size from small/medium/large sizes and drag it around the screen so it doesn't block the action. Change the text box size from horizontal or box size based on preference. You can also install it as a panel so viewers can pop it out into a separate window for easier reading. Feel free to stop by my channel and provide any feedback twitch.tv/talk2megooseman or email. Demo: https://www.youtube.com/watch?v=GgnMa6K8ZZM",
+    "description": "Easily increase the accessibility of your stream by adding Closed Captioning for your viewers. All you have to do is enable the Video Overlay or Panel, log in to the Companion website, and Start Closed Captioning. Now your viewers with accessibility needs can experience your stream in a whole new way, automatically offering more value to your channel for viewers from all walks of life. Viewers can hide the text or change the text size from small/medium/large sizes and drag it around the screen so it doesn't block the action. Change the text box size from horizontal or box size based on preference. You can also install it as a panel so viewers can pop it out into a separate window for easier reading. Viewers can also activate translation for several languages for 1 day on your channel using bits (this require bits to help cover for translation service). Broadcasters also have their own settings to control how they want the Captions to show up.  Demo: https://www.youtube.com/watch?v=GgnMa6K8ZZM",
     "eulaTosUrl": "https://stream-cc.gooseman.codes/pages/terms",
     "hasChatSupport": false,
     "iconUrl": "https://media.forgecdn.net/avatars/191/977/636862415151728028.png",
@@ -88,7 +79,7 @@
     "summary": "Easily provide Closed Captioning for your viewers. All you have to do is install the extension, go to stream-cc.gooseman.codes, click \"On\"",
     "supportEmail": "help@gooseman.codes",
     "vendorCode": "",
-    "version": "1.4.3",
+    "version": "1.5.0",
     "viewerSummary": "Provide Closed Captioning for your viewers, with bit enabled translations. Install the extension, go to the companion website and click \"On\"",
     "viewerUrl": "https://localhost:8080/mobile.html",
     "viewerUrls": {

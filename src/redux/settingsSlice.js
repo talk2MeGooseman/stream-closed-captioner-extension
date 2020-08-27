@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit'
 import { v4 as uuid } from 'uuid'
-import { TEXT_SIZES, BOX_SIZE } from '@/utils/Constants'
+import { TEXT_SIZES, CAPTIONS_SIZE } from '@/utils/Constants'
 
 const initialState = {
   viewerLanguage: 'default',
@@ -20,7 +20,7 @@ const initialState = {
   uppercaseText: false,
   dyslexiaFontEnabled: false,
   displayAdvancedSettingsDialog: false,
-  boxWidth: BOX_SIZE.defaultWidth,
+  captionsWidth: CAPTIONS_SIZE.defaultHorizontalWidth,
 }
 
 const settingsSlice = createSlice({
@@ -47,6 +47,11 @@ const settingsSlice = createSlice({
     },
     toggleBoxSize(state) {
       state.ccBoxSize = !state.ccBoxSize
+      if (state.ccBoxSize) {
+        state.captionsWidth = CAPTIONS_SIZE.defaultBoxWidth
+      } else {
+        state.captionsWidth = CAPTIONS_SIZE.defaultHorizontalWidth
+      }
     },
     setIsDragged(state) {
       state.isDragged = true
@@ -82,15 +87,15 @@ const settingsSlice = createSlice({
         state.horizontalLineCount -= 1
       }
     },
-    changeBoxWidth(state, action) {
+    changeCaptionsWidth(state, action) {
       let newWidth = action.payload
-      if (newWidth < BOX_SIZE.minWidth) {
-        newWidth = BOX_SIZE.minWidth
-      } else if (newWidth > BOX_SIZE.maxWidth) {
-        newWidth = BOX_SIZE.maxWidth
+      if (newWidth < CAPTIONS_SIZE.minWidth) {
+        newWidth = CAPTIONS_SIZE.minWidth
+      } else if (newWidth > CAPTIONS_SIZE.maxWidth) {
+        newWidth = CAPTIONS_SIZE.maxWidth
       }
 
-      state.boxWidth = newWidth
+      state.captionsWidth = newWidth
     },
   },
 })
@@ -110,7 +115,7 @@ export const {
   toggleUppercaseText,
   toggleDyslexiaFamily,
   toggleAdvancedSettingsDialog,
-  changeBoxWidth,
+  changeCaptionsWidth,
 } = settingsSlice.actions
 
 export default settingsSlice.reducer

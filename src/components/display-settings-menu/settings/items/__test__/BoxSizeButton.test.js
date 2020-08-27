@@ -12,7 +12,7 @@ describe('BoxSizeButton', () => {
         <BoxSizeButton />,
       )
 
-      expect(container).toBeEmpty()
+      expect(container).toBeEmptyDOMElement()
     })
   })
 

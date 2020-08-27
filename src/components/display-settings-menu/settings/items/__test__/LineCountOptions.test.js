@@ -9,7 +9,7 @@ describe('LineCountOptions', () => {
   describe('not video overlay', () => {
     it('doesnt render', () => {
       const { container } = renderWithRedux(<LineCountOptions />)
-      expect(container).toBeEmpty()
+      expect(container).toBeEmptyDOMElement()
     })
   })
 
@@ -25,7 +25,7 @@ describe('LineCountOptions', () => {
     it('renders', async () => {
       const { container } = renderWithRedux(<LineCountOptions />)
 
-      expect(container).not.toBeEmpty()
+      expect(container).not.toBeEmptyDOMElement()
     })
 
     it('has increase and decrease line count menu items', async () => {

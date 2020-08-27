@@ -63,7 +63,7 @@ function ClosedCaption({
         numberOfLines={numberOfLines}
         isHidden={isHidden}
         boxSize={configSettings.ccBoxSize}
-        boxWidth={configSettings.boxWidth}
+        captionsWidth={configSettings.captionsWidth}
       >
         <Captions
           fontFamily={fontFamily}

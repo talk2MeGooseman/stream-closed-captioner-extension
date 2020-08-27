@@ -9,7 +9,9 @@
         "plugin:jest/recommended",
         "plugin:testing-library/react",
         "plugin:jest-dom/recommended",
-        "plugin:jsx-a11y/recommended"
+        "plugin:jsx-a11y/recommended",
+        "prettier",
+        "prettier/react"
     ],
     "parser": "babel-eslint",
     "parserOptions": {

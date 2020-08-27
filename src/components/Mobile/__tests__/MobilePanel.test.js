@@ -9,6 +9,6 @@ describe('TranslationsDrawer', () => {
   it('renders content', () => {
     const { container } = renderWithRedux(<MobilePanel />)
 
-    expect(container).not.toBeEmpty()
+    expect(container).not.toBeEmptyDOMElement()
   })
 })

@@ -4,7 +4,7 @@ import { MenuDivider, MenuItem } from '@blueprintjs/core'
 import { faUndo } from '@fortawesome/free-solid-svg-icons'
 import { isVideoOverlay } from '@/helpers/video-helpers'
 import { resetCCText } from '@/redux/settingsSlice'
-import { useReduxCallbackDispatch } from '../../../redux/redux-helpers'
+import { useReduxCallbackDispatch } from '@/redux/redux-helpers'
 
 function ResetButton() {
   const onResetPosition = useReduxCallbackDispatch(resetCCText())
