@@ -1,26 +1,31 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit'
 import { v4 as uuid } from 'uuid'
-import { TEXT_SIZES, CAPTIONS_SIZE } from '@/utils/Constants'
+import {
+  TEXT_SIZES,
+  CAPTIONS_SIZE,
+  CAPTIONS_TRANSPARENCY,
+} from '@/utils/Constants'
 
 const initialState = {
-  viewerLanguage: 'default',
-  language: 'en-US',
-  ccKey: uuid(),
-  isDragged: false,
-  size: TEXT_SIZES.MEDIUM,
-  hideCC: false,
-  ccBoxSize: false,
-  isBitsEnabled: false,
-  isDrawerOpen: false,
-  horizontalLineCount: 3,
   boxLineCount: 7,
-  switchSettingsPosition: false,
-  grayOutFinalText: false,
-  uppercaseText: false,
-  dyslexiaFontEnabled: false,
-  displayAdvancedSettingsDialog: false,
+  captionsTransparency: CAPTIONS_TRANSPARENCY.default,
   captionsWidth: CAPTIONS_SIZE.defaultHorizontalWidth,
+  ccBoxSize: false,
+  ccKey: uuid(),
+  displayAdvancedSettingsDialog: false,
+  dyslexiaFontEnabled: false,
+  grayOutFinalText: false,
+  hideCC: false,
+  horizontalLineCount: 3,
+  isBitsEnabled: false,
+  isDragged: false,
+  isDrawerOpen: false,
+  language: 'en-US',
+  size: TEXT_SIZES.MEDIUM,
+  switchSettingsPosition: false,
+  uppercaseText: false,
+  viewerLanguage: 'default',
 }
 
 const settingsSlice = createSlice({
@@ -97,25 +102,36 @@ const settingsSlice = createSlice({
 
       state.captionsWidth = newWidth
     },
+    changeCaptionsTransparency(state, action) {
+      let value = action.payload
+      if (value < CAPTIONS_TRANSPARENCY.min) {
+        value = CAPTIONS_TRANSPARENCY.min
+      } else if (value > CAPTIONS_TRANSPARENCY.max) {
+        value = CAPTIONS_TRANSPARENCY.max
+      }
+
+      state.captionsTransparency = value
+    },
   },
 })
 
 export const {
-  updateBroadcasterSettings,
-  changeTextSize,
+  changeCaptionsTransparency,
+  changeCaptionsWidth,
   changeLanguage,
-  toggleActivationDrawer,
-  toggleBoxSize,
-  toggleVisibility,
-  setIsDragged,
-  resetCCText,
-  increaseLineCount,
+  changeTextSize,
   decreaseLineCount,
+  increaseLineCount,
+  resetCCText,
+  setIsDragged,
+  toggleActivationDrawer,
+  toggleAdvancedSettingsDialog,
+  toggleBoxSize,
+  toggleDyslexiaFamily,
   toggleGrayOutFinalText,
   toggleUppercaseText,
-  toggleDyslexiaFamily,
-  toggleAdvancedSettingsDialog,
-  changeCaptionsWidth,
+  toggleVisibility,
+  updateBroadcasterSettings,
 } = settingsSlice.actions
 
 export default settingsSlice.reducer

@@ -5,7 +5,11 @@ import { connect } from 'react-redux'
 import './ClosedCaption.css'
 import { setIsDragged } from '@/redux/settingsSlice'
 import { FONT_FAMILIES } from '@/utils/Constants'
-import { CaptionsContainer, Captions, CaptionText } from '../shared/caption-styles'
+import {
+  CaptionsContainer,
+  Captions,
+  CaptionText,
+} from '../shared/caption-styles'
 import { getFontSizeStyle } from './helpers'
 
 // Bits 100 from electrichavoc
@@ -64,6 +68,7 @@ function ClosedCaption({
         isHidden={isHidden}
         boxSize={configSettings.ccBoxSize}
         captionsWidth={configSettings.captionsWidth}
+        captionsTransparency={configSettings.captionsTransparency}
       >
         <Captions
           fontFamily={fontFamily}
@@ -73,7 +78,9 @@ function ClosedCaption({
           <CaptionText grayOutText={configSettings.grayOutFinalText}>
             {finalTextCaptions}
           </CaptionText>
-          { configSettings.viewerLanguage === 'default' && <CaptionText interim>{interimText}</CaptionText>}
+          {configSettings.viewerLanguage === 'default' && (
+            <CaptionText interim>{interimText}</CaptionText>
+          )}
         </Captions>
       </CaptionsContainer>
     </Draggable>

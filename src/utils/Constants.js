@@ -22,6 +22,13 @@ export const CAPTIONS_SIZE = {
   defaultHorizontalWidth: 85,
 }
 
+export const CAPTIONS_TRANSPARENCY = {
+  default: 70,
+  max: 100,
+  min: 0,
+  step: 10,
+}
+
 export const SECOND = 1000
 export const MAX_TEXT_DISPLAY_TIME = SECOND * 120
 export const MINIMUM_VID_WIDTH = 600
