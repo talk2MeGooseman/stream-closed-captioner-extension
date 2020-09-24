@@ -29,10 +29,6 @@
         "jsx-a11y"
     ],
     "rules": {
-        "indent": [
-            "error",
-            2
-        ],
         "semi": [
             "error",
             "never"
