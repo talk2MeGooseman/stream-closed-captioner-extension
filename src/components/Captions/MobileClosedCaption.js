@@ -1,7 +1,11 @@
 import React from 'react'
 import { FONT_FAMILIES } from '@/utils/Constants'
 import { useShallowEqualSelector } from '@/redux/redux-helpers'
-import { Captions, CaptionText, CaptionsContainer } from '../shared/caption-styles'
+import {
+  Captions,
+  CaptionText,
+  CaptionsContainer,
+} from '../shared/caption-styles'
 import { getMobileFontSizeStyle } from './helpers'
 // Bits - phrakberg
 // Resub - phrakberg
@@ -38,16 +42,23 @@ function MobileClosedCaption() {
   }
 
   return (
-    <CaptionsContainer mobilePanel>
+    <CaptionsContainer
+      mobilePanel
+      captionsTransparency={configSettings.captionsTransparency}
+    >
       <Captions
         fontFamily={fontFamily}
         fontSize={fontSize}
         uppercase={configSettings.uppercaseText}
       >
-        <CaptionText grayOutText={configSettings.grayOutFinalText}>{finalTextCaptions}</CaptionText>
-        { configSettings.viewerLanguage === 'default' && <CaptionText interim>{interimText}</CaptionText> }
+        <CaptionText grayOutText={configSettings.grayOutFinalText}>
+          {finalTextCaptions}
+        </CaptionText>
+        {configSettings.viewerLanguage === 'default' && (
+          <CaptionText interim>{interimText}</CaptionText>
+        )}
       </Captions>
-    </CaptionsContainer >
+    </CaptionsContainer>
   )
 }
 
