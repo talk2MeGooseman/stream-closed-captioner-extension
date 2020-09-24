@@ -1,12 +1,16 @@
-import React from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useReduxCallbackDispatch } from '@/redux/redux-helpers'
+import { toggleAdvancedSettingsDialog } from '@/redux/settingsSlice'
 import { MenuDivider, MenuItem } from '@blueprintjs/core'
 import { faCogs } from '@fortawesome/free-solid-svg-icons'
-import { toggleAdvancedSettingsDialog } from '@/redux/settingsSlice'
-import { useReduxCallbackDispatch } from '@/redux/redux-helpers'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { isVideoOverlay } from '@/helpers/video-helpers'
+import React from 'react'
 
 function AdvancedSettings() {
   const onClick = useReduxCallbackDispatch(toggleAdvancedSettingsDialog())
+  if (!isVideoOverlay()) {
+    return null
+  }
 
   return (
     <React.Fragment>
