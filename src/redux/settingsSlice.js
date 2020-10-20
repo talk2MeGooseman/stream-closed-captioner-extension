@@ -7,7 +7,7 @@ import {
   CAPTIONS_TRANSPARENCY,
 } from '@/utils/Constants'
 
-const initialState = {
+export const initialState = {
   boxLineCount: 7,
   captionsTransparency: CAPTIONS_TRANSPARENCY.default,
   captionsWidth: CAPTIONS_SIZE.defaultHorizontalWidth,
@@ -37,6 +37,12 @@ const settingsSlice = createSlice({
       Object.keys(settings).forEach((key) => {
         state[key] = settings[key]
       })
+
+      if (state.ccBoxSize) {
+        state.captionsWidth = CAPTIONS_SIZE.defaultBoxWidth
+      } else {
+        state.captionsWidth = CAPTIONS_SIZE.defaultHorizontalWidth
+      }
     },
     toggleGrayOutFinalText(state) {
       state.grayOutFinalText = !state.grayOutFinalText
