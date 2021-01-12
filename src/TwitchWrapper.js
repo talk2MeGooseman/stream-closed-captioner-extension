@@ -6,7 +6,7 @@ import { requestTranslationStatus } from '@/redux/translation-slice'
 import { updateVideoPlayerContext } from '@/redux/video-player-context-slice'
 import { TranslationsDrawer } from '@/components/TranslationDrawer'
 import { MAX_TEXT_DISPLAY_TIME, SECOND, CONTEXT_EVENTS_WHITELIST } from './utils/Constants'
-import Authentication from './components/Authentication/Authentication'
+import Authentication from './utils/Authentication'
 import { updateCCText } from './redux/captions-slice'
 import {
   setProducts,
