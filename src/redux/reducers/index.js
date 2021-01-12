@@ -4,7 +4,7 @@ import captionsSlice from '@/redux/captions-slice'
 import settingsSlice from '@/redux/settings-slice'
 import videoPlayerContextReducer from '@/redux/videoPlayerContextSlice'
 import productsSlice from '@/redux/products-slice'
-import translationSlice from '@/redux/translationSlice'
+import translationSlice from '@/redux/translation-slice'
 
 const streamCC = combineReducers({
   captionsState: captionsSlice,

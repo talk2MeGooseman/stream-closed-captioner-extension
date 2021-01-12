@@ -2,7 +2,7 @@
 import React, { Component } from 'react'
 import { connect, Provider } from 'react-redux'
 import { updateBroadcasterSettings } from '@/redux/settings-slice'
-import { requestTranslationStatus } from '@/redux/translationSlice'
+import { requestTranslationStatus } from '@/redux/translation-slice'
 import { updateVideoPlayerContext } from '@/redux/videoPlayerContextSlice'
 import { TranslationsDrawer } from '@/components/TranslationDrawer'
 import { MAX_TEXT_DISPLAY_TIME, SECOND, CONTEXT_EVENTS_WHITELIST } from './utils/Constants'

@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit'
 import { toggleActivationDrawer } from './settings-slice'
-import { requestTranslationStatus } from './translationSlice'
+import { requestTranslationStatus } from './translation-slice'
 
 function compare(a, b) {
   if (a.cost.amount < b.cost.amount) {
