@@ -12,7 +12,7 @@ import {
   setProducts,
   completeBitsTransaction,
   setChannelId,
-} from './redux/productsSlice'
+} from './redux/products-slice'
 
 const debounce = require('lodash/debounce')
 

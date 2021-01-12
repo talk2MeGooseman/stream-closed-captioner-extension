@@ -6,7 +6,7 @@ import {
 } from '@blueprintjs/core'
 import { Select } from '@blueprintjs/select'
 import { useShallowEqualSelector } from '@/redux/redux-helpers'
-import { useBits, setSelectedProduct } from '@/redux/productsSlice'
+import { useBits, setSelectedProduct } from '@/redux/products-slice'
 import { TRANSLATION_COST } from '@/utils/Constants'
 import { productMenuItemRenderer } from './ProductMenuItem'
 
