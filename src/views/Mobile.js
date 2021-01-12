@@ -4,17 +4,18 @@ import ReactDOM from 'react-dom'
 import { configureStore, applyMiddleware } from '@reduxjs/toolkit'
 import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
-import { withTwitchData } from '../TwitchWrapper'
+import { TwitchExtension } from '../TwitchWrapper'
 import MobilePanel from '../components/Mobile/MobilePanel'
 import rootReducer from '../redux/reducers'
 import './App.css'
 
 const store = configureStore({ reducer: rootReducer }, applyMiddleware(thunk))
-const Component = withTwitchData(MobilePanel, store)
 
 ReactDOM.render(
   <Provider store={store}>
-    <Component />
+    <TwitchExtension>
+      <MobilePanel />
+    </TwitchExtension>
   </Provider>,
   document.getElementById('root'),
 )

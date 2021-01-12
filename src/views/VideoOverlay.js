@@ -6,14 +6,13 @@ import thunk from 'redux-thunk'
 import { Provider } from 'react-redux'
 // import logger from "redux-logger";
 import Overlay from '../components/VideoOverlay/Overlay'
-import { withTwitchData } from '../TwitchWrapper'
+import { TwitchExtension } from '../TwitchWrapper'
 import rootReducer from '../redux/reducers'
 import './App.css'
 
 const store = configureStore({
   reducer: rootReducer,
 }, applyMiddleware(thunk))
-const Component = withTwitchData(Overlay, store)
 
 if (process.env.NODE_ENV !== 'production') {
   // eslint-disable-next-line global-require
@@ -23,7 +22,9 @@ if (process.env.NODE_ENV !== 'production') {
 
 ReactDOM.render(
   <Provider store={store}>
-    <Component />
+    <TwitchExtension>
+      <Overlay />
+    </TwitchExtension>
   </Provider>,
   document.getElementById('root'),
 )

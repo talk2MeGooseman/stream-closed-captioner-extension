@@ -1,20 +1,17 @@
 /* eslint-disable react/prop-types */
-import React, { Component } from 'react'
-import { connect, Provider } from 'react-redux'
+import { TranslationsDrawer } from '@/components/TranslationDrawer'
 import { updateBroadcasterSettings } from '@/redux/settings-slice'
 import { requestTranslationStatus } from '@/redux/translation-slice'
 import { updateVideoPlayerContext } from '@/redux/video-player-context-slice'
-import { TranslationsDrawer } from '@/components/TranslationDrawer'
-import { MAX_TEXT_DISPLAY_TIME, SECOND, CONTEXT_EVENTS_WHITELIST } from './utils/Constants'
-import Authentication from './utils/Authentication'
+import React, { useCallback, useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { updateCCText } from './redux/captions-slice'
 import {
-  setProducts,
   completeBitsTransaction,
-  setChannelId,
+  setChannelId, setProducts
 } from './redux/products-slice'
-
-const debounce = require('lodash/debounce')
+import { useShallowEqualSelector } from "./redux/redux-helpers"
+import { CONTEXT_EVENTS_WHITELIST, SECOND } from './utils/Constants'
 
 // Resub - rw_grim
 //
@@ -32,140 +29,117 @@ function contextStateUpdated(delta) {
   return delta.find((event) => CONTEXT_EVENTS_WHITELIST.includes(event))
 }
 
-export function withTwitchData(WrappedComponent, store) {
-  class TwitchWrapper extends Component {
-    state = {
-      ready: false,
-    };
+export function TwitchExtension({ children }) {
+  const [ready, setReady] = useState(false)
+  const dispatch = useDispatch()
+  // Authentication = new Authentication()
 
-    constructor(props) {
-      super(props)
+  const videoPlayerContext = useShallowEqualSelector(
+    (state) => state.videoPlayerContext,
+  )
 
-      this.Authentication = new Authentication()
-      this.twitch = window.Twitch ? window.Twitch.ext : null
-    }
+  const onUpdateVideoPlayerContext = useCallback((state) => dispatch(updateVideoPlayerContext(state)), [dispatch])
+  const onUpdateCCText = useCallback((state) => dispatch(updateCCText(state)), [dispatch])
+  const onUpdateBroadcasterSettings = useCallback((settings) => dispatch(updateBroadcasterSettings(settings)), [dispatch])
+  const onSetProducts = useCallback((products) => dispatch(setProducts(products)), [dispatch])
+  const onCompleteTransaction = useCallback((transaction) => dispatch(completeBitsTransaction(transaction)), [dispatch])
+  const onChannelIdReceived = useCallback((channelId) => dispatch(setChannelId(channelId)), [dispatch])
+  const fetchTranslationStatus = useCallback(() => dispatch(requestTranslationStatus()), [dispatch])
 
-    componentDidMount() {
-      if (this.twitch) {
-        // TODO: Comment out below when releasing
-        // this.twitch.bits.setUseLoopback = true;
-
-        this.twitch.onAuthorized(this.onAuthorized)
-        this.twitch.onContext(this.contextUpdate)
-        this.twitch.configuration.onChanged(this.setConfigurationSettings)
-        this.twitch.listen('broadcast', this.pubSubMessageHandler)
-        this.twitch.bits.getProducts().then(this.parseProducts)
-        this.twitch.bits.onTransactionComplete(this.onTransactionComplete)
-      }
-    }
-
-    componentWillUnmount() {
-      if (this.twitch) {
-        this.twitch.unlisten('broadcast', () => null)
-      }
-    }
-
-    onAuthorized = (auth) => {
-      this.props.onChannelIdReceived(auth.channelId)
-      this.Authentication.setToken(auth.token, auth.userId)
-      this.props.fetchTranslationStatus()
-    };
-
-    parseProducts = (products) => {
-      this.props.setProducts(products)
-    };
-
-    onTransactionComplete = (transaction) => {
-      this.props.onCompleteTransaction(transaction)
-    };
-
-    contextUpdate = (context, delta) => {
-      if (contextStateUpdated(delta)) {
-        const newContext = fetchChangedContextValues(context, delta)
-        this.props.updateVideoPlayerContext(newContext)
-      }
-    };
-
-    setConfigurationSettings = () => {
-      let config = this.twitch.configuration.broadcaster
-        ? this.twitch.configuration.broadcaster.content
-        : ''
-
-      try {
-        config = JSON.parse(config)
-      } catch (e) {
-        config = {}
+  useEffect(() => {
+    const twitch = window.Twitch ? window.Twitch.ext : null
+    if (twitch) {
+      const onAuthorized = (auth) => {
+        onChannelIdReceived(auth.channelId)
+        fetchTranslationStatus()
       }
 
-      this.props.updateBroadcasterSettings({
-        ...config,
-        isBitsEnabled: this.twitch.features.isBitsEnabled,
-      })
+      const parseProducts = (products) => {
+        onSetProducts(products)
+      }
 
-      this.setState({
-        ready: true,
-      })
-    };
+      const onTransactionComplete = (transaction) => {
+        onCompleteTransaction(transaction)
+      }
 
-    pubSubMessageHandler = (target, contentType, message) => {
-      let parsedMessage
-      try {
-        parsedMessage = JSON.parse(message)
-      } catch (error) {
-        parsedMessage = {
-          interim: message,
+      const contextUpdate = (context, delta) => {
+        if (contextStateUpdated(delta)) {
+          const newContext = fetchChangedContextValues(context, delta)
+          onUpdateVideoPlayerContext(newContext)
         }
       }
 
-      this.displayClosedCaptioningText(parsedMessage)
-    };
+      const setConfigurationSettings = () => {
+        let config = twitch.configuration.broadcaster
+          ? twitch.configuration.broadcaster.content
+          : ''
 
-    displayClosedCaptioningText(message) {
-      const { hlsLatencyBroadcaster } = this.props.videoPlayerContext
-      let delayTime = hlsLatencyBroadcaster * SECOND
-      if (message.delay) {
-        delayTime -= message.delay * SECOND
+        try {
+          config = JSON.parse(config)
+        } catch (e) {
+          config = {}
+        }
+
+        onUpdateBroadcasterSettings({
+          ...config,
+          isBitsEnabled: twitch.features.isBitsEnabled,
+        })
+
+        setReady(true)
       }
 
-      // this.clearClosedCaptioning();
-      setTimeout(() => {
-        this.props.updateCCText(message)
-      }, delayTime)
-    }
+      const displayClosedCaptioningText = (message) => {
+        const { hlsLatencyBroadcaster } = videoPlayerContext
+        let delayTime = hlsLatencyBroadcaster * SECOND
+        if (message.delay) {
+          delayTime -= message.delay * SECOND
+        }
 
-    clearClosedCaptioning = debounce(() => {}, MAX_TEXT_DISPLAY_TIME);
-
-    render() {
-      const { ready } = this.state
-
-      if (!ready) {
-        return null
+        setTimeout(() => {
+          onUpdateCCText(message)
+        }, delayTime)
       }
 
-      return (
-        <Provider store={store}>
-          <TranslationsDrawer />
-          <WrappedComponent />
-        </Provider>
-      )
+      const pubSubMessageHandler = (target, contentType, message) => {
+        let parsedMessage
+        try {
+          parsedMessage = JSON.parse(message)
+        } catch (error) {
+          parsedMessage = {
+            interim: message,
+          }
+        }
+
+        displayClosedCaptioningText(parsedMessage)
+      }
+
+      // TODO: Uncomment to test with bits locally
+      // twitch.bits.setUseLoopback = true;
+
+      twitch.onAuthorized(onAuthorized)
+      twitch.onContext(contextUpdate)
+      twitch.configuration.onChanged(setConfigurationSettings)
+      twitch.listen('broadcast', pubSubMessageHandler)
+      twitch.bits.getProducts().then(parseProducts)
+      twitch.bits.onTransactionComplete(onTransactionComplete)
     }
+
+    return () => {
+      if (twitch) {
+        twitch.unlisten('broadcast', () => null)
+      }
+    }
+  }, [])
+
+  if (!ready) {
+    return null
   }
 
-  const mapStateToProps = (state) => ({
-    ccState: state.captionsState,
-    configSettings: state.configSettings,
-    videoPlayerContext: state.videoPlayerContext,
-  })
-
-  const mapDispatchToProps = (dispatch) => ({
-    updateVideoPlayerContext: (state) => dispatch(updateVideoPlayerContext(state)),
-    updateCCText: (state) => dispatch(updateCCText(state)),
-    updateBroadcasterSettings: (settings) => dispatch(updateBroadcasterSettings(settings)),
-    setProducts: (products) => dispatch(setProducts(products)),
-    onCompleteTransaction: (transaction) => dispatch(completeBitsTransaction(transaction)),
-    onChannelIdReceived: (channelId) => dispatch(setChannelId(channelId)),
-    fetchTranslationStatus: () => dispatch(requestTranslationStatus()),
-  })
-
-  return connect(mapStateToProps, mapDispatchToProps)(TwitchWrapper)
+  return (
+    <>
+      <TranslationsDrawer />
+      { children }
+    </>
+  )
 }
+
