@@ -30,10 +30,10 @@ const captionsSlice = createSlice({
       }
 
       if (action.payload.translations) {
-        const langs = Object.keys(action.payload.translations)
-        langs.forEach((l) => {
-          const currentLangTranslation = state.translations[l] || { textQueue: [] }
-          const newTranslation = action.payload.translations[l]
+        const translatedLanguages = Object.keys(action.payload.translations)
+        translatedLanguages.forEach((language) => {
+          const currentLangTranslation = state.translations[language] || { textQueue: [] }
+          const newTranslation = action.payload.translations[language]
 
           const lastTranslationIndex = currentLangTranslation.textQueue.length - 1
           const lastTranslationText = currentLangTranslation.textQueue[lastTranslationIndex] || {}
@@ -47,7 +47,7 @@ const captionsSlice = createSlice({
               newTextQueue.shift()
             }
 
-            newTranslations[l] = {
+            newTranslations[language] = {
               name: newTranslation.name,
               textQueue: newTextQueue,
             }
