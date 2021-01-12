@@ -1,6 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { combineReducers } from 'redux'
-import captionsSlice from '@/redux/captionsSlice'
+import captionsSlice from '@/redux/captions-slice'
 import settingsSlice from '@/redux/settingsSlice'
 import videoPlayerContextReducer from '@/redux/videoPlayerContextSlice'
 import productsSlice from '@/redux/productsSlice'

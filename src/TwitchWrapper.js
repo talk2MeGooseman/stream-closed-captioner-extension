@@ -7,7 +7,7 @@ import { updateVideoPlayerContext } from '@/redux/videoPlayerContextSlice'
 import { TranslationsDrawer } from '@/components/TranslationDrawer'
 import { MAX_TEXT_DISPLAY_TIME, SECOND, CONTEXT_EVENTS_WHITELIST } from './utils/Constants'
 import Authentication from './components/Authentication/Authentication'
-import { updateCCText } from './redux/captionsSlice'
+import { updateCCText } from './redux/captions-slice'
 import {
   setProducts,
   completeBitsTransaction,
