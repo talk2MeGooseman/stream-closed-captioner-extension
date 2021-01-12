@@ -27,7 +27,11 @@ describe('LanguageButton', () => {
         const { container } = renderWithRedux(<LanguageButton />, {
           initialState: {
             configSettings: { isBitsEnabled: false },
-            captionsState: { translations: { en: '' } },
+            captionsState: {
+              finalTextQueue: [],
+              interimText: 'Something',
+              translations: { en: '' }
+            },
           },
         })
 
@@ -40,7 +44,14 @@ describe('LanguageButton', () => {
     describe('bits enabled user', () => {
       it('renders button', () => {
         const { container } = renderWithRedux(<LanguageButton />, {
-          initialState: { configSettings: { isBitsEnabled: true } },
+          initialState: {
+            configSettings: { isBitsEnabled: true },
+            captionsState: {
+              finalTextQueue: [],
+              interimText: 'Something',
+              translations: { en: '' }
+            },
+          },
         })
 
         expect(container.querySelector('svg')).toHaveClass('fa-language')

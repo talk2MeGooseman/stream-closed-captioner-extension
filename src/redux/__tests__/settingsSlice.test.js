@@ -1,7 +1,5 @@
-import React from 'react'
-import { cleanup } from '@testing-library/react'
-import settings, { updateBroadcasterSettings, initialState } from '../settingsSlice'
 import { CAPTIONS_SIZE } from '@/utils/Constants'
+import settings, { updateBroadcasterSettings, initialState } from '../settingsSlice'
 
 describe('settingsSlice', () => {
   it('should handle initial state', () => {
