@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react'
 import { connect, Provider } from 'react-redux'
-import { updateBroadcasterSettings } from '@/redux/settingsSlice'
+import { updateBroadcasterSettings } from '@/redux/settings-slice'
 import { requestTranslationStatus } from '@/redux/translationSlice'
 import { updateVideoPlayerContext } from '@/redux/videoPlayerContextSlice'
 import { TranslationsDrawer } from '@/components/TranslationDrawer'

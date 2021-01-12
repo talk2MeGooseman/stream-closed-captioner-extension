@@ -2,7 +2,7 @@ import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { MenuDivider, MenuItem } from '@blueprintjs/core'
 import { faAdjust } from '@fortawesome/free-solid-svg-icons'
-import { toggleGrayOutFinalText } from '@/redux/settingsSlice'
+import { toggleGrayOutFinalText } from '@/redux/settings-slice'
 import { useReduxCallbackDispatch, useShallowEqualSelector } from '@/redux/redux-helpers'
 
 function GrayOutFinalTextOptionButton() {

@@ -5,7 +5,7 @@ import { MenuItem, Divider } from '@blueprintjs/core'
 import {
   increaseLineCount,
   decreaseLineCount,
-} from '@/redux/settingsSlice'
+} from '@/redux/settings-slice'
 import { useShallowEqualSelector, useReduxCallbackDispatch } from '@/redux/redux-helpers'
 import { isVideoOverlay } from '@/helpers/video-helpers'
 

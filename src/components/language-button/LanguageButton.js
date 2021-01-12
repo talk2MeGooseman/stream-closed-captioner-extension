@@ -1,4 +1,4 @@
-import { toggleActivationDrawer } from '@/redux/settingsSlice'
+import { toggleActivationDrawer } from '@/redux/settings-slice'
 import { Popover, Tooltip } from '@blueprintjs/core'
 import { faLanguage } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'

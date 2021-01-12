@@ -1,6 +1,6 @@
 import React from 'react'
 import { MenuDivider, Menu, MenuItem } from '@blueprintjs/core'
-import { changeLanguage, toggleActivationDrawer } from '@/redux/settingsSlice'
+import { changeLanguage, toggleActivationDrawer } from '@/redux/settings-slice'
 import {
   useShallowEqualSelector,
   useReduxCallbackDispatch,

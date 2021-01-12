@@ -4,7 +4,7 @@ import {
 } from '@/redux/redux-helpers'
 import { Button, Classes, Dialog, Tooltip } from '@blueprintjs/core'
 import React from 'react'
-import { toggleAdvancedSettingsDialog } from '@/redux/settingsSlice'
+import { toggleAdvancedSettingsDialog } from '@/redux/settings-slice'
 import { BoxWidthSlider } from './fields/BoxWidthSlider'
 import { CaptionsTransparencySlider } from './fields/CaptionsTransparencySlider'
 

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import Draggable from 'react-draggable'
 import { connect } from 'react-redux'
 import './ClosedCaption.css'
-import { setIsDragged } from '@/redux/settingsSlice'
+import { setIsDragged } from '@/redux/settings-slice'
 import { FONT_FAMILIES } from '@/utils/Constants'
 import {
   CaptionsContainer,

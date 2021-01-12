@@ -2,7 +2,7 @@ import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { MenuDivider, MenuItem } from '@blueprintjs/core'
 import { faTextHeight } from '@fortawesome/free-solid-svg-icons'
-import { toggleUppercaseText } from '@/redux/settingsSlice'
+import { toggleUppercaseText } from '@/redux/settings-slice'
 import { useReduxCallbackDispatch, useShallowEqualSelector } from '@/redux/redux-helpers'
 
 function UppercaseTextOptionButton() {

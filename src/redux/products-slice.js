@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit'
-import { toggleActivationDrawer } from './settingsSlice'
+import { toggleActivationDrawer } from './settings-slice'
 import { requestTranslationStatus } from './translationSlice'
 
 function compare(a, b) {

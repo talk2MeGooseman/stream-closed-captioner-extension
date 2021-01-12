@@ -1,5 +1,5 @@
 import { useReduxCallbackDispatch } from '@/redux/redux-helpers'
-import { toggleAdvancedSettingsDialog } from '@/redux/settingsSlice'
+import { toggleAdvancedSettingsDialog } from '@/redux/settings-slice'
 import { MenuDivider, MenuItem } from '@blueprintjs/core'
 import { faCogs } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'

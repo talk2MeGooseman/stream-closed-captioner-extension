@@ -4,7 +4,7 @@ import { faClosedCaptioning } from '@fortawesome/free-solid-svg-icons'
 import { MenuItem, Divider } from '@blueprintjs/core'
 import {
   toggleDyslexiaFamily,
-} from '@/redux/settingsSlice'
+} from '@/redux/settings-slice'
 import { useShallowEqualSelector, useReduxCallbackDispatch } from '@/redux/redux-helpers'
 
 function FontFamilyOptions() {

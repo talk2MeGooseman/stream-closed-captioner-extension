@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faClosedCaptioning, faBan } from '@fortawesome/free-solid-svg-icons'
 import { Tooltip } from '@blueprintjs/core'
 import { isVideoOverlay } from '@/helpers/video-helpers'
-import { toggleVisibility } from '@/redux/settingsSlice'
+import { toggleVisibility } from '@/redux/settings-slice'
 import { useShallowEqualSelector, useReduxCallbackDispatch } from '@/redux/redux-helpers'
 
 const VisibilityToggle = () => {

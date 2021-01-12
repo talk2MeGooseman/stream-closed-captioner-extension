@@ -2,7 +2,7 @@ import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFont } from '@fortawesome/free-solid-svg-icons'
 import { MenuItem } from '@blueprintjs/core'
-import { changeTextSize } from '@/redux/settingsSlice'
+import { changeTextSize } from '@/redux/settings-slice'
 import { useReduxCallbackDispatch, useShallowEqualSelector } from '@/redux/redux-helpers'
 import { TEXT_SIZES } from '@/utils/Constants'
 

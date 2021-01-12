@@ -1,7 +1,7 @@
 import { useShallowEqualSelector } from '@/redux/redux-helpers'
 import { Slider, FormGroup } from '@blueprintjs/core'
 import React, { useCallback } from 'react'
-import { changeCaptionsWidth } from '@/redux/settingsSlice'
+import { changeCaptionsWidth } from '@/redux/settings-slice'
 import { useDispatch } from 'react-redux'
 import { CAPTIONS_SIZE } from '@/utils/Constants'
 import { isVideoOverlay } from '@/helpers/video-helpers'

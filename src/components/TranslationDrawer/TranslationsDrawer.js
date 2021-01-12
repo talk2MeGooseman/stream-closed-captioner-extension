@@ -3,7 +3,7 @@ import React from 'react'
 import {
   Classes, Drawer,
 } from '@blueprintjs/core'
-import { toggleActivationDrawer } from '@/redux/settingsSlice'
+import { toggleActivationDrawer } from '@/redux/settings-slice'
 import { isVideoOverlay } from '@/helpers/video-helpers'
 import { useShallowEqualSelector, useReduxCallbackDispatch } from '@/redux/redux-helpers'
 import { TRANSLATION_COST } from '@/utils/Constants'

@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { MenuDivider, MenuItem } from '@blueprintjs/core'
 import { faUndo } from '@fortawesome/free-solid-svg-icons'
 import { isVideoOverlay } from '@/helpers/video-helpers'
-import { resetCCText } from '@/redux/settingsSlice'
+import { resetCCText } from '@/redux/settings-slice'
 import { useReduxCallbackDispatch } from '@/redux/redux-helpers'
 
 function ResetButton() {

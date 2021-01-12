@@ -1,7 +1,7 @@
 import { useShallowEqualSelector } from '@/redux/redux-helpers'
 import { Slider, FormGroup } from '@blueprintjs/core'
 import React, { useCallback } from 'react'
-import { changeCaptionsTransparency } from '@/redux/settingsSlice'
+import { changeCaptionsTransparency } from '@/redux/settings-slice'
 import { useDispatch } from 'react-redux'
 import { isVideoOverlay } from '@/helpers/video-helpers'
 import { CAPTIONS_TRANSPARENCY } from '@/utils/Constants'

@@ -1,5 +1,5 @@
 import { CAPTIONS_SIZE } from '@/utils/Constants'
-import settings, { updateBroadcasterSettings, initialState } from '../settingsSlice'
+import settings, { updateBroadcasterSettings, initialState } from '../settings-slice'
 
 describe('settingsSlice', () => {
   it('should handle initial state', () => {
