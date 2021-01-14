@@ -1,13 +1,16 @@
-import React from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons'
 import { MenuItem, Divider } from '@blueprintjs/core'
+import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import React from 'react'
+
+import { isVideoOverlay } from '@/helpers/video-helpers'
+
+import { useShallowEqualSelector, useReduxCallbackDispatch } from '@/redux/redux-helpers'
+
 import {
   increaseLineCount,
   decreaseLineCount,
 } from '@/redux/settings-slice'
-import { useShallowEqualSelector, useReduxCallbackDispatch } from '@/redux/redux-helpers'
-import { isVideoOverlay } from '@/helpers/video-helpers'
 
 function LineCountOptions() {
   const ccBoxSize = useShallowEqualSelector((state) => state.configSettings.ccBoxSize)
@@ -33,16 +36,16 @@ function LineCountOptions() {
       <Divider />
       <MenuItem
         icon={<FontAwesomeIcon icon={faPlus} />}
-        text="Increase Line Count"
         onClick={onLineIncrease}
         shouldDismissPopover={false}
+        text="Increase Line Count"
       />
       <MenuItem
-        icon={<FontAwesomeIcon icon={faMinus} />}
-        text="Decrease Line Count"
-        onClick={onLineDecrease}
         disabled={disableDecrease}
+        icon={<FontAwesomeIcon icon={faMinus} />}
+        onClick={onLineDecrease}
         shouldDismissPopover={false}
+        text="Decrease Line Count"
       />
     </>
   )

@@ -1,5 +1,7 @@
 import React from 'react'
+
 import { MobileClosedCaption } from '@/components/Captions'
+
 import { DisplaySettingsMenu } from '@/components/display-settings-menu'
 
 function MobilePanel() {

@@ -1,7 +1,10 @@
-import React from 'react'
 import { cleanup } from '@testing-library/react'
-import { renderWithRedux } from '@/setupTests'
+import React from 'react'
+
 import TranslationsDrawer from '../TranslationsDrawer'
+
+import { renderWithRedux } from '@/setupTests'
+
 
 afterEach(cleanup)
 
@@ -65,6 +68,7 @@ describe('TranslationsDrawer', () => {
           },
         },
       )
+
       expect(queryByText('Turn on Translations!')).not.toBeInTheDocument()
     })
   })
@@ -97,6 +101,7 @@ describe('TranslationsDrawer', () => {
           },
         },
       )
+
       expect(queryByTestId('activate-translation')).toBeInTheDocument()
     })
 
@@ -127,6 +132,7 @@ describe('TranslationsDrawer', () => {
           },
         },
       )
+
       expect(queryByTestId('nag-streamer')).toBeInTheDocument()
     })
   })

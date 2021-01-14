@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit'
+
 import { toggleActivationDrawer } from './settings-slice'
 import { requestTranslationStatus } from './translation-slice'
 
@@ -31,6 +32,7 @@ const productsSlice = createSlice({
     setProducts(state, action) {
       const sortedProduct = action.payload.sort(compare)
       const [firstProduct] = sortedProduct
+
       state.products = sortedProduct
       state.selectedProduct = firstProduct
     },
@@ -62,6 +64,7 @@ export function useBits(sku) {
     dispatch(sendUseBits(sku))
 
     const twitchLib = window.Twitch ? window.Twitch.ext : null
+
     twitchLib.bits.useBits(sku)
   }
 }

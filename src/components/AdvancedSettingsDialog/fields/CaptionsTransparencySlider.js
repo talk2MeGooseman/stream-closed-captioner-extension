@@ -1,9 +1,13 @@
-import { useShallowEqualSelector } from '@/redux/redux-helpers'
 import { Slider, FormGroup } from '@blueprintjs/core'
 import React, { useCallback } from 'react'
-import { changeCaptionsTransparency } from '@/redux/settings-slice'
 import { useDispatch } from 'react-redux'
+
 import { isVideoOverlay } from '@/helpers/video-helpers'
+
+import { useShallowEqualSelector } from '@/redux/redux-helpers'
+
+import { changeCaptionsTransparency } from '@/redux/settings-slice'
+
 import { CAPTIONS_TRANSPARENCY } from '@/utils/Constants'
 
 const renderLabel = (val) => `${val}%`
@@ -32,12 +36,12 @@ export const CaptionsTransparencySlider = () => {
     >
       <Slider
         id="captions-transparency"
-        min={CAPTIONS_TRANSPARENCY.min}
-        max={CAPTIONS_TRANSPARENCY.max}
-        labelStepSize={CAPTIONS_TRANSPARENCY.step}
         labelRenderer={renderLabel}
-        value={captionsTransparency}
+        labelStepSize={CAPTIONS_TRANSPARENCY.step}
+        max={CAPTIONS_TRANSPARENCY.max}
+        min={CAPTIONS_TRANSPARENCY.min}
         onChange={onSliderChange}
+        value={captionsTransparency}
       />
     </FormGroup>
   )

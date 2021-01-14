@@ -1,6 +1,8 @@
 import React from 'react'
-import { renderWithRedux } from '@/setupTests'
+
 import LanguageButton from '../LanguageButton'
+
+import { renderWithRedux } from '@/setupTests'
 
 describe('LanguageButton', () => {
   describe('translations are enabled', () => {
@@ -18,6 +20,7 @@ describe('LanguageButton', () => {
             },
           },
         })
+
         expect(container.querySelector('svg')).toHaveClass('fa-language')
       })
     })

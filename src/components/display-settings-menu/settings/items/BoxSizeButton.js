@@ -1,10 +1,13 @@
-import React from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faExpand, faMinus } from '@fortawesome/free-solid-svg-icons'
 import { MenuDivider, MenuItem } from '@blueprintjs/core'
+import { faExpand, faMinus } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import React from 'react'
+
 import { isVideoOverlay } from '@/helpers/video-helpers'
-import { toggleBoxSize } from '@/redux/settings-slice'
+
 import { useShallowEqualSelector, useReduxCallbackDispatch } from '@/redux/redux-helpers'
+
+import { toggleBoxSize } from '@/redux/settings-slice'
 
 function BoxSizeButton() {
   const ccBoxSize = useShallowEqualSelector((state) => state.configSettings.ccBoxSize)
@@ -23,15 +26,15 @@ function BoxSizeButton() {
   }
 
   return (
-    <React.Fragment>
+    <>
       <MenuDivider />
       <MenuItem
-        onClick={onToggleBoxSize}
         icon={<FontAwesomeIcon icon={icon} size="lg" />}
-        text={text}
+        onClick={onToggleBoxSize}
         shouldDismissPopover={false}
+        text={text}
       />
-    </React.Fragment>
+    </>
   )
 }
 

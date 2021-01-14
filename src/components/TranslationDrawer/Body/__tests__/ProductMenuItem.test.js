@@ -1,7 +1,10 @@
-import React from 'react'
 import { cleanup } from '@testing-library/react'
-import { renderWithRedux } from '@/setupTests'
+import React from 'react'
+
 import ProductMenuItem from '../ProductMenuItem'
+
+import { renderWithRedux } from '@/setupTests'
+
 
 afterEach(cleanup)
 
@@ -20,7 +23,7 @@ const modifier = {
 describe('ProductMenuItem', () => {
   it('display product info', () => {
     const { queryByText } = renderWithRedux(
-      <ProductMenuItem product={product} modifiers={modifier} handleClick={() => {}} />,
+      <ProductMenuItem handleClick={() => {}} modifiers={modifier} product={product} />,
     )
 
     expect(queryByText(product.displayName)).toBeInTheDocument()

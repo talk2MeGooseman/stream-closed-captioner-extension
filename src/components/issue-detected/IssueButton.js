@@ -1,15 +1,18 @@
 /* eslint-disable implicit-arrow-linebreak */
-import React, { useState, useCallback } from 'react'
 import {
   Tooltip,
   Dialog,
   Classes,
   Button,
 } from '@blueprintjs/core'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons'
-import { useShallowEqualSelector } from '@/redux/redux-helpers'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import React, { useState, useCallback } from 'react'
+
 import { Pulse } from '../shared/caption-styles'
+
+import { useShallowEqualSelector } from '@/redux/redux-helpers'
+
 
 const IssueButton = () => {
   const hasCaptions = useShallowEqualSelector(
@@ -33,19 +36,19 @@ const IssueButton = () => {
 
   return (
     <>
-      <Tooltip content={'Captions Issue Detected'}>
+      <Tooltip content="Captions Issue Detected">
         <Pulse color="#ff0000">
           <FontAwesomeIcon
-            size="2x"
             icon={faExclamationTriangle}
             onClick={openDialog}
+            size="2x"
           />
         </Pulse>
       </Tooltip>
       <Dialog
+        isOpen={displayDialog}
         onClose={closeDialog}
         title="Captions issue detected"
-        isOpen={displayDialog}
       >
         <div className={Classes.DIALOG_BODY}>
           <p>Closed Captions from the broadcaster are not detected.</p>

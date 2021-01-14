@@ -7,5 +7,6 @@ export function useShallowEqualSelector(selector) {
 
 export function useReduxCallbackDispatch(action) {
   const dispatch = useDispatch()
+
   return useCallback(() => dispatch(action), [dispatch, action])
 }

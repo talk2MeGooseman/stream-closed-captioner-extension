@@ -1,13 +1,21 @@
 /* eslint-disable no-shadow */
-import React from 'react'
 import {
   Classes, Drawer,
 } from '@blueprintjs/core'
-import { toggleActivationDrawer } from '@/redux/settings-slice'
-import { isVideoOverlay } from '@/helpers/video-helpers'
-import { useShallowEqualSelector, useReduxCallbackDispatch } from '@/redux/redux-helpers'
-import { TRANSLATION_COST } from '@/utils/Constants'
+import React from 'react'
+
 import { NagStreamerBody, ActivateTranslationBody } from './Body'
+
+import { isVideoOverlay } from '@/helpers/video-helpers'
+
+import { useShallowEqualSelector, useReduxCallbackDispatch } from '@/redux/redux-helpers'
+
+import { toggleActivationDrawer } from '@/redux/settings-slice'
+
+
+
+import { TRANSLATION_COST } from '@/utils/Constants'
+
 
 function TranslationsDrawer() {
   const { isDrawerOpen, isBitsEnabled } = useShallowEqualSelector((state) => state.configSettings)
@@ -29,12 +37,12 @@ function TranslationsDrawer() {
 
   return (
     <Drawer
-      position="left"
-      title="Turn on Translations!"
-      canOutsideClickClose={true}
+      canOutsideClickClose
       isOpen={isDrawerOpen}
       onClose={onToggleActivationDrawer}
-      size={drawerWidth}>
+      position="left"
+      size={drawerWidth}
+      title="Turn on Translations!">
       <div className={Classes.DRAWER_BODY}>
         <div className={Classes.DIALOG_BODY}>
           {drawerBody}

@@ -1,7 +1,10 @@
-import React from 'react'
 import { cleanup, fireEvent } from '@testing-library/react'
-import { renderWithRedux } from '@/setupTests'
+import React from 'react'
+
 import ActivateTranslationBody from '../ActivateTranslationBody'
+
+import { renderWithRedux } from '@/setupTests'
+
 
 afterEach(cleanup)
 
@@ -74,6 +77,7 @@ describe('ActivateTranslationBody', () => {
     })
 
     const dropDown = queryByText('1 Bit')
+
     expect(dropDown).toBeInTheDocument()
     expect(queryByText('2 Bit')).not.toBeInTheDocument()
 

@@ -26,7 +26,7 @@ export default class Authentication {
   // similar to mod status, this isn't always verifyable, so have your backend verify
   // before proceeding.
   hasSharedId() {
-    return !!this.state.userId
+    return Boolean(this.state.userId)
   }
 
   getUserId() {

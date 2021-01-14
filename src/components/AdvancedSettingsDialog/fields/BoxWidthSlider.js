@@ -1,10 +1,14 @@
-import { useShallowEqualSelector } from '@/redux/redux-helpers'
 import { Slider, FormGroup } from '@blueprintjs/core'
 import React, { useCallback } from 'react'
-import { changeCaptionsWidth } from '@/redux/settings-slice'
 import { useDispatch } from 'react-redux'
-import { CAPTIONS_SIZE } from '@/utils/Constants'
+
 import { isVideoOverlay } from '@/helpers/video-helpers'
+
+import { useShallowEqualSelector } from '@/redux/redux-helpers'
+
+import { changeCaptionsWidth } from '@/redux/settings-slice'
+
+import { CAPTIONS_SIZE } from '@/utils/Constants'
 
 const renderLabel = (val) => `${val}%`
 
@@ -32,12 +36,12 @@ export const BoxWidthSlider = () => {
     >
       <Slider
         id="captions-width"
-        min={CAPTIONS_SIZE.minWidth}
-        max={CAPTIONS_SIZE.maxWidth}
-        labelStepSize={10}
         labelRenderer={renderLabel}
-        value={captionsWidth}
+        labelStepSize={10}
+        max={CAPTIONS_SIZE.maxWidth}
+        min={CAPTIONS_SIZE.minWidth}
         onChange={onSliderChange}
+        value={captionsWidth}
       />
     </FormGroup>
   )

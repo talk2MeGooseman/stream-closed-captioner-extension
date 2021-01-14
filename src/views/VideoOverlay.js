@@ -1,13 +1,14 @@
 /* eslint-disable import/no-extraneous-dependencies */
+import { configureStore, applyMiddleware } from '@reduxjs/toolkit'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { configureStore, applyMiddleware } from '@reduxjs/toolkit'
-import thunk from 'redux-thunk'
 import { Provider } from 'react-redux'
+import thunk from 'redux-thunk'
+
 // import logger from "redux-logger";
 import Overlay from '../components/VideoOverlay/Overlay'
-import { TwitchExtension } from '../TwitchWrapper'
 import rootReducer from '../redux/reducers'
+import { TwitchExtension } from '../TwitchWrapper'
 import './App.css'
 
 const store = configureStore({
@@ -17,6 +18,7 @@ const store = configureStore({
 if (process.env.NODE_ENV !== 'production') {
   // eslint-disable-next-line global-require
   const axe = require('react-axe')
+
   axe(React, ReactDOM, 1000)
 }
 

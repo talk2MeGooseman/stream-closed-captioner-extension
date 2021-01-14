@@ -1,5 +1,6 @@
 import { Menu } from '@blueprintjs/core'
 import React from 'react'
+
 import {
   AdvancedSettings,
   BoxSizeButton,

@@ -1,12 +1,15 @@
+import { Button, Classes, Dialog, Tooltip } from '@blueprintjs/core'
+import React from 'react'
+
+import { BoxWidthSlider } from './fields/BoxWidthSlider'
+import { CaptionsTransparencySlider } from './fields/CaptionsTransparencySlider'
+
 import {
   useReduxCallbackDispatch,
   useShallowEqualSelector,
 } from '@/redux/redux-helpers'
-import { Button, Classes, Dialog, Tooltip } from '@blueprintjs/core'
-import React from 'react'
+
 import { toggleAdvancedSettingsDialog } from '@/redux/settings-slice'
-import { BoxWidthSlider } from './fields/BoxWidthSlider'
-import { CaptionsTransparencySlider } from './fields/CaptionsTransparencySlider'
 
 const SettingsDialog = () => {
   const onClose = useReduxCallbackDispatch(toggleAdvancedSettingsDialog())
@@ -17,9 +20,9 @@ const SettingsDialog = () => {
   return (
     <Dialog
       icon="info-sign"
+      isOpen={displayAdvancedSettingsDialog}
       onClose={onClose}
       title="Advanced Settings"
-      isOpen={displayAdvancedSettingsDialog}
     >
       <div className={Classes.DIALOG_BODY}>
         <BoxWidthSlider />

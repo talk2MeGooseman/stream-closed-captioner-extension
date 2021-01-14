@@ -1,7 +1,10 @@
-import React from 'react'
 import { cleanup, fireEvent } from '@testing-library/react'
-import { renderWithRedux } from '@/setupTests'
+import React from 'react'
+
 import ResetButton from '../ResetButton'
+
+import { renderWithRedux } from '@/setupTests'
+
 
 afterEach(cleanup)
 
@@ -35,8 +38,10 @@ describe('ResetButton', () => {
       )
 
       const { configSettings: { ccKey } } = store.getState()
+
       fireEvent.click(queryByText('Reset Position'))
       const { configSettings: { ccKey: newKey } } = store.getState()
+
       expect(newKey).not.toEqual(ccKey)
     })
   })

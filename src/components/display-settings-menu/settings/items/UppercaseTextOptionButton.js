@@ -1,25 +1,28 @@
-import React from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { MenuDivider, MenuItem } from '@blueprintjs/core'
 import { faTextHeight } from '@fortawesome/free-solid-svg-icons'
-import { toggleUppercaseText } from '@/redux/settings-slice'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import React from 'react'
+
+
 import { useReduxCallbackDispatch, useShallowEqualSelector } from '@/redux/redux-helpers'
+
+import { toggleUppercaseText } from '@/redux/settings-slice'
 
 function UppercaseTextOptionButton() {
   const onClick = useReduxCallbackDispatch(toggleUppercaseText())
   const active = useShallowEqualSelector((state) => state.configSettings.uppercaseText)
 
   return (
-    <React.Fragment>
+    <>
       <MenuDivider />
       <MenuItem
         active={active}
-        onClick={onClick}
         icon={<FontAwesomeIcon icon={faTextHeight} size="lg" />}
-        text="Uppercase All Text"
+        onClick={onClick}
         shouldDismissPopover={false}
+        text="Uppercase All Text"
       />
-    </React.Fragment>
+    </>
   )
 }
 

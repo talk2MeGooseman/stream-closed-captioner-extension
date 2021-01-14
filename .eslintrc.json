@@ -1,18 +1,8 @@
 {
     "env": {
-      "browser": true,
-      "jest/globals": true
+      "browser": true
     },
-    "extends": [
-        "airbnb-base",
-        "plugin:react/recommended",
-        "plugin:jest/recommended",
-        "plugin:testing-library/react",
-        "plugin:jest-dom/recommended",
-        "plugin:jsx-a11y/recommended",
-        "prettier",
-        "prettier/react"
-    ],
+    "extends": ["zeal", "zeal/ramda", "zeal/react", "prettier", "prettier/react"],
     "parser": "babel-eslint",
     "parserOptions": {
         "ecmaVersion": 7,
@@ -22,31 +12,17 @@
         "sourceType": "module"
     },
     "plugins": [
-        "react",
-        "react-hooks",
-        "jest",
-        "jest-dom",
-        "jsx-a11y"
     ],
     "rules": {
         "semi": [
             "error",
             "never"
-        ],
-        "react-hooks/rules-of-hooks": "error",
-        "react-hooks/exhaustive-deps": "warn",
-        "import/prefer-default-export": "off",
-        "no-shadow": "off",
-        "import/no-unresolved": "off"
+        ]
     },
     "settings": {
       "react": {
         "version": "detect"
       },
-      "import/resolver": {
-        "node": {
-          "paths": ["src"]
-        }
-      }
+      "import/resolver": "webpack"
     }
 }

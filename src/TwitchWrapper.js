@@ -1,10 +1,7 @@
 /* eslint-disable react/prop-types */
-import { TranslationsDrawer } from '@/components/TranslationDrawer'
-import { updateBroadcasterSettings } from '@/redux/settings-slice'
-import { requestTranslationStatus } from '@/redux/translation-slice'
-import { updateVideoPlayerContext } from '@/redux/video-player-context-slice'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
+
 import { updateCCText } from './redux/captions-slice'
 import {
   completeBitsTransaction,
@@ -13,11 +10,20 @@ import {
 import { useShallowEqualSelector } from "./redux/redux-helpers"
 import { CONTEXT_EVENTS_WHITELIST, SECOND } from './utils/Constants'
 
+import { TranslationsDrawer } from '@/components/TranslationDrawer'
+
+import { updateBroadcasterSettings } from '@/redux/settings-slice'
+
+import { requestTranslationStatus } from '@/redux/translation-slice'
+
+import { updateVideoPlayerContext } from '@/redux/video-player-context-slice'
+
 // Resub - rw_grim
 //
 
 function fetchChangedContextValues(context, delta) {
   const newData = {}
+
   delta.forEach((event) => {
     newData[event] = context[event]
   })
@@ -48,6 +54,7 @@ export function TwitchExtension({ children }) {
 
   useEffect(() => {
     const twitch = window.Twitch ? window.Twitch.ext : null
+
     if (twitch) {
       const onAuthorized = (auth) => {
         onChannelIdReceived(auth.channelId)
@@ -65,6 +72,7 @@ export function TwitchExtension({ children }) {
       const contextUpdate = (context, delta) => {
         if (contextStateUpdated(delta)) {
           const newContext = fetchChangedContextValues(context, delta)
+
           onUpdateVideoPlayerContext(newContext)
         }
       }
@@ -91,6 +99,7 @@ export function TwitchExtension({ children }) {
       const displayClosedCaptioningText = (message) => {
         const { hlsLatencyBroadcaster } = videoPlayerContext
         let delayTime = hlsLatencyBroadcaster * SECOND
+
         if (message.delay) {
           delayTime -= message.delay * SECOND
         }
@@ -102,6 +111,7 @@ export function TwitchExtension({ children }) {
 
       const pubSubMessageHandler = (target, contentType, message) => {
         let parsedMessage
+
         try {
           parsedMessage = JSON.parse(message)
         } catch (error) {
@@ -125,10 +135,11 @@ export function TwitchExtension({ children }) {
     }
 
     return () => {
-      if (twitch) {
+            if (twitch) {
         twitch.unlisten('broadcast', () => null)
       }
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   if (!ready) {

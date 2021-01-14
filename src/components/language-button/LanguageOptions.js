@@ -1,10 +1,13 @@
-import React from 'react'
 import { MenuDivider, Menu, MenuItem } from '@blueprintjs/core'
-import { changeLanguage, toggleActivationDrawer } from '@/redux/settings-slice'
+import React from 'react'
+
 import {
   useShallowEqualSelector,
   useReduxCallbackDispatch,
 } from '@/redux/redux-helpers'
+
+import { changeLanguage, toggleActivationDrawer } from '@/redux/settings-slice'
+
 
 export default function LanguageOptions() {
   const isBitsEnabled = useShallowEqualSelector(
@@ -32,11 +35,11 @@ export default function LanguageOptions() {
     return (
       <MenuItem
         data-testid={`language-${l}`}
-        key={l}
         icon={icon}
-        text={translations[l].name}
+        key={l}
         onClick={onClick}
         shouldDismissPopover={false}
+        text={translations[l].name}
       />
     )
   })
@@ -47,9 +50,9 @@ export default function LanguageOptions() {
       <MenuItem
         data-testid="language-default"
         icon={defaultIcon}
-        text="Spoken Language"
         onClick={onSelectDefaultLanguage}
         shouldDismissPopover={false}
+        text="Spoken Language"
       />
       <MenuDivider />
       {optionEls}
@@ -57,9 +60,9 @@ export default function LanguageOptions() {
         <>
           <MenuDivider />
           <MenuItem
-            text="Add Translation Days"
             onClick={toggleDrawer}
             shouldDismissPopover={false}
+            text="Add Translation Days"
           />
         </>
       )}

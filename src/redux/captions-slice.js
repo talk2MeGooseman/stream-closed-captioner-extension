@@ -2,6 +2,7 @@
 /* eslint-disable no-case-declarations */
 import { createSlice } from '@reduxjs/toolkit'
 import { v4 as uuid } from 'uuid'
+
 import { TEXT_QUEUE_SIZE } from '@/utils/Constants'
 
 const initialState = {
@@ -21,6 +22,7 @@ const captionsSlice = createSlice({
       state.interimText = action.payload.interim
 
       const lastText = state.finalTextQueue[qLength - 1] || {}
+
       if (lastText.text !== action.payload.final) {
         state.finalTextQueue.push({ id: uuid(), text: action.payload.final })
 
@@ -31,6 +33,7 @@ const captionsSlice = createSlice({
 
       if (action.payload.translations) {
         const translatedLanguages = Object.keys(action.payload.translations)
+
         translatedLanguages.forEach((language) => {
           const currentLangTranslation = state.translations[language] || { textQueue: [] }
           const newTranslation = action.payload.translations[language]
@@ -43,6 +46,7 @@ const captionsSlice = createSlice({
               ...currentLangTranslation.textQueue,
               { id: uuid(), text: newTranslation.text },
             ]
+
             if (newTextQueue.length > TEXT_QUEUE_SIZE) {
               newTextQueue.shift()
             }

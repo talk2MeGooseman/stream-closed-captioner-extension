@@ -1,7 +1,10 @@
-import React from 'react'
 import { screen } from '@testing-library/react'
-import { renderWithRedux } from '@/setupTests'
+import React from 'react'
+
 import AdvancedSettings from '../AdvancedSettings'
+
+import { renderWithRedux } from '@/setupTests'
+
 
 describe('AdvancedSettings', () => {
   describe('not video overlay', () => {

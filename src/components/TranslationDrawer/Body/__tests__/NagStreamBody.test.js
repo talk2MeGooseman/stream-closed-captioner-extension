@@ -1,7 +1,10 @@
-import React from 'react'
 import { cleanup, fireEvent } from '@testing-library/react'
-import { renderWithRedux } from '@/setupTests'
+import React from 'react'
+
 import NagStreamerBody from '../NagStreamerBody'
+
+import { renderWithRedux } from '@/setupTests'
+
 
 afterEach(cleanup)
 
@@ -52,6 +55,7 @@ describe('NagStreamerBody', () => {
     const { queryByTestId } = renderWithRedux(<NagStreamerBody />, {
       initialState: defaultState,
     })
+
     expect(queryByTestId('nag-streamer')).toBeInTheDocument()
   })
 
@@ -73,6 +77,7 @@ describe('NagStreamerBody', () => {
     })
 
     const dropDown = queryByText('1 Bit')
+
     expect(dropDown).toBeInTheDocument()
     expect(queryByText('2 Bit')).not.toBeInTheDocument()
 

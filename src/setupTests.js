@@ -1,8 +1,9 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import React from 'react'
 import { render } from '@testing-library/react'
-import { createStore } from 'redux'
+import React from 'react'
 import { Provider } from 'react-redux'
+import { createStore } from 'redux'
+
 import rootReducer from '@/redux/reducers'
 
 const renderWithRedux = (

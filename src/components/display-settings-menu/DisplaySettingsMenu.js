@@ -3,13 +3,19 @@ import { faCog } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import classnames from 'classnames'
 import React from 'react'
-import { useShallowEqualSelector } from '@/redux/redux-helpers'
-import { LanguageButton } from '@/components/language-button'
-import { isVideoOverlay } from '@/helpers/video-helpers'
-import VisibilityToggle from '@/components/VideoOverlay/VisibilityToggle'
-import { SettingsMenu } from './settings'
+
 import { AdvancedSettingsDialog } from '../AdvancedSettingsDialog'
 import { IssueDetected } from '../issue-detected'
+
+import { SettingsMenu } from './settings'
+
+import { LanguageButton } from '@/components/language-button'
+
+import VisibilityToggle from '@/components/VideoOverlay/VisibilityToggle'
+
+import { isVideoOverlay } from '@/helpers/video-helpers'
+
+import { useShallowEqualSelector } from '@/redux/redux-helpers'
 
 export function positionLeft(switchSettingsPosition) {
   return isVideoOverlay() && switchSettingsPosition
@@ -38,13 +44,13 @@ const Controls = () => {
 
   return (
     <>
-      <nav data-testid="display-settings" className={controlClass}>
+      <nav className={controlClass} data-testid="display-settings">
         <IssueDetected />
         <LanguageButton />
         <VisibilityToggle />
-        <Popover position="left-bottom" content={<SettingsMenu />} captureDismiss >
-          <Tooltip content={'Settings'}>
-            <FontAwesomeIcon size="2x" icon={faCog} />
+        <Popover captureDismiss content={<SettingsMenu />} position="left-bottom" >
+          <Tooltip content="Settings">
+            <FontAwesomeIcon icon={faCog} size="2x" />
           </Tooltip>
         </Popover>
       </nav>

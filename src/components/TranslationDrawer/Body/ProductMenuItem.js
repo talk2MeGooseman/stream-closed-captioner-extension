@@ -1,15 +1,15 @@
-import React from 'react'
-import PropTypes from 'prop-types'
 import {
   MenuItem,
 } from '@blueprintjs/core'
+import PropTypes from 'prop-types'
+import React from 'react'
 
 export function productMenuItemRenderer(product, { handleClick, modifiers }) {
   return <ProductMenuItem
-    key={product.sku}
-    product={product}
     handleClick={handleClick}
+    key={product.sku}
     modifiers={modifiers}
+    product={product}
   />
 }
 

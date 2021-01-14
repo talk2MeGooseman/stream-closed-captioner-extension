@@ -1,9 +1,12 @@
-import React from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faFont } from '@fortawesome/free-solid-svg-icons'
 import { MenuItem } from '@blueprintjs/core'
-import { changeTextSize } from '@/redux/settings-slice'
+import { faFont } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import React from 'react'
+
 import { useReduxCallbackDispatch, useShallowEqualSelector } from '@/redux/redux-helpers'
+
+import { changeTextSize } from '@/redux/settings-slice'
+
 import { TEXT_SIZES } from '@/utils/Constants'
 
 function FontSizeOptions() {
@@ -16,29 +19,29 @@ function FontSizeOptions() {
   const fontIcon = <FontAwesomeIcon icon={faFont} />
 
   return (
-    <React.Fragment>
+    <>
       <MenuItem
         active={activeTextSizeOption === TEXT_SIZES.SMALL}
         icon={fontIcon}
-        text="Small Text"
         onClick={onClickSmallTextSize}
         shouldDismissPopover={false}
+        text="Small Text"
       />
       <MenuItem
         active={activeTextSizeOption === TEXT_SIZES.MEDIUM}
         icon={fontIcon}
-        text="Medium Text"
         onClick={onClickMediumTextSize}
         shouldDismissPopover={false}
+        text="Medium Text"
       />
       <MenuItem
         active={activeTextSizeOption === TEXT_SIZES.LARGE}
         icon={fontIcon}
-        text="Large Text"
         onClick={onClickLargeTextSize}
         shouldDismissPopover={false}
+        text="Large Text"
       />
-    </React.Fragment>
+    </>
   )
 }
 

@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit'
 import { v4 as uuid } from 'uuid'
+
 import {
   TEXT_SIZES,
   CAPTIONS_SIZE,
@@ -34,6 +35,7 @@ const settingsSlice = createSlice({
   reducers: {
     updateBroadcasterSettings(state, action) {
       const settings = action.payload
+
       Object.keys(settings).forEach((key) => {
         state[key] = settings[key]
       })
@@ -100,6 +102,7 @@ const settingsSlice = createSlice({
     },
     changeCaptionsWidth(state, action) {
       let newWidth = action.payload
+
       if (newWidth < CAPTIONS_SIZE.minWidth) {
         newWidth = CAPTIONS_SIZE.minWidth
       } else if (newWidth > CAPTIONS_SIZE.maxWidth) {
@@ -110,6 +113,7 @@ const settingsSlice = createSlice({
     },
     changeCaptionsTransparency(state, action) {
       let value = action.payload
+
       if (value < CAPTIONS_TRANSPARENCY.min) {
         value = CAPTIONS_TRANSPARENCY.min
       } else if (value > CAPTIONS_TRANSPARENCY.max) {

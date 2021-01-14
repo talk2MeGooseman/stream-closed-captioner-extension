@@ -5,6 +5,16 @@ import { useShallowEqualSelector } from '@/redux/redux-helpers'
 
 const classNames = require('classnames')
 
+
+
+
+
+
+
+
+
+
+
 function Overlay() {
   const { isDragged, ccKey } = useShallowEqualSelector((state) => (state.configSettings))
   const { arePlayerControlsVisible } = useShallowEqualSelector(
@@ -19,7 +29,7 @@ function Overlay() {
   })
 
   return (
-    <div id="app-container" className={containerClass}>
+    <div className={containerClass} id="app-container">
       <div className="drag-boundary">
         <ClosedCaption key={ccKey} />
         <DisplaySettingsMenu />

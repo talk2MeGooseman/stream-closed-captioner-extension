@@ -1,7 +1,10 @@
-import React from 'react'
 import { cleanup, fireEvent } from '@testing-library/react'
-import { renderWithRedux } from '@/setupTests'
+import React from 'react'
+
 import LanguageOptions from '../LanguageOptions'
+
+import { renderWithRedux } from '@/setupTests'
+
 
 afterEach(cleanup)
 
@@ -14,6 +17,7 @@ describe('LanguageOptions ', () => {
 
     fireEvent.click(queryByTestId('language-de'))
     const { configSettings: { viewerLanguage } } = store.getState()
+
     expect(viewerLanguage).toEqual('de')
   })
 
@@ -23,6 +27,7 @@ describe('LanguageOptions ', () => {
         <LanguageOptions />,
       )
       const tickEl = document.querySelector('span[icon="tick"]')
+
       expect(queryByTestId('language-default')).toContainElement(tickEl)
     })
 

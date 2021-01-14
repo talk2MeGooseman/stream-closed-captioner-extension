@@ -1,11 +1,13 @@
-import React from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faClosedCaptioning } from '@fortawesome/free-solid-svg-icons'
 import { MenuItem, Divider } from '@blueprintjs/core'
+import { faClosedCaptioning } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import React from 'react'
+
+import { useShallowEqualSelector, useReduxCallbackDispatch } from '@/redux/redux-helpers'
+
 import {
   toggleDyslexiaFamily,
 } from '@/redux/settings-slice'
-import { useShallowEqualSelector, useReduxCallbackDispatch } from '@/redux/redux-helpers'
 
 function FontFamilyOptions() {
   const enabled = useShallowEqualSelector((state) => state.configSettings.dyslexiaFontEnabled)
@@ -18,9 +20,9 @@ function FontFamilyOptions() {
       <MenuItem
         active={enabled}
         icon={<FontAwesomeIcon icon={faClosedCaptioning} />}
-        text="Use Dyslexia Font"
         onClick={toggleFont}
         shouldDismissPopover={false}
+        text="Use Dyslexia Font"
       />
     </>
   )

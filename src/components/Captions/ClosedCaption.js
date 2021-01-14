@@ -1,16 +1,20 @@
-import React from 'react'
 import PropTypes from 'prop-types'
+import React from 'react'
 import Draggable from 'react-draggable'
 import { connect } from 'react-redux'
+
 import './ClosedCaption.css'
-import { setIsDragged } from '@/redux/settings-slice'
-import { FONT_FAMILIES } from '@/utils/Constants'
 import {
   CaptionsContainer,
   Captions,
   CaptionText,
 } from '../shared/caption-styles'
+
 import { getFontSizeStyle } from './helpers'
+
+import { setIsDragged } from '@/redux/settings-slice'
+
+import { FONT_FAMILIES } from '@/utils/Constants'
 
 // Bits 100 from electrichavoc
 // Resub Nyixxs
@@ -45,6 +49,7 @@ function ClosedCaption({
     : FONT_FAMILIES.ROBOTO
 
   let numberOfLines = configSettings.horizontalLineCount
+
   if (configSettings.ccBoxSize) {
     // eslint-disable-next-line no-param-reassign
     numberOfLines = configSettings.boxLineCount
@@ -61,14 +66,14 @@ function ClosedCaption({
   }
 
   return (
-    <Draggable grid={[8, 8]} bounds="parent" onStop={setIsDragged}>
+    <Draggable bounds="parent" grid={[8, 8]} onStop={setIsDragged}>
       <CaptionsContainer
-        fontSize={fontSize}
-        numberOfLines={numberOfLines}
-        isHidden={isHidden}
         boxSize={configSettings.ccBoxSize}
-        captionsWidth={configSettings.captionsWidth}
         captionsTransparency={configSettings.captionsTransparency}
+        captionsWidth={configSettings.captionsWidth}
+        fontSize={fontSize}
+        isHidden={isHidden}
+        numberOfLines={numberOfLines}
       >
         <Captions
           fontFamily={fontFamily}

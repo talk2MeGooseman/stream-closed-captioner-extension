@@ -1,10 +1,13 @@
-import React from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faClosedCaptioning, faBan } from '@fortawesome/free-solid-svg-icons'
 import { Tooltip } from '@blueprintjs/core'
+import { faClosedCaptioning, faBan } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import React from 'react'
+
 import { isVideoOverlay } from '@/helpers/video-helpers'
-import { toggleVisibility } from '@/redux/settings-slice'
+
 import { useShallowEqualSelector, useReduxCallbackDispatch } from '@/redux/redux-helpers'
+
+import { toggleVisibility } from '@/redux/settings-slice'
 
 const VisibilityToggle = () => {
   const videoPlayerContext = useShallowEqualSelector((state) => (state.videoPlayerContext))
@@ -19,13 +22,13 @@ const VisibilityToggle = () => {
   }
 
   if (configSettings.hideCC) {
-    ccDisabledElement = <FontAwesomeIcon icon={faBan} color="red" className="fa-stack-1x" />
+    ccDisabledElement = <FontAwesomeIcon className="fa-stack-1x" color="red" icon={faBan} />
     buttonCTA = 'Show'
   }
 
   return (
     <Tooltip content={`${buttonCTA} CC Text`}>
-      <span role="button" tabIndex="0" onClick={onClick} onKeyUp={onClick} className="fa-layers fa-fw fa-2x cc-visibility-toggle">
+      <span className="fa-layers fa-fw fa-2x cc-visibility-toggle" onClick={onClick} onKeyUp={onClick} role="button" tabIndex="0">
         <FontAwesomeIcon icon={faClosedCaptioning} />
         {ccDisabledElement}
       </span>

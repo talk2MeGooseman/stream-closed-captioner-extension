@@ -1,8 +1,12 @@
-import React from 'react'
-import { renderWithRedux } from '@/setupTests'
 import { screen } from '@testing-library/react'
-import { CAPTIONS_TRANSPARENCY } from '@/utils/Constants'
+import React from 'react'
+
 import { CaptionsTransparencySlider } from '../CaptionsTransparencySlider'
+
+import { renderWithRedux } from '@/setupTests'
+
+import { CAPTIONS_TRANSPARENCY } from '@/utils/Constants'
+
 
 describe('CaptionsTransparencySlider', () => {
   describe('not video overlay', () => {
@@ -34,6 +38,7 @@ describe('CaptionsTransparencySlider', () => {
       const { store } = renderWithRedux(<CaptionsTransparencySlider />)
 
       const { configSettings: defaultSetting } = store.getState()
+
       expect(defaultSetting.captionsTransparency).toEqual(
         CAPTIONS_TRANSPARENCY.default,
       )

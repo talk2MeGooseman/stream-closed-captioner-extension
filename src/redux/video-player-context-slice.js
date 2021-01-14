@@ -6,6 +6,7 @@ const videoPlayerContextSlice = createSlice({
   reducers: {
     updateVideoPlayerContext(state, action) {
       const playerContext = action.payload
+
       Object.keys(playerContext).forEach((key) => {
         // eslint-disable-next-line no-param-reassign
         state[key] = playerContext[key]

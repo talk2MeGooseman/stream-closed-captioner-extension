@@ -1,14 +1,19 @@
 /* eslint-disable max-len */
-import React, { useMemo, useCallback } from 'react'
-import { useDispatch } from 'react-redux'
 import {
   Button, MenuItem, Divider, Classes,
 } from '@blueprintjs/core'
 import { Select } from '@blueprintjs/select'
-import { useShallowEqualSelector } from '@/redux/redux-helpers'
-import { useBits, setSelectedProduct } from '@/redux/products-slice'
-import { TRANSLATION_COST } from '@/utils/Constants'
+import React, { useMemo, useCallback } from 'react'
+import { useDispatch } from 'react-redux'
+
 import { productMenuItemRenderer } from './ProductMenuItem'
+
+import { useBits, setSelectedProduct } from '@/redux/products-slice'
+
+import { useShallowEqualSelector } from '@/redux/redux-helpers'
+
+import { TRANSLATION_COST } from '@/utils/Constants'
+
 
 function NagStreamerBody() {
   const dispatch = useDispatch()
@@ -28,6 +33,7 @@ function NagStreamerBody() {
   )
 
   let buttonCopy = productsCatalog.products[0].displayName
+
   if (productsCatalog.selectedProduct) {
     buttonCopy = productsCatalog.selectedProduct.displayName
   }
@@ -35,6 +41,7 @@ function NagStreamerBody() {
   const languageList = useMemo(() => {
     const currentLanguageKey = currentLanguage.split('-')[0]
     const languageKeys = Object.keys(activationInfo.languages).filter((langKey) => langKey !== currentLanguageKey)
+
     return languageKeys.map((langKey) => <li key={langKey}>{activationInfo.languages[langKey]}</li>)
   }, [activationInfo.languages, currentLanguage])
 
@@ -50,7 +57,7 @@ function NagStreamerBody() {
   }
 
   return (
-    <div data-testid="nag-streamer" className={Classes.DIALOG_BODY}>
+    <div className={Classes.DIALOG_BODY} data-testid="nag-streamer">
       <p>The broadcaster currently does not have <b>Stream Closed Captioner</b> turned on.</p>
       { activationInfo.activated && extraBitsBalanceInfo }
       <p>Let the broadcaster know you would like them to turn on <b>Stream Closed Captioner</b> so you can see <b>Translated Closed Captions</b> by visiting <a href="https://stream-cc.gooseman.codes">https://stream-cc.gooseman.codes</a></p>
@@ -60,15 +67,15 @@ function NagStreamerBody() {
       </ul>
       <p>You can add more translation stream days by selecting an option below and click Submit.</p>
       <Select
-        items={productsCatalog.products}
         filterable={false}
         itemRenderer={productMenuItemRenderer}
-        noResults={<MenuItem disabled={true} text="Not found." />}
+        items={productsCatalog.products}
+        noResults={<MenuItem disabled text="Not found." />}
         onItemSelect={(product) => onProductSelect(product)}>
-        <Button text={buttonCopy} rightIcon="double-caret-vertical" />
+        <Button rightIcon="double-caret-vertical" text={buttonCopy} />
       </Select>
       <Divider />
-      <Button intent="success" icon="confirm" onClick={() => onUseBits(productsCatalog.selectedProduct.sku)}>
+      <Button icon="confirm" intent="success" onClick={() => onUseBits(productsCatalog.selectedProduct.sku)}>
           Submit
       </Button>
     </div>

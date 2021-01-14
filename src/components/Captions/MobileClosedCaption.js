@@ -1,12 +1,16 @@
 import React from 'react'
-import { FONT_FAMILIES } from '@/utils/Constants'
-import { useShallowEqualSelector } from '@/redux/redux-helpers'
+
 import {
   Captions,
   CaptionText,
   CaptionsContainer,
 } from '../shared/caption-styles'
+
 import { getMobileFontSizeStyle } from './helpers'
+
+import { useShallowEqualSelector } from '@/redux/redux-helpers'
+
+import { FONT_FAMILIES } from '@/utils/Constants'
 // Bits - phrakberg
 // Resub - phrakberg
 // Donation -pikaia_xy
@@ -33,6 +37,7 @@ function MobileClosedCaption() {
     : FONT_FAMILIES.ROBOT
 
   let finalTextCaptions = ''
+
   if (configSettings.viewerLanguage === 'default') {
     finalTextCaptions = finalTextQueue.map(({ text }) => text).join(' ')
   } else {
@@ -43,8 +48,8 @@ function MobileClosedCaption() {
 
   return (
     <CaptionsContainer
-      mobilePanel
       captionsTransparency={configSettings.captionsTransparency}
+      mobilePanel
     >
       <Captions
         fontFamily={fontFamily}

@@ -1,7 +1,10 @@
-import React from 'react'
 import { cleanup } from '@testing-library/react'
-import { renderWithRedux } from '@/setupTests'
+import React from 'react'
+
 import LineCountOptions from '../LineCountOptions'
+
+import { renderWithRedux } from '@/setupTests'
+
 
 afterEach(cleanup)
 
@@ -9,6 +12,7 @@ describe('LineCountOptions', () => {
   describe('not video overlay', () => {
     it('doesnt render', () => {
       const { container } = renderWithRedux(<LineCountOptions />)
+
       expect(container).toBeEmptyDOMElement()
     })
   })

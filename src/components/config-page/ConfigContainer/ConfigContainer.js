@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
-import React from 'react'
 import { Card, Elevation } from '@blueprintjs/core'
+import React from 'react'
 import './ConfigContainer.css'
 
 export default function ConfigContainer() {
@@ -20,10 +20,10 @@ export default function ConfigContainer() {
             Visit:
           <a
             className="bp3-button bp3-intent-primary site-link"
-            target="_blank"
+            href="https://stream-cc.gooseman.codes"
             rel="noopener noreferrer"
             role="button"
-            href="https://stream-cc.gooseman.codes"
+            target="_blank"
           >
               https://stream-cc.gooseman.codes
           </a>
