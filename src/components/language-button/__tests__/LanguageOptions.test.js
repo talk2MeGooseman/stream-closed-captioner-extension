@@ -1,4 +1,4 @@
-import { cleanup, fireEvent } from '@testing-library/react'
+import { fireEvent } from '@testing-library/react'
 import React from 'react'
 
 import LanguageOptions from '../LanguageOptions'
@@ -6,10 +6,8 @@ import LanguageOptions from '../LanguageOptions'
 import { renderWithRedux } from '@/setupTests'
 
 
-afterEach(cleanup)
-
-describe('LanguageOptions ', () => {
-  it('fires onClick when selecting new language', () => {
+describe('languageOptions ', () => {
+  test('fires onClick when selecting new language', () => {
     const { queryByTestId, store } = renderWithRedux(
       <LanguageOptions />,
       { initialState: { captionsState: { translations: { de: { name: 'Germ' } } } } },
@@ -18,11 +16,11 @@ describe('LanguageOptions ', () => {
     fireEvent.click(queryByTestId('language-de'))
     const { configSettings: { viewerLanguage } } = store.getState()
 
-    expect(viewerLanguage).toEqual('de')
+    expect(viewerLanguage).toStrictEqual('de')
   })
 
-  describe('Indicates selected language', () => {
-    it('default language by default', () => {
+  describe('indicates selected language', () => {
+    test('default language by default', () => {
       const { queryByTestId } = renderWithRedux(
         <LanguageOptions />,
       )
@@ -31,11 +29,13 @@ describe('LanguageOptions ', () => {
       expect(queryByTestId('language-default')).toContainElement(tickEl)
     })
 
-    it('checks viewer selected language', () => {
-      const { queryByTestId } = renderWithRedux(
-        <LanguageOptions />,
-        { initialState: { configSettings: { viewerLanguage: 'de' }, captionsState: { translations: { de: { name: 'Germ' } } } } },
-      )
+    test('checks viewer selected language', () => {
+      const { queryByTestId } = renderWithRedux(<LanguageOptions />, {
+        initialState: {
+          captionsState: { translations: { de: { name: 'Germ' } } },
+          configSettings: { viewerLanguage: 'de' },
+        },
+      })
       const deEl = queryByTestId('language-de')
       const tickEl = deEl.querySelector('span[icon="tick"]')
 
@@ -45,7 +45,7 @@ describe('LanguageOptions ', () => {
 
   describe('translations are enabled', () => {
     describe('bits enabled user', () => {
-      it('renders button', () => {
+      test('renders button', () => {
         const { queryByText } = renderWithRedux(
           <LanguageOptions />,
           { initialState: { configSettings: { isBitsEnabled: true } } },
@@ -56,7 +56,7 @@ describe('LanguageOptions ', () => {
     })
 
     describe('non-bits enabled user', () => {
-      it('renders button', () => {
+      test('renders button', () => {
         const { queryByText } = renderWithRedux(
           <LanguageOptions />,
           { initialState: { configSettings: { isBitsEnabled: false } } },

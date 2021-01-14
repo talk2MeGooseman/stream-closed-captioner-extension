@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit'
 
 import { toggleActivationDrawer } from './settings-slice'
@@ -16,16 +15,28 @@ function compare(a, b) {
 
 const initialState = {
   channelId: null,
-  products: [],
   processing: false,
+  products: [],
+  // eslint-disable-next-line camelcase
   sent_sku: null,
   transaction: null,
 }
 
 const productsSlice = createSlice({
-  name: 'products',
   initialState,
+  name: 'products',
   reducers: {
+    completeUseBits(state, action) {
+      // eslint-disable-next-line camelcase
+      state.sent_sku = null
+      state.processing = false
+      state.transaction = action.payload
+    },
+    sendUseBits(state, action) {
+      // eslint-disable-next-line camelcase
+      state.sent_sku = action.payload
+      state.processing = true
+    },
     setChannelId(state, action) {
       state.channelId = action.payload
     },
@@ -38,15 +49,6 @@ const productsSlice = createSlice({
     },
     setSelectedProduct(state, action) {
       state.selectedProduct = action.payload
-    },
-    sendUseBits(state, action) {
-      state.sent_sku = action.payload
-      state.processing = true
-    },
-    completeUseBits(state, action) {
-      state.sent_sku = null
-      state.processing = false
-      state.transaction = action.payload
     },
   },
 })
@@ -76,15 +78,15 @@ export function completeBitsTransaction(transaction) {
     const { channelId } = getState().productsCatalog
 
     return fetch('https://stream-cc.gooseman.codes/api/bits_transactions', {
+      body: JSON.stringify({
+        channelId,
+      }),
       cache: 'no-cache',
-      method: 'POST',
       headers: {
         Authorization: `Bearer ${transaction.transactionReceipt}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        channelId,
-      }),
+      method: 'POST',
     }).then((response) => {
       if (response.ok) {
         dispatch(toggleActivationDrawer())

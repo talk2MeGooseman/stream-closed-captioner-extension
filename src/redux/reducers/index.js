@@ -14,9 +14,9 @@ import videoPlayerContextReducer from '@/redux/video-player-context-slice'
 const streamCC = combineReducers({
   captionsState: captionsSlice,
   configSettings: settingsSlice,
-  videoPlayerContext: videoPlayerContextReducer,
   productsCatalog: productsSlice,
   translationInfo: translationSlice,
+  videoPlayerContext: videoPlayerContextReducer,
 })
 
 export default streamCC

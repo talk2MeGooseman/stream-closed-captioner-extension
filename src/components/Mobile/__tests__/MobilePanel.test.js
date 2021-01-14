@@ -8,8 +8,8 @@ import { renderWithRedux } from '@/setupTests'
 
 afterEach(cleanup)
 
-describe('TranslationsDrawer', () => {
-  it('renders content', () => {
+describe('translationsDrawer', () => {
+  test('renders content', () => {
     const { container } = renderWithRedux(<MobilePanel />)
 
     expect(container).not.toBeEmptyDOMElement()

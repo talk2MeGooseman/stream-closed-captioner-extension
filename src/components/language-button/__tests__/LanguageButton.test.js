@@ -4,21 +4,21 @@ import LanguageButton from '../LanguageButton'
 
 import { renderWithRedux } from '@/setupTests'
 
-describe('LanguageButton', () => {
+describe('languageButton', () => {
   describe('translations are enabled', () => {
     describe('bits enabled user', () => {
-      it('renders button', () => {
+      test('renders button', () => {
         const { container } = renderWithRedux(<LanguageButton />, {
+          captionsState: {
+            finalTextQueue: [],
+            interimText: 'Something',
+            translations: { en: '' },
+          },
           initialState: {
             configSettings: {
               isBitsEnabled: true,
             },
-            captionsState: {
-              finalTextQueue: [],
-              interimText: 'Something',
-              translations: { en: '' },
-            },
-          },
+        },
         })
 
         expect(container.querySelector('svg')).toHaveClass('fa-language')
@@ -26,15 +26,15 @@ describe('LanguageButton', () => {
     })
 
     describe('non-bits enabled user', () => {
-      it('renders button', () => {
+      test('renders button', () => {
         const { container } = renderWithRedux(<LanguageButton />, {
           initialState: {
-            configSettings: { isBitsEnabled: false },
             captionsState: {
               finalTextQueue: [],
               interimText: 'Something',
               translations: { en: '' }
             },
+            configSettings: { isBitsEnabled: false },
           },
         })
 
@@ -45,15 +45,15 @@ describe('LanguageButton', () => {
 
   describe('translations are disabled', () => {
     describe('bits enabled user', () => {
-      it('renders button', () => {
+      test('renders button', () => {
         const { container } = renderWithRedux(<LanguageButton />, {
           initialState: {
-            configSettings: { isBitsEnabled: true },
             captionsState: {
               finalTextQueue: [],
               interimText: 'Something',
               translations: { en: '' }
             },
+            configSettings: { isBitsEnabled: true },
           },
         })
 
@@ -62,7 +62,7 @@ describe('LanguageButton', () => {
     })
 
     describe('non-bits enabled user', () => {
-      it('renders nothing', () => {
+      test('renders nothing', () => {
         const { container } = renderWithRedux(<LanguageButton />)
 
         expect(container).toBeEmptyDOMElement()

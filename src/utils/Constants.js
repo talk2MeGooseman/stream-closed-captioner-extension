@@ -6,20 +6,22 @@ export const CONTEXT_EVENTS_WHITELIST = [
 
 export const TEXT_SIZES = {
   SMALL: 1,
+  // eslint-disable-next-line sort-keys
   MEDIUM: 2,
+  // eslint-disable-next-line sort-keys
   LARGE: 3,
 }
 
 export const FONT_FAMILIES = {
-  ROBOTO: 'roboto',
   DYSLEXIA: 'dsylexic-regular',
+  ROBOTO: 'roboto',
 }
 
 export const CAPTIONS_SIZE = {
-  minWidth: 10,
-  maxWidth: 90,
   defaultBoxWidth: 30,
   defaultHorizontalWidth: 85,
+  maxWidth: 90,
+  minWidth: 10,
 }
 
 export const CAPTIONS_TRANSPARENCY = {

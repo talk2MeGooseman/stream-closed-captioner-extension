@@ -35,11 +35,11 @@ const Controls = () => {
   }
 
   const controlClass = classnames({
-    'controls-container': isVideoOverlay(),
-    'position-right': !positionLeft(switchSettingsPosition),
-    'position-left': positionLeft(switchSettingsPosition),
-    'mobile-controls-button': !isVideoOverlay(),
     'bg-black-transparent': true,
+    'controls-container': isVideoOverlay(),
+    'mobile-controls-button': !isVideoOverlay(),
+    'position-left': positionLeft(switchSettingsPosition),
+    'position-right': !positionLeft(switchSettingsPosition),
   })
 
   return (

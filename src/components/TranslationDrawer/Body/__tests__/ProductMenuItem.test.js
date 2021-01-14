@@ -1,4 +1,4 @@
-import { cleanup } from '@testing-library/react'
+import { T } from 'ramda'
 import React from 'react'
 
 import ProductMenuItem from '../ProductMenuItem'
@@ -6,24 +6,22 @@ import ProductMenuItem from '../ProductMenuItem'
 import { renderWithRedux } from '@/setupTests'
 
 
-afterEach(cleanup)
-
 const product = {
-  sku: 'translate500',
-  displayName: 'One Day Translation',
   cost: {
     amount: 100,
   },
+  displayName: 'One Day Translation',
+  sku: 'translate500',
 }
 
 const modifier = {
   active: false,
 }
 
-describe('ProductMenuItem', () => {
-  it('display product info', () => {
+describe('productMenuItem', () => {
+  test('display product info', () => {
     const { queryByText } = renderWithRedux(
-      <ProductMenuItem handleClick={() => {}} modifiers={modifier} product={product} />,
+      <ProductMenuItem handleClick={T} modifiers={modifier} product={product} />,
     )
 
     expect(queryByText(product.displayName)).toBeInTheDocument()

@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit'
 import { v4 as uuid } from 'uuid'
 
@@ -30,75 +29,19 @@ export const initialState = {
 }
 
 const settingsSlice = createSlice({
-  name: 'settingsSlice',
   initialState,
+  name: 'settingsSlice',
   reducers: {
-    updateBroadcasterSettings(state, action) {
-      const settings = action.payload
+    changeCaptionsTransparency(state, action) {
+      let value = action.payload
 
-      Object.keys(settings).forEach((key) => {
-        state[key] = settings[key]
-      })
-
-      if (state.ccBoxSize) {
-        state.captionsWidth = CAPTIONS_SIZE.defaultBoxWidth
-      } else {
-        state.captionsWidth = CAPTIONS_SIZE.defaultHorizontalWidth
-      }
-    },
-    toggleGrayOutFinalText(state) {
-      state.grayOutFinalText = !state.grayOutFinalText
-    },
-    changeTextSize(state, action) {
-      state.size = action.payload
-    },
-    changeLanguage(state, action) {
-      state.viewerLanguage = action.payload
-    },
-    toggleVisibility(state) {
-      state.hideCC = !state.hideCC
-    },
-    toggleBoxSize(state) {
-      state.ccBoxSize = !state.ccBoxSize
-      if (state.ccBoxSize) {
-        state.captionsWidth = CAPTIONS_SIZE.defaultBoxWidth
-      } else {
-        state.captionsWidth = CAPTIONS_SIZE.defaultHorizontalWidth
-      }
-    },
-    setIsDragged(state) {
-      state.isDragged = true
-    },
-    resetCCText(state) {
-      state.ccKey = uuid()
-    },
-    toggleActivationDrawer(state) {
-      state.isDrawerOpen = !state.isDrawerOpen
-    },
-    toggleUppercaseText(state) {
-      state.uppercaseText = !state.uppercaseText
-    },
-    toggleAdvancedSettingsDialog(state) {
-      state.displayAdvancedSettingsDialog = !state.displayAdvancedSettingsDialog
-    },
-    increaseLineCount(state) {
-      if (state.ccBoxSize) {
-        state.boxLineCount += 1
+      if (value < CAPTIONS_TRANSPARENCY.min) {
+        value = CAPTIONS_TRANSPARENCY.min
+      } else if (value > CAPTIONS_TRANSPARENCY.max) {
+        value = CAPTIONS_TRANSPARENCY.max
       }
 
-      state.horizontalLineCount += 1
-    },
-    toggleDyslexiaFamily(state) {
-      state.dyslexiaFontEnabled = !state.dyslexiaFontEnabled
-    },
-    decreaseLineCount(state) {
-      if (state.ccBoxSize && state.boxLineCount !== 1) {
-        state.boxLineCount -= 1
-      }
-
-      if (state.horizontalLineCount !== 1) {
-        state.horizontalLineCount -= 1
-      }
+      state.captionsTransparency = value
     },
     changeCaptionsWidth(state, action) {
       let newWidth = action.payload
@@ -111,16 +54,73 @@ const settingsSlice = createSlice({
 
       state.captionsWidth = newWidth
     },
-    changeCaptionsTransparency(state, action) {
-      let value = action.payload
-
-      if (value < CAPTIONS_TRANSPARENCY.min) {
-        value = CAPTIONS_TRANSPARENCY.min
-      } else if (value > CAPTIONS_TRANSPARENCY.max) {
-        value = CAPTIONS_TRANSPARENCY.max
+    changeLanguage(state, action) {
+      state.viewerLanguage = action.payload
+    },
+    changeTextSize(state, action) {
+      state.size = action.payload
+    },
+    // eslint-disable-next-line complexity
+    decreaseLineCount(state) {
+      if (state.ccBoxSize && state.boxLineCount !== 1) {
+        state.boxLineCount -= 1
       }
 
-      state.captionsTransparency = value
+      if (state.horizontalLineCount !== 1) {
+        state.horizontalLineCount -= 1
+      }
+    },
+    increaseLineCount(state) {
+      if (state.ccBoxSize) {
+        state.boxLineCount += 1
+      }
+
+      state.horizontalLineCount += 1
+    },
+    resetCCText(state) {
+      state.ccKey = uuid()
+    },
+    setIsDragged(state) {
+      state.isDragged = true
+    },
+    toggleActivationDrawer(state) {
+      state.isDrawerOpen = !state.isDrawerOpen
+    },
+    toggleAdvancedSettingsDialog(state) {
+      state.displayAdvancedSettingsDialog = !state.displayAdvancedSettingsDialog
+    },
+    toggleBoxSize(state) {
+      state.ccBoxSize = !state.ccBoxSize
+      if (state.ccBoxSize) {
+        state.captionsWidth = CAPTIONS_SIZE.defaultBoxWidth
+      } else {
+        state.captionsWidth = CAPTIONS_SIZE.defaultHorizontalWidth
+      }
+    },
+    toggleDyslexiaFamily(state) {
+      state.dyslexiaFontEnabled = !state.dyslexiaFontEnabled
+    },
+    toggleGrayOutFinalText(state) {
+      state.grayOutFinalText = !state.grayOutFinalText
+    },
+    toggleUppercaseText(state) {
+      state.uppercaseText = !state.uppercaseText
+    },
+    toggleVisibility(state) {
+      state.hideCC = !state.hideCC
+    },
+    updateBroadcasterSettings(state, action) {
+      const settings = action.payload
+
+      Object.keys(settings).forEach((key) => {
+        state[key] = settings[key]
+      })
+
+      if (state.ccBoxSize) {
+        state.captionsWidth = CAPTIONS_SIZE.defaultBoxWidth
+      } else {
+        state.captionsWidth = CAPTIONS_SIZE.defaultHorizontalWidth
+      }
     },
   },
 })

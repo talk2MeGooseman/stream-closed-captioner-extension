@@ -6,9 +6,9 @@ import AdvancedSettings from '../AdvancedSettings'
 import { renderWithRedux } from '@/setupTests'
 
 
-describe('AdvancedSettings', () => {
+describe('advancedSettings', () => {
   describe('not video overlay', () => {
-    it('doesnt render if not in video', () => {
+    test('doesnt render if not in video', () => {
       const { container } = renderWithRedux(<AdvancedSettings />)
 
       expect(container).toBeEmptyDOMElement()
@@ -24,9 +24,9 @@ describe('AdvancedSettings', () => {
       )
     })
 
-    it('renders enable square text', () => {
+    test('renders enable square text', () => {
       renderWithRedux(<AdvancedSettings />)
-      expect(screen.queryAllByText('Advanced Settings')).toBeTruthy()
+      expect(screen.queryAllByText('Advanced Settings')).toBeGreaterThan(0)
     })
   })
 })

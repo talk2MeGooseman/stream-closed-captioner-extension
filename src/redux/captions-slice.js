@@ -1,5 +1,3 @@
-/* eslint-disable no-param-reassign */
-/* eslint-disable no-case-declarations */
 import { createSlice } from '@reduxjs/toolkit'
 import { v4 as uuid } from 'uuid'
 
@@ -12,9 +10,10 @@ const initialState = {
 }
 
 const captionsSlice = createSlice({
-  name: 'captionsSlice',
   initialState,
+  name: 'captionsSlice',
   reducers: {
+    // eslint-disable-next-line complexity
     updateCCText(state, action) {
       const newTranslations = state.translations
       const qLength = state.finalTextQueue.length
@@ -34,6 +33,7 @@ const captionsSlice = createSlice({
       if (action.payload.translations) {
         const translatedLanguages = Object.keys(action.payload.translations)
 
+        // eslint-disable-next-line complexity
         translatedLanguages.forEach((language) => {
           const currentLangTranslation = state.translations[language] || { textQueue: [] }
           const newTranslation = action.payload.translations[language]

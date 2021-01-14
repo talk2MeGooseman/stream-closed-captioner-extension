@@ -1,4 +1,3 @@
-import { cleanup } from '@testing-library/react'
 import React from 'react'
 
 import LineCountOptions from '../LineCountOptions'
@@ -6,11 +5,9 @@ import LineCountOptions from '../LineCountOptions'
 import { renderWithRedux } from '@/setupTests'
 
 
-afterEach(cleanup)
-
-describe('LineCountOptions', () => {
+describe('lineCountOptions', () => {
   describe('not video overlay', () => {
-    it('doesnt render', () => {
+    test('doesnt render', () => {
       const { container } = renderWithRedux(<LineCountOptions />)
 
       expect(container).toBeEmptyDOMElement()
@@ -26,13 +23,13 @@ describe('LineCountOptions', () => {
       )
     })
 
-    it('renders', async () => {
+    test('renders', () => {
       const { container } = renderWithRedux(<LineCountOptions />)
 
       expect(container).not.toBeEmptyDOMElement()
     })
 
-    it('has increase and decrease line count menu items', async () => {
+    test('has increase and decrease line count menu items', () => {
       const { queryByText } = renderWithRedux(<LineCountOptions />)
 
       expect(queryByText('Increase Line Count')).toBeInTheDocument()

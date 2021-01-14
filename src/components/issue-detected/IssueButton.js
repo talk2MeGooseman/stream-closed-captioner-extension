@@ -1,4 +1,3 @@
-/* eslint-disable implicit-arrow-linebreak */
 import {
   Tooltip,
   Dialog,

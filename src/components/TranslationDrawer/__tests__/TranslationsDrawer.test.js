@@ -1,4 +1,3 @@
-import { cleanup } from '@testing-library/react'
 import React from 'react'
 
 import TranslationsDrawer from '../TranslationsDrawer'
@@ -6,11 +5,9 @@ import TranslationsDrawer from '../TranslationsDrawer'
 import { renderWithRedux } from '@/setupTests'
 
 
-afterEach(cleanup)
-
-describe('TranslationsDrawer', () => {
+describe('translationsDrawer', () => {
   describe('render nothing', () => {
-    it('if no activation info', () => {
+    test('if no activation info', () => {
       const { queryByText } = renderWithRedux(
         <TranslationsDrawer />, {
           initialState: {
@@ -24,17 +21,17 @@ describe('TranslationsDrawer', () => {
       expect(queryByText('Turn on Translations!')).not.toBeInTheDocument()
     })
 
-    it('if no products', () => {
+    test('if no products', () => {
       const { queryByText } = renderWithRedux(
         <TranslationsDrawer />, {
           initialState: {
+            productsCatalog: {
+              products: [],
+            },
             translationInfo: {
               activationInfo: {
                 balance: 500,
               },
-            },
-            productsCatalog: {
-              products: [],
             },
           },
         },
@@ -43,7 +40,7 @@ describe('TranslationsDrawer', () => {
       expect(queryByText('Turn on Translations!')).not.toBeInTheDocument()
     })
 
-    it('if non-bits enabled viewer', () => {
+    test('if non-bits enabled viewer', () => {
       const { queryByText } = renderWithRedux(
         <TranslationsDrawer />, {
           initialState: {
@@ -51,19 +48,19 @@ describe('TranslationsDrawer', () => {
               isBitsEnabled: false,
               isDrawerOpen: true,
             },
-            translationInfo: {
-              activationInfo: {
-                languages: [],
-                balance: 500,
-              },
-            },
             productsCatalog: {
               products: [{
-                sku: '1',
                 cost: {
                   amount: 1,
                 },
+                sku: '1',
               }],
+            },
+            translationInfo: {
+              activationInfo: {
+                balance: 500,
+                languages: [],
+              },
             },
           },
         },
@@ -74,29 +71,29 @@ describe('TranslationsDrawer', () => {
   })
 
   describe('renders drawer', () => {
-    it('with ActivateTranslationBody', () => {
+    test('with ActivateTranslationBody', () => {
       const { queryByTestId } = renderWithRedux(
         <TranslationsDrawer />, {
           initialState: {
             configSettings: {
-              language: 'en-US',
               isBitsEnabled: true,
               isDrawerOpen: true,
-            },
-            translationInfo: {
-              activationInfo: {
-                languages: [],
-                balance: 0,
-              },
+              language: 'en-US',
             },
             productsCatalog: {
               products: [{
-                sku: '1',
-                displayName: 'hey',
                 cost: {
                   amount: 1,
                 },
+                displayName: 'hey',
+                sku: '1',
               }],
+            },
+            translationInfo: {
+              activationInfo: {
+                balance: 0,
+                languages: [],
+              },
             },
           },
         },
@@ -105,29 +102,29 @@ describe('TranslationsDrawer', () => {
       expect(queryByTestId('activate-translation')).toBeInTheDocument()
     })
 
-    it('with NagStreamerBody', () => {
+    test('with NagStreamerBody', () => {
       const { queryByTestId } = renderWithRedux(
         <TranslationsDrawer />, {
           initialState: {
             configSettings: {
-              language: 'en-US',
               isBitsEnabled: true,
               isDrawerOpen: true,
-            },
-            translationInfo: {
-              activationInfo: {
-                languages: [],
-                balance: 500,
-              },
+              language: 'en-US',
             },
             productsCatalog: {
               products: [{
-                sku: '1',
-                displayName: 'hey',
                 cost: {
                   amount: 1,
                 },
+                displayName: 'hey',
+                sku: '1',
               }],
+            },
+            translationInfo: {
+              activationInfo: {
+                balance: 500,
+                languages: [],
+              },
             },
           },
         },

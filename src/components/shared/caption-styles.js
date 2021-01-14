@@ -21,11 +21,11 @@ export const CaptionsContainer = styled.div`
       cursor: move;
       line-height: var(--line-height);
       padding-bottom: var(--caption-pad-bottom);
-      max-height: ${(props) =>
+      max-height: ${(mProps) =>
         `calc(var(${
-          props.fontSize || '--medium-font-size'
+          mProps.fontSize || '--medium-font-size'
         }) * var(--line-height) * ${
-          props.numberOfLines || 3
+          mProps.numberOfLines || 3
         } + var(--caption-pad-bottom))`};
     `}
   ${(props) =>

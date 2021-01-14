@@ -1,15 +1,12 @@
-import { cleanup, fireEvent } from '@testing-library/react'
+import { fireEvent } from '@testing-library/react'
 import React from 'react'
 
 import GrayOutFinalTextOptionButton from '../GrayOutFinalTextOptionButton'
 
 import { renderWithRedux } from '@/setupTests'
 
-
-afterEach(cleanup)
-
-describe('GrayOutFinalTextOptionButton ', () => {
-  it('renders reset button', () => {
+describe('grayOutFinalTextOptionButton ', () => {
+  test('renders reset button', () => {
     const { queryByText } = renderWithRedux(
       <GrayOutFinalTextOptionButton />,
     )
@@ -17,17 +14,17 @@ describe('GrayOutFinalTextOptionButton ', () => {
     expect(queryByText('Gray Out Finished Text')).toBeInTheDocument()
   })
 
-  it('triggers reset on click', () => {
+  test('triggers reset on click', () => {
     const { queryByText, store } = renderWithRedux(
       <GrayOutFinalTextOptionButton />,
     )
 
     const { configSettings: defaultSetting } = store.getState()
 
-    expect(defaultSetting.grayOutFinalText).toEqual(false)
+    expect(defaultSetting.grayOutFinalText).toStrictEqual(false)
     fireEvent.click(queryByText('Gray Out Finished Text'))
     const { configSettings: newConfigs } = store.getState()
 
-    expect(newConfigs.grayOutFinalText).toEqual(true)
+    expect(newConfigs.grayOutFinalText).toStrictEqual(true)
   })
 })

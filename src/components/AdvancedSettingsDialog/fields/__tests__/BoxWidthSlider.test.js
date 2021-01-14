@@ -8,9 +8,9 @@ import { renderWithRedux } from '@/setupTests'
 import { CAPTIONS_SIZE } from '@/utils/Constants'
 
 
-describe('BoxWidthSlider', () => {
+describe('boxWidthSlider', () => {
   describe('not video overlay', () => {
-    it('doesnt render if not in video overlay', () => {
+    test('doesnt render if not in video overlay', () => {
       renderWithRedux(<BoxWidthSlider />)
 
       expect(screen.queryByText('Box Captions Width')).not.toBeInTheDocument()
@@ -26,17 +26,17 @@ describe('BoxWidthSlider', () => {
       )
     })
 
-    it('renders the slider', () => {
+    test('renders the slider', () => {
       renderWithRedux(<BoxWidthSlider />)
       expect(screen.queryByText('Captions Text Width')).toBeInTheDocument()
     })
 
-    it('slider has default value for store', () => {
+    test('slider has default value for store', () => {
       const { store } = renderWithRedux(<BoxWidthSlider />)
 
       const { configSettings: defaultSetting } = store.getState()
 
-      expect(defaultSetting.captionsWidth).toEqual(CAPTIONS_SIZE.defaultHorizontalWidth)
+      expect(defaultSetting.captionsWidth).toStrictEqual(CAPTIONS_SIZE.defaultHorizontalWidth)
     })
   })
 })

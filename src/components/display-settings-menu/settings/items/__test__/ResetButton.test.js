@@ -1,4 +1,4 @@
-import { cleanup, fireEvent } from '@testing-library/react'
+import { fireEvent } from '@testing-library/react'
 import React from 'react'
 
 import ResetButton from '../ResetButton'
@@ -6,11 +6,9 @@ import ResetButton from '../ResetButton'
 import { renderWithRedux } from '@/setupTests'
 
 
-afterEach(cleanup)
-
-describe('ResetButton', () => {
+describe('resetButton', () => {
   describe('not video overlay', () => {
-    it('doesnt render if not in video', () => {
+    test('doesnt render if not in video', () => {
       const { container } = renderWithRedux(
         <ResetButton />,
       )
@@ -24,7 +22,7 @@ describe('ResetButton', () => {
       window.history.pushState({}, 'Test Title', '/test.html?anchor=video_overlay&platform=web')
     })
 
-    it('renders reset button', () => {
+    test('renders reset button', () => {
       const { queryByText } = renderWithRedux(
         <ResetButton />,
       )
@@ -32,7 +30,7 @@ describe('ResetButton', () => {
       expect(queryByText('Reset Position')).toBeInTheDocument()
     })
 
-    it('triggers reset on click', () => {
+    test('triggers reset on click', () => {
       const { queryByText, store } = renderWithRedux(
         <ResetButton />,
       )
@@ -42,7 +40,7 @@ describe('ResetButton', () => {
       fireEvent.click(queryByText('Reset Position'))
       const { configSettings: { ccKey: newKey } } = store.getState()
 
-      expect(newKey).not.toEqual(ccKey)
+      expect(newKey).not.toStrictEqual(ccKey)
     })
   })
 })

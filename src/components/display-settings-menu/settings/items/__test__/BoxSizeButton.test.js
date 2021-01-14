@@ -1,4 +1,3 @@
-import { cleanup } from '@testing-library/react'
 import React from 'react'
 
 import BoxSizeButton from '../BoxSizeButton'
@@ -6,11 +5,9 @@ import BoxSizeButton from '../BoxSizeButton'
 import { renderWithRedux } from '@/setupTests'
 
 
-afterEach(cleanup)
-
-describe('BoxSizeButton', () => {
+describe('boxSizeButton', () => {
   describe('not video overlay', () => {
-    it('doesnt render if not in video', () => {
+    test('doesnt render if not in video', () => {
       const { container } = renderWithRedux(
         <BoxSizeButton />,
       )
@@ -24,7 +21,7 @@ describe('BoxSizeButton', () => {
       window.history.pushState({}, 'Test Title', '/test.html?anchor=video_overlay&platform=web')
     })
 
-    it('renders enable square text', () => {
+    test('renders enable square text', () => {
       const { queryByText } = renderWithRedux(
         <BoxSizeButton />,
       )
@@ -32,7 +29,7 @@ describe('BoxSizeButton', () => {
       expect(queryByText('Enable Square Text Box')).toBeInTheDocument()
     })
 
-    it('renders enable horizontal text', () => {
+    test('renders enable horizontal text', () => {
       const { queryByText } = renderWithRedux(
         <BoxSizeButton />,
         { initialState: { configSettings: { ccBoxSize: true } } },

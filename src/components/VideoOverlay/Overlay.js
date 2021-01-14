@@ -1,19 +1,11 @@
+import classNames from 'classnames'
 import React from 'react'
+
 import { ClosedCaption } from '@/components/Captions'
+
 import { DisplaySettingsMenu } from '@/components/display-settings-menu'
+
 import { useShallowEqualSelector } from '@/redux/redux-helpers'
-
-const classNames = require('classnames')
-
-
-
-
-
-
-
-
-
-
 
 function Overlay() {
   const { isDragged, ccKey } = useShallowEqualSelector((state) => (state.configSettings))
@@ -22,10 +14,10 @@ function Overlay() {
   )
 
   const containerClass = classNames({
-    'standard-position':
-      !arePlayerControlsVisible && !isDragged,
     'raise-video-controls':
       arePlayerControlsVisible || isDragged,
+    'standard-position':
+      !arePlayerControlsVisible && !isDragged,
   })
 
   return (

@@ -39,7 +39,7 @@ const defaultState = {
   },
 }
 
-describe('ActivateTranslationBody', () => {
+describe('activateTranslationBody', () => {
   beforeEach(() => {
     global.document.createRange = () => ({
       setStart: () => {},
@@ -51,7 +51,7 @@ describe('ActivateTranslationBody', () => {
     })
   })
 
-  it('it renders', () => {
+  test('it renders', () => {
     const { queryByTestId } = renderWithRedux(<ActivateTranslationBody />, {
       initialState: defaultState,
     })
@@ -59,8 +59,8 @@ describe('ActivateTranslationBody', () => {
     expect(queryByTestId('activate-translation')).toBeInTheDocument()
   })
 
-  describe('Displays languages available for translations', () => {
-    it('excludes current language from list', () => {
+  describe('displays languages available for translations', () => {
+    test('excludes current language from list', () => {
       const { queryByText } = renderWithRedux(<ActivateTranslationBody />, {
         initialState: defaultState,
       })
@@ -71,7 +71,7 @@ describe('ActivateTranslationBody', () => {
     })
   })
 
-  it('display product options in the dropdown', () => {
+  test('display product options in the dropdown', () => {
     const { queryByText } = renderWithRedux(<ActivateTranslationBody />, {
       initialState: defaultState,
     })

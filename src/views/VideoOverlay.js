@@ -1,8 +1,8 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import { configureStore, applyMiddleware } from '@reduxjs/toolkit'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
+// eslint-disable-next-line import/no-extraneous-dependencies
 import thunk from 'redux-thunk'
 
 // import logger from "redux-logger";

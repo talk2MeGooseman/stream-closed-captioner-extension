@@ -3,23 +3,23 @@ import settings, { updateBroadcasterSettings, initialState } from '../settings-s
 import { CAPTIONS_SIZE } from '@/utils/Constants'
 
 describe('settingsSlice', () => {
-  it('should handle initial state', () => {
-    expect(settings(undefined, {})).toEqual(initialState)
+  test('should handle initial state', () => {
+    expect(settings(undefined, {})).toStrictEqual(initialState)
   })
 
   describe('updateBroadcasterSettings', () => {
-    it('width is properly set when broadcaster chooses box size', () => {
+    test('width is properly set when broadcaster chooses box size', () => {
       expect(
         settings({}, {
-          type: updateBroadcasterSettings.type,
           payload: {
             ccBoxSize: true,
-          }
+          },
+          type: updateBroadcasterSettings.type,
         })
-      ).toEqual(
+      ).toStrictEqual(
         {
-          ccBoxSize: true,
           captionsWidth: CAPTIONS_SIZE.defaultBoxWidth,
+          ccBoxSize: true,
         }
       )
     })

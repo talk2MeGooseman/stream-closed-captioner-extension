@@ -1,4 +1,3 @@
-/* eslint-disable no-shadow */
 import {
   Classes, Drawer,
 } from '@blueprintjs/core'
@@ -12,11 +11,9 @@ import { useShallowEqualSelector, useReduxCallbackDispatch } from '@/redux/redux
 
 import { toggleActivationDrawer } from '@/redux/settings-slice'
 
-
-
 import { TRANSLATION_COST } from '@/utils/Constants'
 
-
+// eslint-disable-next-line complexity
 function TranslationsDrawer() {
   const { isDrawerOpen, isBitsEnabled } = useShallowEqualSelector((state) => state.configSettings)
   const { activationInfo } = useShallowEqualSelector((state) => state.translationInfo)

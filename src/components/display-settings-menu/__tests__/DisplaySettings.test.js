@@ -1,12 +1,9 @@
-import { cleanup } from '@testing-library/react'
 import React from 'react'
 
 import DisplaySettingsMenu, { positionLeft } from '../DisplaySettingsMenu'
 
 import { renderWithRedux } from '@/setupTests'
 
-
-afterEach(cleanup)
 
 function setAsVideoOverlay() {
   window.history.pushState(
@@ -16,29 +13,29 @@ function setAsVideoOverlay() {
   )
 }
 
-describe('DisplaySettings', () => {
+describe('displaySettings', () => {
   afterEach(() => {
     window.history.pushState({}, 'Test Title', '/test.html?platform=web')
   })
 
   describe('positionLeft', () => {
-    it('return false if not a video overlay', () => {
-      expect(positionLeft(true)).toBeFalsy()
+    test('return false if not a video overlay', () => {
+      expect(positionLeft(true)).toBe(false)
     })
 
-    it('return false if a video overlay but setting is false', () => {
+    test('return false if a video overlay but setting is false', () => {
       setAsVideoOverlay()
-      expect(positionLeft(false)).toBeFalsy()
+      expect(positionLeft(false)).toBe(false)
     })
 
-    it('return true if a video overlay but setting is true', () => {
+    test('return true if a video overlay but setting is true', () => {
       setAsVideoOverlay()
-      expect(positionLeft(true)).toBeTruthy()
+      expect(positionLeft(true)).toBe(true)
     })
   })
 
   describe('not video overlay', () => {
-    it('controls are always shown', () => {
+    test('controls are always shown', () => {
       const { queryByTestId } = renderWithRedux(<DisplaySettingsMenu />)
 
       expect(queryByTestId('display-settings')).toBeInTheDocument()
@@ -51,7 +48,7 @@ describe('DisplaySettings', () => {
     })
 
     describe('arePlayerControlsVisible is true', () => {
-      it('contols are shown', () => {
+      test('contols are shown', () => {
         const { queryByTestId } = renderWithRedux(<DisplaySettingsMenu />, {
           initialState: {
             videoPlayerContext: { arePlayerControlsVisible: true },
@@ -63,7 +60,7 @@ describe('DisplaySettings', () => {
     })
 
     describe('arePlayerControlsVisible is false', () => {
-      it('renders enable horizontal text', () => {
+      test('renders enable horizontal text', () => {
         const { queryByTestId } = renderWithRedux(<DisplaySettingsMenu />, {
           initialState: {
             videoPlayerContext: { arePlayerControlsVisible: false },

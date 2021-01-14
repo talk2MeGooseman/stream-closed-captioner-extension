@@ -7,11 +7,11 @@ const jwt = require('jsonwebtoken')
 export default class Authentication {
   constructor(token, opaqueId) {
     this.state = {
-      token,
-      opaqueId,
-      userId: false,
       isMod: false,
+      opaqueId,
       role: '',
+      token,
+      userId: false,
     }
   }
 
@@ -42,27 +42,25 @@ export default class Authentication {
     try {
       const { role, userId } = jwt.decode(token)
 
-      if (role === 'broadcaster' || role === 'moderator') {
-        mod = true
-      }
+      mod = isMod(role, mod)
 
       tokenUserId = userId
       tokenRole = role
 
       this.state = {
-        token,
-        opaqueId,
         isMod: mod,
-        userId: tokenUserId,
+        opaqueId,
         role: tokenRole,
+        token,
+        userId: tokenUserId,
       }
     } catch (e) {
       this.state = {
-        token: '',
-        opaqueId: '',
         isMod: mod,
-        userId: tokenUserId,
+        opaqueId: '',
         role: tokenRole,
+        token: '',
+        userId: tokenUserId,
       }
     }
   }
@@ -86,21 +84,27 @@ export default class Authentication {
     return new Promise((resolve, reject) => {
       if (this.isAuthenticated()) {
         const headers = {
-          'Content-Type': 'application/json',
           Authorization: `Bearer ${this.state.token}`,
+          'Content-Type': 'application/json',
         }
 
         fetch(url,
           {
-            method,
             headers,
+            method,
           })
           .then((response) => resolve(response))
           .catch((e) => reject(e))
       } else {
-        // eslint-disable-next-line prefer-promise-reject-errors
         reject('Unauthorized')
       }
     })
   }
+}
+
+function isMod(role, mod) {
+  if (role === 'broadcaster' || role === 'moderator') {
+    return true
+  }
+  return mod
 }

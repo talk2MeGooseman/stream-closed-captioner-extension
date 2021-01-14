@@ -1,57 +1,55 @@
-import { cleanup, fireEvent } from '@testing-library/react'
+import { fireEvent } from '@testing-library/react'
+import { T } from 'ramda'
 import React from 'react'
 
 import NagStreamerBody from '../NagStreamerBody'
 
 import { renderWithRedux } from '@/setupTests'
 
-
-afterEach(cleanup)
-
 const defaultState = {
-  translationInfo: {
-    activationInfo: {
-      languages: {
-        en: 'English',
-        es: 'Spanish',
-        de: 'German',
-      },
-      balance: 0,
-    },
-  },
   productsCatalog: {
     products: [
       {
-        sku: '1',
-        displayName: '1 Bit',
         cost: {
           amount: 1,
         },
+        displayName: '1 Bit',
+        sku: '1',
       },
       {
-        sku: '2',
-        displayName: '2 Bit',
         cost: {
           amount: 2,
         },
+        displayName: '2 Bit',
+        sku: '2',
       },
     ],
   },
+  translationInfo: {
+    activationInfo: {
+      balance: 0,
+      languages: {
+        de: 'German',
+        en: 'English',
+        es: 'Spanish',
+      },
+    },
+  },
 }
 
-describe('NagStreamerBody', () => {
+describe('nagStreamerBody', () => {
   beforeEach(() => {
     global.document.createRange = () => ({
-      setStart: () => {},
-      setEnd: () => {},
       commonAncestorContainer: {
         nodeName: 'BODY',
         ownerDocument: document,
       },
+      setEnd: T,
+      setStart: T,
     })
   })
 
-  it('it renders', () => {
+  test('it renders', () => {
     const { queryByTestId } = renderWithRedux(<NagStreamerBody />, {
       initialState: defaultState,
     })
@@ -59,8 +57,8 @@ describe('NagStreamerBody', () => {
     expect(queryByTestId('nag-streamer')).toBeInTheDocument()
   })
 
-  describe('Displays languages available for translations', () => {
-    it('excludes current language from list', () => {
+  describe('displays languages available for translations', () => {
+    test('excludes current language from list', () => {
       const { queryByText } = renderWithRedux(<NagStreamerBody />, {
         initialState: defaultState,
       })
@@ -71,7 +69,7 @@ describe('NagStreamerBody', () => {
     })
   })
 
-  it('display product options in the dropdown', () => {
+  test('display product options in the dropdown', () => {
     const { queryByText } = renderWithRedux(<NagStreamerBody />, {
       initialState: defaultState,
     })
