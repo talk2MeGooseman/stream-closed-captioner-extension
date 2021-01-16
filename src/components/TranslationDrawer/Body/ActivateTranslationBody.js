@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import {
   Button, Classes, MenuItem, Divider,
 } from '@blueprintjs/core'
@@ -36,7 +35,7 @@ function ActivateTranslationBody() {
   }
 
   const languageList = useMemo(() => {
-    const currentLanguageKey = currentLanguage.split('-')[0]
+    const [currentLanguageKey] = currentLanguage.split('-')
     const languageKeys = Object.keys(activationInfo.languages).filter((langKey) => langKey !== currentLanguageKey)
 
     return languageKeys.map((langKey) => <li key={langKey}>{activationInfo.languages[langKey]}</li>)

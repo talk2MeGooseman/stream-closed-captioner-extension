@@ -1,53 +1,51 @@
-import { cleanup, fireEvent } from '@testing-library/react'
+/* eslint-disable no-empty-function */
+import { fireEvent } from '@testing-library/react'
 import React from 'react'
 
 import ActivateTranslationBody from '../ActivateTranslationBody'
 
 import { renderWithRedux } from '@/setupTests'
 
-
-afterEach(cleanup)
-
 const defaultState = {
-  translationInfo: {
-    activationInfo: {
-      languages: {
-        en: 'English',
-        es: 'Spanish',
-        de: 'German',
-      },
-      balance: 0,
-    },
-  },
   productsCatalog: {
     products: [
       {
-        sku: '1',
-        displayName: '1 Bit',
         cost: {
           amount: 1,
         },
+        displayName: '1 Bit',
+        sku: '1',
       },
       {
-        sku: '2',
-        displayName: '2 Bit',
         cost: {
           amount: 2,
         },
+        displayName: '2 Bit',
+        sku: '2',
       },
     ],
+  },
+  translationInfo: {
+    activationInfo: {
+      balance: 0,
+      languages: {
+        de: 'German',
+        en: 'English',
+        es: 'Spanish',
+      },
+    },
   },
 }
 
 describe('activateTranslationBody', () => {
   beforeEach(() => {
     global.document.createRange = () => ({
-      setStart: () => {},
-      setEnd: () => {},
       commonAncestorContainer: {
         nodeName: 'BODY',
         ownerDocument: document,
       },
+      setEnd: () => {},
+      setStart: () => {},
     })
   })
 

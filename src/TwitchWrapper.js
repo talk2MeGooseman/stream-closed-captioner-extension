@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import React, { useCallback, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 
@@ -110,7 +109,7 @@ export function TwitchExtension({ children }) {
       }
 
       const pubSubMessageHandler = (target, contentType, message) => {
-        let parsedMessage
+        let parsedMessage = null
 
         try {
           parsedMessage = JSON.parse(message)
@@ -123,6 +122,7 @@ export function TwitchExtension({ children }) {
         displayClosedCaptioningText(parsedMessage)
       }
 
+      // eslint-disable-next-line no-warning-comments
       // TODO: Uncomment to test with bits locally
       // twitch.bits.setUseLoopback = true;
 

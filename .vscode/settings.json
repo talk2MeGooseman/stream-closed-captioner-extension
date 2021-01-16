@@ -1,4 +1,5 @@
 {
   "terminal.integrated.shell.windows": "C:\\\\Windows\\\\System32\\\\wsl.exe",
-  "peacock.color": "#f9e64f"
+  "peacock.color": "#f9e64f",
+  "eslint.format.enable": true
 }

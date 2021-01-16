@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import {
   Button, MenuItem, Divider, Classes,
 } from '@blueprintjs/core'
@@ -15,6 +14,7 @@ import { useShallowEqualSelector } from '@/redux/redux-helpers'
 import { TRANSLATION_COST } from '@/utils/Constants'
 
 
+// eslint-disable-next-line complexity
 function NagStreamerBody() {
   const dispatch = useDispatch()
   // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -39,7 +39,7 @@ function NagStreamerBody() {
   }
 
   const languageList = useMemo(() => {
-    const currentLanguageKey = currentLanguage.split('-')[0]
+    const [currentLanguageKey] = currentLanguage.split('-')
     const languageKeys = Object.keys(activationInfo.languages).filter((langKey) => langKey !== currentLanguageKey)
 
     return languageKeys.map((langKey) => <li key={langKey}>{activationInfo.languages[langKey]}</li>)

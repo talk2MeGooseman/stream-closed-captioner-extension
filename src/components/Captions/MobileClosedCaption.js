@@ -23,6 +23,7 @@ import { FONT_FAMILIES } from '@/utils/Constants'
 // Sub - el_psychic
 // Resub - CreativeBuilds
 
+// eslint-disable-next-line complexity
 function MobileClosedCaption() {
   const { interimText, finalTextQueue, translations } = useShallowEqualSelector(
     (state) => state.captionsState,

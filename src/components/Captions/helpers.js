@@ -1,5 +1,6 @@
 import { TEXT_SIZES } from '@/utils/Constants'
 
+// eslint-disable-next-line complexity
 export function getMobileFontSizeStyle(size) {
   let fontSize = ''
 
@@ -21,6 +22,7 @@ export function getMobileFontSizeStyle(size) {
   return fontSize
 }
 
+// eslint-disable-next-line complexity
 export function getFontSizeStyle(size) {
   let fontSize = ''
 

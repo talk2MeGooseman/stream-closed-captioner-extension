@@ -24,16 +24,17 @@ const ProductMenuItem = ({ product, handleClick, modifiers }) => (
 )
 
 ProductMenuItem.propTypes = {
+  modifiers: PropTypes.shape({
+    active: PropTypes.bool.isRequired,
+  }),
   product: PropTypes.shape({
-    sku: PropTypes.string.isRequired,
     displayName: PropTypes.string.isRequired,
+    handleClick: PropTypes.func.isRequired,
+    sku: PropTypes.string.isRequired,
+    // eslint-disable-next-line sort-keys
     cost: PropTypes.shape({
       amount: PropTypes.number.isRequired,
     }),
-  }),
-  handleClick: PropTypes.func.isRequired,
-  modifiers: PropTypes.shape({
-    active: PropTypes.bool.isRequired,
   }),
 }
 
