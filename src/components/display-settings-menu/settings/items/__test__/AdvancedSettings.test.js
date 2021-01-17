@@ -26,7 +26,7 @@ describe('advancedSettings', () => {
 
     test('renders enable square text', () => {
       renderWithRedux(<AdvancedSettings />)
-      expect(screen.queryAllByText('Advanced Settings')).toBeGreaterThan(0)
+      expect(screen.queryByText('Advanced Settings')).toBeVisible()
     })
   })
 })

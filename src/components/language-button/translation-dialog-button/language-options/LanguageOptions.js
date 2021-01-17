@@ -9,7 +9,7 @@ import {
 import { changeLanguage, toggleActivationDrawer } from '@/redux/settings-slice'
 
 
-export default function LanguageOptions() {
+export function LanguageOptions() {
   const isBitsEnabled = useShallowEqualSelector(
     (state) => state.configSettings.isBitsEnabled,
   )

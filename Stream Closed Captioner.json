@@ -18,9 +18,9 @@
   ],
   "extensionViews": [
     {
-      "channelId": "120750024",
+      "channelId": "265737932",
       "configurationAnchor": "panel",
-      "displayChannelName": "talk2megooseman",
+      "displayChannelName": "KingDylpickle",
       "features": {
         "isBitsEnabled": true,
         "isChatEnabled": false,
@@ -36,8 +36,8 @@
       "linked": false,
       "linkedUserId": "",
       "orientation": "Portrait",
-      "type": "panel",
-      "viewerType": "Broadcaster"
+      "type": "video_overlay",
+      "viewerType": "Logged-Out Viewer"
     }
   ],
   "manifest": {
@@ -71,7 +71,7 @@
       "https://extensions-discovery-images.twitch.tv/h1ekceo16erc49snp0sine3k9ccbh9/1.1.0/screenshot541c031d-6062-4f94-9b46-c687754f0b51",
       "https://extensions-discovery-images.twitch.tv/h1ekceo16erc49snp0sine3k9ccbh9/1.3.0/screenshotf5d27747-24c3-47b7-9618-f9151915a9ce",
       "https://extensions-discovery-images.twitch.tv/h1ekceo16erc49snp0sine3k9ccbh9/1.3.0/screenshota71a4259-0b8e-44b3-987d-189db589989c",
-      "https://extensions-discovery-images.twitch.tv/h1ekceo16erc49snp0sine3k9ccbh9/1.3.1/screenshot3b19c53f-438e-41f3-8d8a-ca93d9f795f1"
+      "https://extensions-discovery-images.twitch.tv/h1ekceo16erc49snp0sine3k9ccbh9/1.5.0/screenshotf99dbfa0-6d49-4773-9e22-8d1e4ebe8838"
     ],
     "sku": "",
     "state": "Testing",
@@ -79,7 +79,7 @@
     "summary": "Easily provide Closed Captioning for your viewers. All you have to do is install the extension, go to stream-cc.gooseman.codes, click \"On\"",
     "supportEmail": "help@gooseman.codes",
     "vendorCode": "",
-    "version": "1.5.0",
+    "version": "1.5.2",
     "viewerSummary": "Provide Closed Captioning for your viewers, with bit enabled translations. Install the extension, go to the companion website and click \"On\"",
     "viewerUrl": "https://localhost:8080/mobile.html",
     "viewerUrls": {
@@ -117,5 +117,6 @@
   "frontendCommand": "",
   "frontendFolderName": "",
   "name": "Stream Closed Captioner",
-  "version": 2
+  "version": 3,
+  "usingRandomFrontendHostingPort": true
 }

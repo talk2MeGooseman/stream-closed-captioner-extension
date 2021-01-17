@@ -1,10 +1,9 @@
 import { fireEvent } from '@testing-library/react'
 import React from 'react'
 
-import LanguageOptions from '../LanguageOptions'
+import { LanguageOptions } from '../LanguageOptions'
 
 import { renderWithRedux } from '@/setupTests'
-
 
 describe('languageOptions ', () => {
   test('fires onClick when selecting new language', () => {

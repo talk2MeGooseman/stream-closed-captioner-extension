@@ -1,3 +1,4 @@
+import { screen } from '@testing-library/react'
 import React from 'react'
 
 import LineCountOptions from '../LineCountOptions'
@@ -30,10 +31,10 @@ describe('lineCountOptions', () => {
     })
 
     test('has increase and decrease line count menu items', () => {
-      const { queryByText } = renderWithRedux(<LineCountOptions />)
+      renderWithRedux(<LineCountOptions />)
 
-      expect(queryByText('Increase Line Count')).toBeInTheDocument()
-      expect(queryByText('Decrease Line Count')).toBeInTheDocument()
+      expect(screen.queryByText('Increase Line Count')).toBeVisible()
+      expect(screen.queryByText('Decrease Line Count')).toBeVisible()
     })
   })
 })
