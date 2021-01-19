@@ -63,9 +63,9 @@ describe('activateTranslationBody', () => {
         initialState: defaultState,
       })
 
-      expect(queryByText('English')).not.toBeInTheDocument()
       expect(queryByText('Spanish')).toBeInTheDocument()
       expect(queryByText('German')).toBeInTheDocument()
+      expect(queryByText('English')).not.toBeInTheDocument()
     })
   })
 

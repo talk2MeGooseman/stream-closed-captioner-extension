@@ -5,7 +5,7 @@ import React from 'react'
 
 import { Pulse } from '../../shared/caption-styles'
 
-import LanguageOptions from './language-options'
+import { LanguageOptions } from './language-options'
 
 export const TranslationDialogButton = ({ hasTranslations, onClick }) => (
   hasTranslations ?

@@ -34,6 +34,7 @@ function ActivateTranslationBody() {
     buttonCopy = productsCatalog.selectedProduct.displayName
   }
 
+  console.log('Rendering')
   const languageList = useMemo(() => {
     const [currentLanguageKey] = currentLanguage.split('-')
     const languageKeys = Object.keys(activationInfo.languages).filter((langKey) => langKey !== currentLanguageKey)

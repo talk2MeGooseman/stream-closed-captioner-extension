@@ -9,12 +9,12 @@ describe('languageButton', () => {
     describe('bits enabled user', () => {
       test('renders button', () => {
         const { container } = renderWithRedux(<LanguageButton />, {
-          captionsState: {
-            finalTextQueue: [],
-            interimText: 'Something',
-            translations: { en: '' },
-          },
           initialState: {
+            captionsState: {
+              finalTextQueue: [],
+              interimText: 'Something',
+              translations: { en: '' },
+            },
             configSettings: {
               isBitsEnabled: true,
             },

@@ -89,12 +89,10 @@
     "uuid": "^8.2.0"
   },
   "jest": {
-    "setupFiles": [
-      "<rootDir>/src/setupTests.js"
-    ],
     "setupFilesAfterEnv": [
       "@testing-library/jest-dom/extend-expect",
-      "@testing-library/react"
+      "@testing-library/react",
+      "<rootDir>/src/setupTests.js"
     ],
     "moduleNameMapper": {
       "^@/(.*)$": "<rootDir>/src/$1",
