@@ -1,15 +1,23 @@
-import { fireEvent } from '@testing-library/react'
+import { fireEvent, screen } from '@testing-library/react'
 import React from 'react'
 
 import { LanguageOptions } from '../LanguageOptions'
 
 import { renderWithRedux } from '@/setupTests'
 
+const translationInfo = {
+  activationInfo: {
+    languages: {
+      de: "Germ"
+    }
+  }
+}
+
 describe('languageOptions ', () => {
   test('fires onClick when selecting new language', () => {
     const { queryByTestId, store } = renderWithRedux(
       <LanguageOptions />,
-      { initialState: { captionsState: { translations: { de: { name: 'Germ' } } } } },
+      { initialState: { translationInfo } },
     )
 
     fireEvent.click(queryByTestId('language-de'))
@@ -29,13 +37,13 @@ describe('languageOptions ', () => {
     })
 
     test('checks viewer selected language', () => {
-      const { queryByTestId } = renderWithRedux(<LanguageOptions />, {
+      renderWithRedux(<LanguageOptions />, {
         initialState: {
-          captionsState: { translations: { de: { name: 'Germ' } } },
-          configSettings: { viewerLanguage: 'de' },
+          configSettings: { language: 'en', viewerLanguage: 'de' },
+          translationInfo,
         },
       })
-      const deEl = queryByTestId('language-de')
+      const deEl = screen.getByTestId('language-de')
       const tickEl = deEl.querySelector('span[icon="tick"]')
 
       expect(deEl).toContainElement(tickEl)

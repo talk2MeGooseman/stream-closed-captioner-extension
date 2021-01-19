@@ -1,17 +1,24 @@
 import {
-  Button, MenuItem, Divider, Classes,
+  Button, Classes, Divider, MenuItem
 } from '@blueprintjs/core'
 import { Select } from '@blueprintjs/select'
-import React, { useMemo, useCallback } from 'react'
+import React, { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 
 import { productMenuItemRenderer } from './ProductMenuItem'
 
-import { useBits, setSelectedProduct } from '@/redux/products-slice'
+import { setSelectedProduct, useBits } from '@/redux/products-slice'
 
 import { useShallowEqualSelector } from '@/redux/redux-helpers'
 
+import { useLanguageList } from '@/shared/hooks'
+
 import { TRANSLATION_COST } from '@/utils/Constants'
+
+
+
+
+
 
 
 // eslint-disable-next-line complexity
@@ -28,9 +35,7 @@ function NagStreamerBody() {
     (state) => state.productsCatalog,
   )
 
-  const currentLanguage = useShallowEqualSelector(
-    (state) => state.configSettings.language,
-  )
+  const languageList = useLanguageList()
 
   let buttonCopy = productsCatalog.products[0].displayName
 
@@ -38,12 +43,6 @@ function NagStreamerBody() {
     buttonCopy = productsCatalog.selectedProduct.displayName
   }
 
-  const languageList = useMemo(() => {
-    const [currentLanguageKey] = currentLanguage.split('-')
-    const languageKeys = Object.keys(activationInfo.languages).filter((langKey) => langKey !== currentLanguageKey)
-
-    return languageKeys.map((langKey) => <li key={langKey}>{activationInfo.languages[langKey]}</li>)
-  }, [activationInfo.languages, currentLanguage])
 
   let extraBitsBalanceInfo = (
     <>
@@ -63,7 +62,9 @@ function NagStreamerBody() {
       <p>Let the broadcaster know you would like them to turn on <b>Stream Closed Captioner</b> so you can see <b>Translated Closed Captions</b> by visiting <a href="https://stream-cc.gooseman.codes">https://stream-cc.gooseman.codes</a></p>
       <p>Current languages supported:</p>
       <ul>
-        { languageList }
+        {languageList.map((language) => (
+          <li key={language.locale}>{language.name}</li>
+        ))}
       </ul>
       <p>You can add more translation stream days by selecting an option below and click Submit.</p>
       <Select

@@ -1,12 +1,16 @@
 import { MenuDivider, Menu, MenuItem } from '@blueprintjs/core'
 import React from 'react'
 
+import { LanguageOption } from './language-option'
+
 import {
   useShallowEqualSelector,
   useReduxCallbackDispatch,
 } from '@/redux/redux-helpers'
 
 import { changeLanguage, toggleActivationDrawer } from '@/redux/settings-slice'
+
+import { useLanguageList } from '@/shared/hooks'
 
 
 export function LanguageOptions() {
@@ -16,33 +20,12 @@ export function LanguageOptions() {
   const selectedLanguage = useShallowEqualSelector(
     (state) => state.configSettings.viewerLanguage,
   )
-  const languages = useShallowEqualSelector(
-    (state) => Object.keys(state.captionsState.translations || {}),
-  )
-  const translations = useShallowEqualSelector(
-    (state) => state.captionsState.translations,
-  )
+
   const onSelectDefaultLanguage = useReduxCallbackDispatch(changeLanguage('default'))
   const toggleDrawer = useReduxCallbackDispatch(toggleActivationDrawer())
+  const languageList = useLanguageList()
 
   const defaultIcon = selectedLanguage === 'default' ? 'tick' : 'none'
-
-  const optionEls = languages.map((l) => {
-    const icon = l === selectedLanguage ? 'tick' : 'none'
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const onClick = useReduxCallbackDispatch(changeLanguage(l))
-
-    return (
-      <MenuItem
-        data-testid={`language-${l}`}
-        icon={icon}
-        key={l}
-        onClick={onClick}
-        shouldDismissPopover={false}
-        text={translations[l].name}
-      />
-    )
-  })
 
   return (
     <Menu>
@@ -55,7 +38,7 @@ export function LanguageOptions() {
         text="Spoken Language"
       />
       <MenuDivider />
-      {optionEls}
+      {languageList.map((language) => <LanguageOption key={language.key} option={language} selectedLanguage={selectedLanguage} />)}
       {isBitsEnabled && (
         <>
           <MenuDivider />
