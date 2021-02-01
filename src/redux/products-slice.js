@@ -1,9 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { sort } from 'ramda'
 
 import { toggleActivationDrawer } from './settings-slice'
 import { requestTranslationStatus } from './translation-slice'
 
-function compare(a, b) {
+const sortByCost = sort(function compare(a, b) {
   if (a.cost.amount < b.cost.amount) {
     return -1
   }
@@ -11,7 +12,7 @@ function compare(a, b) {
     return 1
   }
   return 0
-}
+})
 
 const initialState = {
   channelId: null,
@@ -41,7 +42,7 @@ const productsSlice = createSlice({
       state.channelId = action.payload
     },
     setProducts(state, action) {
-      const sortedProduct = action.payload.sort(compare)
+      const sortedProduct = sortByCost(action.payload)
       const [firstProduct] = sortedProduct
 
       state.products = sortedProduct
