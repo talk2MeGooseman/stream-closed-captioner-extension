@@ -1,78 +1,183 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
+/* eslint-disable sort-keys */
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable react/sort-comp */
+/* eslint-disable padding-line-between-statements */
+/* eslint-disable import/first */
+/* eslint-disable import-order-alphabetical/order */
+import React, { Component } from 'react'
+import { connect, Provider } from 'react-redux'
+
+const debounce = require('lodash/debounce')
+
+import { updateCCText } from './redux/captions-slice'
+import { TranslationsDrawer } from '@/components/TranslationDrawer'
+import { updateBroadcasterSettings } from '@/redux/settings-slice'
+import { requestTranslationStatus } from '@/redux/translation-slice'
+import { updateVideoPlayerContext } from '@/redux/video-player-context-slice'
 
 import {
-  useCaptionsHandler,
-  useOnAuthorization,
-  useContextUpdateHandler,
-  useConfigurationSettingUpdater,
-} from './hooks'
-import { completeBitsTransaction, setProducts } from './redux/products-slice'
+  completeBitsTransaction,
+  setChannelId, setProducts
+} from './redux/products-slice'
+import Authentication from './utils/Authentication'
+import { CONTEXT_EVENTS_WHITELIST, MAX_TEXT_DISPLAY_TIME, SECOND } from './utils/Constants'
 
-import { TranslationsDrawer } from '@/components/TranslationDrawer'
 
 // Resub - rw_grim
 //
 
-export function TwitchExtension({ children }) {
-  const twitch = window?.Twitch?.ext
-  const [ready, setReady] = useState(false)
-  const dispatch = useDispatch()
-  // Authentication = new Authentication()
+function fetchChangedContextValues(context, delta) {
+  const newData = {}
 
-  const onSetProducts = useCallback(
-    (products) => dispatch(setProducts(products)),
-    [dispatch],
-  )
-  const onCompleteTransaction = useCallback(
-    (transaction) => dispatch(completeBitsTransaction(transaction)),
-    [dispatch],
-  )
+  delta.forEach((event) => {
+    newData[event] = context[event]
+  })
 
-  const pubSubMessageHandler = useCaptionsHandler()
-  const onAuthorized = useOnAuthorization()
-  const contextUpdate = useContextUpdateHandler()
-  const setConfigurationSettings = useConfigurationSettingUpdater(
-    twitch,
-    setReady,
-  )
+  return newData
+}
 
-  // eslint-disable-next-line no-warning-comments
-  // TODO: Uncomment to test with bits locally
-  // twitch.bits.setUseLoopback = true;
+function contextStateUpdated(delta) {
+  return delta.find((event) => CONTEXT_EVENTS_WHITELIST.includes(event))
+}
 
-  useEffect(() => {
-    twitch.onAuthorized(onAuthorized)
-  }, [onAuthorized, twitch])
+export function withTwitchData(WrappedComponent, store) {
+  class TwitchWrapper extends Component {
+    state = {
+      ready: false,
+    };
 
-  useEffect(() => {
-    if (!twitch) {
-      return null
+    constructor(props) {
+      super(props)
+
+      this.Authentication = new Authentication()
+      this.twitch = window.Twitch ? window.Twitch.ext : null
     }
 
-    twitch.onContext(contextUpdate)
-    twitch.configuration.onChanged(setConfigurationSettings)
-    twitch.bits.getProducts().then(onSetProducts)
-    twitch.bits.onTransactionComplete(onCompleteTransaction)
-    twitch.listen('broadcast', pubSubMessageHandler)
-    return () => {
-      if (twitch) {
-        twitch.unlisten('broadcast', pubSubMessageHandler)
+    componentDidMount() {
+      if (this.twitch) {
+        // TODO: Comment out below when releasing
+        // this.twitch.bits.setUseLoopback = true;
+
+        this.twitch.onAuthorized(this.onAuthorized)
+        this.twitch.onContext(this.contextUpdate)
+        this.twitch.configuration.onChanged(this.setConfigurationSettings)
+        this.twitch.listen('broadcast', this.pubSubMessageHandler)
+        this.twitch.bits.getProducts().then(this.parseProducts)
+        this.twitch.bits.onTransactionComplete(this.onTransactionComplete)
       }
     }
-  }, [
-    contextUpdate,
-    onCompleteTransaction,
-    onSetProducts,
-    pubSubMessageHandler,
-    setConfigurationSettings,
-    twitch,
-  ])
 
-  return ready ? (
-    <>
-      <TranslationsDrawer />
-      {children}
-    </>
-  ) : null
+    componentWillUnmount() {
+      if (this.twitch) {
+        this.twitch.unlisten('broadcast', () => null)
+      }
+    }
+
+    onAuthorized = (auth) => {
+      this.props.onChannelIdReceived(auth.channelId)
+      this.Authentication.setToken(auth.token, auth.userId)
+      this.props.fetchTranslationStatus()
+    };
+
+    parseProducts = (products) => {
+      this.props.setProducts(products)
+    };
+
+    onTransactionComplete = (transaction) => {
+      this.props.onCompleteTransaction(transaction)
+    };
+
+    contextUpdate = (context, delta) => {
+      if (contextStateUpdated(delta)) {
+        const newContext = fetchChangedContextValues(context, delta)
+
+        this.props.updateVideoPlayerContext(newContext)
+      }
+    };
+
+    setConfigurationSettings = () => {
+      let config = this.twitch.configuration.broadcaster
+        ? this.twitch.configuration.broadcaster.content
+        : ''
+
+      try {
+        config = JSON.parse(config)
+      } catch (e) {
+        config = {}
+      }
+
+      this.props.updateBroadcasterSettings({
+        ...config,
+        isBitsEnabled: this.twitch.features.isBitsEnabled,
+      })
+
+      this.setState({
+        ready: true,
+      })
+    };
+
+    pubSubMessageHandler = (target, contentType, message) => {
+      let parsedMessage = ''
+
+      try {
+        parsedMessage = JSON.parse(message)
+      } catch (error) {
+        parsedMessage = {
+          interim: message,
+        }
+      }
+
+      this.displayClosedCaptioningText(parsedMessage)
+    };
+
+    displayClosedCaptioningText(message) {
+      const { hlsLatencyBroadcaster } = this.props.videoPlayerContext
+      let delayTime = hlsLatencyBroadcaster * SECOND
+
+      if (message.delay) {
+        delayTime -= message.delay * SECOND
+      }
+
+      // this.clearClosedCaptioning();
+      setTimeout(() => {
+        this.props.updateCCText(message)
+      }, delayTime)
+    }
+
+    clearClosedCaptioning = debounce(() => {}, MAX_TEXT_DISPLAY_TIME);
+
+    render() {
+      const { ready } = this.state
+
+      if (!ready) {
+        return null
+      }
+
+      return (
+        <Provider store={store}>
+          <TranslationsDrawer />
+          <WrappedComponent />
+        </Provider>
+      )
+    }
+  }
+
+  const mapStateToProps = (state) => ({
+    ccState: state.captionsState,
+    configSettings: state.configSettings,
+    videoPlayerContext: state.videoPlayerContext,
+  })
+
+  const mapDispatchToProps = (dispatch) => ({
+    updateVideoPlayerContext: (state) => dispatch(updateVideoPlayerContext(state)),
+    updateCCText: (state) => dispatch(updateCCText(state)),
+    updateBroadcasterSettings: (settings) => dispatch(updateBroadcasterSettings(settings)),
+    setProducts: (products) => dispatch(setProducts(products)),
+    onCompleteTransaction: (transaction) => dispatch(completeBitsTransaction(transaction)),
+    onChannelIdReceived: (channelId) => dispatch(setChannelId(channelId)),
+    fetchTranslationStatus: () => dispatch(requestTranslationStatus()),
+  })
+
+  return connect(mapStateToProps, mapDispatchToProps)(TwitchWrapper)
 }
+
