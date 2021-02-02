@@ -7,16 +7,16 @@ import thunk from 'redux-thunk'
 
 import MobilePanel from '../components/Mobile/MobilePanel'
 import rootReducer from '../redux/reducers'
-import { TwitchExtension } from '../TwitchWrapper'
+import { withTwitchData } from '../TwitchWrapper'
 import './App.css'
 
 const store = configureStore({ reducer: rootReducer }, applyMiddleware(thunk))
 
+const Component = withTwitchData(MobilePanel, store)
+
 ReactDOM.render(
   <Provider store={store}>
-    <TwitchExtension>
-      <MobilePanel />
-    </TwitchExtension>
+    <Component />
   </Provider>,
   document.getElementById('root'),
 )
