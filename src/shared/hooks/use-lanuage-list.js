@@ -23,7 +23,10 @@ export const useLanguageList = () => {
     return keys(languages)
     .reduce((accum, key) => {
       if(equals(currentLanguageKey, key)) return accum
-      accum.push({ locale: key, name: languages[key] })
+
+      const [formattedKey] = key.split('-')
+
+      accum.push({ locale: formattedKey, name: languages[key] })
       return accum
     }, [])
   }, [languages, currentLanguage])
