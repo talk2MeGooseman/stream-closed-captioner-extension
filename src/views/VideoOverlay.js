@@ -1,3 +1,4 @@
+import { ApolloProvider } from '@apollo/client/react'
 import { configureStore, applyMiddleware } from '@reduxjs/toolkit'
 import React from 'react'
 import ReactDOM from 'react-dom'
@@ -9,6 +10,7 @@ import thunk from 'redux-thunk'
 import Overlay from '../components/VideoOverlay/Overlay'
 import rootReducer from '../redux/reducers'
 import { withTwitchData } from '../TwitchWrapper'
+import { apolloClient } from '../utils'
 import './App.css'
 
 const store = configureStore({
@@ -24,8 +26,10 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 ReactDOM.render(
-  <Provider store={store}>
-    <Component />
-  </Provider>,
+  <ApolloProvider client={apolloClient}>
+    <Provider store={store}>
+      <Component />
+    </Provider>
+  </ApolloProvider>,
   document.getElementById('root'),
 )

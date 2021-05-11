@@ -1,7 +1,6 @@
 /* eslint-disable sort-keys */
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/sort-comp */
-/* eslint-disable padding-line-between-statements */
 /* eslint-disable import/first */
 /* eslint-disable import-order-alphabetical/order */
 import React, { Component } from 'react'

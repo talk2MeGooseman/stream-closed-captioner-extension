@@ -42,6 +42,8 @@ export default class Authentication {
     try {
       const { role, userId } = jwt.decode(token)
 
+      localStorage.setItem('token', token)
+
       mod = isMod(role, mod)
 
       tokenUserId = userId

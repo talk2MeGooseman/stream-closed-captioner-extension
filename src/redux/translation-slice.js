@@ -1,5 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit'
 
+import { apolloClient } from '../utils'
+
+import { convertGqlResult, query } from './utils'
+
+
 const initialState = {
   activationInfo: null,
   loading: false,
@@ -31,6 +36,17 @@ export function requestTranslationStatus() {
     dispatch(requestingTranslationStatus())
 
     const { channelId } = getState().productsCatalog
+
+    apolloClient
+      .query({
+        query,
+        variables: { id: channelId }
+      })
+      .then(result => {
+        const data = convertGqlResult(result)
+
+        dispatch(doneRequestingTranslationStatus(data))
+      })
 
     return fetch(`https://stream-cc.gooseman.codes/api/translation_status/${channelId}`, {
       cache: 'no-cache',

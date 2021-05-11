@@ -18,9 +18,9 @@
   ],
   "extensionViews": [
     {
-      "channelId": "265737932",
+      "channelId": "120750024",
       "configurationAnchor": "panel",
-      "displayChannelName": "KingDylpickle",
+      "displayChannelName": "talk2megooseman",
       "features": {
         "isBitsEnabled": true,
         "isChatEnabled": false,
@@ -37,7 +37,7 @@
       "linkedUserId": "",
       "orientation": "Portrait",
       "type": "video_overlay",
-      "viewerType": "Logged-Out Viewer"
+      "viewerType": "Broadcaster"
     }
   ],
   "manifest": {
@@ -79,7 +79,7 @@
     "summary": "Easily provide Closed Captioning for your viewers. All you have to do is install the extension, go to stream-cc.gooseman.codes, click \"On\"",
     "supportEmail": "help@gooseman.codes",
     "vendorCode": "",
-    "version": "1.5.2",
+    "version": "1.6.0",
     "viewerSummary": "Provide Closed Captioning for your viewers, with bit enabled translations. Install the extension, go to the companion website and click \"On\"",
     "viewerUrl": "https://localhost:8080/mobile.html",
     "viewerUrls": {
