@@ -5,6 +5,7 @@
 /* eslint-disable import-order-alphabetical/order */
 import React, { Component } from 'react'
 import { connect, Provider } from 'react-redux'
+import { once } from 'ramda'
 
 const debounce = require('lodash/debounce')
 
@@ -21,9 +22,7 @@ import {
 import Authentication from './utils/Authentication'
 import { CONTEXT_EVENTS_WHITELIST, MAX_TEXT_DISPLAY_TIME, SECOND } from './utils/Constants'
 
-
 // Resub - rw_grim
-//
 
 function fetchChangedContextValues(context, delta) {
   const newData = {}
@@ -42,13 +41,14 @@ function contextStateUpdated(delta) {
 export function withTwitchData(WrappedComponent, store) {
   class TwitchWrapper extends Component {
     state = {
-      ready: false,
+      configReady: false,
+      authReady: false,
     };
 
     constructor(props) {
       super(props)
 
-      this.Authentication = new Authentication()
+      this.authentication = new Authentication()
       this.twitch = window.Twitch ? window.Twitch.ext : null
     }
 
@@ -72,10 +72,21 @@ export function withTwitchData(WrappedComponent, store) {
       }
     }
 
+    componentDidUpdate() {
+      const { configReady, authReady } = this.state
+
+      if (configReady && authReady) {
+        this.props.fetchTranslationStatus(this.authentication.getChannelId())
+      }
+    }
+
     onAuthorized = (auth) => {
       this.props.onChannelIdReceived(auth.channelId)
-      this.Authentication.setToken(auth.token, auth.userId)
-      this.props.fetchTranslationStatus()
+      this.authentication.setToken(auth.token, auth.userId)
+
+      this.setState({
+        authReady: true,
+      })
     };
 
     parseProducts = (products) => {
@@ -95,23 +106,26 @@ export function withTwitchData(WrappedComponent, store) {
     };
 
     setConfigurationSettings = () => {
-      let config = this.twitch.configuration.broadcaster
-        ? this.twitch.configuration.broadcaster.content
-        : ''
+      let config = this.twitch.configuration.broadcaster?.content || '{}'
+      let globalConfig = this.twitch.configuration.global?.content || '{}'
 
       try {
         config = JSON.parse(config)
+        globalConfig = JSON.parse(globalConfig)
       } catch (e) {
         config = {}
       }
 
+      console.log(globalConfig.elixirVersion)
+
       this.props.updateBroadcasterSettings({
         ...config,
+        elixirVersion: globalConfig?.elixirVersion || false,
         isBitsEnabled: this.twitch.features.isBitsEnabled,
       })
 
       this.setState({
-        ready: true,
+        configReady: true,
       })
     };
 
@@ -137,18 +151,15 @@ export function withTwitchData(WrappedComponent, store) {
         delayTime -= message.delay * SECOND
       }
 
-      // this.clearClosedCaptioning();
       setTimeout(() => {
         this.props.updateCCText(message)
       }, delayTime)
     }
 
-    clearClosedCaptioning = debounce(() => {}, MAX_TEXT_DISPLAY_TIME);
-
     render() {
-      const { ready } = this.state
+      const { configReady, authReady } = this.state
 
-      if (!ready) {
+      if (!configReady || !authReady) {
         return null
       }
 
@@ -174,7 +185,7 @@ export function withTwitchData(WrappedComponent, store) {
     setProducts: (products) => dispatch(setProducts(products)),
     onCompleteTransaction: (transaction) => dispatch(completeBitsTransaction(transaction)),
     onChannelIdReceived: (channelId) => dispatch(setChannelId(channelId)),
-    fetchTranslationStatus: () => dispatch(requestTranslationStatus()),
+    fetchTranslationStatus: once((channelId) => dispatch(requestTranslationStatus(channelId))),
   })
 
   return connect(mapStateToProps, mapDispatchToProps)(TwitchWrapper)

@@ -7,6 +7,7 @@ const jwt = require('jsonwebtoken')
 export default class Authentication {
   constructor(token, opaqueId) {
     this.state = {
+      channelId: '',
       isMod: false,
       opaqueId,
       role: '',
@@ -33,6 +34,10 @@ export default class Authentication {
     return this.state.userId
   }
 
+  getChannelId() {
+    return this.state.channelId
+  }
+
   // set the token in the Authentication componenent state
   setToken(token, opaqueId) {
     let mod = false
@@ -40,7 +45,7 @@ export default class Authentication {
     let tokenUserId = ''
 
     try {
-      const { role, userId } = jwt.decode(token)
+      const { role, userId, channelId } = jwt.decode(token)
 
       localStorage.setItem('token', token)
 
@@ -50,6 +55,7 @@ export default class Authentication {
       tokenRole = role
 
       this.state = {
+        channelId,
         isMod: mod,
         opaqueId,
         role: tokenRole,

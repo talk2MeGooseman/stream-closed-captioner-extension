@@ -36,17 +36,20 @@ export function requestTranslationStatus() {
     dispatch(requestingTranslationStatus())
 
     const { channelId } = getState().productsCatalog
+    const { elixirVersion } = getState().configSettings
 
-    apolloClient
-      .query({
-        query,
-        variables: { id: channelId }
-      })
-      .then(result => {
-        const data = convertGqlResult(result)
+    if (elixirVersion) {
+      return apolloClient
+        .query({
+          query,
+          variables: { id: channelId }
+        })
+        .then(result => {
+          const data = convertGqlResult(result)
 
-        dispatch(doneRequestingTranslationStatus(data))
-      })
+          dispatch(doneRequestingTranslationStatus(data))
+        })
+    }
 
     return fetch(`https://stream-cc.gooseman.codes/api/translation_status/${channelId}`, {
       cache: 'no-cache',
