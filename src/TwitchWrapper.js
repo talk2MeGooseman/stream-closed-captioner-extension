@@ -7,8 +7,6 @@ import React, { Component } from 'react'
 import { connect, Provider } from 'react-redux'
 import { once } from 'ramda'
 
-const debounce = require('lodash/debounce')
-
 import { updateCCText } from './redux/captions-slice'
 import { TranslationsDrawer } from '@/components/TranslationDrawer'
 import { updateBroadcasterSettings } from '@/redux/settings-slice'
@@ -20,7 +18,7 @@ import {
   setChannelId, setProducts
 } from './redux/products-slice'
 import Authentication from './utils/Authentication'
-import { CONTEXT_EVENTS_WHITELIST, MAX_TEXT_DISPLAY_TIME, SECOND } from './utils/Constants'
+import { CONTEXT_EVENTS_WHITELIST, SECOND } from './utils/Constants'
 
 // Resub - rw_grim
 
@@ -115,8 +113,6 @@ export function withTwitchData(WrappedComponent, store) {
       } catch (e) {
         config = {}
       }
-
-      console.log(globalConfig.elixirVersion)
 
       this.props.updateBroadcasterSettings({
         ...config,
