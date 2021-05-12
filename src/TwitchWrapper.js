@@ -1,7 +1,6 @@
 /* eslint-disable sort-keys */
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/sort-comp */
-/* eslint-disable import/first */
 /* eslint-disable import-order-alphabetical/order */
 import React, { Component } from 'react'
 import { connect, Provider } from 'react-redux'
@@ -52,7 +51,7 @@ export function withTwitchData(WrappedComponent, store) {
 
     componentDidMount() {
       if (this.twitch) {
-        // TODO: Comment out below when releasing
+        // Comment out below when releasing
         // this.twitch.bits.setUseLoopback = true;
 
         this.twitch.onAuthorized(this.onAuthorized)
