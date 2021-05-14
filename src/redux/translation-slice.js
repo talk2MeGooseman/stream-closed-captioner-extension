@@ -2,8 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 import { apolloClient } from '../utils'
 
-import { convertGqlResult, query } from './utils'
-
+import { convertGqlResult, queryGetChannelInfo } from './utils'
 
 const initialState = {
   activationInfo: null,
@@ -41,7 +40,7 @@ export function requestTranslationStatus() {
     if (elixirVersion) {
       return apolloClient
         .query({
-          query,
+          query: queryGetChannelInfo,
           variables: { id: channelId }
         })
         .then(result => {

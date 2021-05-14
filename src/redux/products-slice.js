@@ -1,8 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { sort } from 'ramda'
 
+import { apolloClient } from '../utils'
+
 import { toggleActivationDrawer } from './settings-slice'
 import { requestTranslationStatus } from './translation-slice'
+import { mutationProcessTransaction } from './utils'
 
 const sortByCost = sort(function compare(a, b) {
   if (a.cost.amount < b.cost.amount) {
@@ -77,6 +80,23 @@ export function completeBitsTransaction(transaction) {
     dispatch(completeUseBits(transaction))
 
     const { channelId } = getState().productsCatalog
+    const { elixirVersion } = getState().configSettings
+
+    if (elixirVersion) {
+      localStorage.setItem('transactionToken', transaction.transactionReceipt)
+
+      return apolloClient
+        .mutate({
+          variables: { channelId },
+          mutation: mutationProcessTransaction,
+        })
+        .then(_ => {
+          dispatch(toggleActivationDrawer())
+          dispatch(requestTranslationStatus())
+        }).catch(_ => {
+          // Error happened
+        })
+    }
 
     return fetch('https://stream-cc.gooseman.codes/api/bits_transactions', {
       body: JSON.stringify({

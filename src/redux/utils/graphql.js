@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client'
 
-export const query = gql`
-  query getTranslationInfo($id: ID!){
+export const queryGetChannelInfo = gql`
+  query getChannelInfo($id: ID!){
     channelInfo(id: $id) {
       bitsBalance {
         balance
@@ -12,6 +12,14 @@ export const query = gql`
         languages
       }
       uid
+    }
+  }
+`
+
+export const mutationProcessTransaction = gql`
+  mutation processBitsTransaction($channelId: ID!) {
+    processBitsTransaction(channelId: $channelId) {
+      message
     }
   }
 `

@@ -5,9 +5,10 @@ const httpLink = createHttpLink({
   uri: 'http://localhost:4000/api',
 })
 
-const authLink = setContext((_, { headers }) => {
+const authLink = setContext(({ operationName }, { headers }) => {
   // get the authentication token from local storage if it exists
-  const token = localStorage.getItem('token')
+  const tokenType = operationName === 'processBitsTransaction' ? 'transactionToken' : 'token'
+  const token = localStorage.getItem(tokenType)
 
   // return the headers to the context so httpLink can read them
   return {
