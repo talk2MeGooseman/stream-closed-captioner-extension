@@ -1,8 +1,6 @@
-# Bot Commander Config Service Example
+# React Twitch Extension for Stream Closed Captoiner
 
-## Background
-
-This is a quick example of the new config service, and how to build an extension with the service that does not rely on a backend server (EBS).
+This React app that displays Closed Captions for viewers on Twitch. It depends on Closed Captions being publish from the companion website https://stream-cc.gooseman.codes
 
 ## Requirements
 
@@ -31,43 +29,3 @@ Next, do the following:
 
 To build your finalized React JS files, simply run `yarn build` to build the various webpacked files. 
 
-## File Structure
-
-The file structure in the template is laid out with the following: 
-
-### bin
-
-The `/bin` folder holds the cert generation script. 
-
-### conf 
-
-The `/conf` folder holds the generated certs after the cert generation script runs. 
-
-### dist
-
-`/dist` holds the final JS files after building. 
-
-### public
-
-`/public` houses the static HTML files used for your code's entrypoint. 
-
-### src
-
-This folder houses all source code and relevant files (such as images). Each React class/component is given a folder to house all associated files (such as associated CSS).
-
-Below this folder, the structure is much simpler.
-
-This would be: 
-
-`
-components
--\App
---\App.js
---\App.test.js
---\App.css
--\Authentication
---\Authentication.js
-...
-`
-
-Each component is under the `components` folder.
