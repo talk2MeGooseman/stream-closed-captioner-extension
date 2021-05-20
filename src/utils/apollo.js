@@ -2,7 +2,7 @@ import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
 
 const httpLink = createHttpLink({
-  uri: 'http://localhost:4000/api',
+  uri: 'https://stream-cc.gooseman.codes/api',
 })
 
 const authLink = setContext(({ operationName }, { headers }) => {
