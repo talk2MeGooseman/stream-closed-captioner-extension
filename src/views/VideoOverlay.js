@@ -9,15 +9,16 @@ import thunk from 'redux-thunk'
 // import logger from "redux-logger";
 import Overlay from '../components/VideoOverlay/Overlay'
 import rootReducer from '../redux/reducers'
-import { withTwitchData } from '../TwitchWrapper'
+import { TwitchHOC } from '../TwitchHOC'
 import { apolloClient } from '../utils'
 import './App.css'
 
-const store = configureStore({
-  reducer: rootReducer,
-}, applyMiddleware(thunk))
-
-const Component = withTwitchData(Overlay, store)
+const store = configureStore(
+  {
+    reducer: rootReducer,
+  },
+  applyMiddleware(thunk),
+)
 
 if (process.env.NODE_ENV !== 'production') {
   // eslint-disable-next-line global-require
@@ -29,7 +30,9 @@ if (process.env.NODE_ENV !== 'production') {
 ReactDOM.render(
   <ApolloProvider client={apolloClient}>
     <Provider store={store}>
-      <Component />
+      <TwitchHOC>
+        <Overlay />
+      </TwitchHOC>
     </Provider>
   </ApolloProvider>,
   document.getElementById('root'),
