@@ -104,7 +104,7 @@ const settingsSlice = createSlice({
       state.grayOutFinalText = !state.grayOutFinalText
     },
     toggleUppercaseText(state) {
-      state.uppercaseText = !state.uppercaseText
+      state.textUppercase = !state.textUppercase
     },
     toggleVisibility(state) {
       state.hideCC = !state.hideCC

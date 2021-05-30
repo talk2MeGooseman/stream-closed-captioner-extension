@@ -55,7 +55,7 @@ function MobileClosedCaption() {
       <Captions
         fontFamily={fontFamily}
         fontSize={fontSize}
-        uppercase={configSettings.uppercaseText}
+        uppercase={configSettings.textUppercase}
       >
         <CaptionText grayOutText={configSettings.grayOutFinalText}>
           {finalTextCaptions}
