@@ -8,8 +8,13 @@ export const useTwitchPubSub = (onBroadcast) => {
       itsTwitch.listen('broadcast', (_target, _contentType, message) => {
         try {
           pipe(JSON.parse, onBroadcast)(message)
+          // eslint-disable-next-line no-empty
         } catch (error) {}
       })
+    }
+
+    return () => {
+      itsTwitch.unlisten('broadcast', () => null)
     }
   }, [onBroadcast, itsTwitch])
 

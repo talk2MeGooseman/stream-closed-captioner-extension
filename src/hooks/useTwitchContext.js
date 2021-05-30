@@ -1,4 +1,4 @@
-import { pick, pipe } from 'ramda'
+import { pick, pipe, mergeRight } from 'ramda'
 import { useState, useEffect } from 'react'
 
 const CONTEXT_EVENTS_WHITELIST = [
@@ -21,11 +21,12 @@ export const useTwitchContext = () => {
         pipe(
           pick(delta),
           pick(CONTEXT_EVENTS_WHITELIST),
+          mergeRight(twitchContext),
           setTwitchContext,
         )(context)
       })
     }
-  }, [itsTwitch])
+  }, [itsTwitch, twitchContext])
 
   return twitchContext
 }

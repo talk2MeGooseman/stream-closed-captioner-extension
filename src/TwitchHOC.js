@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect, useCallback } from 'react'
+import { useMemo, useEffect, useCallback } from 'react'
 
 import { useDispatch } from 'react-redux'
 import { isNil } from 'ramda'
@@ -7,9 +7,11 @@ import {
   useTwitchBits,
   useTwitchContext,
   useTwitchPubSub,
+  useTwitchConfig,
 } from './hooks'
 import Authentication from './utils/Authentication'
 
+import { updateBroadcasterSettings } from '@/redux/settings-slice'
 import { useShallowEqualSelector } from '@/redux/redux-helpers'
 import { updateCCText } from '@/redux/captions-slice'
 import { updateVideoPlayerContext } from '@/redux/video-player-context-slice'
@@ -18,10 +20,15 @@ import {
   setChannelId,
   setProducts,
 } from './redux/products-slice'
+import { requestTranslationStatus } from '@/redux/translation-slice'
 
 export const TwitchHOC = ({ children }) => {
   const dispatch = useDispatch()
   const authentication = useMemo(() => new Authentication(), [])
+  const { token, userId, channelId } = useTwitchAuth()
+  const { products } = useTwitchBits(transactionComplete)
+  const twitchContext = useTwitchContext()
+  const { broadcastConfig, globalConfig, features } = useTwitchConfig()
 
   const updateChannelId = useCallback(
     (state) => dispatch(setChannelId(state)),
@@ -43,6 +50,15 @@ export const TwitchHOC = ({ children }) => {
     dispatch,
   ])
 
+  const fetchTranslationStatus = useCallback(
+    (channelId) => dispatch(requestTranslationStatus(channelId)),
+    [dispatch],
+  )
+  const setBroadcasterSettings = useCallback(
+    (settings) => dispatch(updateBroadcasterSettings(settings)),
+    [dispatch],
+  )
+
   const hlsLatencyBroadcaster = useShallowEqualSelector(
     (state) => state.videoPlayerContext.hlsLatencyBroadcaster,
   )
@@ -62,10 +78,20 @@ export const TwitchHOC = ({ children }) => {
     [displayCCText, hlsLatencyBroadcaster],
   )
 
-  const { token, userId, channelId } = useTwitchAuth()
-  const { products } = useTwitchBits(transactionComplete)
-  const twitchContext = useTwitchContext()
   useTwitchPubSub(onBroadcast)
+
+  useEffect(() => {
+    setBroadcasterSettings({
+      ...broadcastConfig,
+      elixirVersion: globalConfig?.elixirVersion || false,
+      isBitsEnabled: features?.isBitsEnabled,
+    })
+  }, [
+    broadcastConfig,
+    features?.isBitsEnabled,
+    globalConfig?.elixirVersion,
+    setBroadcasterSettings,
+  ])
 
   useEffect(() => {
     if (token && userId && channelId) {
@@ -83,6 +109,12 @@ export const TwitchHOC = ({ children }) => {
   useEffect(() => {
     updateContext(twitchContext)
   }, [twitchContext, updateContext])
+
+  useEffect(() => {
+    if (!isNil(channelId)) {
+      fetchTranslationStatus(channelId)
+    }
+  }, [channelId, fetchTranslationStatus])
 
   return children
 }
