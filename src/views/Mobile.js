@@ -8,13 +8,12 @@ import thunk from 'redux-thunk'
 
 import MobilePanel from '../components/Mobile/MobilePanel'
 import rootReducer from '../redux/reducers'
-import { withTwitchData } from '../TwitchWrapper'
 import { apolloClient } from '../utils'
+import { TwitchHOC } from '../TwitchHOC'
+
 import './App.css'
 
 const store = configureStore({ reducer: rootReducer }, applyMiddleware(thunk))
-
-const Component = withTwitchData(MobilePanel, store)
 
 if (process.env.NODE_ENV !== 'production') {
   // eslint-disable-next-line global-require
@@ -26,7 +25,9 @@ if (process.env.NODE_ENV !== 'production') {
 ReactDOM.render(
   <ApolloProvider client={apolloClient}>
     <Provider store={store}>
-      <Component />
+      <TwitchHOC>
+        <MobilePanel />
+      </TwitchHOC>
     </Provider>
   </ApolloProvider>,
   document.getElementById('root'),

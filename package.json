@@ -85,6 +85,7 @@
     "react-redux": "^7.2.4",
     "redux-logger": "^3.0.6",
     "styled-components": "^5.0.0",
+    "subscriptions-transport-ws": "^0.9.18",
     "url-search-params-polyfill": "^8.1.0",
     "uuid": "^8.2.0"
   },

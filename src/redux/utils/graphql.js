@@ -23,3 +23,13 @@ export const mutationProcessTransaction = gql`
     }
   }
 `
+
+export const subscriptionNewCaptions = gql`
+  subscription OnCommentAdded($channelId: ID!) {
+    newTwitchCaption(channelId: $channelId) {
+      interim
+      final
+      translations
+    }
+  }
+`;

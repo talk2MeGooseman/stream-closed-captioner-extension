@@ -80,6 +80,7 @@ export const TwitchHOC = ({ children }) => {
 
   useTwitchPubSub(onBroadcast)
 
+  // Set configuration settings
   useEffect(() => {
     setBroadcasterSettings({
       ...broadcastConfig,
