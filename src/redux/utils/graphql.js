@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client'
 
 export const queryGetChannelInfo = gql`
-  query getChannelInfo($id: ID!){
+  query getChannelInfo($id: ID!) {
     channelInfo(id: $id) {
       bitsBalance {
         balance
@@ -32,4 +32,4 @@ export const subscriptionNewCaptions = gql`
       translations
     }
   }
-`;
+`

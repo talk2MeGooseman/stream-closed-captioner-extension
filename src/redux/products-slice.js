@@ -69,8 +69,7 @@ export function useBits(sku) {
   return function thunk(dispatch) {
     dispatch(sendUseBits(sku))
 
-    const twitchLib = window.Twitch ? window.Twitch.ext : null
-
+    const twitchLib = window?.Twitch?.ext
     twitchLib.bits.useBits(sku)
   }
 }
@@ -80,42 +79,21 @@ export function completeBitsTransaction(transaction) {
     dispatch(completeUseBits(transaction))
 
     const { channelId } = getState().productsCatalog
-    const { elixirVersion } = getState().configSettings
 
-    if (elixirVersion) {
-      localStorage.setItem('transactionToken', transaction.transactionReceipt)
+    localStorage.setItem('transactionToken', transaction.transactionReceipt)
 
-      return apolloClient
-        .mutate({
-          variables: { channelId },
-          mutation: mutationProcessTransaction,
-        })
-        .then(_ => {
-          dispatch(toggleActivationDrawer())
-          dispatch(requestTranslationStatus())
-        }).catch(_ => {
-          // Error happened
-        })
-    }
-
-    return fetch('https://stream-cc.gooseman.codes/api/bits_transactions', {
-      body: JSON.stringify({
-        channelId,
-      }),
-      cache: 'no-cache',
-      headers: {
-        Authorization: `Bearer ${transaction.transactionReceipt}`,
-        'Content-Type': 'application/json',
-      },
-      method: 'POST',
-    }).then((response) => {
-      if (response.ok) {
+    return apolloClient
+      .mutate({
+        variables: { channelId },
+        mutation: mutationProcessTransaction,
+      })
+      .then(() => {
         dispatch(toggleActivationDrawer())
         dispatch(requestTranslationStatus())
-      } else {
-        // log("ebs was unable to validate transaction");
-      }
-    })
+      })
+      .catch(() => {
+        // Error happened
+      })
   }
 }
 

@@ -1,19 +1,27 @@
 import { Tooltip } from '@blueprintjs/core'
 import React from 'react'
 
-import { useReduxCallbackDispatch, useShallowEqualSelector } from '../../redux/redux-helpers'
-
+import {
+  useReduxCallbackDispatch,
+  useShallowEqualSelector,
+} from '../../redux/redux-helpers'
 
 import { TranslationDialogButton } from './translation-dialog-button'
 
-import { hasCaptionsSelector, hasCaptionsTranslationsSelector, isBitsEnabledSelector } from '@/redux/selectors'
+import {
+  hasCaptionsSelector,
+  hasCaptionsTranslationsSelector,
+  isBitsEnabledSelector,
+} from '@/redux/selectors'
 
 import { toggleActivationDrawer } from '@/redux/settings-slice'
 
 // eslint-disable-next-line complexity
 export default function LanguageButton() {
   const isBitsEnabled = useShallowEqualSelector(isBitsEnabledSelector)
-  const hasTranslations = useShallowEqualSelector(hasCaptionsTranslationsSelector)
+  const hasTranslations = useShallowEqualSelector(
+    hasCaptionsTranslationsSelector,
+  )
 
   const hasCaptions = useShallowEqualSelector(hasCaptionsSelector)
 

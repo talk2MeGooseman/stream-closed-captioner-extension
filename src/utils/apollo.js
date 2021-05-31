@@ -1,5 +1,22 @@
-import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client'
+import { ApolloClient, createHttpLink, InMemoryCache, split } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
+import { getMainDefinition } from '@apollo/client/utilities';
+import * as AbsintheSocket from '@absinthe/socket'
+import { createAbsintheSocketLink } from '@absinthe/socket-apollo-link'
+import { Socket as PhoenixSocket } from 'phoenix'
+
+export const absintheSocketLink = createAbsintheSocketLink(
+  AbsintheSocket.create(new PhoenixSocket("wss://stream-cc.gooseman.codes/socket", {
+    params: () => {
+      const token = localStorage.getItem('token')
+      if (token) {
+        return { Authorization: `Bearer ${token}` }
+      } else {
+        return {}
+      }
+    }
+  })),
+)
 
 const httpLink = createHttpLink({
   uri: 'https://stream-cc.gooseman.codes/api',
@@ -19,7 +36,22 @@ const authLink = setContext(({ operationName }, { headers }) => {
   }
 })
 
+// Chain the HTTP link and the authorization link.
+const authedHttpLink = authLink.concat(httpLink);
+
+const splitLink = split(
+  ({ query }) => {
+    const definition = getMainDefinition(query);
+    return (
+      definition.kind === 'OperationDefinition' &&
+      definition.operation === 'subscription'
+    );
+  },
+  absintheSocketLink,
+  authedHttpLink,
+);
+
 export const apolloClient = new ApolloClient({
   cache: new InMemoryCache(),
-  link: authLink.concat(httpLink),
+  link: authLink.concat(splitLink),
 })

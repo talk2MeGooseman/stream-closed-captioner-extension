@@ -30,35 +30,18 @@ export const {
 
 export default settingsSlice.reducer
 
-export function requestTranslationStatus() {
-  return function thunk(dispatch, getState) {
+export function requestTranslationStatus(channelId) {
+  return function thunk(dispatch, _getState) {
     dispatch(requestingTranslationStatus())
 
-    const { channelId } = getState().productsCatalog
-    const { elixirVersion } = getState().configSettings
+    return apolloClient
+      .query({
+        query: queryGetChannelInfo,
+        variables: { id: channelId },
+      })
+      .then((result) => {
+        const data = convertGqlResult(result)
 
-    if (elixirVersion) {
-      return apolloClient
-        .query({
-          query: queryGetChannelInfo,
-          variables: { id: channelId }
-        })
-        .then(result => {
-          const data = convertGqlResult(result)
-
-          dispatch(doneRequestingTranslationStatus(data))
-        })
-    }
-
-    return fetch(`https://stream-cc.gooseman.codes/api/translation_status/${channelId}`, {
-      cache: 'no-cache',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      method: 'GET',
-    })
-      .then((response) => response.json())
-      .then((data) => {
         dispatch(doneRequestingTranslationStatus(data))
       })
   }

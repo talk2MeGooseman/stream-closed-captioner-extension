@@ -1,6 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { v4 as uuid } from 'uuid'
 
+import { apolloClient } from '../utils'
+
+import { subscriptionNewCaptions } from './utils'
+
 import { TEXT_QUEUE_SIZE } from '@/utils/Constants'
 
 const initialState = {
@@ -35,11 +39,15 @@ const captionsSlice = createSlice({
 
         // eslint-disable-next-line complexity
         translatedLanguages.forEach((language) => {
-          const currentLangTranslation = state.translations[language] || { textQueue: [] }
+          const currentLangTranslation = state.translations[language] || {
+            textQueue: [],
+          }
           const newTranslation = action.payload.translations[language]
 
-          const lastTranslationIndex = currentLangTranslation.textQueue.length - 1
-          const lastTranslationText = currentLangTranslation.textQueue[lastTranslationIndex] || {}
+          const lastTranslationIndex =
+            currentLangTranslation.textQueue.length - 1
+          const lastTranslationText =
+            currentLangTranslation.textQueue[lastTranslationIndex] || {}
 
           if (lastTranslationText.text !== newTranslation.text) {
             const newTextQueue = [
@@ -63,6 +71,22 @@ const captionsSlice = createSlice({
     },
   },
 })
+
+export function subscribeToCaptions(channelId) {
+  return function thunk(dispatch, getState) {
+    return apolloClient
+      .subscribe({
+        variables: { channelId },
+        query: subscriptionNewCaptions,
+      })
+      .subscribe({
+        next(data) {
+          console.log(data)
+          // Notify your application with the new arrived data
+        },
+      })
+  }
+}
 
 export const { updateCCText } = captionsSlice.actions
 

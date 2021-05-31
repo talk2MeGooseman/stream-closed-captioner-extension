@@ -80,6 +80,11 @@ module.exports = (_env, argv) => {
           loader: 'babel-loader',
         },
         {
+          test: /\.mjs$/,
+          include: /node_modules/,
+          type: 'javascript/auto',
+        },
+        {
           test: /\.css$/,
           use: ['style-loader', 'css-loader', 'postcss-loader'],
         },
@@ -97,7 +102,7 @@ module.exports = (_env, argv) => {
       ],
     },
     resolve: {
-      extensions: ['*', '.js', '.jsx'],
+      extensions: ['*', '.js', '.jsx', '.mjs'],
       alias: {
         '@': path.resolve(__dirname, 'src/'),
       },
