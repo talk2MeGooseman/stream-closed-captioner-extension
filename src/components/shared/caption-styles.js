@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components'
+import { propOr, prop } from 'ramda'
 
 export const CaptionsContainer = styled.div`
   display: flex;
@@ -7,7 +8,7 @@ export const CaptionsContainer = styled.div`
     `rgba(0, 0, 0, ${captionsTransparency / 100})`};
   flex-direction: column-reverse;
   visibility: ${(props) => (props.isHidden ? 'hidden' : 'visible')};
-  width: ${({ captionsWidth }) => captionsWidth}%;
+  width: ${prop('captionsWidth')}%;
   ${(props) =>
     props.mobilePanel &&
     css`
@@ -21,12 +22,9 @@ export const CaptionsContainer = styled.div`
       cursor: move;
       line-height: var(--line-height);
       padding-bottom: var(--caption-pad-bottom);
-      max-height: ${(mProps) =>
-        `calc(var(${
-          mProps.fontSize || '--medium-font-size'
-        }) * var(--line-height) * ${
-          mProps.numberOfLines || 3
-        } + var(--caption-pad-bottom))`};
+      max-height: ${({ fontSize, numberOfLines }) =>
+      `calc(var(${fontSize || '--medium-font-size'}) * var(--line-height) * ${numberOfLines || 3
+      } + var(--caption-pad-bottom))`};
     `}
   ${(props) =>
     props.boxSize &&
@@ -35,10 +33,9 @@ export const CaptionsContainer = styled.div`
     `} overflow: hidden;
 `
 export const Captions = styled.main`
-  font-family: ${(props) => props.fontFamily || 'Roboto'}, Arial, Helvetica,
-    sans-serif;
-  font-size: var(${(props) => props.fontSize || '--medium-font-size'});
-  color: #ffffff;
+  font-family: ${propOr('Roboto', 'fontFamily')}, Arial, Helvetica, sans-serif;
+  font-size: var(${propOr('--large-font-size', 'fontSize')});
+  color: ${propOr('#ffffff', 'color')};
   padding: 0px 8px;
   ${(props) =>
     props.uppercase &&
@@ -67,7 +64,7 @@ export const Pulse = styled.div`
       color: #ffffff;
     }
     50% {
-      color: ${({ color }) => color};
+      color: ${prop('color')};
     }
     100% {
       color: #ffffff;

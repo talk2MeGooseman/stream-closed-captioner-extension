@@ -13,6 +13,7 @@ export const initialState = {
   captionsWidth: CAPTIONS_SIZE.defaultHorizontalWidth,
   ccBoxSize: false,
   ccKey: uuid(),
+  color: '#ffffff',
   displayAdvancedSettingsDialog: false,
   dyslexiaFontEnabled: false,
   grayOutFinalText: false,
@@ -59,6 +60,9 @@ const settingsSlice = createSlice({
     },
     changeTextSize(state, action) {
       state.size = action.payload
+    },
+    changeColor(state, action) {
+      state.color = action.payload
     },
     // eslint-disable-next-line complexity
     decreaseLineCount(state) {
@@ -132,6 +136,7 @@ export const {
   changeCaptionsWidth,
   changeLanguage,
   changeTextSize,
+  changeColor,
   decreaseLineCount,
   increaseLineCount,
   resetCCText,

@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux'
 import {
   Captions,
   CaptionsContainer,
-  CaptionText
+  CaptionText,
 } from '../shared/caption-styles'
 
 import './ClosedCaption.css'
@@ -84,6 +84,7 @@ function ClosedCaption() {
           fontFamily={fontFamily}
           fontSize={fontSize}
           uppercase={configSettings.textUppercase}
+          color={configSettings.color}
         >
           <CaptionText grayOutText={configSettings.grayOutFinalText}>
             {finalTextCaptions}

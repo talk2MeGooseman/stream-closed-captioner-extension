@@ -16,7 +16,52 @@
       "value": "wss://localhost:8080"
     }
   ],
-  "extensionViews": [],
+  "extensionViews": [
+    {
+      "channelId": "120750024",
+      "configurationAnchor": "panel",
+      "displayChannelName": "120750024",
+      "features": {
+        "isBitsEnabled": true,
+        "isChatEnabled": false,
+        "isSubscriptionStatusAvailable": false
+      },
+      "frameSize": {
+        "width": 1280,
+        "height": 720
+      },
+      "id": "1",
+      "isPopout": false,
+      "label": "",
+      "linked": false,
+      "linkedUserId": "",
+      "orientation": "Portrait",
+      "type": "video_overlay",
+      "viewerType": "Broadcaster"
+    },
+    {
+      "channelId": "120750024",
+      "configurationAnchor": "panel",
+      "displayChannelName": "120750024",
+      "features": {
+        "isBitsEnabled": true,
+        "isChatEnabled": false,
+        "isSubscriptionStatusAvailable": false
+      },
+      "frameSize": {
+        "width": 1280,
+        "height": 720
+      },
+      "id": "2",
+      "isPopout": false,
+      "label": "",
+      "linked": false,
+      "linkedUserId": "",
+      "orientation": "Portrait",
+      "type": "panel",
+      "viewerType": "Broadcaster"
+    }
+  ],
   "manifest": {
     "anchor": "panel",
     "assetUrls": [],

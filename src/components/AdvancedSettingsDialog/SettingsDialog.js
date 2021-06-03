@@ -3,6 +3,7 @@ import React from 'react'
 
 import { BoxWidthSlider } from './fields/BoxWidthSlider'
 import { CaptionsTransparencySlider } from './fields/CaptionsTransparencySlider'
+import { CaptionsColorPicker } from './fields/CaptionsColorPicker'
 
 import {
   useReduxCallbackDispatch,
@@ -27,6 +28,7 @@ const SettingsDialog = () => {
       <div className={Classes.DIALOG_BODY}>
         <BoxWidthSlider />
         <CaptionsTransparencySlider />
+        <CaptionsColorPicker />
       </div>
       <div className={Classes.DIALOG_FOOTER}>
         <div className={Classes.DIALOG_FOOTER_ACTIONS}>
