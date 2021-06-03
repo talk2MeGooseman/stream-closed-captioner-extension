@@ -22,7 +22,7 @@ import {
 } from './redux/products-slice'
 import { requestTranslationStatus } from '@/redux/translation-slice'
 
-export const Twitch = React.memo(function TwitchHOC({ children }) {
+export const Twitch = React.memo(function Twitch({ children }) {
   const dispatch = useDispatch()
   const authentication = useMemo(() => new Authentication(), [])
   const { token, userId, channelId } = useTwitchAuth()
@@ -125,5 +125,5 @@ export const Twitch = React.memo(function TwitchHOC({ children }) {
 })
 
 Twitch.propTypes = {
-  children: PropTypes.element,
+  children: PropTypes.arrayOf(PropTypes.element),
 }

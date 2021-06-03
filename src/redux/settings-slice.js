@@ -64,6 +64,7 @@ const settingsSlice = createSlice({
     decreaseLineCount(state) {
       if (state.ccBoxSize && state.boxLineCount !== 1) {
         state.boxLineCount -= 1
+        return
       }
 
       if (state.horizontalLineCount !== 1) {
@@ -73,6 +74,7 @@ const settingsSlice = createSlice({
     increaseLineCount(state) {
       if (state.ccBoxSize) {
         state.boxLineCount += 1
+        return
       }
 
       state.horizontalLineCount += 1

@@ -33,7 +33,7 @@ module.exports = {
     'linebreak-style': ['error', 'unix'],
     quotes: ['error', 'single'],
     semi: ['error', 'never'],
-    'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+    'no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
   },
   settings: {
     react: {
