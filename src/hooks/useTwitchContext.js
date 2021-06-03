@@ -1,5 +1,5 @@
-import { pick, pipe, mergeRight } from 'ramda'
-import { useState, useEffect } from 'react'
+import { pick, pipe } from 'ramda'
+import { useEffect } from 'react'
 
 const CONTEXT_EVENTS_WHITELIST = [
   'arePlayerControlsVisible',
@@ -7,26 +7,15 @@ const CONTEXT_EVENTS_WHITELIST = [
   'displayResolution',
 ]
 
-export const useTwitchContext = () => {
-  const [twitchContext, setTwitchContext] = useState({
-    arePlayerControlsVisible: false,
-    displayResolution: null,
-    hlsLatencyBroadcaster: 0,
-  })
-
+export const useTwitchContext = (callback) => {
   const itsTwitch = window.Twitch?.ext
   useEffect(() => {
     if (itsTwitch) {
       itsTwitch.onContext((context, delta) => {
-        pipe(
-          pick(delta),
-          pick(CONTEXT_EVENTS_WHITELIST),
-          mergeRight(twitchContext),
-          setTwitchContext,
-        )(context)
+        pipe(pick(delta), pick(CONTEXT_EVENTS_WHITELIST), callback)(context)
       })
     }
-  }, [itsTwitch, twitchContext])
+  }, [callback, itsTwitch])
 
-  return twitchContext
+  return
 }

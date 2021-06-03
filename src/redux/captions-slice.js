@@ -4,6 +4,7 @@ import { v4 as uuid } from 'uuid'
 import { apolloClient } from '../utils'
 
 import { subscriptionNewCaptions } from './utils'
+import { hlsLatencyBroadcasterSelector } from './selectors'
 
 import { TEXT_QUEUE_SIZE } from '@/utils/Constants'
 
@@ -80,9 +81,17 @@ export function subscribeToCaptions(channelId) {
         query: subscriptionNewCaptions,
       })
       .subscribe({
-        next(data) {
-          console.log(data)
-          // Notify your application with the new arrived data
+        next({ data: { newTwitchCaption } }) {
+          const hlsLatencyBroadcaster = hlsLatencyBroadcasterSelector(getState)
+          let delayTime = hlsLatencyBroadcaster * 60
+
+          if (newTwitchCaption.delay) {
+            delayTime -= newTwitchCaption.delay * 60
+          }
+
+          setTimeout(() => {
+            dispatch(updateCCText(newTwitchCaption))
+          }, delayTime)
         },
       })
   }
