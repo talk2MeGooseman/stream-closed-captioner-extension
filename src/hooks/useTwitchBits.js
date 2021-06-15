@@ -6,6 +6,7 @@ export const useTwitchBits = (onComplete) => {
   const itsTwitch = window.Twitch?.ext
   useEffect(() => {
     if (itsTwitch) {
+      // itsTwitch.bits.setUseLoopback = true
       itsTwitch.configuration.onChanged(() => {
         const { getProducts, onTransactionComplete } = itsTwitch.bits
 

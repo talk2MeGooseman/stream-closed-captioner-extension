@@ -26,7 +26,6 @@ export const Twitch = React.memo(function Twitch({ children }) {
   const dispatch = useDispatch()
   const authentication = useMemo(() => new Authentication(), [])
   const { token, userId, channelId } = useTwitchAuth()
-  const { products } = useTwitchBits(transactionComplete)
   const { broadcastConfig, globalConfig, features } = useTwitchConfig()
 
   const updateChannelId = useCallback(
@@ -48,6 +47,8 @@ export const Twitch = React.memo(function Twitch({ children }) {
     (state) => dispatch(completeBitsTransaction(state)),
     [dispatch],
   )
+  const { products } = useTwitchBits(transactionComplete)
+
   const displayCCText = useCallback((state) => dispatch(updateCCText(state)), [
     dispatch,
   ])
