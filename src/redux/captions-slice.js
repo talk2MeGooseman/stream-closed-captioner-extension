@@ -82,7 +82,10 @@ export function subscribeToCaptions(channelId) {
       })
       .subscribe({
         next({ data: { newTwitchCaption } }) {
-          const hlsLatencyBroadcaster = hlsLatencyBroadcasterSelector(getState)
+          const hlsLatencyBroadcaster = hlsLatencyBroadcasterSelector(
+            getState(),
+          )
+
           let delayTime = hlsLatencyBroadcaster * 60
 
           if (newTwitchCaption.delay) {
