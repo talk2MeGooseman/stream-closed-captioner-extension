@@ -25,7 +25,7 @@ export const initialState = {
   language: 'en-US',
   size: TEXT_SIZES.MEDIUM,
   switchSettingsPosition: false,
-  uppercaseText: false,
+  textUppercase: false,
   viewerLanguage: 'default',
 }
 
