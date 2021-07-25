@@ -86,15 +86,12 @@ export function subscribeToCaptions(channelId) {
             getState(),
           )
 
-          let delayTime = hlsLatencyBroadcaster * 60
+          let delayTimeMilliseconds = hlsLatencyBroadcaster * 1000
 
-          if (newTwitchCaption.delay) {
-            delayTime -= newTwitchCaption.delay * 60
-          }
-
+          console.log(delayTimeMilliseconds)
           setTimeout(() => {
             dispatch(updateCCText(newTwitchCaption))
-          }, delayTime)
+          }, delayTimeMilliseconds)
         },
       })
   }

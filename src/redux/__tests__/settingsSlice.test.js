@@ -1,4 +1,7 @@
-import settings, { updateBroadcasterSettings, initialState } from '../settings-slice'
+import settings, {
+  updateBroadcasterSettings,
+  initialState,
+} from '../settings-slice'
 
 import { CAPTIONS_SIZE } from '@/utils/Constants'
 
@@ -10,18 +13,19 @@ describe('settingsSlice', () => {
   describe('updateBroadcasterSettings', () => {
     test('width is properly set when broadcaster chooses box size', () => {
       expect(
-        settings({}, {
-          payload: {
-            ccBoxSize: true,
+        settings(
+          {},
+          {
+            payload: {
+              ccBoxSize: true,
+            },
+            type: updateBroadcasterSettings.type,
           },
-          type: updateBroadcasterSettings.type,
-        })
-      ).toStrictEqual(
-        {
-          captionsWidth: CAPTIONS_SIZE.defaultBoxWidth,
-          ccBoxSize: true,
-        }
-      )
+        ),
+      ).toStrictEqual({
+        captionsWidth: CAPTIONS_SIZE.defaultBoxWidth,
+        ccBoxSize: true,
+      })
     })
   })
 })

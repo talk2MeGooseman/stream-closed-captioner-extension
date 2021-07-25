@@ -6,14 +6,12 @@ import {
   useTwitchAuth,
   useTwitchBits,
   useTwitchContext,
-  useTwitchPubSub,
   useTwitchConfig,
 } from './hooks'
 import Authentication from './utils/Authentication'
 
 import { updateBroadcasterSettings } from '@/redux/settings-slice'
-import { useShallowEqualSelector } from '@/redux/redux-helpers'
-import { updateCCText, subscribeToCaptions } from '@/redux/captions-slice'
+import { subscribeToCaptions } from '@/redux/captions-slice'
 import { updateVideoPlayerContext } from '@/redux/video-player-context-slice'
 import {
   completeBitsTransaction,
@@ -33,9 +31,10 @@ export const Twitch = React.memo(function Twitch({ children }) {
     [dispatch],
   )
 
-  const updateProducts = useCallback((state) => dispatch(setProducts(state)), [
-    dispatch,
-  ])
+  const updateProducts = useCallback(
+    (state) => dispatch(setProducts(state)),
+    [dispatch]
+  )
 
   const updateContext = useCallback(
     (state) => dispatch(updateVideoPlayerContext(state)),
@@ -49,10 +48,6 @@ export const Twitch = React.memo(function Twitch({ children }) {
   )
   const { products } = useTwitchBits(transactionComplete)
 
-  const displayCCText = useCallback((state) => dispatch(updateCCText(state)), [
-    dispatch,
-  ])
-
   const fetchTranslationStatus = useCallback(
     (channelId) => dispatch(requestTranslationStatus(channelId)),
     [dispatch],
@@ -65,10 +60,6 @@ export const Twitch = React.memo(function Twitch({ children }) {
   const setBroadcasterSettings = useCallback(
     (settings) => dispatch(updateBroadcasterSettings(settings)),
     [dispatch],
-  )
-
-  const hlsLatencyBroadcaster = useShallowEqualSelector(
-    (state) => state.videoPlayerContext.hlsLatencyBroadcaster,
   )
 
   // Set configuration settings
@@ -102,25 +93,6 @@ export const Twitch = React.memo(function Twitch({ children }) {
       }
     }
   }, [channelId, fetchTranslationStatus, globalConfig?.gqlSubscribe, subscribeCaptions])
-
-  const onBroadcast = useCallback(
-    (message) => {
-      // Turn off captions through Twitch PubSub
-      if (globalConfig?.gqlSubscribe) return
-
-      let delayTime = hlsLatencyBroadcaster * 60
-
-      if (message.delay) {
-        delayTime -= message.delay * 60
-      }
-
-      setTimeout(() => {
-        displayCCText(message)
-      }, delayTime)
-    },
-    [displayCCText, globalConfig?.gqlSubscribe, hlsLatencyBroadcaster],
-  )
-  useTwitchPubSub(onBroadcast)
 
   return children
 })
