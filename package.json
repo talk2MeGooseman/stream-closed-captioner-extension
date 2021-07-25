@@ -75,7 +75,7 @@
     "@reduxjs/toolkit": "^1.0.4",
     "babel-eslint": "^10.0.3",
     "classnames": "^2.2.6",
-    "graphql": "^15.5.0",
+    "graphql": "^15.5.1",
     "jsonwebtoken": "^8.3.0",
     "lodash": "^4.17.21",
     "phoenix": "^1.5.9",
