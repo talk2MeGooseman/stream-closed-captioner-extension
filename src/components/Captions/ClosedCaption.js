@@ -16,6 +16,7 @@ import { useShallowEqualSelector } from '@/redux/redux-helpers'
 import { setIsDragged } from '@/redux/settings-slice'
 
 import { FONT_FAMILIES } from '@/utils/Constants'
+import { pathOr } from 'ramda'
 
 // Bits 100 from electrichavoc
 // Resub Nyixxs
@@ -35,6 +36,10 @@ function isEmptyCC(text) {
 
 function shouldHideCC(shouldHide, interimText, finalText) {
   return shouldHide || isEmptyCC(interimText + finalText)
+}
+
+function getTranslationQueue(configSettings, translations) {
+  return pathOr([], [configSettings.viewerLanguage, 'textQueue'], translations)
 }
 
 // eslint-disable-next-line complexity
@@ -65,7 +70,7 @@ function ClosedCaption() {
   if (configSettings.viewerLanguage === 'default') {
     finalTextCaptions = finalTextQueue.map(({ text }) => text).join(' ')
   } else {
-    finalTextCaptions = translations[configSettings.viewerLanguage].textQueue
+    finalTextCaptions = getTranslationQueue(configSettings, translations)
       .map(({ text }) => text)
       .join(' ')
   }
