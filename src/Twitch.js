@@ -11,7 +11,10 @@ import {
 import Authentication from './utils/Authentication'
 
 import { updateBroadcasterSettings } from '@/redux/settings-slice'
-import { subscribeToCaptions } from '@/redux/captions-slice'
+import {
+  stopCaptionsSubscription,
+  subscribeToCaptions,
+} from '@/redux/captions-slice'
 import { updateVideoPlayerContext } from '@/redux/video-player-context-slice'
 import {
   completeBitsTransaction,
@@ -19,12 +22,14 @@ import {
   setProducts,
 } from './redux/products-slice'
 import { requestTranslationStatus } from '@/redux/translation-slice'
+import { useShallowEqualSelector } from './redux/redux-helpers'
+import { isVideoOverlay } from './helpers/video-helpers'
 
 export const Twitch = React.memo(function Twitch({ children }) {
   const dispatch = useDispatch()
   const authentication = useMemo(() => new Authentication(), [])
   const { token, userId, channelId } = useTwitchAuth()
-  const { broadcastConfig, globalConfig, features } = useTwitchConfig()
+  const { broadcastConfig, features } = useTwitchConfig()
 
   const updateChannelId = useCallback(
     (state) => dispatch(setChannelId(state)),
@@ -33,7 +38,7 @@ export const Twitch = React.memo(function Twitch({ children }) {
 
   const updateProducts = useCallback(
     (state) => dispatch(setProducts(state)),
-    [dispatch]
+    [dispatch],
   )
 
   const updateContext = useCallback(
@@ -66,10 +71,9 @@ export const Twitch = React.memo(function Twitch({ children }) {
   useEffect(() => {
     setBroadcasterSettings({
       ...broadcastConfig,
-      gqlSubscribe: globalConfig?.gqlSubscribe || false,
       isBitsEnabled: features?.isBitsEnabled,
     })
-  }, [broadcastConfig, features?.isBitsEnabled, globalConfig?.gqlSubscribe, setBroadcasterSettings])
+  }, [broadcastConfig, features?.isBitsEnabled, setBroadcasterSettings])
 
   useEffect(() => {
     if (token && userId && channelId) {
@@ -87,12 +91,20 @@ export const Twitch = React.memo(function Twitch({ children }) {
   useEffect(() => {
     if (!isNil(channelId) && !isEmpty(channelId)) {
       fetchTranslationStatus(channelId)
-      // Turn on GQL Subscriptions for caption events
-      if (globalConfig?.gqlSubscribe) {
-        subscribeCaptions(channelId)
-      }
     }
-  }, [channelId, fetchTranslationStatus, globalConfig?.gqlSubscribe, subscribeCaptions])
+  }, [channelId, fetchTranslationStatus])
+
+  const isCaptionsHidden = useShallowEqualSelector(
+    (state) => state.configSettings.hideCC,
+  )
+
+  useEffect(() => {
+    if (isCaptionsHidden && isVideoOverlay()) {
+      dispatch(stopCaptionsSubscription())
+    } else {
+      subscribeCaptions(channelId)
+    }
+  }, [channelId, dispatch, isCaptionsHidden, subscribeCaptions])
 
   return children
 })

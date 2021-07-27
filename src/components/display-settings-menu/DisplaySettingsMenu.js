@@ -5,7 +5,6 @@ import classnames from 'classnames'
 import React from 'react'
 
 import { AdvancedSettingsDialog } from '../AdvancedSettingsDialog'
-import { IssueDetected } from '../issue-detected'
 
 import { SettingsMenu } from './settings'
 
@@ -45,10 +44,13 @@ const Controls = () => {
   return (
     <>
       <nav className={controlClass} data-testid="display-settings">
-        <IssueDetected />
         <LanguageButton />
         <VisibilityToggle />
-        <Popover captureDismiss content={<SettingsMenu />} position="left-bottom" >
+        <Popover
+          captureDismiss
+          content={<SettingsMenu />}
+          position="left-bottom"
+        >
           <Tooltip content="Settings">
             <FontAwesomeIcon icon={faCog} size="2x" />
           </Tooltip>

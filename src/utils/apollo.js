@@ -5,17 +5,19 @@ import * as AbsintheSocket from '@absinthe/socket'
 import { createAbsintheSocketLink } from '@absinthe/socket-apollo-link'
 import { Socket as PhoenixSocket } from 'phoenix'
 
-export const absintheSocketLink = createAbsintheSocketLink(
-  AbsintheSocket.create(new PhoenixSocket("wss://stream-cc.gooseman.codes/socket", {
-    params: () => {
-      const token = localStorage.getItem('token')
-      if (token) {
-        return { Authorization: `Bearer ${token}` }
-      } else {
-        return {}
-      }
+export const phxSocket = new PhoenixSocket("wss://stream-cc.gooseman.codes/socket", {
+  params: () => {
+    const token = localStorage.getItem('token')
+    if (token) {
+      return { Authorization: `Bearer ${token}` }
+    } else {
+      return {}
     }
-  })),
+  }
+})
+
+export const absintheSocketLink = createAbsintheSocketLink(
+  AbsintheSocket.create(phxSocket),
 )
 
 const httpLink = createHttpLink({

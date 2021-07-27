@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { v4 as uuid } from 'uuid'
 
-import { apolloClient } from '../utils'
+import { apolloClient, phxSocket } from '../utils'
 
 import { subscriptionNewCaptions } from './utils'
 import { hlsLatencyBroadcasterSelector } from './selectors'
@@ -12,12 +12,23 @@ const initialState = {
   finalTextQueue: [],
   interimText: '',
   translations: {},
+  captionsSubscription: null,
 }
 
 const captionsSlice = createSlice({
   initialState,
   name: 'captionsSlice',
   reducers: {
+    setCaptionsSubscription: (state, { payload: { subscription } }) => {
+      state.captionsSubscription = subscription
+    },
+    stopCaptionsSubscription: (state, _) => {
+      if (phxSocket.isConnected()) {
+        phxSocket.disconnect()
+        state.finalTextQueue = []
+        state.translations = {}
+      }
+    },
     // eslint-disable-next-line complexity
     updateCCText(state, action) {
       const newTranslations = state.translations
@@ -75,6 +86,7 @@ const captionsSlice = createSlice({
 
 export function subscribeToCaptions(channelId) {
   return function thunk(dispatch, getState) {
+    phxSocket.connect()
     return apolloClient
       .subscribe({
         variables: { channelId },
@@ -88,7 +100,6 @@ export function subscribeToCaptions(channelId) {
 
           let delayTimeMilliseconds = hlsLatencyBroadcaster * 1000
 
-          console.log(delayTimeMilliseconds)
           setTimeout(() => {
             dispatch(updateCCText(newTwitchCaption))
           }, delayTimeMilliseconds)
@@ -97,6 +108,10 @@ export function subscribeToCaptions(channelId) {
   }
 }
 
-export const { updateCCText } = captionsSlice.actions
+export const {
+  updateCCText,
+  setCaptionsSubscription,
+  stopCaptionsSubscription,
+} = captionsSlice.actions
 
 export default captionsSlice.reducer

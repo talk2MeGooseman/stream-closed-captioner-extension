@@ -1,23 +1,17 @@
-import {
-  Tooltip,
-  Dialog,
-  Classes,
-  Button,
-} from '@blueprintjs/core'
+import { Tooltip, Dialog, Classes, Button } from '@blueprintjs/core'
 import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useState, useCallback } from 'react'
 
-import { Pulse } from '../shared/caption-styles'
+import { Pulse } from '../../shared/caption-styles'
 
 import { useShallowEqualSelector } from '@/redux/redux-helpers'
-
 
 const IssueButton = () => {
   const hasCaptions = useShallowEqualSelector(
     (state) =>
-      state.captionsState.finalTextQueue.length > 0
-      || state.captionsState.interimText.length > 0,
+      state.captionsState.finalTextQueue.length > 0 ||
+      state.captionsState.interimText.length > 0,
   )
   const [displayDialog, setDisplayDialog] = useState(false)
 

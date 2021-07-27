@@ -17,7 +17,7 @@ export const initialState = {
   displayAdvancedSettingsDialog: false,
   dyslexiaFontEnabled: false,
   grayOutFinalText: false,
-  hideCC: false,
+  hideCC: true,
   horizontalLineCount: 3,
   isBitsEnabled: false,
   isDragged: false,
