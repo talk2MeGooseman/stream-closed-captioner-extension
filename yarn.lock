@@ -3147,9 +3147,9 @@ caniuse-db@^1.0.30000529, caniuse-db@^1.0.30000634, caniuse-db@^1.0.30000639:
   integrity sha512-SLxt1AxlktFkVaIdrwFumUvlzuLMBxylefDMuwa8BSYM7bvkZIzpoE2TmxZ0wH1v8d80RYJ357kZRFeWo7+pog==
 
 caniuse-lite@^1.0.30001173:
-  version "1.0.30001174"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001174.tgz#0f2aca2153fd88ceb07a2bb982fc2acb787623c4"
-  integrity sha512-tqClL/4ThQq6cfFXH3oJL4rifFBeM6gTkphjao5kgwMaW9yn0tKgQLAEfKzDwj6HQWCB/aWo8kTFlSvIN8geEA==
+  version "1.0.30001247"
+  resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001247.tgz"
+  integrity sha512-4rS7co+7+AoOSPRPOPUt5/GdaqZc0EsUpWk66ofE3HJTAajUK2Ss2VwoNzVN69ghg8lYYlh0an0Iy4LIHHo9UQ==
 
 capture-exit@^2.0.0:
   version "2.0.0"
