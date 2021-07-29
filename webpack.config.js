@@ -71,6 +71,16 @@ module.exports = (_env, argv) => {
     entry,
     optimization: {
       minimize: false, // neccessary to pass Twitch's review process
+      runtimeChunk: 'single',
+      splitChunks: {
+        cacheGroups: {
+          commons: {
+            name: 'vendor',
+            test: /[\\/]node_modules[\\/]/,
+            chunks: 'all',
+          }
+        }
+      }
     },
     module: {
       rules: [
