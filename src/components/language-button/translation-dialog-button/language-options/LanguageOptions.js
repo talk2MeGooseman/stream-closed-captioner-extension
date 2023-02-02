@@ -12,7 +12,6 @@ import { changeLanguage, toggleActivationDrawer } from '@/redux/settings-slice'
 
 import { useLanguageList } from '@/shared/hooks'
 
-
 export function LanguageOptions() {
   const isBitsEnabled = useShallowEqualSelector(
     (state) => state.configSettings.isBitsEnabled,
@@ -21,7 +20,9 @@ export function LanguageOptions() {
     (state) => state.configSettings.viewerLanguage,
   )
 
-  const onSelectDefaultLanguage = useReduxCallbackDispatch(changeLanguage('default'))
+  const onSelectDefaultLanguage = useReduxCallbackDispatch(
+    changeLanguage('default'),
+  )
   const toggleDrawer = useReduxCallbackDispatch(toggleActivationDrawer())
   const languageList = useLanguageList()
 
@@ -38,7 +39,13 @@ export function LanguageOptions() {
         text="Spoken Language"
       />
       <MenuDivider />
-      {languageList.map((language) => <LanguageOption key={language.key} option={language} selectedLanguage={selectedLanguage} />)}
+      {languageList.map((language) => (
+        <LanguageOption
+          key={language.key}
+          option={language}
+          selectedLanguage={selectedLanguage}
+        />
+      ))}
       {isBitsEnabled && (
         <>
           <MenuDivider />

@@ -5,13 +5,12 @@ import { updateVideoPlayerContext } from '@/redux/video-player-context-slice'
 
 import { CONTEXT_EVENTS_WHITELIST } from '@/utils/Constants'
 
-
 export function useContextUpdateHandler() {
   const dispatch = useDispatch()
 
   const onUpdateVideoPlayerContext = useCallback(
     (state) => dispatch(updateVideoPlayerContext(state)),
-    [dispatch]
+    [dispatch],
   )
 
   return useCallback(
@@ -22,7 +21,7 @@ export function useContextUpdateHandler() {
         onUpdateVideoPlayerContext(newContext)
       }
     },
-    [onUpdateVideoPlayerContext]
+    [onUpdateVideoPlayerContext],
   )
 }
 

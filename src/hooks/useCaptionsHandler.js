@@ -12,9 +12,10 @@ export function useCaptionsHandler() {
     (state) => state.videoPlayerContext,
   )
 
-  const onUpdateCCText = useCallback((state) => dispatch(updateCCText(state)), [
-    dispatch,
-  ])
+  const onUpdateCCText = useCallback(
+    (state) => dispatch(updateCCText(state)),
+    [dispatch],
+  )
 
   const displayClosedCaptioningText = useCallback(
     (message) => {

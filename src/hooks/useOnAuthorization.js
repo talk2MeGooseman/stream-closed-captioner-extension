@@ -10,11 +10,11 @@ export function useOnAuthorization() {
 
   const onChannelIdReceived = useCallback(
     (channelId) => dispatch(setChannelId(channelId)),
-    [dispatch]
+    [dispatch],
   )
   const fetchTranslationStatus = useCallback(
     () => dispatch(requestTranslationStatus()),
-    [dispatch]
+    [dispatch],
   )
 
   return useCallback(
@@ -22,6 +22,6 @@ export function useOnAuthorization() {
       onChannelIdReceived(auth.channelId)
       fetchTranslationStatus()
     },
-    [fetchTranslationStatus, onChannelIdReceived]
+    [fetchTranslationStatus, onChannelIdReceived],
   )
 }

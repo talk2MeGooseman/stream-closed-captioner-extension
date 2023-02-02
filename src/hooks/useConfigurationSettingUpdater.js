@@ -8,7 +8,7 @@ export function useConfigurationSettingUpdater(twitch, setReady) {
 
   const onUpdateBroadcasterSettings = useCallback(
     (settings) => dispatch(updateBroadcasterSettings(settings)),
-    [dispatch]
+    [dispatch],
   )
 
   return useCallback(() => {
