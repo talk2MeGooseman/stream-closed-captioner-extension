@@ -16,9 +16,8 @@ import { isVideoOverlay } from '@/helpers/video-helpers'
 
 import { useShallowEqualSelector } from '@/redux/redux-helpers'
 
-export function positionLeft(switchSettingsPosition) {
-  return isVideoOverlay() && switchSettingsPosition
-}
+export const positionLeft = (switchSettingsPosition) =>
+  isVideoOverlay() && switchSettingsPosition
 
 const Controls = () => {
   const arePlayerControlsVisible = useShallowEqualSelector(

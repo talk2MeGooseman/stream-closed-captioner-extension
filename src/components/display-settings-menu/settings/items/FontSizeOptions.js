@@ -3,18 +3,29 @@ import { faFont } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React from 'react'
 
-import { useReduxCallbackDispatch, useShallowEqualSelector } from '@/redux/redux-helpers'
+import {
+  useReduxCallbackDispatch,
+  useShallowEqualSelector,
+} from '@/redux/redux-helpers'
 
 import { changeTextSize } from '@/redux/settings-slice'
 
 import { TEXT_SIZES } from '@/utils/Constants'
 
 function FontSizeOptions() {
-  const onClickSmallTextSize = useReduxCallbackDispatch(changeTextSize(TEXT_SIZES.SMALL))
-  const onClickMediumTextSize = useReduxCallbackDispatch(changeTextSize(TEXT_SIZES.MEDIUM))
-  const onClickLargeTextSize = useReduxCallbackDispatch(changeTextSize(TEXT_SIZES.LARGE))
+  const onClickSmallTextSize = useReduxCallbackDispatch(
+    changeTextSize(TEXT_SIZES.SMALL),
+  )
+  const onClickMediumTextSize = useReduxCallbackDispatch(
+    changeTextSize(TEXT_SIZES.MEDIUM),
+  )
+  const onClickLargeTextSize = useReduxCallbackDispatch(
+    changeTextSize(TEXT_SIZES.LARGE),
+  )
 
-  const activeTextSizeOption = useShallowEqualSelector((state) => state.configSettings.size)
+  const activeTextSizeOption = useShallowEqualSelector(
+    (state) => state.configSettings.size,
+  )
 
   const fontIcon = <FontAwesomeIcon icon={faFont} />
 

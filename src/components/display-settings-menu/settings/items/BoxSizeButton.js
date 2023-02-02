@@ -5,25 +5,25 @@ import React from 'react'
 
 import { isVideoOverlay } from '@/helpers/video-helpers'
 
-import { useShallowEqualSelector, useReduxCallbackDispatch } from '@/redux/redux-helpers'
+import {
+  useShallowEqualSelector,
+  useReduxCallbackDispatch,
+} from '@/redux/redux-helpers'
 
 import { toggleBoxSize } from '@/redux/settings-slice'
 
 function BoxSizeButton() {
-  const ccBoxSize = useShallowEqualSelector((state) => state.configSettings.ccBoxSize)
+  const ccBoxSize = useShallowEqualSelector(
+    (state) => state.configSettings.ccBoxSize,
+  )
   const onToggleBoxSize = useReduxCallbackDispatch(toggleBoxSize())
 
   if (!isVideoOverlay()) {
     return null
   }
 
-  let text = 'Enable Square Text Box'
-  let icon = faExpand
-
-  if (ccBoxSize) {
-    text = 'Enable Horizontal Text Box'
-    icon = faMinus
-  }
+  let text = ccBoxSize ? 'Enable Horizontal Text Box' : 'Enable Square Text Box'
+  let icon = ccBoxSize ? faExpand : faMinus
 
   return (
     <>

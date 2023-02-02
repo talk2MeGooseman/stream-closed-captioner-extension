@@ -5,20 +5,24 @@ import React from 'react'
 
 import { isVideoOverlay } from '@/helpers/video-helpers'
 
-import { useShallowEqualSelector, useReduxCallbackDispatch } from '@/redux/redux-helpers'
-
 import {
-  increaseLineCount,
-  decreaseLineCount,
-} from '@/redux/settings-slice'
+  useShallowEqualSelector,
+  useReduxCallbackDispatch,
+} from '@/redux/redux-helpers'
+
+import { increaseLineCount, decreaseLineCount } from '@/redux/settings-slice'
 
 // eslint-disable-next-line complexity
 function LineCountOptions() {
-  const ccBoxSize = useShallowEqualSelector((state) => state.configSettings.ccBoxSize)
+  const ccBoxSize = useShallowEqualSelector(
+    (state) => state.configSettings.ccBoxSize,
+  )
   const horizontalLineCount = useShallowEqualSelector(
     (state) => state.configSettings.horizontalLineCount,
   )
-  const boxLineCount = useShallowEqualSelector((state) => state.configSettings.boxLineCount)
+  const boxLineCount = useShallowEqualSelector(
+    (state) => state.configSettings.boxLineCount,
+  )
   const onLineIncrease = useReduxCallbackDispatch(increaseLineCount())
   const onLineDecrease = useReduxCallbackDispatch(decreaseLineCount())
 

@@ -3,14 +3,17 @@ import { faClosedCaptioning } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React from 'react'
 
-import { useShallowEqualSelector, useReduxCallbackDispatch } from '@/redux/redux-helpers'
-
 import {
-  toggleDyslexiaFamily,
-} from '@/redux/settings-slice'
+  useShallowEqualSelector,
+  useReduxCallbackDispatch,
+} from '@/redux/redux-helpers'
+
+import { toggleDyslexiaFamily } from '@/redux/settings-slice'
 
 function FontFamilyOptions() {
-  const enabled = useShallowEqualSelector((state) => state.configSettings.dyslexiaFontEnabled)
+  const enabled = useShallowEqualSelector(
+    (state) => state.configSettings.dyslexiaFontEnabled,
+  )
 
   const toggleFont = useReduxCallbackDispatch(toggleDyslexiaFamily())
 
