@@ -1,1 +1,1 @@
-export { default as SettingsMenu } from './SettingMenu'
+export { default as SettingsMenu } from './SettingMenu.jsx'

@@ -1,2 +1,2 @@
-export { default as ClosedCaption } from './ClosedCaption'
-export { default as MobileClosedCaption } from './MobileClosedCaption'
+export { default as ClosedCaption } from './ClosedCaption.jsx'
+export { default as MobileClosedCaption } from './MobileClosedCaption.jsx'

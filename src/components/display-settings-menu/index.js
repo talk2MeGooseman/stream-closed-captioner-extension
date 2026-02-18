@@ -1,1 +1,1 @@
-export { default as DisplaySettingsMenu } from './DisplaySettingsMenu'
+export { default as DisplaySettingsMenu } from './DisplaySettingsMenu.jsx'

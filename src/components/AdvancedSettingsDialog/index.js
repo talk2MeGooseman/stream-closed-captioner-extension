@@ -1,1 +1,1 @@
-export { default as AdvancedSettingsDialog } from './SettingsDialog'
+export { default as AdvancedSettingsDialog } from './SettingsDialog.jsx'

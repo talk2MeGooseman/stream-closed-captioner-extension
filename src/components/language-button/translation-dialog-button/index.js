@@ -1,1 +1,1 @@
-export * from './TranslationDialogButton'
+export * from './TranslationDialogButton.jsx'

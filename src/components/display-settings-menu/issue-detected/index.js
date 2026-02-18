@@ -1,1 +1,1 @@
-export { default as IssueDetected } from './IssueButton'
+export { default as IssueDetected } from './IssueButton.jsx'

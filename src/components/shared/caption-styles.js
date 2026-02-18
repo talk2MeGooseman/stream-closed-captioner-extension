@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 import styled, { css } from 'styled-components'
 import { propOr, prop } from 'ramda'
 
@@ -25,7 +26,7 @@ export const CaptionsContainer = styled.div`
       max-height: ${({ fontSize, numberOfLines }) =>
         `calc(var(${fontSize || '--medium-font-size'}) * var(--line-height) * ${
           numberOfLines || 3
-    } + var(--caption-pad-bottom))`};
+        } + var(--caption-pad-bottom))`};
     `}
   ${(props) =>
     props.boxSize &&

@@ -1,1 +1,1 @@
-export * from './LanguageOptions'
+export * from './LanguageOptions.jsx'
