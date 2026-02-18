@@ -3,6 +3,7 @@ import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React from 'react'
 import { useDispatch } from 'react-redux'
+import { beforeEach, afterEach, describe, test, expect, vi } from 'vitest'
 
 import { useCaptionsHandler } from '../useCaptionsHandler'
 
@@ -11,7 +12,14 @@ import { updateVideoPlayerContext } from '@/redux/video-player-context-slice'
 import { renderWithRedux } from '@/setupTests'
 
 describe('useCaptionsHandler', () => {
-  jest.useFakeTimers()
+  beforeEach(() => {
+    vi.useFakeTimers()
+  })
+
+  afterEach(() => {
+    vi.useRealTimers()
+    vi.restoreAllMocks()
+  })
 
   const TestComponent = () => {
     const dispatch = useDispatch()
@@ -39,16 +47,17 @@ describe('useCaptionsHandler', () => {
     )
   }
 
-  test('receive a message a delay it by HLS timing', () => {
+  test('receive a message a delay it by HLS timing', async () => {
+    vi.spyOn(global, 'setTimeout')
+
     renderWithRedux(<TestComponent />)
 
     const delayInput = screen.getByLabelText('Caption Delay')
-
-    userEvent.type(delayInput , "2")
-
     const messageInput = screen.getByLabelText('Caption Message')
 
-    userEvent.type(messageInput , 'A')
+    await userEvent.type(delayInput, "2")
+    await userEvent.type(messageInput, 'A')
+    await userEvent.type(messageInput, 'B')
 
     expect(setTimeout).toHaveBeenCalledTimes(2)
     expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 2000)

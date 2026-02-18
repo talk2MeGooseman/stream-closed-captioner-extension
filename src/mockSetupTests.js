@@ -1,3 +1,4 @@
-import fetchMock from 'jest-fetch-mock'
+import { vi } from 'vitest'
 
-fetchMock.enableMocks()
+// Mock fetch globally for tests
+global.fetch = vi.fn()

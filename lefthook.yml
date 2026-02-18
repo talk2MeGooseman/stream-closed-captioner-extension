@@ -12,5 +12,5 @@ pre-commit:
   parallel: true
   commands:
     eslint:
-      glob: "*.{js,ts}"
+      glob: "src/**/*.{js,ts}"
       run: yarn eslint {staged_files}

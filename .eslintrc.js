@@ -3,16 +3,14 @@ module.exports = {
   env: {
     browser: true,
     es2021: true,
-    'jest/globals': true,
+    node: true,
   },
   extends: [
     'eslint:recommended',
     'plugin:react/recommended',
-    'plugin:jest/recommended',
-    'plugin:jest-dom/recommended',
+    'plugin:vitest/recommended',
     'plugin:import/recommended',
     'plugin:jsx-a11y/recommended',
-    'plugin:jest/recommended',
     'plugin:prettier/recommended',
     'plugin:ramda/recommended',
     'plugin:react-hooks/recommended',
@@ -30,7 +28,7 @@ module.exports = {
     ecmaVersion: 12,
     sourceType: 'module',
   },
-  plugins: ['react', 'jest-dom', 'ramda'],
+  plugins: ['react', 'ramda', 'vitest'],
   rules: {
     'no-process-env': 'off',
     indent: ['error', 2],
@@ -50,4 +48,19 @@ module.exports = {
       },
     },
   },
+  overrides: [
+    {
+      files: ['**/__tests__/**', '**/*.test.js', '**/*.test.jsx'],
+      globals: {
+        describe: 'readonly',
+        test: 'readonly',
+        expect: 'readonly',
+        beforeEach: 'readonly',
+        afterEach: 'readonly',
+        beforeAll: 'readonly',
+        afterAll: 'readonly',
+        vi: 'readonly',
+      },
+    },
+  ],
 }
