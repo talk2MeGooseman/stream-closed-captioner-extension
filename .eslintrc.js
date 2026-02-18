@@ -18,8 +18,12 @@ module.exports = {
     'plugin:react-hooks/recommended',
     'plugin:testing-library/react',
   ],
-  parser: 'babel-eslint',
+  parser: '@babel/eslint-parser',
   parserOptions: {
+    requireConfigFile: false,
+    babelOptions: {
+      presets: ['@babel/preset-env', '@babel/preset-react'],
+    },
     ecmaFeatures: {
       jsx: true,
     },

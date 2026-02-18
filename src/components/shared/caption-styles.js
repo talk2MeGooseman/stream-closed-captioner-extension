@@ -23,8 +23,9 @@ export const CaptionsContainer = styled.div`
       line-height: var(--line-height);
       padding-bottom: var(--caption-pad-bottom);
       max-height: ${({ fontSize, numberOfLines }) =>
-      `calc(var(${fontSize || '--medium-font-size'}) * var(--line-height) * ${numberOfLines || 3
-      } + var(--caption-pad-bottom))`};
+        `calc(var(${fontSize || '--medium-font-size'}) * var(--line-height) * ${
+          numberOfLines || 3
+    } + var(--caption-pad-bottom))`};
     `}
   ${(props) =>
     props.boxSize &&

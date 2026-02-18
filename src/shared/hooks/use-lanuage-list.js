@@ -1,8 +1,7 @@
-import { equals, keys } from "ramda"
-import { useMemo } from "react"
+import { equals, keys } from 'ramda'
+import { useMemo } from 'react'
 
-import { useShallowEqualSelector } from "@/redux/redux-helpers"
-
+import { useShallowEqualSelector } from '@/redux/redux-helpers'
 
 /**
  * Return a list of the translated languages
@@ -11,7 +10,7 @@ import { useShallowEqualSelector } from "@/redux/redux-helpers"
  */
 export const useLanguageList = () => {
   const currentLanguage = useShallowEqualSelector(
-    (state) => state.configSettings.language ?? "",
+    (state) => state.configSettings.language ?? '',
   )
   const languages = useShallowEqualSelector(
     (state) => state.translationInfo?.activationInfo?.languages ?? [],
@@ -20,9 +19,8 @@ export const useLanguageList = () => {
   return useMemo(() => {
     const [currentLanguageKey] = currentLanguage.split('-')
 
-    return keys(languages)
-    .reduce((accum, key) => {
-      if(equals(currentLanguageKey, key)) return accum
+    return keys(languages).reduce((accum, key) => {
+      if (equals(currentLanguageKey, key)) return accum
 
       const [formattedKey] = key.split('-')
 

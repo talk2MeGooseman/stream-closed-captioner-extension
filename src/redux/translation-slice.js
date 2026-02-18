@@ -23,10 +23,8 @@ const settingsSlice = createSlice({
   },
 })
 
-export const {
-  requestingTranslationStatus,
-  doneRequestingTranslationStatus,
-} = settingsSlice.actions
+export const { requestingTranslationStatus, doneRequestingTranslationStatus } =
+  settingsSlice.actions
 
 export default settingsSlice.reducer
 

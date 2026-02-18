@@ -10,6 +10,7 @@ import thunk from 'redux-thunk'
 
 import { TranslationsDrawer } from '@/components/TranslationDrawer'
 import Overlay from '@/components/VideoOverlay/Overlay'
+import MobilePanel from '@/components/Mobile/MobilePanel'
 import rootReducer from '@/redux/reducers'
 import { Twitch } from '@/Twitch'
 import { apolloClient } from '@/utils'
