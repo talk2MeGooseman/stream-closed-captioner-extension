@@ -1,7 +1,6 @@
 import { Popover } from '@blueprintjs/core'
 import { faLanguage } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React from 'react'
 
 import { Pulse } from '../../shared/caption-styles'
 import PropTypes from 'prop-types'

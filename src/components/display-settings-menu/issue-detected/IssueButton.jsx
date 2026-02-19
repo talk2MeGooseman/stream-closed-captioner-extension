@@ -1,7 +1,7 @@
 import { Tooltip, Dialog, Classes, Button } from '@blueprintjs/core'
 import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React, { useState, useCallback } from 'react'
+import { useState, useCallback } from 'react'
 
 import { Pulse } from '../../shared/caption-styles'
 

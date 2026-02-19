@@ -1,5 +1,4 @@
 import { Tooltip } from '@blueprintjs/core'
-import React from 'react'
 
 import {
   useReduxCallbackDispatch,

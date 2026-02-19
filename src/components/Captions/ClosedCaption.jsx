@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import Draggable from 'react-draggable'
 import { useDispatch } from 'react-redux'
 

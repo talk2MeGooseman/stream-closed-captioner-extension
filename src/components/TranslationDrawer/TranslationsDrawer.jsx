@@ -1,5 +1,4 @@
 import { Classes, Drawer } from '@blueprintjs/core'
-import React from 'react'
 
 import { NagStreamerBody, ActivateTranslationBody } from './Body'
 

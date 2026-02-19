@@ -1,9 +1,8 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { expect, afterEach, vi } from 'vitest'
 import { render } from '@testing-library/react'
-import React from 'react'
 import { Provider } from 'react-redux'
-import { createStore } from 'redux'
+import { configureStore } from '@reduxjs/toolkit'
 import '@testing-library/jest-dom'
 
 import rootReducer from '@/redux/reducers'
@@ -15,7 +14,7 @@ afterEach(() => {
 
 const renderWithRedux = (
   ui,
-  { initialState, store = createStore(rootReducer, initialState) } = {},
+  { initialState, store = configureStore({ reducer: rootReducer, preloadedState: initialState }) } = {},
 ) => ({
   ...render(<Provider store={store}>{ui}</Provider>),
   store,

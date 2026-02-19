@@ -1,5 +1,4 @@
 import { Button, Classes, Dialog, Tooltip } from '@blueprintjs/core'
-import React from 'react'
 
 import { BoxWidthSlider } from './fields/BoxWidthSlider'
 import { CaptionsTransparencySlider } from './fields/CaptionsTransparencySlider'

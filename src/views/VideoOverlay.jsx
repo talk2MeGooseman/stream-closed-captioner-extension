@@ -1,12 +1,7 @@
 import { ApolloProvider } from '@apollo/client/react'
-import { configureStore, applyMiddleware } from '@reduxjs/toolkit'
-import React from 'react'
-import ReactDOM from 'react-dom'
+import { configureStore } from '@reduxjs/toolkit'
+import { createRoot } from 'react-dom/client'
 import { Provider } from 'react-redux'
-// eslint-disable-next-line import/no-extraneous-dependencies
-import thunk from 'redux-thunk'
-
-// import logger from "redux-logger";
 
 import { TranslationsDrawer } from '@/components/TranslationDrawer'
 import Overlay from '@/components/VideoOverlay/Overlay'
@@ -15,23 +10,12 @@ import { Twitch } from '@/Twitch'
 import { apolloClient } from '@/utils'
 import './App.css'
 
-const store = configureStore(
-  {
-    reducer: rootReducer,
-  },
-  applyMiddleware(thunk),
-)
+const store = configureStore({
+  reducer: rootReducer,
+})
 
-// eslint-disable-next-line no-undef
-if (process.env.NODE_ENV !== 'production') {
-  // eslint-disable-next-line global-require
-  // eslint-disable-next-line no-undef
-  const axe = require('react-axe')
-
-  axe(React, ReactDOM, 1000)
-}
-
-ReactDOM.render(
+const root = createRoot(document.getElementById('root'))
+root.render(
   <ApolloProvider client={apolloClient}>
     <Provider store={store}>
       <Twitch>
@@ -40,5 +24,4 @@ ReactDOM.render(
       </Twitch>
     </Provider>
   </ApolloProvider>,
-  document.getElementById('root'),
 )

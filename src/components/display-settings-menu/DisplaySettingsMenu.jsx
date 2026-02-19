@@ -2,7 +2,6 @@ import { Popover, Tooltip } from '@blueprintjs/core'
 import { faCog } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import classnames from 'classnames'
-import React from 'react'
 
 import { AdvancedSettingsDialog } from '../AdvancedSettingsDialog'
 

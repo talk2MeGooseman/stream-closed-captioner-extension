@@ -1,4 +1,3 @@
-import React from 'react'
 
 import ConfigContainer from './ConfigContainer/ConfigContainer'
 import './Config.css'

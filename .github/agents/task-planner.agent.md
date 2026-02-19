@@ -1,7 +1,7 @@
 ---
 description: "Task planner for creating actionable implementation plans - Brought to you by microsoft/edge-ai"
 name: "Task Planner Instructions"
-tools: ["changes", "search/codebase", "edit/editFiles", "extensions", "fetch", "findTestFiles", "githubRepo", "new", "openSimpleBrowser", "problems", "runCommands", "runNotebooks", "runTests", "search", "search/searchResults", "runCommands/terminalLastCommand", "runCommands/terminalSelection", "testFailure", "usages", "vscodeAPI", "terraform", "Microsoft Docs", "azure_get_schema_for_Bicep", "context7"]
+tools: [vscode/getProjectSetupInfo, vscode/installExtension, vscode/memory, vscode/newWorkspace, vscode/openIntegratedBrowser, vscode/runCommand, vscode/askQuestions, vscode/vscodeAPI, vscode/extensions, execute/runNotebookCell, execute/testFailure, execute/getTerminalOutput, execute/awaitTerminal, execute/killTerminal, execute/createAndRunTask, execute/runInTerminal, execute/runTests, read/getNotebookSummary, read/problems, read/readFile, read/terminalSelection, read/terminalLastCommand, agent/runSubagent, edit/createDirectory, edit/createFile, edit/createJupyterNotebook, edit/editFiles, edit/editNotebook, edit/rename, search/changes, search/codebase, search/fileSearch, search/listDirectory, search/searchResults, search/textSearch, search/usages, web/fetch, web/githubRepo, todo]
 ---
 
 # Task Planner Instructions

@@ -1,7 +1,6 @@
 import { Tooltip } from '@blueprintjs/core'
 import { faClosedCaptioning, faBan } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React from 'react'
 
 import { isVideoOverlay } from '@/helpers/video-helpers'
 

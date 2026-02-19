@@ -2,7 +2,7 @@ import {
   Button, Classes, Divider, MenuItem
 } from '@blueprintjs/core'
 import { Select } from '@blueprintjs/select'
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 
 import { productMenuItemRenderer } from './ProductMenuItem'

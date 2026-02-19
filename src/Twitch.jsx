@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect, useCallback } from 'react'
+import { memo, useMemo, useEffect, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
 import { isNil, isEmpty } from 'ramda'
@@ -25,7 +25,7 @@ import { requestTranslationStatus } from '@/redux/translation-slice'
 import { useShallowEqualSelector } from './redux/redux-helpers'
 import { isVideoOverlay } from './helpers/video-helpers'
 
-export const Twitch = React.memo(function Twitch({ children }) {
+export const Twitch = memo(function Twitch({ children }) {
   const dispatch = useDispatch()
   const authentication = useMemo(() => new Authentication(), [])
   const { token, userId, channelId } = useTwitchAuth()

@@ -1,7 +1,5 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
-import { screen } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
-import React from 'react'
+import { screen, fireEvent } from '@testing-library/react'
 import { useDispatch } from 'react-redux'
 import { beforeEach, afterEach, describe, test, expect, vi } from 'vitest'
 
@@ -47,7 +45,7 @@ describe('useCaptionsHandler', () => {
     )
   }
 
-  test('receive a message a delay it by HLS timing', async () => {
+  test('receive a message a delay it by HLS timing', () => {
     vi.spyOn(global, 'setTimeout')
 
     renderWithRedux(<TestComponent />)
@@ -55,9 +53,9 @@ describe('useCaptionsHandler', () => {
     const delayInput = screen.getByLabelText('Caption Delay')
     const messageInput = screen.getByLabelText('Caption Message')
 
-    await userEvent.type(delayInput, "2")
-    await userEvent.type(messageInput, 'A')
-    await userEvent.type(messageInput, 'B')
+    fireEvent.change(delayInput, { target: { value: '2' } })
+    fireEvent.change(messageInput, { target: { value: 'A' } })
+    fireEvent.change(messageInput, { target: { value: 'B' } })
 
     expect(setTimeout).toHaveBeenCalledTimes(2)
     expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 2000)

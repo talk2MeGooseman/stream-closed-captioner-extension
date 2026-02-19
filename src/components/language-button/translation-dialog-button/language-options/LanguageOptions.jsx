@@ -1,5 +1,4 @@
 import { MenuDivider, Menu, MenuItem } from '@blueprintjs/core'
-import React from 'react'
 
 import { LanguageOption } from './language-option'
 

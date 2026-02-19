@@ -1,12 +1,7 @@
 import { ApolloProvider } from '@apollo/client/react'
-import { configureStore, applyMiddleware } from '@reduxjs/toolkit'
-import React from 'react'
-import ReactDOM from 'react-dom'
+import { configureStore } from '@reduxjs/toolkit'
+import { createRoot } from 'react-dom/client'
 import { Provider } from 'react-redux'
-// eslint-disable-next-line import/no-extraneous-dependencies
-import thunk from 'redux-thunk'
-
-// import logger from "redux-logger";
 
 import { TranslationsDrawer } from '@/components/TranslationDrawer'
 import Overlay from '@/components/VideoOverlay/Overlay'
@@ -18,15 +13,13 @@ import './views/App.css'
 
 const params = new URLSearchParams(window.location.search)
 
-const store = configureStore(
-  {
-    reducer: rootReducer,
-  },
-  applyMiddleware(thunk),
-)
+const store = configureStore({
+  reducer: rootReducer,
+})
 
-if (params.get('mode') === 'config') {
-  ReactDOM.render(
+let content
+if (params.get('mode') === 'config' || params.get('anchor') === 'video_overlay') {
+  content = (
     <ApolloProvider client={apolloClient}>
       <Provider store={store}>
         <Twitch>
@@ -34,35 +27,10 @@ if (params.get('mode') === 'config') {
           <Overlay />
         </Twitch>
       </Provider>
-    </ApolloProvider>,
-    document.getElementById('root'),
-  )
-} else if (params.get('anchor') === 'panel') {
-  ReactDOM.render(
-    <ApolloProvider client={apolloClient}>
-      <Provider store={store}>
-        <Twitch>
-          <TranslationsDrawer />
-          <MobilePanel />
-        </Twitch>
-      </Provider>
-    </ApolloProvider>,
-    document.getElementById('root'),
-  )
-} else if (params.get('anchor') === 'video_overlay') {
-  ReactDOM.render(
-    <ApolloProvider client={apolloClient}>
-      <Provider store={store}>
-        <Twitch>
-          <TranslationsDrawer />
-          <Overlay />
-        </Twitch>
-      </Provider>
-    </ApolloProvider>,
-    document.getElementById('root'),
+    </ApolloProvider>
   )
 } else {
-  ReactDOM.render(
+  content = (
     <ApolloProvider client={apolloClient}>
       <Provider store={store}>
         <Twitch>
@@ -70,7 +38,9 @@ if (params.get('mode') === 'config') {
           <MobilePanel />
         </Twitch>
       </Provider>
-    </ApolloProvider>,
-    document.getElementById('root'),
+    </ApolloProvider>
   )
 }
+
+const root = createRoot(document.getElementById('root'))
+root.render(content)

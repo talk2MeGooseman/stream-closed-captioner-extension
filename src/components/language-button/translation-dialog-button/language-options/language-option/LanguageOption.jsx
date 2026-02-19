@@ -1,5 +1,4 @@
 import { MenuItem } from '@blueprintjs/core'
-import React from 'react'
 import PropTypes from 'prop-types'
 
 import { useReduxCallbackDispatch } from '@/redux/redux-helpers'

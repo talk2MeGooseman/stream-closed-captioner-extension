@@ -1,6 +1,6 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client'
 
 import { ConfigPage } from '@/components/config-page'
 
-ReactDOM.render(<ConfigPage />, document.getElementById('root'))
+const root = createRoot(document.getElementById('root'))
+root.render(<ConfigPage />)

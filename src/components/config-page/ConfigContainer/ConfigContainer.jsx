@@ -1,6 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
 import { Card, Elevation } from '@blueprintjs/core'
-import React from 'react'
 import './ConfigContainer.css'
 
 export default function ConfigContainer() {
