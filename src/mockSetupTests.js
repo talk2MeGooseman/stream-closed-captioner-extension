@@ -12,7 +12,9 @@ if (typeof ReactDOM.findDOMNode !== 'function') {
     if (componentOrElement instanceof HTMLElement) return componentOrElement
     if (componentOrElement.nodeType === 1) return componentOrElement
     // For class component instances, traverse the React fiber tree
-    const fiber = componentOrElement._reactInternals || componentOrElement._reactInternalFiber
+    const fiber =
+      componentOrElement._reactInternals ||
+      componentOrElement._reactInternalFiber
     if (fiber) {
       let node = fiber
       while (node) {
