@@ -1,8 +1,9 @@
 /* eslint-disable indent */
 import styled, { css } from 'styled-components'
 import { propOr, prop } from 'ramda'
+import { memo } from 'react'
 
-export const CaptionsContainer = styled.div`
+const CaptionsContainerStyled = styled.div`
   display: flex;
   padding: 0px 0px;
   background: ${({ captionsTransparency }) =>
@@ -34,7 +35,11 @@ export const CaptionsContainer = styled.div`
       align-self: flex-end;
     `} overflow: hidden;
 `
-export const Captions = styled.main`
+
+// Memoized container to prevent re-renders when props haven't changed
+export const CaptionsContainer = memo(CaptionsContainerStyled)
+
+const CaptionsStyled = styled.main`
   font-family: ${propOr('Roboto', 'fontFamily')}, Arial, Helvetica, sans-serif;
   font-size: var(${propOr('--large-font-size', 'fontSize')});
   color: ${propOr('#ffffff', 'color')};
@@ -46,7 +51,10 @@ export const Captions = styled.main`
     `}
 `
 
-export const CaptionText = styled.span`
+// Memoized captions to prevent re-renders when props haven't changed
+export const Captions = memo(CaptionsStyled)
+
+const CaptionTextStyled = styled.span`
   ${(props) =>
     props.grayOutText &&
     css`
@@ -59,7 +67,10 @@ export const CaptionText = styled.span`
     `}
 `
 
-export const Pulse = styled.div`
+// Memoized caption text to prevent re-renders when props haven't changed
+export const CaptionText = memo(CaptionTextStyled)
+
+const PulseStyled = styled.div`
   animation: pulse 2s infinite;
   @keyframes pulse {
     0% {
@@ -73,3 +84,6 @@ export const Pulse = styled.div`
     }
   }
 `
+
+// Memoized pulse component to prevent re-renders when props haven't changed
+export const Pulse = memo(PulseStyled)

@@ -11,7 +11,6 @@ import {
 
 import { toggleVisibility } from '@/redux/settings-slice'
 
-// eslint-disable-next-line complexity
 const VisibilityToggle = () => {
   const videoPlayerContext = useShallowEqualSelector(
     (state) => state.videoPlayerContext,

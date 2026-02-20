@@ -8,7 +8,7 @@ export const useTwitchPubSub = (onBroadcast) => {
       try {
         pipe(JSON.parse, onBroadcast)(message)
         // eslint-disable-next-line no-empty
-      } catch (error) {}
+      } catch (_error) {}
     }
 
     if (itsTwitch) {

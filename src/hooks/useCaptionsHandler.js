@@ -35,11 +35,11 @@ export function useCaptionsHandler() {
 
   return useCallback(
     (target, contentType, message) => {
-      let parsedMessage = null
+      let parsedMessage
 
       try {
         parsedMessage = JSON.parse(message)
-      } catch (error) {
+      } catch (_error) {
         parsedMessage = {
           interim: message,
         }

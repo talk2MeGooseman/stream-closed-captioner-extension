@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import { combineReducers } from 'redux'
 
 import captionsSlice from '@/redux/captions-slice'

@@ -1,4 +1,3 @@
-
 import {
   Captions,
   CaptionText,
@@ -10,6 +9,7 @@ import { getMobileFontSizeStyle } from './helpers'
 import { useShallowEqualSelector } from '@/redux/redux-helpers'
 
 import { FONT_FAMILIES } from '@/utils/Constants'
+import { memo } from 'react'
 // Bits - phrakberg
 // Resub - phrakberg
 // Donation -pikaia_xy
@@ -22,7 +22,6 @@ import { FONT_FAMILIES } from '@/utils/Constants'
 // Sub - el_psychic
 // Resub - CreativeBuilds
 
-// eslint-disable-next-line complexity
 function MobileClosedCaption() {
   const { interimText, finalTextQueue, translations } = useShallowEqualSelector(
     (state) => state.captionsState,
@@ -36,7 +35,7 @@ function MobileClosedCaption() {
     ? FONT_FAMILIES.DYSLEXIA
     : FONT_FAMILIES.ROBOT
 
-  let finalTextCaptions = ''
+  let finalTextCaptions
 
   if (configSettings.viewerLanguage === 'default') {
     finalTextCaptions = finalTextQueue.map(({ text }) => text).join(' ')
@@ -67,4 +66,6 @@ function MobileClosedCaption() {
   )
 }
 
-export default MobileClosedCaption
+// Memoize MobileClosedCaption component to prevent unnecessary re-renders
+// Only re-renders when Redux state actually changes (via useShallowEqualSelector)
+export default memo(MobileClosedCaption)

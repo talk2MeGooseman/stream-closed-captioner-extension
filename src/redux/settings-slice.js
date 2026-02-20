@@ -64,7 +64,7 @@ const settingsSlice = createSlice({
     changeColor(state, action) {
       state.color = action.payload
     },
-    // eslint-disable-next-line complexity
+
     decreaseLineCount(state) {
       if (state.ccBoxSize && state.boxLineCount !== 1) {
         state.boxLineCount -= 1

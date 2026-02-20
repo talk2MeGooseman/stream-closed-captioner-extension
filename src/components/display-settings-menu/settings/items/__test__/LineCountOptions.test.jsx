@@ -1,10 +1,8 @@
 import { screen } from '@testing-library/react'
-import React from 'react'
 
 import LineCountOptions from '../LineCountOptions'
 
 import { renderWithRedux } from '@/setupTests'
-
 
 describe('lineCountOptions', () => {
   describe('not video overlay', () => {

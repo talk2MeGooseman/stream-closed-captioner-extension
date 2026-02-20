@@ -18,7 +18,10 @@ const store = configureStore({
 })
 
 let content
-if (params.get('mode') === 'config' || params.get('anchor') === 'video_overlay') {
+if (
+  params.get('mode') === 'config' ||
+  params.get('anchor') === 'video_overlay'
+) {
   content = (
     <ApolloProvider client={apolloClient}>
       <Provider store={store}>

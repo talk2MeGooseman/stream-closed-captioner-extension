@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/control-has-associated-label */
 import { screen, fireEvent } from '@testing-library/react'
 import { useDispatch } from 'react-redux'
 import { beforeEach, afterEach, describe, test, expect, vi } from 'vitest'
@@ -28,19 +27,19 @@ describe('useCaptionsHandler', () => {
     }
 
     const onDelay = (e) => {
-      update({ hlsLatencyBroadcaster: parseInt(e.target.value)})
+      update({ hlsLatencyBroadcaster: parseInt(e.target.value) })
     }
 
     return (
       <>
-      <label>
-        Caption Message
-        <input onChange={onMessage} type="text" />
-      </label>
-      <label>
-        Caption Delay
-        <input onChange={onDelay} type="text" />
-      </label>
+        <label>
+          Caption Message
+          <input onChange={onMessage} type="text" />
+        </label>
+        <label>
+          Caption Delay
+          <input onChange={onDelay} type="text" />
+        </label>
       </>
     )
   }

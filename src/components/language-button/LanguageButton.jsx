@@ -15,7 +15,6 @@ import {
 
 import { toggleActivationDrawer } from '@/redux/settings-slice'
 
-// eslint-disable-next-line complexity
 export default function LanguageButton() {
   const isBitsEnabled = useShallowEqualSelector(isBitsEnabledSelector)
   const hasTranslations = useShallowEqualSelector(

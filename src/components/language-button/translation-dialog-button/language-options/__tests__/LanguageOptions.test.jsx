@@ -1,5 +1,4 @@
 import { fireEvent, screen } from '@testing-library/react'
-import React from 'react'
 
 import { LanguageOptions } from '../LanguageOptions'
 
@@ -8,29 +7,28 @@ import { renderWithRedux } from '@/setupTests'
 const translationInfo = {
   activationInfo: {
     languages: {
-      de: "Germ"
-    }
-  }
+      de: 'Germ',
+    },
+  },
 }
 
 describe('languageOptions ', () => {
   test('fires onClick when selecting new language', () => {
-    const { queryByTestId, store } = renderWithRedux(
-      <LanguageOptions />,
-      { initialState: { translationInfo } },
-    )
+    const { queryByTestId, store } = renderWithRedux(<LanguageOptions />, {
+      initialState: { translationInfo },
+    })
 
     fireEvent.click(queryByTestId('language-de'))
-    const { configSettings: { viewerLanguage } } = store.getState()
+    const {
+      configSettings: { viewerLanguage },
+    } = store.getState()
 
     expect(viewerLanguage).toStrictEqual('de')
   })
 
   describe('indicates selected language', () => {
     test('default language by default', () => {
-      const { queryByTestId } = renderWithRedux(
-        <LanguageOptions />,
-      )
+      const { queryByTestId } = renderWithRedux(<LanguageOptions />)
       const tickEl = document.querySelector('span[icon="tick"]')
 
       expect(queryByTestId('language-default')).toContainElement(tickEl)
@@ -53,10 +51,9 @@ describe('languageOptions ', () => {
   describe('translations are enabled', () => {
     describe('bits enabled user', () => {
       test('renders button', () => {
-        const { queryByText } = renderWithRedux(
-          <LanguageOptions />,
-          { initialState: { configSettings: { isBitsEnabled: true } } },
-        )
+        const { queryByText } = renderWithRedux(<LanguageOptions />, {
+          initialState: { configSettings: { isBitsEnabled: true } },
+        })
 
         expect(queryByText('Add Translation Days')).toBeInTheDocument()
       })
@@ -64,10 +61,9 @@ describe('languageOptions ', () => {
 
     describe('non-bits enabled user', () => {
       test('renders button', () => {
-        const { queryByText } = renderWithRedux(
-          <LanguageOptions />,
-          { initialState: { configSettings: { isBitsEnabled: false } } },
-        )
+        const { queryByText } = renderWithRedux(<LanguageOptions />, {
+          initialState: { configSettings: { isBitsEnabled: false } },
+        })
 
         expect(queryByText('Add Translation Days')).not.toBeInTheDocument()
       })

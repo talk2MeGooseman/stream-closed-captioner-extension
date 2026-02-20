@@ -1,5 +1,5 @@
 import react from '@vitejs/plugin-react'
-import { defineConfig, splitVendorChunkPlugin } from 'vite'
+import { defineConfig } from 'vite'
 import svgrPlugin from 'vite-plugin-svgr'
 import eslint from 'vite-plugin-eslint'
 import path from 'path'
@@ -19,6 +19,31 @@ export default defineConfig({
         liveConfig: path.resolve(__dirname, 'live_config.html'),
         mobile: path.resolve(__dirname, 'mobile.html'),
         videoOverlay: path.resolve(__dirname, 'video_overlay.html')
+      },
+      output: {
+        manualChunks: (id) => {
+          // Core React and Redux dependencies - shared across all entry points
+          if (id.includes('node_modules')) {
+            if (id.includes('react') || id.includes('react-dom')) {
+              return 'vendor-core'
+            }
+            if (id.includes('@reduxjs/toolkit') || id.includes('redux')) {
+              return 'vendor-core'
+            }
+            if (id.includes('@apollo/client')) {
+              return 'vendor-apollo'
+            }
+            if (id.includes('@blueprintjs') || id.includes('react-draggable')) {
+              return 'vendor-ui'
+            }
+            // All other vendor modules (lodash, ramda, styled-components, etc.)
+            return 'vendor'
+          }
+          // Shared Redux slices
+          if (id.includes('/redux/')) {
+            return 'shared-redux'
+          }
+        }
       }
     }
   },
@@ -34,7 +59,6 @@ export default defineConfig({
   plugins: [
     react(),
     nodePolyfills(),
-    splitVendorChunkPlugin(),
     svgrPlugin({
       svgrOptions: {
         icon: true,

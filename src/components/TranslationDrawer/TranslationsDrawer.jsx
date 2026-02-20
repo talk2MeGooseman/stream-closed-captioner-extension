@@ -13,7 +13,6 @@ import { toggleActivationDrawer } from '@/redux/settings-slice'
 
 import { TRANSLATION_COST } from '@/utils/Constants'
 
-// eslint-disable-next-line complexity
 function TranslationsDrawer() {
   const { isDrawerOpen, isBitsEnabled } = useShallowEqualSelector(
     (state) => state.configSettings,

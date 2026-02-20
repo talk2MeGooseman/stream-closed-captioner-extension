@@ -1,5 +1,3 @@
-import React from 'react'
-
 import LanguageButton from '../LanguageButton'
 
 import { renderWithRedux } from '@/setupTests'
@@ -18,7 +16,7 @@ describe('languageButton', () => {
             configSettings: {
               isBitsEnabled: true,
             },
-        },
+          },
         })
 
         expect(container.querySelector('svg')).toHaveClass('fa-language')
@@ -32,7 +30,7 @@ describe('languageButton', () => {
             captionsState: {
               finalTextQueue: [],
               interimText: 'Something',
-              translations: { en: '' }
+              translations: { en: '' },
             },
             configSettings: { isBitsEnabled: false },
           },
@@ -51,7 +49,7 @@ describe('languageButton', () => {
             captionsState: {
               finalTextQueue: [],
               interimText: 'Something',
-              translations: { en: '' }
+              translations: { en: '' },
             },
             configSettings: { isBitsEnabled: true },
           },

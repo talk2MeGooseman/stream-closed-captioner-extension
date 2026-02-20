@@ -1,4 +1,3 @@
-
 import ConfigContainer from './ConfigContainer/ConfigContainer'
 import './Config.css'
 

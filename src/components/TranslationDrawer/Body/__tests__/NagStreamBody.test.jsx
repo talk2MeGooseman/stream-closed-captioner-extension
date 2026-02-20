@@ -1,6 +1,5 @@
 import { fireEvent } from '@testing-library/react'
 import { T } from 'ramda'
-import React from 'react'
 
 import NagStreamerBody from '../NagStreamerBody'
 

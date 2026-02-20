@@ -4,6 +4,18 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto:300&display=swap');
 @import '../fonts/stylesheet.css';
 
+/* Optimize font loading with font-display: swap to prevent blocking rendering */
+@font-face {
+  font-family: 'blueprint-icons';
+  src: url('~@blueprintjs/icons/lib/css/blueprint-icons.ttf') format('truetype');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'dsylexic-regular';
+  font-display: swap;
+}
+
 :root {
   --small-font-size: 1.5vw;
   --medium-font-size: 2vw;

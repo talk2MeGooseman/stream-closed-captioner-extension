@@ -1,12 +1,10 @@
 import { screen } from '@testing-library/react'
-import React from 'react'
 
 import { CaptionsTransparencySlider } from '../CaptionsTransparencySlider'
 
 import { renderWithRedux } from '@/setupTests'
 
 import { CAPTIONS_TRANSPARENCY } from '@/utils/Constants'
-
 
 describe('captionsTransparencySlider', () => {
   describe('not video overlay', () => {

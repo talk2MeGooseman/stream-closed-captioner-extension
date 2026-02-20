@@ -1,9 +1,8 @@
 /* eslint-disable indent */
 import { TEXT_SIZES } from '@/utils/Constants'
 
-// eslint-disable-next-line complexity
 export function getMobileFontSizeStyle(size) {
-  let fontSize = ''
+  let fontSize
 
   switch (size) {
     case TEXT_SIZES.SMALL:
@@ -23,9 +22,8 @@ export function getMobileFontSizeStyle(size) {
   return fontSize
 }
 
-// eslint-disable-next-line complexity
 export function getFontSizeStyle(size) {
-  let fontSize = ''
+  let fontSize
 
   switch (size) {
     case TEXT_SIZES.SMALL:

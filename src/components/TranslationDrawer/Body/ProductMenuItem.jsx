@@ -1,15 +1,15 @@
-import {
-  MenuItem,
-} from '@blueprintjs/core'
+import { MenuItem } from '@blueprintjs/core'
 import PropTypes from 'prop-types'
 
 export function productMenuItemRenderer(product, { handleClick, modifiers }) {
-  return <ProductMenuItem
-    handleClick={handleClick}
-    key={product.sku}
-    modifiers={modifiers}
-    product={product}
-  />
+  return (
+    <ProductMenuItem
+      handleClick={handleClick}
+      key={product.sku}
+      modifiers={modifiers}
+      product={product}
+    />
+  )
 }
 
 const ProductMenuItem = ({ product, handleClick, modifiers }) => (
@@ -30,7 +30,7 @@ ProductMenuItem.propTypes = {
     displayName: PropTypes.string.isRequired,
     handleClick: PropTypes.func.isRequired,
     sku: PropTypes.string.isRequired,
-    // eslint-disable-next-line sort-keys
+
     cost: PropTypes.shape({
       amount: PropTypes.number.isRequired,
     }),

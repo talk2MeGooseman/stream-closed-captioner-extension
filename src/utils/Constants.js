@@ -6,9 +6,9 @@ export const CONTEXT_EVENTS_WHITELIST = [
 
 export const TEXT_SIZES = {
   SMALL: 1,
-  // eslint-disable-next-line sort-keys
+
   MEDIUM: 2,
-  // eslint-disable-next-line sort-keys
+
   LARGE: 3,
 }
 

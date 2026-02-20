@@ -29,7 +29,7 @@ const captionsSlice = createSlice({
         state.translations = {}
       }
     },
-    // eslint-disable-next-line complexity
+
     updateCCText(state, action) {
       const newTranslations = state.translations
       const qLength = state.finalTextQueue.length
@@ -49,7 +49,6 @@ const captionsSlice = createSlice({
       if (action.payload.translations) {
         const translatedLanguages = Object.keys(action.payload.translations)
 
-        // eslint-disable-next-line complexity
         translatedLanguages.forEach((language) => {
           const currentLangTranslation = state.translations[language] || {
             textQueue: [],
@@ -94,9 +93,8 @@ export function subscribeToCaptions(channelId) {
       })
       .subscribe({
         next({ data: { newTwitchCaption } }) {
-          const hlsLatencyBroadcaster = hlsLatencyBroadcasterSelector(
-            getState(),
-          )
+          const hlsLatencyBroadcaster =
+            hlsLatencyBroadcasterSelector(getState())
 
           let delayTimeMilliseconds = hlsLatencyBroadcaster * 1000
 

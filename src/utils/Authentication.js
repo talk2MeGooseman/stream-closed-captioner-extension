@@ -62,7 +62,7 @@ export default class Authentication {
         token,
         userId: tokenUserId,
       }
-    } catch (e) {
+    } catch (_e) {
       this.state = {
         isMod: mod,
         opaqueId: '',

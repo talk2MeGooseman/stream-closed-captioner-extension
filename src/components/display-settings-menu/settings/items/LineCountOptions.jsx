@@ -11,7 +11,6 @@ import {
 
 import { increaseLineCount, decreaseLineCount } from '@/redux/settings-slice'
 
-// eslint-disable-next-line complexity
 function LineCountOptions() {
   const ccBoxSize = useShallowEqualSelector(
     (state) => state.configSettings.ccBoxSize,

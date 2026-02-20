@@ -1,9 +1,6 @@
-import React from 'react'
-
 import SettingMenu from '../SettingMenu'
 
 import { renderWithRedux } from '@/setupTests'
-
 
 describe('settingMenu', () => {
   describe('not video overlay', () => {

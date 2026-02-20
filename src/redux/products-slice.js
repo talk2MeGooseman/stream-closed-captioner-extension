@@ -21,7 +21,7 @@ const initialState = {
   channelId: null,
   processing: false,
   products: [],
-  // eslint-disable-next-line camelcase
+
   sent_sku: null,
   transaction: null,
 }
@@ -31,13 +31,11 @@ const productsSlice = createSlice({
   name: 'products',
   reducers: {
     completeUseBits(state, action) {
-      // eslint-disable-next-line camelcase
       state.sent_sku = null
       state.processing = false
       state.transaction = action.payload
     },
     sendUseBits(state, action) {
-      // eslint-disable-next-line camelcase
       state.sent_sku = action.payload
       state.processing = true
     },

@@ -16,7 +16,7 @@ export function useConfigurationSettingUpdater(twitch, setReady) {
 
     try {
       config = JSON.parse(config)
-    } catch (e) {
+    } catch (_e) {
       config = {}
     }
 

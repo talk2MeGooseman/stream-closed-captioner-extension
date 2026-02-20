@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { useCallback, memo } from 'react'
 import Draggable from 'react-draggable'
 import { useDispatch } from 'react-redux'
 
@@ -42,7 +42,6 @@ function getTranslationQueue(configSettings, translations) {
   return pathOr([], [configSettings.viewerLanguage, 'textQueue'], translations)
 }
 
-// eslint-disable-next-line complexity
 function ClosedCaption() {
   const dispatch = useDispatch()
   const configSettings = useShallowEqualSelector(
@@ -65,7 +64,7 @@ function ClosedCaption() {
     numberOfLines = configSettings.boxLineCount
   }
 
-  let finalTextCaptions = ''
+  let finalTextCaptions
 
   if (configSettings.viewerLanguage === 'default') {
     finalTextCaptions = finalTextQueue.map(({ text }) => text).join(' ')
@@ -103,4 +102,6 @@ function ClosedCaption() {
   )
 }
 
-export default ClosedCaption
+// Memoize ClosedCaption component to prevent unnecessary re-renders
+// Only re-renders when Redux state actually changes (via useShallowEqualSelector)
+export default memo(ClosedCaption)

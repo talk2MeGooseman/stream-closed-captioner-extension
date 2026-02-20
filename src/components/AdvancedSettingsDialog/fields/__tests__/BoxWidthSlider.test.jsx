@@ -1,12 +1,10 @@
 import { screen } from '@testing-library/react'
-import React from 'react'
 
 import { BoxWidthSlider } from '../BoxWidthSlider'
 
 import { renderWithRedux } from '@/setupTests'
 
 import { CAPTIONS_SIZE } from '@/utils/Constants'
-
 
 describe('boxWidthSlider', () => {
   describe('not video overlay', () => {
@@ -36,7 +34,9 @@ describe('boxWidthSlider', () => {
 
       const { configSettings: defaultSetting } = store.getState()
 
-      expect(defaultSetting.captionsWidth).toStrictEqual(CAPTIONS_SIZE.defaultHorizontalWidth)
+      expect(defaultSetting.captionsWidth).toStrictEqual(
+        CAPTIONS_SIZE.defaultHorizontalWidth,
+      )
     })
   })
 })

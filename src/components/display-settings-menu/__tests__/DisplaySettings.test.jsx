@@ -1,9 +1,6 @@
-import React from 'react'
-
 import DisplaySettingsMenu, { positionLeft } from '../DisplaySettingsMenu'
 
 import { renderWithRedux } from '@/setupTests'
-
 
 function setAsVideoOverlay() {
   window.history.pushState(

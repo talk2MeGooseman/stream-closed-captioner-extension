@@ -1,6 +1,4 @@
-import {
-  Button, Classes, Divider, MenuItem
-} from '@blueprintjs/core'
+import { Button, Classes, Divider, MenuItem } from '@blueprintjs/core'
 import { Select } from '@blueprintjs/select'
 import { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
@@ -13,15 +11,14 @@ import { useShallowEqualSelector } from '@/redux/redux-helpers'
 
 import { useLanguageList } from '@/shared/hooks'
 
-
-
-
-
 function ActivateTranslationBody() {
   const dispatch = useDispatch()
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const onUseBits = useCallback((sku) => dispatch(useBits(sku)), [dispatch])
-  const onProductSelect = useCallback((product) => dispatch(setSelectedProduct(product)), [dispatch])
+  const onProductSelect = useCallback(
+    (product) => dispatch(setSelectedProduct(product)),
+    [dispatch],
+  )
 
   const productsCatalog = useShallowEqualSelector(
     (state) => state.productsCatalog,
