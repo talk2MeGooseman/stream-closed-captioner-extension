@@ -1,7 +1,7 @@
-import { Popover, Tooltip } from '@blueprintjs/core'
 import { faCog } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import classnames from 'classnames'
+import { useState } from 'react'
 
 import { AdvancedSettingsDialog } from '../AdvancedSettingsDialog'
 
@@ -15,10 +15,14 @@ import { isVideoOverlay } from '@/helpers/video-helpers'
 
 import { useShallowEqualSelector } from '@/redux/redux-helpers'
 
+import './settings-menu.css'
+
 export const positionLeft = (switchSettingsPosition) =>
   isVideoOverlay() && switchSettingsPosition
 
 const Controls = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+
   const arePlayerControlsVisible = useShallowEqualSelector(
     (state) => state.videoPlayerContext.arePlayerControlsVisible,
   )
@@ -44,15 +48,27 @@ const Controls = () => {
       <nav className={controlClass} data-testid="display-settings">
         <LanguageButton />
         <VisibilityToggle />
-        <Popover
-          captureDismiss
-          content={<SettingsMenu />}
-          position="left-bottom"
-        >
-          <Tooltip content="Settings">
+        <div className="settings-menu-wrapper" style={{ position: 'relative' }}>
+          <button
+            className="settings-icon"
+            type="button"
+            title="Settings"
+            aria-label="Open settings menu"
+            aria-expanded={isMenuOpen}
+            onClick={(e) => {
+              e.preventDefault()
+              e.stopPropagation()
+              setIsMenuOpen(!isMenuOpen)
+            }}
+          >
             <FontAwesomeIcon icon={faCog} size="2x" />
-          </Tooltip>
-        </Popover>
+          </button>
+          {isMenuOpen && (
+            <div className="settings-menu-container" onClick={(e) => e.stopPropagation()}>
+              <SettingsMenu />
+            </div>
+          )}
+        </div>
       </nav>
       <AdvancedSettingsDialog />
     </>

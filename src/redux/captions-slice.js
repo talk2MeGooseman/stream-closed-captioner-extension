@@ -1,7 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { v4 as uuid } from 'uuid'
 
-import { apolloClient, phxSocket } from '../utils'
+import {
+  apolloClient,
+  connectPhoenixSocket,
+  isPhoenixSocketConnected,
+  disconnectPhoenixSocket,
+} from '../utils'
 
 import { subscriptionNewCaptions } from './utils'
 import { hlsLatencyBroadcasterSelector } from './selectors'
@@ -23,8 +28,8 @@ const captionsSlice = createSlice({
       state.captionsSubscription = subscription
     },
     stopCaptionsSubscription: (state, _) => {
-      if (phxSocket.isConnected()) {
-        phxSocket.disconnect()
+      if (isPhoenixSocketConnected()) {
+        disconnectPhoenixSocket()
         state.finalTextQueue = []
         state.translations = {}
       }
@@ -85,7 +90,9 @@ const captionsSlice = createSlice({
 
 export function subscribeToCaptions(channelId) {
   return function thunk(dispatch, getState) {
-    phxSocket.connect()
+    // Connect Phoenix socket (safe no-op if socket doesn't exist in dev mode)
+    connectPhoenixSocket()
+
     return apolloClient
       .subscribe({
         variables: { channelId },

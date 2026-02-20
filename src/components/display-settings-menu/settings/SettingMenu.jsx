@@ -3,6 +3,7 @@ import { Menu } from '@blueprintjs/core'
 import {
   AdvancedSettings,
   BoxSizeButton,
+  DevMockControls,
   FontFamilyOptions,
   FontSizeOptions,
   GrayOutFinalTextOptionButton,
@@ -21,6 +22,7 @@ const SettingsMenu = () => (
     <ResetButton />
     <BoxSizeButton />
     <AdvancedSettings />
+    <DevMockControls />
   </Menu>
 )
 
