@@ -5,6 +5,20 @@ description: |
   Reviews dependabot pull requests to assess compatibility risk and recommend
   code changes to ensure project compatibility with new dependency versions.
 
+  **IMPORTANT:** This workflow requires explicit GitHub credentials to run on
+  dependabot PRs, as the dependabot[bot] user cannot be granted write permissions.
+
+  **Setup Instructions:**
+  1. Create a GitHub Personal Access Token (PAT) with:
+     - repo (full control of repositories)
+     - read:discussions
+     Or create a GitHub App with equivalent permissions
+
+  2. Add the token as a repository secret named `GH_AW_GITHUB_TOKEN`
+
+  3. Ensure the token is configured in:
+     GitHub Settings → Secrets and variables → Actions → New repository secret
+
 on:
   pull_request:
     types: [opened, synchronize]
@@ -15,6 +29,12 @@ permissions:
   pull-requests: read
 
 engine: copilot
+
+# GitHub token configuration for dependabot compatibility
+# Uses GH_AW_GITHUB_TOKEN secret which must be set up with write permissions
+# This is required because dependabot[bot] has no write access
+env:
+  GH_AW_GITHUB_TOKEN: ${{ secrets.GH_AW_AGENT_TOKEN }}
 
 tools:
   github:
@@ -130,3 +150,36 @@ When providing your analysis, format your comment as follows:
 - Prioritize high-impact changes that affect core functionality
 - Suggest gradual migration paths for complex updates
 - Link to official migration guides when relevant
+
+## Token Configuration Details
+
+This workflow requires `GH_AW_GITHUB_TOKEN` to function properly when triggered by dependabot PRs.
+
+**Why is this needed?**
+- `dependabot[bot]` is a GitHub app with no write permissions to the repository
+- The workflow needs write access to create comments on PRs
+- GITHUB_TOKEN provided by GitHub Actions has limited permissions in PR contexts
+
+**Setting up the token:**
+
+**Option A: Personal Access Token (PAT)**
+1. Go to GitHub Settings → Developer settings → Personal access tokens → Tokens (classic)
+2. Click "Generate new token"
+3. Select scopes: `repo` (full control) and `read:discussions`
+4. Copy the token
+5. Go to your repository → Settings → Secrets and variables → Actions
+6. Click "New repository secret"
+7. Name: `GH_AW_GITHUB_TOKEN`
+8. Paste the token value
+
+**Option B: GitHub App**
+1. Create a GitHub App with permissions for:
+   - Repository contents: read
+   - Issues: read & write
+   - Pull requests: read & write
+   - Discussions: read & write
+2. Generate a personal access token for the app
+3. Add it as `GH_AW_GITHUB_TOKEN` secret as described above
+
+**Verification:**
+The workflow will verify the secret exists and has proper permissions when it runs.
