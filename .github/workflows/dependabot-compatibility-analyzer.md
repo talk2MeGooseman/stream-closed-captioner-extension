@@ -11,7 +11,7 @@ tools:
     toolsets: [default, repos, pull_requests]
 safe-outputs:
   add-comment:
-    max: 1
+    max: 20
 network:
   allowed: [defaults, node]
 ---
