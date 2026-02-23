@@ -93,6 +93,6 @@
     "redux-logger": "^3.0.6",
     "styled-components": "^5.0.0",
     "url-search-params-polyfill": "^8.2.5",
-    "uuid": "^8.2.0"
+    "uuid": "^13.0.0"
   }
 }
