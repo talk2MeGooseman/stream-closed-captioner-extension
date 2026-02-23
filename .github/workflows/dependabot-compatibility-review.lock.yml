@@ -23,8 +23,22 @@
 #
 # Reviews dependabot pull requests to assess compatibility risk and recommend
 # code changes to ensure project compatibility with new dependency versions.
+# 
+# **IMPORTANT:** This workflow requires explicit GitHub credentials to run on
+# dependabot PRs, as the dependabot[bot] user cannot be granted write permissions.
+# 
+# **Setup Instructions:**
+# 1. Create a GitHub Personal Access Token (PAT) with:
+# - repo (full control of repositories)
+# - read:discussions
+# Or create a GitHub App with equivalent permissions
+# 
+# 2. Add the token as a repository secret named `GH_AW_GITHUB_TOKEN`
+# 
+# 3. Ensure the token is configured in:
+# GitHub Settings → Secrets and variables → Actions → New repository secret
 #
-# gh-aw-metadata: {"schema_version":"v1","frontmatter_hash":"e6cfc52fd52943512caad0ac70b5c5a74decc2f90ef19fdc5dc388aae36382c9","compiler_version":"v0.49.1"}
+# gh-aw-metadata: {"schema_version":"v1","frontmatter_hash":"4da1f37d9fea21c47e064a4fa7f1de283699532527e9f56da76c3a3668193666","compiler_version":"v0.49.1"}
 
 name: "Dependabot Compatibility Review"
 "on":
@@ -269,6 +283,7 @@ jobs:
       contents: read
       issues: read
       pull-requests: read
+      security-events: read
     env:
       DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
       GH_AW_ASSETS_ALLOWED_EXTS: ""
@@ -642,7 +657,7 @@ jobs:
                   "GITHUB_LOCKDOWN_MODE": "$GITHUB_MCP_LOCKDOWN",
                   "GITHUB_PERSONAL_ACCESS_TOKEN": "\${GITHUB_MCP_SERVER_TOKEN}",
                   "GITHUB_READ_ONLY": "1",
-                  "GITHUB_TOOLSETS": "pull_requests,context,repos,issues"
+                  "GITHUB_TOOLSETS": "pull_requests,context,repos,issues,dependabot"
                 }
               },
               "safeoutputs": {
@@ -981,7 +996,7 @@ jobs:
         uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8
         env:
           WORKFLOW_NAME: "Dependabot Compatibility Review"
-          WORKFLOW_DESCRIPTION: "Reviews dependabot pull requests to assess compatibility risk and recommend\ncode changes to ensure project compatibility with new dependency versions."
+          WORKFLOW_DESCRIPTION: "Reviews dependabot pull requests to assess compatibility risk and recommend\ncode changes to ensure project compatibility with new dependency versions.\n\n**IMPORTANT:** This workflow requires explicit GitHub credentials to run on\ndependabot PRs, as the dependabot[bot] user cannot be granted write permissions.\n\n**Setup Instructions:**\n1. Create a GitHub Personal Access Token (PAT) with:\n   - repo (full control of repositories)\n   - read:discussions\n   Or create a GitHub App with equivalent permissions\n\n2. Add the token as a repository secret named `GH_AW_GITHUB_TOKEN`\n\n3. Ensure the token is configured in:\n   GitHub Settings → Secrets and variables → Actions → New repository secret"
           HAS_PATCH: ${{ needs.agent.outputs.has_patch }}
         with:
           script: |

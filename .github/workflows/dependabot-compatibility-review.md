@@ -27,18 +27,13 @@ permissions:
   contents: read
   issues: read
   pull-requests: read
+  security-events: read
 
 engine: copilot
 
-# GitHub token configuration for dependabot compatibility
-# Uses GH_AW_GITHUB_TOKEN secret which must be set up with write permissions
-# This is required because dependabot[bot] has no write access
-env:
-  GH_AW_GITHUB_TOKEN: ${{ secrets.GH_AW_AGENT_TOKEN }}
-
 tools:
   github:
-    toolsets: [pull_requests, default]
+    toolsets: [pull_requests, default, dependabot]
   bash:
     - "gh"
     - "jq"
