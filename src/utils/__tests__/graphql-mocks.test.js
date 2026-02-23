@@ -1,10 +1,10 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { Observable } from '@apollo/client'
+import { beforeEach, describe, expect, it } from 'vitest'
 import {
+  createMockLink,
   getMockResponse,
   shouldMockOperation,
   updateMockConfig,
-  createMockLink,
 } from '../graphql-mocks'
 
 describe('graphql-mocks', () => {

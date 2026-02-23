@@ -64,7 +64,11 @@ const Controls = () => {
             <FontAwesomeIcon icon={faCog} size="2x" />
           </button>
           {isMenuOpen && (
-            <div className="settings-menu-container" onClick={(e) => e.stopPropagation()}>
+            // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
+            <div
+              className="settings-menu-container"
+              onClick={(e) => e.stopPropagation()}
+            >
               <SettingsMenu />
             </div>
           )}

@@ -187,7 +187,7 @@ function createCaptionSubscriptionStream(variables) {
  * @param {Object} variables - Operation variables
  * @returns {Object|Function|null} Mock response data or function
  */
-export function getMockResponse(operationName, variables) {
+export function getMockResponse(operationName, _variables) {
   const resolver = mockResolvers[operationName]
 
   if (!resolver) {
