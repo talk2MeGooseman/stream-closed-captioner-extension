@@ -91,7 +91,7 @@ function DevMockControlsDialog({ isOpen, onClose }) {
       title="GraphQL Mock Controls (Development)"
     >
       <div className={Classes.DIALOG_BODY}>
-        <p className="bp3-text-muted">
+        <p className="bp5-text-muted">
           Control mock GraphQL responses for local testing. These controls are
           only available in development mode.
         </p>
@@ -104,7 +104,7 @@ function DevMockControlsDialog({ isOpen, onClose }) {
             large
             onChange={handleToggleMocks}
           />
-          <p className="bp3-text-muted bp3-text-small">
+          <p className="bp5-text-muted bp5-text-small">
             {config.enabled
               ? 'GraphQL operations are using mock responses'
               : 'GraphQL operations are using real endpoints'}
@@ -128,7 +128,7 @@ function DevMockControlsDialog({ isOpen, onClose }) {
             large
             onChange={handleToggleRealServer}
           />
-          <p className="bp3-text-muted bp3-text-small">
+          <p className="bp5-text-muted bp5-text-small">
             {config.useRealServer
               ? 'Connected to wss://stream-cc.gooseman.codes'
               : 'Using local mock responses for testing'}
@@ -181,7 +181,7 @@ function DevMockControlsDialog({ isOpen, onClose }) {
           />
           {config.useRealServer && (
             <p
-              className="bp3-text-muted bp3-text-small"
+              className="bp5-text-muted bp5-text-small"
               style={{ marginTop: '8px' }}
             >
               Manual triggers are disabled when using the real server

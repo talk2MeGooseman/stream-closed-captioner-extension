@@ -26,3 +26,7 @@ updates:
   - dependency-name: handlebars
     versions:
     - 4.7.6
+- package-ecosystem: github-actions
+  directory: "/"
+  schedule:
+    interval: daily

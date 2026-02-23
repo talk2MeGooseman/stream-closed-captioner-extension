@@ -11,14 +11,14 @@ export default function ConfigContainer() {
         Speech To Text Closed Captioning.
       </strong>
       <h3>Getting Started is Easy</h3>
-      <ol className="bp3-list">
+      <ol className="bp5-list">
         <li>
           Enable <em>Stream Closed Captioner</em> as a Video Overlay
         </li>
         <li>
           Visit:
           <a
-            className="bp3-button bp3-intent-primary site-link"
+            className="bp5-button bp5-intent-primary site-link"
             href="https://stream-cc.gooseman.codes"
             rel="noopener noreferrer"
             role="button"

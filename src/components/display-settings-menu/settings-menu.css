@@ -22,7 +22,7 @@
 }
 
 /* Blueprint Menu styling */
-.settings-menu-container .bp3-menu {
+.settings-menu-container .bp5-menu {
   margin: 0;
   padding: 5px 0;
   background-color: transparent;
@@ -30,7 +30,7 @@
   box-shadow: none;
 }
 
-.settings-menu-container .bp3-menu-item {
+.settings-menu-container .bp5-menu-item {
   padding: 8px 15px;
   color: #f5f8fa;
   cursor: pointer;
@@ -39,26 +39,26 @@
   line-height: 1.5;
 }
 
-.settings-menu-container .bp3-menu-item:hover {
+.settings-menu-container .bp5-menu-item:hover {
   background-color: rgba(255, 255, 255, 0.1);
 }
 
-.settings-menu-container .bp3-menu-item.bp3-active {
+.settings-menu-container .bp5-menu-item.bp5-active {
   background-color: rgba(255, 255, 255, 0.15);
 }
 
-.settings-menu-container .bp3-menu-item:disabled {
+.settings-menu-container .bp5-menu-item:disabled {
   color: rgba(245, 248, 250, 0.5);
   cursor: not-allowed;
 }
 
-.settings-menu-container .bp3-menu-divider {
+.settings-menu-container .bp5-menu-divider {
   margin: 5px 0;
   border-top: 1px solid rgba(255, 255, 255, 0.15);
   padding: 0;
 }
 
-.settings-menu-container .bp3-submenu-icon {
+.settings-menu-container .bp5-submenu-icon {
   margin-left: auto;
 }
 

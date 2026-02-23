@@ -29,7 +29,7 @@ describe('languageOptions ', () => {
   describe('indicates selected language', () => {
     test('default language by default', () => {
       const { queryByTestId } = renderWithRedux(<LanguageOptions />)
-      const tickEl = document.querySelector('span[icon="tick"]')
+      const tickEl = document.querySelector('svg[data-icon="tick"]')
 
       expect(queryByTestId('language-default')).toContainElement(tickEl)
     })
@@ -42,7 +42,7 @@ describe('languageOptions ', () => {
         },
       })
       const deEl = screen.getByTestId('language-de')
-      const tickEl = deEl.querySelector('span[icon="tick"]')
+      const tickEl = deEl.querySelector('svg[data-icon="tick"]')
 
       expect(deEl).toContainElement(tickEl)
     })

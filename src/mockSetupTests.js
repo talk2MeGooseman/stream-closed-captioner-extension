@@ -1,11 +1,9 @@
 import { vi } from 'vitest'
 import ReactDOM from 'react-dom'
 
-// Mock fetch globally for tests
-global.fetch = vi.fn()
-
-// Polyfill findDOMNode for Blueprint.js v3 compatibility (removed in React 19)
-// TODO: Remove this polyfill when Blueprint.js is upgraded to v5+
+// Polyfill findDOMNode for react-draggable v4.5.0 compatibility (removed in React 19)
+// NOTE: Blueprint v5 is fully compatible with React 19 and does NOT require this polyfill
+// TODO: Remove this polyfill when react-draggable is upgraded to React 19-compatible version
 if (typeof ReactDOM.findDOMNode !== 'function') {
   ReactDOM.findDOMNode = function findDOMNodePolyfill(componentOrElement) {
     if (componentOrElement == null) return null
@@ -25,3 +23,6 @@ if (typeof ReactDOM.findDOMNode !== 'function') {
     return null
   }
 }
+
+// Mock fetch globally for tests
+global.fetch = vi.fn()
