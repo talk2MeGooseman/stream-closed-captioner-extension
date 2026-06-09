@@ -47,19 +47,19 @@ function MobileClosedCaption() {
 
   return (
     <CaptionsContainer
-      captionsTransparency={configSettings.captionsTransparency}
-      mobilePanel
+      $captionsTransparency={configSettings.captionsTransparency}
+      $mobilePanel
     >
       <Captions
-        fontFamily={fontFamily}
-        fontSize={fontSize}
-        uppercase={configSettings.textUppercase}
+        $fontFamily={fontFamily}
+        $fontSize={fontSize}
+        $uppercase={configSettings.textUppercase}
       >
-        <CaptionText grayOutText={configSettings.grayOutFinalText}>
+        <CaptionText $grayOutText={configSettings.grayOutFinalText}>
           {finalTextCaptions}
         </CaptionText>
         {configSettings.viewerLanguage === 'default' && (
-          <CaptionText interim>{interimText}</CaptionText>
+          <CaptionText $interim>{interimText}</CaptionText>
         )}
       </Captions>
     </CaptionsContainer>

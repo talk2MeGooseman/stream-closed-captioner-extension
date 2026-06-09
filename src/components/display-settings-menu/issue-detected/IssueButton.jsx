@@ -30,7 +30,7 @@ const IssueButton = () => {
   return (
     <>
       <Tooltip content="Captions Issue Detected">
-        <Pulse color="#ff0000">
+        <Pulse $color="#ff0000">
           <FontAwesomeIcon
             icon={faExclamationTriangle}
             onClick={openDialog}

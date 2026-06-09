@@ -77,24 +77,24 @@ function ClosedCaption() {
   return (
     <Draggable bounds="parent" grid={[8, 8]} onStop={onDragged}>
       <CaptionsContainer
-        boxSize={configSettings.ccBoxSize}
-        captionsTransparency={configSettings.captionsTransparency}
-        captionsWidth={configSettings.captionsWidth}
-        fontSize={fontSize}
-        isHidden={isHidden}
-        numberOfLines={numberOfLines}
+        $boxSize={configSettings.ccBoxSize}
+        $captionsTransparency={configSettings.captionsTransparency}
+        $captionsWidth={configSettings.captionsWidth}
+        $fontSize={fontSize}
+        $isHidden={isHidden}
+        $numberOfLines={numberOfLines}
       >
         <Captions
-          fontFamily={fontFamily}
-          fontSize={fontSize}
-          uppercase={configSettings.textUppercase}
-          color={configSettings.color}
+          $fontFamily={fontFamily}
+          $fontSize={fontSize}
+          $uppercase={configSettings.textUppercase}
+          $color={configSettings.color}
         >
-          <CaptionText grayOutText={configSettings.grayOutFinalText}>
+          <CaptionText $grayOutText={configSettings.grayOutFinalText}>
             {finalTextCaptions}
           </CaptionText>
           {configSettings.viewerLanguage === 'default' && (
-            <CaptionText interim>{interimText}</CaptionText>
+            <CaptionText $interim>{interimText}</CaptionText>
           )}
         </Captions>
       </CaptionsContainer>
