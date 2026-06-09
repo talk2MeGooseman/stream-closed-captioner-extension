@@ -1,18 +1,12 @@
 import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vitest/config'
-import svgrPlugin from 'vite-plugin-svgr'
 import path from 'path'
 import { nodePolyfills } from 'vite-plugin-node-polyfills'
 
 export default defineConfig({
   plugins: [
     react(),
-    nodePolyfills(),
-    svgrPlugin({
-      svgrOptions: {
-        icon: true,
-      }
-    })
+    nodePolyfills()
   ],
   resolve: {
     alias: {
