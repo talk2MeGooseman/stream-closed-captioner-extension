@@ -82,4 +82,40 @@ describe('nagStreamerBody', () => {
 
     expect(queryByText('2 Bit')).toBeInTheDocument()
   })
+
+  test('selecting a product updates the catalog selection', () => {
+    const { queryByText, store } = renderWithRedux(<NagStreamerBody />, {
+      initialState: defaultState,
+    })
+
+    fireEvent.click(queryByText('1 Bit'))
+    fireEvent.click(queryByText('2 Bit'))
+
+    expect(store.getState().productsCatalog.selectedProduct.sku).toBe('2')
+  })
+
+  test('submitting starts a bits transaction for the selected product', () => {
+    const twitchUseBits = vi.fn()
+    vi.stubGlobal('Twitch', { ext: { bits: { useBits: twitchUseBits } } })
+
+    const stateWithSelection = {
+      ...defaultState,
+      productsCatalog: {
+        ...defaultState.productsCatalog,
+        selectedProduct: defaultState.productsCatalog.products[1],
+      },
+    }
+
+    const { queryByText, store } = renderWithRedux(<NagStreamerBody />, {
+      initialState: stateWithSelection,
+    })
+
+    fireEvent.click(queryByText('Submit'))
+
+    expect(twitchUseBits).toHaveBeenCalledWith('2')
+    expect(store.getState().productsCatalog.processing).toBe(true)
+    expect(store.getState().productsCatalog.sent_sku).toBe('2')
+
+    vi.unstubAllGlobals()
+  })
 })

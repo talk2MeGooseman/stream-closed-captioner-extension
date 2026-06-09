@@ -243,6 +243,57 @@ describe('ClosedCaption Component', () => {
     })
   })
 
+  describe('Translations', () => {
+    test('displays the translation queue for the selected viewer language', () => {
+      const initialState = {
+        ...baseState,
+        configSettings: {
+          ...baseState.configSettings,
+          viewerLanguage: 'es',
+        },
+        captionsState: {
+          ...baseState.captionsState,
+          finalTextQueue: [{ id: '1', text: 'Hello' }],
+          interimText: 'should not show',
+          translations: {
+            es: {
+              name: 'Spanish',
+              textQueue: [
+                { id: '1', text: 'Hola' },
+                { id: '2', text: 'Mundo' },
+              ],
+            },
+          },
+        },
+      }
+
+      renderWithRedux(<ClosedCaption />, { initialState })
+
+      expect(screen.getByText('Hola Mundo')).toBeInTheDocument()
+      // Interim text only renders for the default language
+      expect(screen.queryByText('should not show')).not.toBeInTheDocument()
+    })
+
+    test('renders no caption text when the selected language has no translations', () => {
+      const initialState = {
+        ...baseState,
+        configSettings: {
+          ...baseState.configSettings,
+          viewerLanguage: 'fr',
+        },
+        captionsState: {
+          ...baseState.captionsState,
+          finalTextQueue: [{ id: '1', text: 'Hello' }],
+          translations: {},
+        },
+      }
+
+      renderWithRedux(<ClosedCaption />, { initialState })
+
+      expect(screen.queryByText('Hello')).not.toBeInTheDocument()
+    })
+  })
+
   describe('Accessibility', () => {
     test('captions have proper semantic role', () => {
       const initialState = {
