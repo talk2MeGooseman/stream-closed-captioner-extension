@@ -33,7 +33,7 @@ function MobileClosedCaption() {
   const fontSize = getMobileFontSizeStyle(configSettings.size)
   const fontFamily = configSettings.dyslexiaFontEnabled
     ? FONT_FAMILIES.DYSLEXIA
-    : FONT_FAMILIES.ROBOT
+    : FONT_FAMILIES.ROBOTO
 
   let finalTextCaptions
 

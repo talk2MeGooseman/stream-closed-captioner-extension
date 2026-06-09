@@ -37,6 +37,10 @@ module.exports = [
         fetch: 'readonly',
         URLSearchParams: 'readonly',
         HTMLElement: 'readonly',
+        atob: 'readonly',
+        btoa: 'readonly',
+        TextDecoder: 'readonly',
+        TextEncoder: 'readonly',
         // Node globals
         process: 'readonly',
         global: 'readonly',
