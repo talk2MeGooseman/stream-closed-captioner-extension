@@ -4,6 +4,7 @@ import { Provider } from 'react-redux'
 
 import { useOnAuthorization } from '../useOnAuthorization'
 import { setChannelId } from '@/redux/products-slice'
+import { apolloClient } from '@/utils'
 import { renderWithRedux } from '@/setupTests'
 
 describe('useOnAuthorization', () => {
@@ -31,7 +32,7 @@ describe('useOnAuthorization', () => {
     ).toContain('function')
   })
 
-  test('dispatches the channel id and a translation status request', () => {
+  test('dispatches the channel id and a translation status request', async () => {
     // Stub store so the requestTranslationStatus thunk is captured
     // instead of executed (it would otherwise hit the network)
     const dispatch = vi.fn()
@@ -40,6 +41,9 @@ describe('useOnAuthorization', () => {
       getState: () => ({}),
       subscribe: () => () => {},
     }
+    const querySpy = vi
+      .spyOn(apolloClient, 'query')
+      .mockResolvedValue({ data: null })
 
     const TestComponent = () => {
       const onAuthorized = useOnAuthorization()
@@ -59,6 +63,18 @@ describe('useOnAuthorization', () => {
     fireEvent.click(getByText('authorize'))
 
     expect(dispatch).toHaveBeenCalledWith(setChannelId('444'))
-    expect(dispatch).toHaveBeenCalledWith(expect.any(Function))
+
+    // Run the captured requestTranslationStatus thunk and verify it
+    // queries with the authorized channel id
+    const thunk = dispatch.mock.calls
+      .map(([action]) => action)
+      .find((action) => typeof action === 'function')
+    expect(thunk).toBeTruthy()
+
+    await thunk(vi.fn())
+
+    expect(querySpy).toHaveBeenCalledWith(
+      expect.objectContaining({ variables: { id: '444' } }),
+    )
   })
 })

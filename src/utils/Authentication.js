@@ -4,7 +4,11 @@
  */
 function decodeJwtPayload(token) {
   const base64Url = token.split('.')[1]
-  const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/')
+  let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/')
+  // Normalize base64url payloads that omit trailing = padding
+  if (base64.length % 4) {
+    base64 += '='.repeat(4 - (base64.length % 4))
+  }
   const bytes = Uint8Array.from(atob(base64), (c) => c.charCodeAt(0))
   return JSON.parse(new TextDecoder().decode(bytes))
 }

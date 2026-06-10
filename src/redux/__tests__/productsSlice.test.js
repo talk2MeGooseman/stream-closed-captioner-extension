@@ -144,7 +144,20 @@ describe('productsSlice', () => {
       // On success the activation drawer toggles and the translation
       // status refresh thunk is dispatched
       expect(dispatch).toHaveBeenCalledWith(toggleActivationDrawer())
-      expect(dispatch).toHaveBeenCalledWith(expect.any(Function))
+
+      // Run the captured requestTranslationStatus thunk and verify it
+      // refreshes the status for the transacted channel
+      utils.apolloClient.query.mockResolvedValue({ data: null })
+      const thunk = dispatch.mock.calls
+        .map(([action]) => action)
+        .find((action) => typeof action === 'function')
+      expect(thunk).toBeTruthy()
+
+      await thunk(vi.fn())
+
+      expect(utils.apolloClient.query).toHaveBeenCalledWith(
+        expect.objectContaining({ variables: { id: '1234' } }),
+      )
     })
 
     test('swallows mutation errors without follow-up dispatches', async () => {
