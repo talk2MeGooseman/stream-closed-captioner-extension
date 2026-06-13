@@ -1,6 +1,10 @@
 import { describe, test, expect } from 'vitest'
 import { TEXT_SIZES } from '@/utils/Constants'
-import { getMobileFontSizeStyle, getFontSizeStyle } from '../helpers'
+import {
+  getMobileFontSizeStyle,
+  getFontSizeStyle,
+  normalizeSegment,
+} from '../helpers'
 
 describe('Captions Helper Functions', () => {
   describe('getFontSizeStyle', () => {
@@ -119,6 +123,51 @@ describe('Captions Helper Functions', () => {
       expect(desktop).toContain('large')
       expect(mobile).toContain('mobile')
       expect(mobile).toContain('large')
+    })
+  })
+
+  describe('normalizeSegment', () => {
+    test('capitalizes the first letter and appends a period', () => {
+      expect(normalizeSegment('hello world')).toBe('Hello world.')
+    })
+
+    test('leaves an existing terminal period in place', () => {
+      expect(normalizeSegment('Already done.')).toBe('Already done.')
+    })
+
+    test('does not double-punctuate other terminators', () => {
+      expect(normalizeSegment('really?')).toBe('Really?')
+      expect(normalizeSegment('wow!')).toBe('Wow!')
+      expect(normalizeSegment('to be continued…')).toBe('To be continued…')
+    })
+
+    test('recognizes terminal punctuation before a closing quote', () => {
+      expect(normalizeSegment('she said "hi."')).toBe('She said "hi."')
+    })
+
+    test('recognizes CJK terminal punctuation', () => {
+      expect(normalizeSegment('こんにちは。')).toBe('こんにちは。')
+    })
+
+    test('trims surrounding whitespace before normalizing', () => {
+      expect(normalizeSegment('  spaced out  ')).toBe('Spaced out.')
+    })
+
+    test('returns an empty string for empty or whitespace-only input', () => {
+      expect(normalizeSegment('')).toBe('')
+      expect(normalizeSegment('   ')).toBe('')
+    })
+
+    test('returns an empty string for non-string input', () => {
+      expect(normalizeSegment(undefined)).toBe('')
+      expect(normalizeSegment(null)).toBe('')
+      expect(normalizeSegment(42)).toBe('')
+    })
+
+    test('leaves an already-capitalized segment capitalized', () => {
+      expect(normalizeSegment('Welcome to the stream everyone!')).toBe(
+        'Welcome to the stream everyone!',
+      )
     })
   })
 
