@@ -67,6 +67,7 @@ const CaptionTextStyled = styled.span`
     `}
   ${(props) =>
     props.$interim &&
+    !props.$block &&
     css`
       margin-left: 5px;
     `}
