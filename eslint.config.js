@@ -41,12 +41,6 @@ module.exports = [
         btoa: 'readonly',
         TextDecoder: 'readonly',
         TextEncoder: 'readonly',
-        // Node globals
-        process: 'readonly',
-        global: 'readonly',
-        Buffer: 'readonly',
-        __dirname: 'readonly',
-        __filename: 'readonly',
       },
     },
     plugins: {
@@ -139,6 +133,21 @@ module.exports = [
         document: 'readonly',
         navigator: 'readonly',
         console: 'readonly',
+        // Node globals available in the jsdom/node test environment
+        global: 'readonly',
+        process: 'readonly',
+        Buffer: 'readonly',
+      },
+    },
+  },
+  // Test setup files run in the Node/jsdom test environment and need
+  // Node globals that browser-only source code should not use.
+  {
+    files: ['src/mockSetupTests.js', 'src/setupTests.jsx'],
+    languageOptions: {
+      globals: {
+        global: 'readonly',
+        process: 'readonly',
       },
     },
   },
