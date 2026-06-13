@@ -372,7 +372,8 @@ describe('MobileClosedCaption Component', () => {
 
       renderWithRedux(<MobileClosedCaption />, { initialState })
 
-      expect(screen.getByText('Hola. Mundo.')).toBeInTheDocument()
+      expect(screen.getByText('Hola.')).toBeInTheDocument()
+      expect(screen.getByText('Mundo.')).toBeInTheDocument()
       // Interim text only renders for the default language
       expect(screen.queryByText('should not show')).not.toBeInTheDocument()
     })

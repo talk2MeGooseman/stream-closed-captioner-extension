@@ -10,6 +10,7 @@ import {
 
 import './ClosedCaption.css'
 import {
+  assembleCaptionLines,
   assembleCaptionText,
   getFontSizeStyle,
   isCaptionsHidden,
@@ -58,6 +59,13 @@ function ClosedCaption() {
     finalTextQueue,
     translations,
   )
+  // Roll-up layout: render each recognized segment on its own line so sentence
+  // boundaries are visually explicit.
+  const captionLines = assembleCaptionLines(
+    configSettings.viewerLanguage,
+    finalTextQueue,
+    translations,
+  )
   // Interim text only renders for the default language, so only let it keep
   // the box visible in that mode.
   const interimVisible =
@@ -84,11 +92,19 @@ function ClosedCaption() {
           $uppercase={configSettings.textUppercase}
           $color={configSettings.color}
         >
-          <CaptionText $grayOutText={configSettings.grayOutFinalText}>
-            {finalTextCaptions}
-          </CaptionText>
-          {configSettings.viewerLanguage === 'default' && (
-            <CaptionText $interim>{interimVisible}</CaptionText>
+          {captionLines.map((line) => (
+            <CaptionText
+              key={line.id}
+              $block
+              $grayOutText={configSettings.grayOutFinalText}
+            >
+              {line.text}
+            </CaptionText>
+          ))}
+          {configSettings.viewerLanguage === 'default' && interimVisible && (
+            <CaptionText $block $interim>
+              {interimVisible}
+            </CaptionText>
           )}
         </Captions>
       </CaptionsContainer>

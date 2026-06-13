@@ -217,7 +217,7 @@ describe('ClosedCaption Component', () => {
   })
 
   describe('Multiple Captions', () => {
-    test('joins multiple captions with spaces', () => {
+    test('renders each caption segment as its own line', () => {
       const initialState = {
         ...baseState,
         captionsState: {
@@ -231,7 +231,8 @@ describe('ClosedCaption Component', () => {
 
       renderWithRedux(<ClosedCaption />, { initialState })
 
-      expect(screen.getByText('Hello. World.')).toBeInTheDocument()
+      expect(screen.getByText('Hello.')).toBeInTheDocument()
+      expect(screen.getByText('World.')).toBeInTheDocument()
     })
 
     test('handles empty queue gracefully', () => {
@@ -269,7 +270,8 @@ describe('ClosedCaption Component', () => {
 
       renderWithRedux(<ClosedCaption />, { initialState })
 
-      expect(screen.getByText('Hola. Mundo.')).toBeInTheDocument()
+      expect(screen.getByText('Hola.')).toBeInTheDocument()
+      expect(screen.getByText('Mundo.')).toBeInTheDocument()
       // Interim text only renders for the default language
       expect(screen.queryByText('should not show')).not.toBeInTheDocument()
     })

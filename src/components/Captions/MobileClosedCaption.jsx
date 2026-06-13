@@ -4,7 +4,7 @@ import {
   CaptionsContainer,
 } from '../shared/caption-styles'
 
-import { assembleCaptionText, getMobileFontSizeStyle } from './helpers'
+import { assembleCaptionLines, getMobileFontSizeStyle } from './helpers'
 
 import { useShallowEqualSelector } from '@/redux/redux-helpers'
 
@@ -35,7 +35,7 @@ function MobileClosedCaption() {
     ? FONT_FAMILIES.DYSLEXIA
     : FONT_FAMILIES.ROBOTO
 
-  const finalTextCaptions = assembleCaptionText(
+  const captionLines = assembleCaptionLines(
     configSettings.viewerLanguage,
     finalTextQueue,
     translations,
@@ -51,11 +51,19 @@ function MobileClosedCaption() {
         $fontSize={fontSize}
         $uppercase={configSettings.textUppercase}
       >
-        <CaptionText $grayOutText={configSettings.grayOutFinalText}>
-          {finalTextCaptions}
-        </CaptionText>
-        {configSettings.viewerLanguage === 'default' && (
-          <CaptionText $interim>{interimText}</CaptionText>
+        {captionLines.map((line) => (
+          <CaptionText
+            key={line.id}
+            $block
+            $grayOutText={configSettings.grayOutFinalText}
+          >
+            {line.text}
+          </CaptionText>
+        ))}
+        {configSettings.viewerLanguage === 'default' && interimText && (
+          <CaptionText $block $interim>
+            {interimText}
+          </CaptionText>
         )}
       </Captions>
     </CaptionsContainer>

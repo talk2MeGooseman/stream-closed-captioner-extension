@@ -6,6 +6,7 @@ import {
   normalizeSegment,
   getCaptionQueue,
   assembleCaptionText,
+  assembleCaptionLines,
   isCaptionsHidden,
 } from '../helpers'
 
@@ -241,6 +242,50 @@ describe('Captions Helper Functions', () => {
     test('returns an empty string for an empty queue', () => {
       expect(assembleCaptionText('default', [], {})).toBe('')
       expect(assembleCaptionText('fr', [], {})).toBe('')
+    })
+  })
+
+  describe('assembleCaptionLines', () => {
+    test('returns one normalized line per segment, keeping ids', () => {
+      const finalTextQueue = [
+        { id: 'a', text: 'hello world' },
+        { id: 'b', text: 'how are you' },
+      ]
+
+      expect(assembleCaptionLines('default', finalTextQueue, {})).toEqual([
+        { id: 'a', text: 'Hello world.' },
+        { id: 'b', text: 'How are you.' },
+      ])
+    })
+
+    test('returns lines from the translation queue for the active language', () => {
+      const translations = {
+        es: {
+          name: 'Spanish',
+          textQueue: [{ id: '1', text: 'hola mundo' }],
+        },
+      }
+
+      expect(assembleCaptionLines('es', [], translations)).toEqual([
+        { id: '1', text: 'Hola mundo.' },
+      ])
+    })
+
+    test('drops empty segments', () => {
+      const finalTextQueue = [
+        { id: 'a', text: 'hello' },
+        { id: 'b', text: '   ' },
+        { id: 'c', text: 'world' },
+      ]
+
+      expect(assembleCaptionLines('default', finalTextQueue, {})).toEqual([
+        { id: 'a', text: 'Hello.' },
+        { id: 'c', text: 'World.' },
+      ])
+    })
+
+    test('returns an empty list for an empty queue', () => {
+      expect(assembleCaptionLines('default', [], {})).toEqual([])
     })
   })
 

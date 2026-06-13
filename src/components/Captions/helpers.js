@@ -118,6 +118,26 @@ export function assembleCaptionText(
 }
 
 /**
+ * Assemble the captions as an ordered list of display lines (one per
+ * recognized segment / sentence) for a roll-up layout. Each line keeps its
+ * stable id so React can key it across renders; empty segments are dropped.
+ *
+ * @param {string} viewerLanguage - 'default' or a translation language code
+ * @param {Array<{id: string, text: string}>} finalTextQueue - source captions
+ * @param {Object} translations - map of languageCode -> { textQueue }
+ * @returns {Array<{id: string, text: string}>} normalized, non-empty lines
+ */
+export function assembleCaptionLines(
+  viewerLanguage,
+  finalTextQueue,
+  translations,
+) {
+  return getCaptionQueue(viewerLanguage, finalTextQueue, translations)
+    .map(({ id, text }) => ({ id, text: normalizeSegment(text) }))
+    .filter((line) => line.text.length > 0)
+}
+
+/**
  * Decide whether the caption box should be hidden. The box hides when the
  * viewer has toggled captions off, or when there is nothing to display. Pass
  * only the interim text that actually renders for the active language so an

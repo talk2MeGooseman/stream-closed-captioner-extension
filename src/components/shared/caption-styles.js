@@ -56,6 +56,11 @@ export const Captions = memo(CaptionsStyled)
 
 const CaptionTextStyled = styled.span`
   ${(props) =>
+    props.$block &&
+    css`
+      display: block;
+    `}
+  ${(props) =>
     props.$grayOutText &&
     css`
       color: #d2d7d3;
