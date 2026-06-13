@@ -9,6 +9,7 @@ import { getMobileFontSizeStyle } from './helpers'
 import { useShallowEqualSelector } from '@/redux/redux-helpers'
 
 import { FONT_FAMILIES } from '@/utils/Constants'
+import { pathOr } from 'ramda'
 import { memo } from 'react'
 // Bits - phrakberg
 // Resub - phrakberg
@@ -40,7 +41,11 @@ function MobileClosedCaption() {
   if (configSettings.viewerLanguage === 'default') {
     finalTextCaptions = finalTextQueue.map(({ text }) => text).join(' ')
   } else {
-    finalTextCaptions = translations[configSettings.viewerLanguage].textQueue
+    finalTextCaptions = pathOr(
+      [],
+      [configSettings.viewerLanguage, 'textQueue'],
+      translations,
+    )
       .map(({ text }) => text)
       .join(' ')
   }

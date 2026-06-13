@@ -376,5 +376,36 @@ describe('MobileClosedCaption Component', () => {
       // Interim text only renders for the default language
       expect(screen.queryByText('should not show')).not.toBeInTheDocument()
     })
+
+    test('renders without crashing when the selected language has no translations', () => {
+      const initialState = {
+        configSettings: {
+          size: 'MEDIUM',
+          viewerLanguage: 'fr',
+          dyslexiaFontEnabled: false,
+          captionsTransparency: 1,
+          textUppercase: false,
+          grayOutFinalText: false,
+        },
+        captionsState: {
+          finalTextQueue: [{ id: '1', text: 'Hello' }],
+          interimText: '',
+          translations: {},
+          captionsSubscription: null,
+        },
+        videoPlayerContext: {
+          arePlayerControlsVisible: true,
+          hlsLatencyBroadcaster: 5,
+          displayResolution: '720p',
+        },
+      }
+
+      const { container } = renderWithRedux(<MobileClosedCaption />, {
+        initialState,
+      })
+
+      expect(container).toBeInTheDocument()
+      expect(screen.queryByText('Hello')).not.toBeInTheDocument()
+    })
   })
 })
