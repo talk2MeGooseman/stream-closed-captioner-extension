@@ -9,6 +9,7 @@ import {
   GrayOutFinalTextOptionButton,
   LineCountOptions,
   ResetButton,
+  RollUpCaptionsOptionButton,
   UppercaseTextOptionButton,
 } from './items'
 
@@ -18,6 +19,7 @@ const SettingsMenu = () => (
     <FontFamilyOptions />
     <GrayOutFinalTextOptionButton />
     <UppercaseTextOptionButton />
+    <RollUpCaptionsOptionButton />
     <LineCountOptions />
     <ResetButton />
     <BoxSizeButton />

@@ -409,4 +409,50 @@ describe('MobileClosedCaption Component', () => {
       expect(screen.queryByText('Hello')).not.toBeInTheDocument()
     })
   })
+
+  describe('Layout modes', () => {
+    const stateWith = (rollUpCaptions) => ({
+      configSettings: {
+        size: 'MEDIUM',
+        viewerLanguage: 'default',
+        dyslexiaFontEnabled: false,
+        captionsTransparency: 1,
+        textUppercase: false,
+        grayOutFinalText: false,
+        rollUpCaptions,
+      },
+      captionsState: {
+        finalTextQueue: [
+          { id: '1', text: 'Hello' },
+          { id: '2', text: 'World' },
+        ],
+        interimText: '',
+        translations: {},
+        captionsSubscription: null,
+      },
+      videoPlayerContext: {
+        arePlayerControlsVisible: true,
+        hlsLatencyBroadcaster: 5,
+        displayResolution: '720p',
+      },
+    })
+
+    test('renders each segment on its own line when roll-up is enabled', () => {
+      renderWithRedux(<MobileClosedCaption />, {
+        initialState: stateWith(true),
+      })
+
+      expect(screen.getByText('Hello.')).toBeInTheDocument()
+      expect(screen.getByText('World.')).toBeInTheDocument()
+    })
+
+    test('renders a single flowing paragraph when roll-up is disabled', () => {
+      renderWithRedux(<MobileClosedCaption />, {
+        initialState: stateWith(false),
+      })
+
+      expect(screen.getByText('Hello. World.')).toBeInTheDocument()
+      expect(screen.queryByText('Hello.')).not.toBeInTheDocument()
+    })
+  })
 })

@@ -17,6 +17,7 @@ const baseState = {
     captionsWidth: 100,
     hideCC: false,
     color: '#ffffff',
+    rollUpCaptions: true,
   },
   captionsState: {
     finalTextQueue: [],
@@ -241,6 +242,54 @@ describe('ClosedCaption Component', () => {
       const { container } = renderWithRedux(<ClosedCaption />, { initialState })
 
       expect(container).toBeInTheDocument()
+    })
+  })
+
+  describe('Layout modes', () => {
+    test('renders each segment on its own line when roll-up is enabled', () => {
+      const initialState = {
+        ...baseState,
+        configSettings: {
+          ...baseState.configSettings,
+          rollUpCaptions: true,
+        },
+        captionsState: {
+          ...baseState.captionsState,
+          finalTextQueue: [
+            { id: '1', text: 'Hello' },
+            { id: '2', text: 'World' },
+          ],
+        },
+      }
+
+      renderWithRedux(<ClosedCaption />, { initialState })
+
+      // Separate line elements
+      expect(screen.getByText('Hello.')).toBeInTheDocument()
+      expect(screen.getByText('World.')).toBeInTheDocument()
+    })
+
+    test('renders a single flowing paragraph when roll-up is disabled', () => {
+      const initialState = {
+        ...baseState,
+        configSettings: {
+          ...baseState.configSettings,
+          rollUpCaptions: false,
+        },
+        captionsState: {
+          ...baseState.captionsState,
+          finalTextQueue: [
+            { id: '1', text: 'Hello' },
+            { id: '2', text: 'World' },
+          ],
+        },
+      }
+
+      renderWithRedux(<ClosedCaption />, { initialState })
+
+      // Both segments joined into one element
+      expect(screen.getByText('Hello. World.')).toBeInTheDocument()
+      expect(screen.queryByText('Hello.')).not.toBeInTheDocument()
     })
   })
 

@@ -4,7 +4,11 @@ import {
   CaptionsContainer,
 } from '../shared/caption-styles'
 
-import { assembleCaptionLines, getMobileFontSizeStyle } from './helpers'
+import {
+  assembleCaptionLines,
+  assembleCaptionText,
+  getMobileFontSizeStyle,
+} from './helpers'
 
 import { useShallowEqualSelector } from '@/redux/redux-helpers'
 
@@ -35,7 +39,15 @@ function MobileClosedCaption() {
     ? FONT_FAMILIES.DYSLEXIA
     : FONT_FAMILIES.ROBOTO
 
+  // Roll-up (line-per-sentence) is the default; viewers can opt back into the
+  // single flowing paragraph via the display settings menu.
+  const rollUpCaptions = configSettings.rollUpCaptions ?? true
   const captionLines = assembleCaptionLines(
+    configSettings.viewerLanguage,
+    finalTextQueue,
+    translations,
+  )
+  const finalTextCaptions = assembleCaptionText(
     configSettings.viewerLanguage,
     finalTextQueue,
     translations,
@@ -51,17 +63,23 @@ function MobileClosedCaption() {
         $fontSize={fontSize}
         $uppercase={configSettings.textUppercase}
       >
-        {captionLines.map((line) => (
-          <CaptionText
-            key={line.id}
-            $block
-            $grayOutText={configSettings.grayOutFinalText}
-          >
-            {line.text}
+        {rollUpCaptions ? (
+          captionLines.map((line) => (
+            <CaptionText
+              key={line.id}
+              $block
+              $grayOutText={configSettings.grayOutFinalText}
+            >
+              {line.text}
+            </CaptionText>
+          ))
+        ) : (
+          <CaptionText $grayOutText={configSettings.grayOutFinalText}>
+            {finalTextCaptions}
           </CaptionText>
-        ))}
+        )}
         {configSettings.viewerLanguage === 'default' && interimText && (
-          <CaptionText $block $interim>
+          <CaptionText $block={rollUpCaptions} $interim>
             {interimText}
           </CaptionText>
         )}

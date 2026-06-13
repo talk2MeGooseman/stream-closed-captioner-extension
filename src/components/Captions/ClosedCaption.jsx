@@ -66,6 +66,9 @@ function ClosedCaption() {
     finalTextQueue,
     translations,
   )
+  // Roll-up (line-per-sentence) is the default; viewers can opt back into the
+  // single flowing paragraph via the display settings menu.
+  const rollUpCaptions = configSettings.rollUpCaptions ?? true
   // Interim text only renders for the default language, so only let it keep
   // the box visible in that mode.
   const interimVisible =
@@ -92,17 +95,23 @@ function ClosedCaption() {
           $uppercase={configSettings.textUppercase}
           $color={configSettings.color}
         >
-          {captionLines.map((line) => (
-            <CaptionText
-              key={line.id}
-              $block
-              $grayOutText={configSettings.grayOutFinalText}
-            >
-              {line.text}
+          {rollUpCaptions ? (
+            captionLines.map((line) => (
+              <CaptionText
+                key={line.id}
+                $block
+                $grayOutText={configSettings.grayOutFinalText}
+              >
+                {line.text}
+              </CaptionText>
+            ))
+          ) : (
+            <CaptionText $grayOutText={configSettings.grayOutFinalText}>
+              {finalTextCaptions}
             </CaptionText>
-          ))}
+          )}
           {configSettings.viewerLanguage === 'default' && interimVisible && (
-            <CaptionText $block $interim>
+            <CaptionText $block={rollUpCaptions} $interim>
               {interimVisible}
             </CaptionText>
           )}
