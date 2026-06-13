@@ -9,14 +9,17 @@ import {
 } from '../shared/caption-styles'
 
 import './ClosedCaption.css'
-import { getFontSizeStyle } from './helpers'
+import {
+  assembleCaptionText,
+  getFontSizeStyle,
+  isCaptionsHidden,
+} from './helpers'
 
 import { useShallowEqualSelector } from '@/redux/redux-helpers'
 
 import { setIsDragged } from '@/redux/settings-slice'
 
 import { FONT_FAMILIES } from '@/utils/Constants'
-import { pathOr } from 'ramda'
 
 // Bits 100 from electrichavoc
 // Resub Nyixxs
@@ -30,18 +33,6 @@ import { pathOr } from 'ramda'
 // Bits 1 ninjabunny9000
 // Sub DannyKampsGamez
 
-function isEmptyCC(text) {
-  return text.length === 0
-}
-
-function shouldHideCC(shouldHide, interimText, finalText) {
-  return shouldHide || isEmptyCC(interimText + finalText)
-}
-
-function getTranslationQueue(configSettings, translations) {
-  return pathOr([], [configSettings.viewerLanguage, 'textQueue'], translations)
-}
-
 function ClosedCaption() {
   const dispatch = useDispatch()
   const configSettings = useShallowEqualSelector(
@@ -51,9 +42,7 @@ function ClosedCaption() {
     (state) => state.captionsState,
   )
   const onDragged = useCallback(() => dispatch(setIsDragged()), [dispatch])
-  const finalText = finalTextQueue.join(' ')
   const fontSize = getFontSizeStyle(configSettings.size)
-  const isHidden = shouldHideCC(configSettings.hideCC, interimText, finalText)
   const fontFamily = configSettings.dyslexiaFontEnabled
     ? FONT_FAMILIES.DYSLEXIA
     : FONT_FAMILIES.ROBOTO
@@ -64,15 +53,20 @@ function ClosedCaption() {
     numberOfLines = configSettings.boxLineCount
   }
 
-  let finalTextCaptions
-
-  if (configSettings.viewerLanguage === 'default') {
-    finalTextCaptions = finalTextQueue.map(({ text }) => text).join(' ')
-  } else {
-    finalTextCaptions = getTranslationQueue(configSettings, translations)
-      .map(({ text }) => text)
-      .join(' ')
-  }
+  const finalTextCaptions = assembleCaptionText(
+    configSettings.viewerLanguage,
+    finalTextQueue,
+    translations,
+  )
+  // Interim text only renders for the default language, so only let it keep
+  // the box visible in that mode.
+  const interimVisible =
+    configSettings.viewerLanguage === 'default' ? interimText || '' : ''
+  const isHidden = isCaptionsHidden(
+    configSettings.hideCC,
+    finalTextCaptions,
+    interimVisible,
+  )
 
   return (
     <Draggable bounds="parent" grid={[8, 8]} onStop={onDragged}>
@@ -94,7 +88,7 @@ function ClosedCaption() {
             {finalTextCaptions}
           </CaptionText>
           {configSettings.viewerLanguage === 'default' && (
-            <CaptionText $interim>{interimText}</CaptionText>
+            <CaptionText $interim>{interimVisible}</CaptionText>
           )}
         </Captions>
       </CaptionsContainer>

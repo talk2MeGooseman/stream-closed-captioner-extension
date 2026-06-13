@@ -4,12 +4,11 @@ import {
   CaptionsContainer,
 } from '../shared/caption-styles'
 
-import { getMobileFontSizeStyle } from './helpers'
+import { assembleCaptionText, getMobileFontSizeStyle } from './helpers'
 
 import { useShallowEqualSelector } from '@/redux/redux-helpers'
 
 import { FONT_FAMILIES } from '@/utils/Constants'
-import { pathOr } from 'ramda'
 import { memo } from 'react'
 // Bits - phrakberg
 // Resub - phrakberg
@@ -36,19 +35,11 @@ function MobileClosedCaption() {
     ? FONT_FAMILIES.DYSLEXIA
     : FONT_FAMILIES.ROBOTO
 
-  let finalTextCaptions
-
-  if (configSettings.viewerLanguage === 'default') {
-    finalTextCaptions = finalTextQueue.map(({ text }) => text).join(' ')
-  } else {
-    finalTextCaptions = pathOr(
-      [],
-      [configSettings.viewerLanguage, 'textQueue'],
-      translations,
-    )
-      .map(({ text }) => text)
-      .join(' ')
-  }
+  const finalTextCaptions = assembleCaptionText(
+    configSettings.viewerLanguage,
+    finalTextQueue,
+    translations,
+  )
 
   return (
     <CaptionsContainer

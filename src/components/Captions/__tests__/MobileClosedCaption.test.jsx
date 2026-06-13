@@ -68,7 +68,7 @@ describe('MobileClosedCaption Component', () => {
 
       renderWithRedux(<MobileClosedCaption />, { initialState })
 
-      expect(screen.getByText(mobileText)).toBeInTheDocument()
+      expect(screen.getByText(`${mobileText}.`)).toBeInTheDocument()
     })
 
     test('renders with interim text on mobile', () => {
@@ -127,7 +127,7 @@ describe('MobileClosedCaption Component', () => {
 
       renderWithRedux(<MobileClosedCaption />, { initialState })
 
-      expect(screen.getByText('Mobile')).toBeInTheDocument()
+      expect(screen.getByText('Mobile.')).toBeInTheDocument()
     })
 
     test('applies responsive color settings on mobile', () => {
@@ -155,7 +155,7 @@ describe('MobileClosedCaption Component', () => {
 
       renderWithRedux(<MobileClosedCaption />, { initialState })
 
-      expect(screen.getByText('Colored')).toBeInTheDocument()
+      expect(screen.getByText('Colored.')).toBeInTheDocument()
     })
 
     test('applies mobile background color', () => {
@@ -183,7 +183,7 @@ describe('MobileClosedCaption Component', () => {
 
       renderWithRedux(<MobileClosedCaption />, { initialState })
 
-      expect(screen.getByText('With background')).toBeInTheDocument()
+      expect(screen.getByText('With background.')).toBeInTheDocument()
     })
   })
 
@@ -276,7 +276,7 @@ describe('MobileClosedCaption Component', () => {
 
       renderWithRedux(<MobileClosedCaption />, { initialState })
 
-      expect(screen.getByText(srText)).toBeInTheDocument()
+      expect(screen.getByText(`${srText}.`)).toBeInTheDocument()
     })
   })
 
@@ -306,7 +306,7 @@ describe('MobileClosedCaption Component', () => {
 
       renderWithRedux(<MobileClosedCaption />, { initialState })
 
-      expect(screen.getByText('360p view')).toBeInTheDocument()
+      expect(screen.getByText('360p view.')).toBeInTheDocument()
     })
 
     test('renders correctly on medium resolution (720p)', () => {
@@ -334,7 +334,7 @@ describe('MobileClosedCaption Component', () => {
 
       renderWithRedux(<MobileClosedCaption />, { initialState })
 
-      expect(screen.getByText('720p view')).toBeInTheDocument()
+      expect(screen.getByText('720p view.')).toBeInTheDocument()
     })
   })
 
@@ -372,7 +372,7 @@ describe('MobileClosedCaption Component', () => {
 
       renderWithRedux(<MobileClosedCaption />, { initialState })
 
-      expect(screen.getByText('Hola Mundo')).toBeInTheDocument()
+      expect(screen.getByText('Hola. Mundo.')).toBeInTheDocument()
       // Interim text only renders for the default language
       expect(screen.queryByText('should not show')).not.toBeInTheDocument()
     })
