@@ -116,6 +116,27 @@ describe('Authentication', () => {
     expect(auth.state.isMod).toBe(false)
   })
 
+  test('should decode base64url payloads without = padding', () => {
+    const auth = new Authentication('', '')
+
+    // Standard JWTs use unpadded base64url; this payload's encoded
+    // length is not a multiple of 4
+    const payload = Buffer.from(
+      JSON.stringify({
+        role: 'broadcaster',
+        userId: 'user-123',
+        channelId: 'channel-456',
+      }),
+    ).toString('base64url')
+    expect(payload.length % 4).not.toBe(0)
+
+    auth.setToken(`header.${payload}.signature`, 'opaque-123')
+
+    expect(auth.state.channelId).toBe('channel-456')
+    expect(auth.state.userId).toBe('user-123')
+    expect(auth.isModerator()).toBe(true)
+  })
+
   test('should reject unauthenticated makeCall requests', async () => {
     const auth = new Authentication('', '')
 

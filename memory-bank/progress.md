@@ -3,7 +3,7 @@
 ## Completed ✅
 
 ### Phase 0: Vite Conversion
-- ✅ Converted build system from Create React App to Vite 4.3.5
+- ✅ Converted build system from Create React App to Vite (now on Vite 8.x)
 - ✅ Multi-entry build configured (5 HTML/JS bundles)
 - ✅ React 18+ compatible
 - ✅ All original tests passing
@@ -12,7 +12,7 @@
 ### Phase 1: Package Updates
 - ✅ Updated all dependencies to latest stable versions
 - ✅ React 18 → React 19.0.0
-- ✅ Updated testing infrastructure (Vitest 1.0.0, RTL 16.0.0)
+- ✅ Updated testing infrastructure (Vitest 4.x, RTL 16.x)
 - ✅ All tests passing (60+ tests)
 - ✅ No breaking changes
 

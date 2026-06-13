@@ -9,6 +9,7 @@ import { getMobileFontSizeStyle } from './helpers'
 import { useShallowEqualSelector } from '@/redux/redux-helpers'
 
 import { FONT_FAMILIES } from '@/utils/Constants'
+import { pathOr } from 'ramda'
 import { memo } from 'react'
 // Bits - phrakberg
 // Resub - phrakberg
@@ -33,33 +34,37 @@ function MobileClosedCaption() {
   const fontSize = getMobileFontSizeStyle(configSettings.size)
   const fontFamily = configSettings.dyslexiaFontEnabled
     ? FONT_FAMILIES.DYSLEXIA
-    : FONT_FAMILIES.ROBOT
+    : FONT_FAMILIES.ROBOTO
 
   let finalTextCaptions
 
   if (configSettings.viewerLanguage === 'default') {
     finalTextCaptions = finalTextQueue.map(({ text }) => text).join(' ')
   } else {
-    finalTextCaptions = translations[configSettings.viewerLanguage].textQueue
+    finalTextCaptions = pathOr(
+      [],
+      [configSettings.viewerLanguage, 'textQueue'],
+      translations,
+    )
       .map(({ text }) => text)
       .join(' ')
   }
 
   return (
     <CaptionsContainer
-      captionsTransparency={configSettings.captionsTransparency}
-      mobilePanel
+      $captionsTransparency={configSettings.captionsTransparency}
+      $mobilePanel
     >
       <Captions
-        fontFamily={fontFamily}
-        fontSize={fontSize}
-        uppercase={configSettings.textUppercase}
+        $fontFamily={fontFamily}
+        $fontSize={fontSize}
+        $uppercase={configSettings.textUppercase}
       >
-        <CaptionText grayOutText={configSettings.grayOutFinalText}>
+        <CaptionText $grayOutText={configSettings.grayOutFinalText}>
           {finalTextCaptions}
         </CaptionText>
         {configSettings.viewerLanguage === 'default' && (
-          <CaptionText interim>{interimText}</CaptionText>
+          <CaptionText $interim>{interimText}</CaptionText>
         )}
       </Captions>
     </CaptionsContainer>

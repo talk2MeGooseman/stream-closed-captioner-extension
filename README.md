@@ -27,7 +27,7 @@ Next, do the following:
 
 ## Usage
 
-To build your finalized React JS files, simply run `yarn build` to build the various webpacked files.
+To build your finalized React JS files, simply run `yarn build` to produce the production bundles with Vite.
 
 ## Development with GraphQL Mocks
 

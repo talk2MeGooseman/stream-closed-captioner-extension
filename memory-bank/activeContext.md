@@ -51,9 +51,9 @@
 - **Coverage:** 76.67% statement coverage
 
 ### Technical Stack ✅
-- **Build:** Vite 4.3.5 with multi-entry optimization
+- **Build:** Vite 8.x (Rolldown) with multi-entry optimization
 - **React:** 19.2.4 with modern hooks and Server Components patterns
-- **Testing:** Vitest 1.0.0 with React Testing Library 16.0.0
+- **Testing:** Vitest 4.x with React Testing Library 16.x
 - **State:** Redux Toolkit 2.11.2 with optimized selectors
 
 ### Architecture ✅

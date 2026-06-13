@@ -13,14 +13,14 @@ export function useOnAuthorization() {
     [dispatch],
   )
   const fetchTranslationStatus = useCallback(
-    () => dispatch(requestTranslationStatus()),
+    (channelId) => dispatch(requestTranslationStatus(channelId)),
     [dispatch],
   )
 
   return useCallback(
     (auth) => {
       onChannelIdReceived(auth.channelId)
-      fetchTranslationStatus()
+      fetchTranslationStatus(auth.channelId)
     },
     [fetchTranslationStatus, onChannelIdReceived],
   )

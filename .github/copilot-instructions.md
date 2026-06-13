@@ -9,7 +9,7 @@ This file guides GitHub Copilot to generate code consistent with the established
 
 ## Priority Guidelines When Generating Code
 
-1. **Version Compatibility:** Respect the exact versions of React (19.0.0), Vite (4.3.5), Vitest (1.0.0), and other technologies in `package.json`
+1. **Version Compatibility:** Respect the exact versions of React (19.x), Vite (8.x), Vitest (4.x), and other technologies in `package.json`
 2. **Codebase Patterns First:** When patterns are unclear, scan the codebase for established examples before inventing new approaches
 3. **Context Files:** Follow guidance in `.github/instructions/` (a11y, security, performance)
 4. **Architectural Consistency:** Maintain the multi-entry Vite build, component-based Redux architecture, and folder organization
@@ -37,16 +37,15 @@ This file guides GitHub Copilot to generate code consistent with the established
 - Apollo Client 3.4.10 for GraphQL
 
 **Build & Development:**
-- Vite 4.3.5 (multi-entry build with rollupOptions)
-- Vitest 1.0.0 (test runner with **globals enabled**)
-- Babel 7.x (JSX/ES2022 transpilation)
+- Vite 8.x (Rolldown-based, multi-entry build with rollupOptions)
+- Vitest 4.x (test runner with **globals enabled**)
 - ESLint 8.57.0 with plugins: jsx-a11y, react, react-hooks, testing-library, vitest
 - Prettier 2.3.2 (code formatting)
 - PostCSS (Autoprefixer for vendor prefixes)
 
 **UI & Styling:**
 - React Testing Library 16.0.0 (RTL queries for component testing)
-- Styled Components 5.0.0
+- Styled Components 6.x (transient $-prefixed styling props)
 - Blueprint JS 3.11.0 (UI component library)
 - FontAwesome 5.x (SVG icons)
 
@@ -58,7 +57,7 @@ This file guides GitHub Copilot to generate code consistent with the established
 - classnames 2.3.1 (conditional CSS classes)
 - uuid 8.2.0 (unique ID generation)
 
-**Important:** Vite uses Node polyfills via `vite-plugin-node-polyfills`. Code can use Node APIs in the browser context.
+**Important:** The app runs in the browser only — do not use Node-specific APIs (Buffer, crypto, process) in src/.
 
 ---
 
@@ -350,7 +349,7 @@ export function useCaptionsHandler() {
 
 ### 5. Testing Patterns
 
-**Test Framework:** Vitest 1.0.0 with globals enabled (no imports needed).
+**Test Framework:** Vitest 4.x with globals enabled (no imports needed).
 
 **Setup Files:**
 - `src/setupTests.jsx` - React Testing Library + Redux provider

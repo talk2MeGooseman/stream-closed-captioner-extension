@@ -10,7 +10,7 @@ import { LanguageOptions } from './language-options'
 export const TranslationDialogButton = ({ hasTranslations, onClick }) =>
   hasTranslations ? (
     <Popover content={<LanguageOptions />} position="left-bottom">
-      <Pulse color="#9ccc65">
+      <Pulse $color="#9ccc65">
         <FontAwesomeIcon icon={faLanguage} size="2x" />
       </Pulse>
     </Popover>

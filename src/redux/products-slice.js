@@ -87,7 +87,7 @@ export function completeBitsTransaction(transaction) {
       })
       .then(() => {
         dispatch(toggleActivationDrawer())
-        dispatch(requestTranslationStatus())
+        dispatch(requestTranslationStatus(channelId))
       })
       .catch(() => {
         // Error happened

@@ -1,4 +1,17 @@
-import jwt from 'jsonwebtoken'
+/**
+ * Decodes a JWT payload without verifying the signature.
+ * Verification happens server-side; this only reads the claims.
+ */
+function decodeJwtPayload(token) {
+  const base64Url = token.split('.')[1]
+  let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/')
+  // Normalize base64url payloads that omit trailing = padding
+  if (base64.length % 4) {
+    base64 += '='.repeat(4 - (base64.length % 4))
+  }
+  const bytes = Uint8Array.from(atob(base64), (c) => c.charCodeAt(0))
+  return JSON.parse(new TextDecoder().decode(bytes))
+}
 
 /**
  * Helper class for authentication against an EBS service.
@@ -45,7 +58,7 @@ export default class Authentication {
     let tokenUserId = ''
 
     try {
-      const { role, userId, channelId } = jwt.decode(token)
+      const { role, userId, channelId } = decodeJwtPayload(token)
 
       localStorage.setItem('token', token)
 

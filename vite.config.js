@@ -1,9 +1,6 @@
 import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
-import svgrPlugin from 'vite-plugin-svgr'
-import eslint from 'vite-plugin-eslint'
 import path from 'path'
-import { nodePolyfills } from 'vite-plugin-node-polyfills';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -57,15 +54,6 @@ export default defineConfig({
     'process.browser': true
   },
   plugins: [
-    react(),
-    nodePolyfills(),
-    svgrPlugin({
-      svgrOptions: {
-        icon: true,
-      }
-    }),
-    // eslint({
-    //   fix: true,
-    // })
+    react()
   ]
 })
