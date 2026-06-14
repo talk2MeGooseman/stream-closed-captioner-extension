@@ -13,6 +13,7 @@ import settings, {
   toggleBoxSize,
   toggleDyslexiaFamily,
   toggleGrayOutFinalText,
+  toggleRollUpCaptions,
   toggleUppercaseText,
   toggleVisibility,
   updateBroadcasterSettings,
@@ -174,6 +175,14 @@ describe('settingsSlice', () => {
       const state = settings(initialState, toggleGrayOutFinalText())
 
       expect(state.grayOutFinalText).toBe(true)
+    })
+
+    test('toggleRollUpCaptions flips the roll-up layout flag', () => {
+      expect(initialState.rollUpCaptions).toBe(true)
+
+      const state = settings(initialState, toggleRollUpCaptions())
+
+      expect(state.rollUpCaptions).toBe(false)
     })
 
     test('toggleUppercaseText flips the uppercase flag', () => {

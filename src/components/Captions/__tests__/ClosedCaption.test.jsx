@@ -17,6 +17,7 @@ const baseState = {
     captionsWidth: 100,
     hideCC: false,
     color: '#ffffff',
+    rollUpCaptions: true,
   },
   captionsState: {
     finalTextQueue: [],
@@ -68,7 +69,7 @@ describe('ClosedCaption Component', () => {
 
       renderWithRedux(<ClosedCaption />, { initialState })
 
-      expect(screen.getByText(finalText)).toBeInTheDocument()
+      expect(screen.getByText(`${finalText}.`)).toBeInTheDocument()
     })
 
     test('displays interim text when available', () => {
@@ -102,7 +103,7 @@ describe('ClosedCaption Component', () => {
 
       renderWithRedux(<ClosedCaption />, { initialState })
 
-      expect(screen.getByText('Large text')).toBeInTheDocument()
+      expect(screen.getByText('Large text.')).toBeInTheDocument()
     })
 
     test('hides captions when hideCC is true', () => {
@@ -140,7 +141,7 @@ describe('ClosedCaption Component', () => {
 
       renderWithRedux(<ClosedCaption />, { initialState })
 
-      expect(screen.getByText('Colored')).toBeInTheDocument()
+      expect(screen.getByText('Colored.')).toBeInTheDocument()
     })
 
     test('applies background transparency', () => {
@@ -158,7 +159,7 @@ describe('ClosedCaption Component', () => {
 
       renderWithRedux(<ClosedCaption />, { initialState })
 
-      expect(screen.getByText('Background')).toBeInTheDocument()
+      expect(screen.getByText('Background.')).toBeInTheDocument()
     })
 
     test('applies uppercase styling when enabled', () => {
@@ -176,7 +177,7 @@ describe('ClosedCaption Component', () => {
 
       renderWithRedux(<ClosedCaption />, { initialState })
 
-      expect(screen.getByText('uppercase')).toBeInTheDocument()
+      expect(screen.getByText('Uppercase.')).toBeInTheDocument()
     })
 
     test('applies box size styling when enabled', () => {
@@ -194,7 +195,7 @@ describe('ClosedCaption Component', () => {
 
       renderWithRedux(<ClosedCaption />, { initialState })
 
-      expect(screen.getByText('Box size')).toBeInTheDocument()
+      expect(screen.getByText('Box size.')).toBeInTheDocument()
     })
 
     test('applies gray out styling to final text', () => {
@@ -212,12 +213,12 @@ describe('ClosedCaption Component', () => {
 
       renderWithRedux(<ClosedCaption />, { initialState })
 
-      expect(screen.getByText('Grayed')).toBeInTheDocument()
+      expect(screen.getByText('Grayed.')).toBeInTheDocument()
     })
   })
 
   describe('Multiple Captions', () => {
-    test('joins multiple captions with spaces', () => {
+    test('renders each caption segment as its own line', () => {
       const initialState = {
         ...baseState,
         captionsState: {
@@ -231,7 +232,8 @@ describe('ClosedCaption Component', () => {
 
       renderWithRedux(<ClosedCaption />, { initialState })
 
-      expect(screen.getByText('Hello World')).toBeInTheDocument()
+      expect(screen.getByText('Hello.')).toBeInTheDocument()
+      expect(screen.getByText('World.')).toBeInTheDocument()
     })
 
     test('handles empty queue gracefully', () => {
@@ -240,6 +242,54 @@ describe('ClosedCaption Component', () => {
       const { container } = renderWithRedux(<ClosedCaption />, { initialState })
 
       expect(container).toBeInTheDocument()
+    })
+  })
+
+  describe('Layout modes', () => {
+    test('renders each segment on its own line when roll-up is enabled', () => {
+      const initialState = {
+        ...baseState,
+        configSettings: {
+          ...baseState.configSettings,
+          rollUpCaptions: true,
+        },
+        captionsState: {
+          ...baseState.captionsState,
+          finalTextQueue: [
+            { id: '1', text: 'Hello' },
+            { id: '2', text: 'World' },
+          ],
+        },
+      }
+
+      renderWithRedux(<ClosedCaption />, { initialState })
+
+      // Separate line elements
+      expect(screen.getByText('Hello.')).toBeInTheDocument()
+      expect(screen.getByText('World.')).toBeInTheDocument()
+    })
+
+    test('renders a single flowing paragraph when roll-up is disabled', () => {
+      const initialState = {
+        ...baseState,
+        configSettings: {
+          ...baseState.configSettings,
+          rollUpCaptions: false,
+        },
+        captionsState: {
+          ...baseState.captionsState,
+          finalTextQueue: [
+            { id: '1', text: 'Hello' },
+            { id: '2', text: 'World' },
+          ],
+        },
+      }
+
+      renderWithRedux(<ClosedCaption />, { initialState })
+
+      // Both segments joined into one element
+      expect(screen.getByText('Hello. World.')).toBeInTheDocument()
+      expect(screen.queryByText('Hello.')).not.toBeInTheDocument()
     })
   })
 
@@ -269,7 +319,8 @@ describe('ClosedCaption Component', () => {
 
       renderWithRedux(<ClosedCaption />, { initialState })
 
-      expect(screen.getByText('Hola Mundo')).toBeInTheDocument()
+      expect(screen.getByText('Hola.')).toBeInTheDocument()
+      expect(screen.getByText('Mundo.')).toBeInTheDocument()
       // Interim text only renders for the default language
       expect(screen.queryByText('should not show')).not.toBeInTheDocument()
     })

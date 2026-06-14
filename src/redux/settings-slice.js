@@ -23,6 +23,7 @@ export const initialState = {
   isDragged: false,
   isDrawerOpen: false,
   language: 'en-US',
+  rollUpCaptions: true,
   size: TEXT_SIZES.MEDIUM,
   switchSettingsPosition: false,
   textUppercase: false,
@@ -109,6 +110,9 @@ const settingsSlice = createSlice({
     toggleGrayOutFinalText(state) {
       state.grayOutFinalText = !state.grayOutFinalText
     },
+    toggleRollUpCaptions(state) {
+      state.rollUpCaptions = !state.rollUpCaptions
+    },
     toggleUppercaseText(state) {
       state.textUppercase = !state.textUppercase
     },
@@ -146,6 +150,7 @@ export const {
   toggleBoxSize,
   toggleDyslexiaFamily,
   toggleGrayOutFinalText,
+  toggleRollUpCaptions,
   toggleUppercaseText,
   toggleVisibility,
   updateBroadcasterSettings,

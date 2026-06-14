@@ -1,6 +1,14 @@
 import { describe, test, expect } from 'vitest'
 import { TEXT_SIZES } from '@/utils/Constants'
-import { getMobileFontSizeStyle, getFontSizeStyle } from '../helpers'
+import {
+  getMobileFontSizeStyle,
+  getFontSizeStyle,
+  normalizeSegment,
+  getCaptionQueue,
+  assembleCaptionText,
+  assembleCaptionLines,
+  isCaptionsHidden,
+} from '../helpers'
 
 describe('Captions Helper Functions', () => {
   describe('getFontSizeStyle', () => {
@@ -119,6 +127,199 @@ describe('Captions Helper Functions', () => {
       expect(desktop).toContain('large')
       expect(mobile).toContain('mobile')
       expect(mobile).toContain('large')
+    })
+  })
+
+  describe('normalizeSegment', () => {
+    test('capitalizes the first letter and appends a period', () => {
+      expect(normalizeSegment('hello world')).toBe('Hello world.')
+    })
+
+    test('leaves an existing terminal period in place', () => {
+      expect(normalizeSegment('Already done.')).toBe('Already done.')
+    })
+
+    test('does not double-punctuate other terminators', () => {
+      expect(normalizeSegment('really?')).toBe('Really?')
+      expect(normalizeSegment('wow!')).toBe('Wow!')
+      expect(normalizeSegment('to be continued…')).toBe('To be continued…')
+    })
+
+    test('recognizes terminal punctuation before a closing quote', () => {
+      expect(normalizeSegment('she said "hi."')).toBe('She said "hi."')
+    })
+
+    test('recognizes CJK terminal punctuation', () => {
+      expect(normalizeSegment('こんにちは。')).toBe('こんにちは。')
+    })
+
+    test('trims surrounding whitespace before normalizing', () => {
+      expect(normalizeSegment('  spaced out  ')).toBe('Spaced out.')
+    })
+
+    test('returns an empty string for empty or whitespace-only input', () => {
+      expect(normalizeSegment('')).toBe('')
+      expect(normalizeSegment('   ')).toBe('')
+    })
+
+    test('returns an empty string for non-string input', () => {
+      expect(normalizeSegment(undefined)).toBe('')
+      expect(normalizeSegment(null)).toBe('')
+      expect(normalizeSegment(42)).toBe('')
+    })
+
+    test('leaves an already-capitalized segment capitalized', () => {
+      expect(normalizeSegment('Welcome to the stream everyone!')).toBe(
+        'Welcome to the stream everyone!',
+      )
+    })
+  })
+
+  describe('getCaptionQueue', () => {
+    const finalTextQueue = [{ id: '1', text: 'hello' }]
+    const translations = {
+      es: { name: 'Spanish', textQueue: [{ id: '1', text: 'hola' }] },
+    }
+
+    test('returns the final text queue for the default language', () => {
+      expect(getCaptionQueue('default', finalTextQueue, translations)).toBe(
+        finalTextQueue,
+      )
+    })
+
+    test('returns the translation queue for a translated language', () => {
+      expect(getCaptionQueue('es', finalTextQueue, translations)).toEqual([
+        { id: '1', text: 'hola' },
+      ])
+    })
+
+    test('returns an empty list when the language has no translations', () => {
+      expect(getCaptionQueue('fr', finalTextQueue, translations)).toEqual([])
+      expect(getCaptionQueue('fr', finalTextQueue, {})).toEqual([])
+    })
+  })
+
+  describe('assembleCaptionText', () => {
+    test('normalizes and joins the default queue into sentences', () => {
+      const finalTextQueue = [
+        { id: '1', text: 'hello world' },
+        { id: '2', text: 'how are you' },
+      ]
+
+      expect(assembleCaptionText('default', finalTextQueue, {})).toBe(
+        'Hello world. How are you.',
+      )
+    })
+
+    test('assembles the translation queue for the active language', () => {
+      const translations = {
+        es: {
+          name: 'Spanish',
+          textQueue: [
+            { id: '1', text: 'hola mundo' },
+            { id: '2', text: 'que tal' },
+          ],
+        },
+      }
+
+      expect(assembleCaptionText('es', [], translations)).toBe(
+        'Hola mundo. Que tal.',
+      )
+    })
+
+    test('drops empty segments instead of leaving stray separators', () => {
+      const finalTextQueue = [
+        { id: '1', text: 'hello' },
+        { id: '2', text: '   ' },
+        { id: '3', text: 'world' },
+      ]
+
+      expect(assembleCaptionText('default', finalTextQueue, {})).toBe(
+        'Hello. World.',
+      )
+    })
+
+    test('returns an empty string for an empty queue', () => {
+      expect(assembleCaptionText('default', [], {})).toBe('')
+      expect(assembleCaptionText('fr', [], {})).toBe('')
+    })
+  })
+
+  describe('assembleCaptionLines', () => {
+    test('returns one normalized line per segment, keeping ids', () => {
+      const finalTextQueue = [
+        { id: 'a', text: 'hello world' },
+        { id: 'b', text: 'how are you' },
+      ]
+
+      expect(assembleCaptionLines('default', finalTextQueue, {})).toEqual([
+        { id: 'a', text: 'Hello world.' },
+        { id: 'b', text: 'How are you.' },
+      ])
+    })
+
+    test('returns lines from the translation queue for the active language', () => {
+      const translations = {
+        es: {
+          name: 'Spanish',
+          textQueue: [{ id: '1', text: 'hola mundo' }],
+        },
+      }
+
+      expect(assembleCaptionLines('es', [], translations)).toEqual([
+        { id: '1', text: 'Hola mundo.' },
+      ])
+    })
+
+    test('drops empty segments', () => {
+      const finalTextQueue = [
+        { id: 'a', text: 'hello' },
+        { id: 'b', text: '   ' },
+        { id: 'c', text: 'world' },
+      ]
+
+      expect(assembleCaptionLines('default', finalTextQueue, {})).toEqual([
+        { id: 'a', text: 'Hello.' },
+        { id: 'c', text: 'World.' },
+      ])
+    })
+
+    test('returns an empty list for an empty queue', () => {
+      expect(assembleCaptionLines('default', [], {})).toEqual([])
+    })
+  })
+
+  describe('isCaptionsHidden', () => {
+    test('hides when the viewer has toggled captions off', () => {
+      expect(isCaptionsHidden(true, 'Hello.', 'still typing')).toBe(true)
+    })
+
+    test('hides when there is no final and no interim text', () => {
+      expect(isCaptionsHidden(false, '', '')).toBe(true)
+    })
+
+    test('shows when there is final caption text', () => {
+      expect(isCaptionsHidden(false, 'Hello.', '')).toBe(false)
+    })
+
+    test('shows when there is interim text but no final text', () => {
+      expect(isCaptionsHidden(false, '', 'typing')).toBe(false)
+    })
+
+    // Regression: in translation mode the displayed text comes from the
+    // translations queue and interim never renders, so an empty translation
+    // must hide the box even when the source-language queue has text.
+    test('hides an empty translation even though interim is suppressed', () => {
+      expect(isCaptionsHidden(false, '', '')).toBe(true)
+    })
+
+    test('treats whitespace-only text as empty', () => {
+      expect(isCaptionsHidden(false, '   ', '   ')).toBe(true)
+    })
+
+    test('tolerates undefined interim text', () => {
+      expect(isCaptionsHidden(false, 'Hello.', undefined)).toBe(false)
+      expect(isCaptionsHidden(false, '', undefined)).toBe(true)
     })
   })
 
