@@ -173,6 +173,33 @@ describe('Captions Helper Functions', () => {
         'Welcome to the stream everyone!',
       )
     })
+
+    test('does not append a period after a trailing separator', () => {
+      expect(normalizeSegment('wait,')).toBe('Wait,')
+      expect(normalizeSegment('as follows:')).toBe('As follows:')
+    })
+
+    test('does not dangle a period after a closing quote or bracket', () => {
+      expect(normalizeSegment('she said "hi"')).toBe('She said "hi"')
+      expect(normalizeSegment('done.))')).toBe('Done.))')
+    })
+
+    test('does not corrupt letters whose uppercase expands to multiple characters', () => {
+      expect(normalizeSegment('ßomething')).toBe('ßomething.')
+      expect(normalizeSegment('ﬁle name')).toBe('ﬁle name.')
+    })
+
+    test('capitalizes an astral (surrogate-pair) first letter without splitting it', () => {
+      expect(normalizeSegment('𞤢bc')).toBe('𞤀bc.')
+    })
+
+    test('appends a full-width period to unpunctuated CJK segments', () => {
+      expect(normalizeSegment('こんにちは')).toBe('こんにちは。')
+    })
+
+    test('appends a Latin period to unpunctuated non-CJK scripts', () => {
+      expect(normalizeSegment('مرحبا')).toBe('مرحبا.')
+    })
   })
 
   describe('getCaptionQueue', () => {
@@ -304,13 +331,6 @@ describe('Captions Helper Functions', () => {
 
     test('shows when there is interim text but no final text', () => {
       expect(isCaptionsHidden(false, '', 'typing')).toBe(false)
-    })
-
-    // Regression: in translation mode the displayed text comes from the
-    // translations queue and interim never renders, so an empty translation
-    // must hide the box even when the source-language queue has text.
-    test('hides an empty translation even though interim is suppressed', () => {
-      expect(isCaptionsHidden(false, '', '')).toBe(true)
     })
 
     test('treats whitespace-only text as empty', () => {

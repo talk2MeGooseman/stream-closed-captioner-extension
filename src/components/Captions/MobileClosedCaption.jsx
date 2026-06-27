@@ -1,13 +1,10 @@
-import {
-  Captions,
-  CaptionText,
-  CaptionsContainer,
-} from '../shared/caption-styles'
+import { Captions, CaptionsContainer } from '../shared/caption-styles'
 
+import CaptionBody from './CaptionBody'
 import {
   assembleCaptionLines,
-  assembleCaptionText,
   getMobileFontSizeStyle,
+  joinCaptionLines,
 } from './helpers'
 
 import { useShallowEqualSelector } from '@/redux/redux-helpers'
@@ -40,18 +37,18 @@ function MobileClosedCaption() {
     : FONT_FAMILIES.ROBOTO
 
   // Roll-up (line-per-sentence) is the default; viewers can opt back into the
-  // single flowing paragraph via the display settings menu.
+  // single flowing paragraph via the display settings menu. The paragraph form
+  // is derived from the same normalized lines so the queue is normalized once.
   const rollUpCaptions = configSettings.rollUpCaptions ?? true
   const captionLines = assembleCaptionLines(
     configSettings.viewerLanguage,
     finalTextQueue,
     translations,
   )
-  const finalTextCaptions = assembleCaptionText(
-    configSettings.viewerLanguage,
-    finalTextQueue,
-    translations,
-  )
+  const finalTextCaptions = joinCaptionLines(captionLines)
+  // Interim text only renders for the default language; resolve to '' otherwise.
+  const interimVisible =
+    configSettings.viewerLanguage === 'default' ? interimText || '' : ''
 
   return (
     <CaptionsContainer
@@ -63,26 +60,13 @@ function MobileClosedCaption() {
         $fontSize={fontSize}
         $uppercase={configSettings.textUppercase}
       >
-        {rollUpCaptions ? (
-          captionLines.map((line) => (
-            <CaptionText
-              key={line.id}
-              $block
-              $grayOutText={configSettings.grayOutFinalText}
-            >
-              {line.text}
-            </CaptionText>
-          ))
-        ) : (
-          <CaptionText $grayOutText={configSettings.grayOutFinalText}>
-            {finalTextCaptions}
-          </CaptionText>
-        )}
-        {configSettings.viewerLanguage === 'default' && interimText && (
-          <CaptionText $block={rollUpCaptions} $interim>
-            {interimText}
-          </CaptionText>
-        )}
+        <CaptionBody
+          rollUpCaptions={rollUpCaptions}
+          captionLines={captionLines}
+          captionText={finalTextCaptions}
+          grayOutFinalText={configSettings.grayOutFinalText}
+          interimText={interimVisible}
+        />
       </Captions>
     </CaptionsContainer>
   )

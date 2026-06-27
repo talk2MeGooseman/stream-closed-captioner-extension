@@ -343,6 +343,29 @@ describe('ClosedCaption Component', () => {
 
       expect(screen.queryByText('Hello')).not.toBeInTheDocument()
     })
+
+    test('suppresses the source-language interim when the active translation is empty', () => {
+      const initialState = {
+        ...baseState,
+        configSettings: {
+          ...baseState.configSettings,
+          viewerLanguage: 'fr',
+        },
+        captionsState: {
+          ...baseState.captionsState,
+          finalTextQueue: [{ id: '1', text: 'Hello' }],
+          interimText: 'still typing',
+          translations: {},
+        },
+      }
+
+      renderWithRedux(<ClosedCaption />, { initialState })
+
+      // The translation queue is empty, so no caption lines render...
+      expect(screen.queryByText('Hello.')).not.toBeInTheDocument()
+      // ...and the source-language interim must not leak into translation mode.
+      expect(screen.queryByText('still typing')).not.toBeInTheDocument()
+    })
   })
 
   describe('Accessibility', () => {
