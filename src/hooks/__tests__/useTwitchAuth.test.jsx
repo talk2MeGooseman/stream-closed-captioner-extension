@@ -1,11 +1,23 @@
 import { renderHook, waitFor } from '@testing-library/react'
 import { describe, test, expect, vi, beforeEach, afterEach } from 'vitest'
 import { useTwitchAuth } from '../useTwitchAuth'
+import {
+  isLocalDevEnabled,
+  loadLocalDevSession,
+} from '../../utils/localDevSession'
+
+vi.mock('../../utils/localDevSession', () => ({
+  isLocalDevEnabled: vi.fn(() => false),
+  loadLocalDevSession: vi.fn(() => null),
+}))
 
 describe('useTwitchAuth', () => {
   beforeEach(() => {
     // Reset Twitch mock before each test
     delete window.Twitch
+    // Local dev seam defaults to off so the Twitch-host tests are unaffected.
+    vi.mocked(isLocalDevEnabled).mockReturnValue(false)
+    vi.mocked(loadLocalDevSession).mockReturnValue(null)
   })
 
   afterEach(() => {
@@ -96,6 +108,34 @@ describe('useTwitchAuth', () => {
     }).not.toThrow()
 
     const { result } = renderHook(() => useTwitchAuth())
+    expect(result.current.authorized).toBe(false)
+  })
+
+  test('synthesizes auth from a local dev session when Twitch is absent', async () => {
+    delete window.Twitch
+    vi.mocked(isLocalDevEnabled).mockReturnValue(true)
+    vi.mocked(loadLocalDevSession).mockReturnValue({
+      token: 'dev.jwt.token',
+      channelId: '12345',
+    })
+
+    const { result } = renderHook(() => useTwitchAuth())
+
+    await waitFor(() => {
+      expect(result.current.authorized).toBe(true)
+      expect(result.current.channelId).toBe('12345')
+      expect(result.current.token).toBe('dev.jwt.token')
+      expect(result.current.userId).toBe('120750024')
+    })
+  })
+
+  test('does not synthesize auth when no dev session exists', () => {
+    delete window.Twitch
+    vi.mocked(isLocalDevEnabled).mockReturnValue(true)
+    vi.mocked(loadLocalDevSession).mockReturnValue(null)
+
+    const { result } = renderHook(() => useTwitchAuth())
+
     expect(result.current.authorized).toBe(false)
   })
 })
