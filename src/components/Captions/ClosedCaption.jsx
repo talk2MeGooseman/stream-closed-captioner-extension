@@ -2,18 +2,15 @@ import { useCallback, memo } from 'react'
 import Draggable from 'react-draggable'
 import { useDispatch } from 'react-redux'
 
-import {
-  Captions,
-  CaptionsContainer,
-  CaptionText,
-} from '../shared/caption-styles'
+import { Captions, CaptionsContainer } from '../shared/caption-styles'
 
 import './ClosedCaption.css'
+import CaptionBody from './CaptionBody'
 import {
   assembleCaptionLines,
-  assembleCaptionText,
   getFontSizeStyle,
   isCaptionsHidden,
+  joinCaptionLines,
 } from './helpers'
 
 import { useShallowEqualSelector } from '@/redux/redux-helpers'
@@ -54,23 +51,21 @@ function ClosedCaption() {
     numberOfLines = configSettings.boxLineCount
   }
 
-  const finalTextCaptions = assembleCaptionText(
-    configSettings.viewerLanguage,
-    finalTextQueue,
-    translations,
-  )
-  // Roll-up layout: render each recognized segment on its own line so sentence
-  // boundaries are visually explicit.
+  // Roll-up layout renders each recognized segment on its own line so sentence
+  // boundaries are visually explicit; the paragraph form is derived from the
+  // same normalized lines so the queue is normalized only once.
   const captionLines = assembleCaptionLines(
     configSettings.viewerLanguage,
     finalTextQueue,
     translations,
   )
+  const finalTextCaptions = joinCaptionLines(captionLines)
   // Roll-up (line-per-sentence) is the default; viewers can opt back into the
   // single flowing paragraph via the display settings menu.
   const rollUpCaptions = configSettings.rollUpCaptions ?? true
-  // Interim text only renders for the default language, so only let it keep
-  // the box visible in that mode.
+  // Interim text only renders for the default language, so resolve it to '' in
+  // any other mode; this is the single source of truth for whether interim
+  // shows and for keeping the box visible.
   const interimVisible =
     configSettings.viewerLanguage === 'default' ? interimText || '' : ''
   const isHidden = isCaptionsHidden(
@@ -95,26 +90,13 @@ function ClosedCaption() {
           $uppercase={configSettings.textUppercase}
           $color={configSettings.color}
         >
-          {rollUpCaptions ? (
-            captionLines.map((line) => (
-              <CaptionText
-                key={line.id}
-                $block
-                $grayOutText={configSettings.grayOutFinalText}
-              >
-                {line.text}
-              </CaptionText>
-            ))
-          ) : (
-            <CaptionText $grayOutText={configSettings.grayOutFinalText}>
-              {finalTextCaptions}
-            </CaptionText>
-          )}
-          {configSettings.viewerLanguage === 'default' && interimVisible && (
-            <CaptionText $block={rollUpCaptions} $interim>
-              {interimVisible}
-            </CaptionText>
-          )}
+          <CaptionBody
+            rollUpCaptions={rollUpCaptions}
+            captionLines={captionLines}
+            captionText={finalTextCaptions}
+            grayOutFinalText={configSettings.grayOutFinalText}
+            interimText={interimVisible}
+          />
         </Captions>
       </CaptionsContainer>
     </Draggable>
