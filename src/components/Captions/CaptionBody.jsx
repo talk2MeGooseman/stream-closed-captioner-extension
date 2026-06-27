@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types'
-import { memo } from 'react'
 
 import { CaptionText } from '../shared/caption-styles'
 
@@ -9,6 +8,10 @@ import { CaptionText } from '../shared/caption-styles'
  * layout) or as a single flowing paragraph, followed by the interim text when
  * there is any. Both views feed `interimText` that is already empty unless it
  * should render, so the interim block needs no further language check here.
+ *
+ * Not wrapped in memo(): the parents rebuild `captionLines` every render, so a
+ * shallow prop compare would always miss. The leaf CaptionText spans are
+ * already memoized, so unchanged lines skip DOM work without it.
  */
 function CaptionBody({
   rollUpCaptions,
@@ -50,4 +53,4 @@ CaptionBody.propTypes = {
   interimText: PropTypes.string,
 }
 
-export default memo(CaptionBody)
+export default CaptionBody
