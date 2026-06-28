@@ -7,7 +7,8 @@
 .settings-menu-container {
   position: absolute;
   top: 100%;
-  left: 0;
+  right: 0;
+  left: auto;
   background-color: #30404d;
   border: 1px solid #10161a;
   border-radius: 3px;
@@ -19,6 +20,16 @@
   display: block !important;
   visibility: visible !important;
   opacity: 1 !important;
+}
+
+.position-left .settings-menu-container {
+  left: 0;
+  right: auto;
+}
+
+.position-right .settings-menu-container {
+  right: 0;
+  left: auto;
 }
 
 /* Blueprint Menu styling */
@@ -61,5 +72,3 @@
 .settings-menu-container .bp5-submenu-icon {
   margin-left: auto;
 }
-
-

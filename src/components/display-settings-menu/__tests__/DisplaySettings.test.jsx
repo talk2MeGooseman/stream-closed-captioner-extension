@@ -56,6 +56,37 @@ describe('displaySettings', () => {
       })
     })
 
+    describe('settings position is default', () => {
+      test('positions the controls on the right', () => {
+        const { queryByTestId } = renderWithRedux(<DisplaySettingsMenu />, {
+          initialState: {
+            videoPlayerContext: { arePlayerControlsVisible: true },
+          },
+        })
+
+        expect(queryByTestId('display-settings')).toHaveClass('position-right')
+        expect(queryByTestId('display-settings')).not.toHaveClass(
+          'position-left',
+        )
+      })
+    })
+
+    describe('settings position is switched', () => {
+      test('positions the controls on the left', () => {
+        const { queryByTestId } = renderWithRedux(<DisplaySettingsMenu />, {
+          initialState: {
+            configSettings: { switchSettingsPosition: true },
+            videoPlayerContext: { arePlayerControlsVisible: true },
+          },
+        })
+
+        expect(queryByTestId('display-settings')).toHaveClass('position-left')
+        expect(queryByTestId('display-settings')).not.toHaveClass(
+          'position-right',
+        )
+      })
+    })
+
     describe('arePlayerControlsVisible is false', () => {
       test('renders enable horizontal text', () => {
         const { queryByTestId } = renderWithRedux(<DisplaySettingsMenu />, {
