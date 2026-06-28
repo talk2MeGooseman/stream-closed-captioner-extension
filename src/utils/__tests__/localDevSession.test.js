@@ -88,6 +88,16 @@ describe('localDevSession', () => {
       expect(localStorage.getItem('token')).toBeNull()
       expect(updateMockConfig).not.toHaveBeenCalled()
     })
+
+    test('trims fragment values and ignores whitespace-only ones', () => {
+      window.location.hash = '#scc_dev_token=%20%20&scc_dev_channel=%20%20'
+
+      const session = loadLocalDevSession()
+
+      expect(session).toBeNull()
+      expect(localStorage.getItem('token')).toBeNull()
+      expect(localStorage.getItem('scc_dev_channel')).toBeNull()
+    })
   })
 
   describe('getLocalDevSession', () => {
@@ -98,9 +108,20 @@ describe('localDevSession', () => {
   })
 
   describe('setLocalDevChannel', () => {
-    test('updates the stored channel id', () => {
-      setLocalDevChannel('555')
+    test('updates the stored channel id, trimming whitespace', () => {
+      setLocalDevChannel('  555  ')
       expect(localStorage.getItem('scc_dev_channel')).toBe('555')
+    })
+
+    test('ignores empty/whitespace input', () => {
+      setLocalDevChannel('   ')
+      expect(localStorage.getItem('scc_dev_channel')).toBeNull()
+    })
+
+    test('is a no-op outside development mode', () => {
+      vi.stubEnv('MODE', 'production')
+      setLocalDevChannel('555')
+      expect(localStorage.getItem('scc_dev_channel')).toBeNull()
     })
   })
 
@@ -114,6 +135,16 @@ describe('localDevSession', () => {
       expect(localStorage.getItem('token')).toBeNull()
       expect(localStorage.getItem('scc_dev_channel')).toBeNull()
       expect(updateMockConfig).toHaveBeenCalledWith({ useRealServer: false })
+    })
+
+    test('is a no-op outside development mode (leaves the auth token intact)', () => {
+      vi.stubEnv('MODE', 'production')
+      localStorage.setItem('token', 'real-auth-token')
+
+      clearLocalDevSession()
+
+      expect(localStorage.getItem('token')).toBe('real-auth-token')
+      expect(updateMockConfig).not.toHaveBeenCalled()
     })
   })
 })

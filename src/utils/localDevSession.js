@@ -80,9 +80,11 @@ export function loadLocalDevSession() {
   }
 
   const params = parseHashParams()
-  const hashToken = params.get(HASH_TOKEN_KEY)
-  const hashChannel = params.get(HASH_CHANNEL_KEY)
+  const hashToken = (params.get(HASH_TOKEN_KEY) || '').trim()
+  const hashChannel = (params.get(HASH_CHANNEL_KEY) || '').trim()
 
+  // Only persist (and clear the fragment) when both values are actually present
+  // after trimming, so stray whitespace can't leave a broken session behind.
   if (hashToken && hashChannel) {
     localStorage.setItem(TOKEN_KEY, hashToken)
     localStorage.setItem(CHANNEL_KEY, hashChannel)
@@ -104,16 +106,30 @@ export function loadLocalDevSession() {
 
 /**
  * Point the local build at a different live channel (reusing the stored token).
+ * No-op outside development, and ignores empty/whitespace input.
  * @param {string} channelId
  */
 export function setLocalDevChannel(channelId) {
-  localStorage.setItem(CHANNEL_KEY, channelId)
+  if (!isLocalDevEnabled()) {
+    return
+  }
+
+  const trimmed = (channelId || '').trim()
+
+  if (trimmed) {
+    localStorage.setItem(CHANNEL_KEY, trimmed)
+  }
 }
 
 /**
- * Tear down the dev session and return to the mock harness.
+ * Tear down the dev session and return to the mock harness. No-op outside
+ * development so the primary auth token is never touched in production.
  */
 export function clearLocalDevSession() {
+  if (!isLocalDevEnabled()) {
+    return
+  }
+
   localStorage.removeItem(TOKEN_KEY)
   localStorage.removeItem(CHANNEL_KEY)
   updateMockConfig({ useRealServer: false })

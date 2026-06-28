@@ -96,13 +96,16 @@ function DevMockControlsDialog({ isOpen, onClose }) {
 
   // Switch the local build to a different live channel (reuses the stored
   // token) and reload so the websocket reconnects with the new subscription.
+  // The real-server flag is re-applied by loadLocalDevSession() after reload,
+  // so there's no need to set it here (it would be discarded by the reload).
   const handleConnectLiveChannel = useCallback(() => {
-    if (!liveChannelInput) {
+    const channelId = liveChannelInput.trim()
+
+    if (!channelId) {
       return
     }
 
-    setLocalDevChannel(liveChannelInput.trim())
-    updateMockConfig({ useRealServer: true })
+    setLocalDevChannel(channelId)
     window.location.reload()
   }, [liveChannelInput])
 
@@ -221,6 +224,7 @@ function DevMockControlsDialog({ isOpen, onClose }) {
         <FormGroup
           helperText="Connect to a real, currently-live broadcaster's captions. Open a link from the admin 'Local Extension Testing' page, or paste a channel id below to switch (reuses the stored token)."
           label="Live Channel (Dev)"
+          labelFor="live-channel-input"
         >
           <p className="bp5-text-muted bp5-text-small">
             {connectedChannel
@@ -229,13 +233,14 @@ function DevMockControlsDialog({ isOpen, onClose }) {
           </p>
           <InputGroup
             fill
+            id="live-channel-input"
             onChange={handleLiveChannelChange}
             placeholder="Twitch channel/user id"
             style={{ marginTop: '8px' }}
             value={liveChannelInput}
           />
           <Button
-            disabled={!liveChannelInput}
+            disabled={!liveChannelInput.trim()}
             fill
             intent="primary"
             onClick={handleConnectLiveChannel}
