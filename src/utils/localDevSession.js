@@ -11,12 +11,16 @@
  *
  *   http://localhost:8080/?anchor=video_overlay#scc_dev_token=<jwt>&scc_dev_channel=<uid>
  *
- * None of this is reachable in a production build: every entry point is gated
- * on `import.meta.env.MODE === 'development'`, so the shipped Twitch extension
- * bundle never includes the behavior.
+ * Every entry point is gated on `import.meta.env.MODE === 'development'`, so the
+ * behavior is inert in production builds (the same approach the existing mock
+ * harness uses). The module may still be bundled, but it never runs outside dev.
  */
 import { updateMockConfig } from './graphql-mocks'
-import { initializePhoenixSocket, connectPhoenixSocket } from './apollo'
+import {
+  initializePhoenixSocket,
+  connectPhoenixSocket,
+  disconnectPhoenixSocket,
+} from './apollo'
 
 const TOKEN_KEY = 'token'
 const CHANNEL_KEY = 'scc_dev_channel'
@@ -124,6 +128,8 @@ export function setLocalDevChannel(channelId) {
 /**
  * Tear down the dev session and return to the mock harness. No-op outside
  * development so the primary auth token is never touched in production.
+ * Also closes the websocket so live captions stop flowing even if the caller
+ * doesn't immediately reload the page.
  */
 export function clearLocalDevSession() {
   if (!isLocalDevEnabled()) {
@@ -133,4 +139,5 @@ export function clearLocalDevSession() {
   localStorage.removeItem(TOKEN_KEY)
   localStorage.removeItem(CHANNEL_KEY)
   updateMockConfig({ useRealServer: false })
+  disconnectPhoenixSocket()
 }

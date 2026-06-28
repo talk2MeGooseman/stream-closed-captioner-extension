@@ -7,10 +7,15 @@ vi.mock('../graphql-mocks', () => ({
 vi.mock('../apollo', () => ({
   initializePhoenixSocket: vi.fn(),
   connectPhoenixSocket: vi.fn(),
+  disconnectPhoenixSocket: vi.fn(),
 }))
 
 import { updateMockConfig } from '../graphql-mocks'
-import { initializePhoenixSocket, connectPhoenixSocket } from '../apollo'
+import {
+  initializePhoenixSocket,
+  connectPhoenixSocket,
+  disconnectPhoenixSocket,
+} from '../apollo'
 import {
   isLocalDevEnabled,
   getLocalDevSession,
@@ -135,6 +140,7 @@ describe('localDevSession', () => {
       expect(localStorage.getItem('token')).toBeNull()
       expect(localStorage.getItem('scc_dev_channel')).toBeNull()
       expect(updateMockConfig).toHaveBeenCalledWith({ useRealServer: false })
+      expect(disconnectPhoenixSocket).toHaveBeenCalled()
     })
 
     test('is a no-op outside development mode (leaves the auth token intact)', () => {

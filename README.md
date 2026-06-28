@@ -78,7 +78,8 @@ You can run this front end locally and connect it to **any broadcaster currently
 captioning** on the live site, to confirm that extension changes didn't break
 caption rendering against real data. This is gated to the site owner: the channel
 list and connection token come from an admin-only page on the backend (restricted
-to the owner account), and the whole feature is stripped from production builds.
+to the owner account), and the whole feature is dev-mode-gated so it stays inert
+in production builds.
 
 ### One-time backend setup
 
@@ -111,6 +112,6 @@ Leave it unset everywhere else — without it, local origins are rejected.
   socket. The fragment is cleared from the address bar after it's read.
 - `useTwitchAuth` synthesizes a Twitch-style auth object from that session when
   there's no Twitch host, so the normal caption subscription flow runs unchanged.
-- Everything is gated on `import.meta.env.MODE === 'development'`, so none of it
-  ships in the production extension bundle.
+- Everything is gated on `import.meta.env.MODE === 'development'`, so it stays
+  inert in production builds — the same approach as the existing mock harness.
 
