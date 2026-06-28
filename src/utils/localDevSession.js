@@ -87,11 +87,15 @@ export function loadLocalDevSession() {
   const hashToken = (params.get(HASH_TOKEN_KEY) || '').trim()
   const hashChannel = (params.get(HASH_CHANNEL_KEY) || '').trim()
 
-  // Only persist (and clear the fragment) when both values are actually present
-  // after trimming, so stray whitespace can't leave a broken session behind.
-  if (hashToken && hashChannel) {
-    localStorage.setItem(TOKEN_KEY, hashToken)
-    localStorage.setItem(CHANNEL_KEY, hashChannel)
+  // Clear the fragment whenever either dev-session param carries a value (so a
+  // lone token can't linger in the address bar), but only persist a session
+  // when both are present.
+  if (hashToken || hashChannel) {
+    if (hashToken && hashChannel) {
+      localStorage.setItem(TOKEN_KEY, hashToken)
+      localStorage.setItem(CHANNEL_KEY, hashChannel)
+    }
+
     stripHash()
   }
 
@@ -106,6 +110,15 @@ export function loadLocalDevSession() {
   }
 
   return session
+}
+
+/**
+ * Whether a socket token has already been seeded (via an admin link). Switching
+ * channels in the dev dialog only works once a token exists.
+ * @returns {boolean}
+ */
+export function hasLocalDevToken() {
+  return isLocalDevEnabled() && Boolean(localStorage.getItem(TOKEN_KEY))
 }
 
 /**

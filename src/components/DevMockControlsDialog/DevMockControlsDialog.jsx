@@ -18,6 +18,7 @@ import {
   getLocalDevSession,
   setLocalDevChannel,
   clearLocalDevSession,
+  hasLocalDevToken,
 } from '@/utils/localDevSession'
 
 /**
@@ -33,11 +34,13 @@ function DevMockControlsDialog({ isOpen, onClose }) {
   const [finalText, setFinalText] = useState('')
   const [liveChannelInput, setLiveChannelInput] = useState('')
   const [connectedChannel, setConnectedChannel] = useState('')
+  const [hasDevToken, setHasDevToken] = useState(false)
 
   // Sync config state when dialog opens
   const handleOpening = useCallback(() => {
     setConfig(getMockConfig())
     setConnectedChannel(getLocalDevSession()?.channelId || '')
+    setHasDevToken(hasLocalDevToken())
   }, [])
 
   // Update mock configuration
@@ -101,7 +104,8 @@ function DevMockControlsDialog({ isOpen, onClose }) {
   const handleConnectLiveChannel = useCallback(() => {
     const channelId = liveChannelInput.trim()
 
-    if (!channelId) {
+    // Without a seeded token, reloading can't connect — so don't bother.
+    if (!channelId || !hasLocalDevToken()) {
       return
     }
 
@@ -231,7 +235,14 @@ function DevMockControlsDialog({ isOpen, onClose }) {
               ? `Connected to channel ${connectedChannel}`
               : 'No live session active'}
           </p>
+          {!hasDevToken && (
+            <p className="bp5-text-muted bp5-text-small">
+              No socket token loaded — open a link from the admin &quot;Local
+              Extension Testing&quot; page first to seed one.
+            </p>
+          )}
           <InputGroup
+            disabled={!hasDevToken}
             fill
             id="live-channel-input"
             onChange={handleLiveChannelChange}
@@ -240,7 +251,7 @@ function DevMockControlsDialog({ isOpen, onClose }) {
             value={liveChannelInput}
           />
           <Button
-            disabled={!liveChannelInput.trim()}
+            disabled={!hasDevToken || !liveChannelInput.trim()}
             fill
             intent="primary"
             onClick={handleConnectLiveChannel}

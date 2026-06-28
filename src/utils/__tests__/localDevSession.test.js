@@ -22,6 +22,7 @@ import {
   loadLocalDevSession,
   setLocalDevChannel,
   clearLocalDevSession,
+  hasLocalDevToken,
 } from '../localDevSession'
 
 describe('localDevSession', () => {
@@ -102,6 +103,31 @@ describe('localDevSession', () => {
       expect(session).toBeNull()
       expect(localStorage.getItem('token')).toBeNull()
       expect(localStorage.getItem('scc_dev_channel')).toBeNull()
+    })
+
+    test('clears a partial fragment without persisting a session', () => {
+      window.location.hash = '#scc_dev_token=jwt.abc.def'
+
+      const session = loadLocalDevSession()
+
+      expect(session).toBeNull()
+      expect(localStorage.getItem('token')).toBeNull()
+      // The lone token is scrubbed from the address bar rather than left behind.
+      expect(window.location.hash).toBe('')
+    })
+  })
+
+  describe('hasLocalDevToken', () => {
+    test('reflects whether a token is stored', () => {
+      expect(hasLocalDevToken()).toBe(false)
+      localStorage.setItem('token', 'tok')
+      expect(hasLocalDevToken()).toBe(true)
+    })
+
+    test('is false outside development mode', () => {
+      localStorage.setItem('token', 'tok')
+      vi.stubEnv('MODE', 'production')
+      expect(hasLocalDevToken()).toBe(false)
     })
   })
 
