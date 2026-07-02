@@ -21,16 +21,11 @@ export const useTwitchAuth = () => {
   const twitchContext = window.Twitch?.ext
 
   useEffect(() => {
-    if (twitchContext) {
-      twitchContext.onAuthorized((twitchResponse) => {
-        setTwitchAuth({ authorized: true, ...twitchResponse })
-      })
-      return
-    }
-
-    // Running locally, outside the Twitch host. If a dev session was seeded via
-    // the admin "Local Extension Testing" page, behave as if Twitch authorized
-    // us for that broadcaster so the normal caption flow runs unchanged.
+    // Check for an admin-seeded dev session BEFORE deferring to the Twitch
+    // host: the helper script (loaded from Twitch's CDN in every HTML entry
+    // point) defines window.Twitch.ext even outside a Twitch iframe, where
+    // onAuthorized would never fire — so a dev session must take precedence
+    // for the local testing flow to be reachable at all.
     if (isLocalDevEnabled()) {
       const session = loadLocalDevSession()
 
@@ -42,7 +37,15 @@ export const useTwitchAuth = () => {
           token: session.token,
           userId: LOCAL_DEV_USER_ID,
         })
+
+        return
       }
+    }
+
+    if (twitchContext) {
+      twitchContext.onAuthorized((twitchResponse) => {
+        setTwitchAuth({ authorized: true, ...twitchResponse })
+      })
     }
   }, [twitchContext])
 

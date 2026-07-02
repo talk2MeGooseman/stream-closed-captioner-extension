@@ -1,10 +1,22 @@
 import { renderHook } from '@testing-library/react'
 import { describe, test, expect, vi, beforeEach, afterEach } from 'vitest'
 import { useTwitchContext } from '../useTwitchContext'
+import {
+  isLocalDevEnabled,
+  getLocalDevSession,
+} from '../../utils/localDevSession'
+
+vi.mock('../../utils/localDevSession', () => ({
+  isLocalDevEnabled: vi.fn(() => false),
+  getLocalDevSession: vi.fn(() => null),
+}))
 
 describe('useTwitchContext', () => {
   beforeEach(() => {
     delete window.Twitch
+    // Local dev seam defaults to off so the Twitch-host tests are unaffected.
+    vi.mocked(isLocalDevEnabled).mockReturnValue(false)
+    vi.mocked(getLocalDevSession).mockReturnValue(null)
   })
 
   afterEach(() => {
@@ -112,5 +124,34 @@ describe('useTwitchContext', () => {
     const { result } = renderHook(() => useTwitchContext(mockCallback))
 
     expect(result.current).toBeUndefined()
+  })
+
+  test('synthesizes a player context for an active local dev session', () => {
+    // The Twitch player never emits onContext during local dev sessions, so
+    // sensible defaults keep the overlay controls reachable and the caption
+    // delay finite (instead of NaN from an undefined hlsLatencyBroadcaster).
+    vi.mocked(isLocalDevEnabled).mockReturnValue(true)
+    vi.mocked(getLocalDevSession).mockReturnValue({
+      token: 'dev.jwt.token',
+      channelId: '999',
+      backend: null,
+    })
+    const mockCallback = vi.fn()
+
+    renderHook(() => useTwitchContext(mockCallback))
+
+    expect(mockCallback).toHaveBeenCalledWith({
+      arePlayerControlsVisible: true,
+      hlsLatencyBroadcaster: 0,
+    })
+  })
+
+  test('does not synthesize a context without a dev session', () => {
+    vi.mocked(isLocalDevEnabled).mockReturnValue(true)
+    const mockCallback = vi.fn()
+
+    renderHook(() => useTwitchContext(mockCallback))
+
+    expect(mockCallback).not.toHaveBeenCalled()
   })
 })

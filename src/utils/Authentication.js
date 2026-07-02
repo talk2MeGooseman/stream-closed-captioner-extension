@@ -2,7 +2,7 @@
  * Decodes a JWT payload without verifying the signature.
  * Verification happens server-side; this only reads the claims.
  */
-function decodeJwtPayload(token) {
+export function decodeJwtPayload(token) {
   const base64Url = token.split('.')[1]
   let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/')
   // Normalize base64url payloads that omit trailing = padding

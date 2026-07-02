@@ -138,4 +138,30 @@ describe('useTwitchAuth', () => {
 
     expect(result.current.authorized).toBe(false)
   })
+
+  test('prefers a local dev session even when the Twitch helper script is present', async () => {
+    // The CDN helper defines window.Twitch.ext even outside a Twitch iframe,
+    // where onAuthorized never fires — the dev session must win there.
+    const mockOnAuthorized = vi.fn()
+    window.Twitch = {
+      ext: {
+        onAuthorized: mockOnAuthorized,
+      },
+    }
+    vi.mocked(isLocalDevEnabled).mockReturnValue(true)
+    vi.mocked(loadLocalDevSession).mockReturnValue({
+      token: 'dev.jwt.token',
+      channelId: '999',
+      backend: null,
+    })
+
+    const { result } = renderHook(() => useTwitchAuth())
+
+    await waitFor(() => {
+      expect(result.current.authorized).toBe(true)
+      expect(result.current.channelId).toBe('999')
+    })
+
+    expect(mockOnAuthorized).not.toHaveBeenCalled()
+  })
 })
