@@ -60,7 +60,7 @@
     "react-dom": "^19.2.7",
     "react-draggable": "^4.7.0",
     "react-redux": "^9.3.0",
-    "react-use": "^17.6.0",
+    "react-use": "^17.6.1",
     "styled-components": "^6.4.3",
     "url-search-params-polyfill": "^8.2.5",
     "uuid": "^14.0.1"
