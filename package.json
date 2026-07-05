@@ -63,6 +63,6 @@
     "react-use": "^17.6.0",
     "styled-components": "^6.4.2",
     "url-search-params-polyfill": "^8.2.5",
-    "uuid": "^14.0.0"
+    "uuid": "^14.0.1"
   }
 }
