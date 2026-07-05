@@ -61,7 +61,7 @@
     "react-draggable": "^4.7.0",
     "react-redux": "^9.3.0",
     "react-use": "^17.6.0",
-    "styled-components": "^6.4.2",
+    "styled-components": "^6.4.3",
     "url-search-params-polyfill": "^8.2.5",
     "uuid": "^14.0.1"
   }
