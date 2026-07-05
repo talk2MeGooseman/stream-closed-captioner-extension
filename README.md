@@ -72,3 +72,59 @@ The following GraphQL operations have mock implementations:
 
 Mock functionality is **completely disabled** in production builds. The production bundle uses the real GraphQL endpoints configured in `src/utils/apollo.js`.
 
+## Local Testing Against Live Captions (maintainer only)
+
+You can run this front end locally and connect it to **any broadcaster currently
+captioning** on the live site, to confirm that extension changes didn't break
+caption rendering against real data. This is gated to the site owner: the channel
+list and connection token come from an admin-only page on the backend (restricted
+to the owner account), and the whole feature is dev-mode-gated so it stays inert
+in production builds.
+
+### One-time backend setup
+
+On the deployment you want to test against, set the env var
+`LOCAL_EXT_TESTING_ORIGINS` to your local origin so the websocket accepts the
+connection (comma-separated for multiple), e.g.:
+
+```
+LOCAL_EXT_TESTING_ORIGINS=http://localhost:8080
+```
+
+Leave it unset everywhere else — without it, local origins are rejected.
+
+### Connecting
+
+1. Start the dev server: `yarn start` (serves on `http://localhost:8080`).
+2. While logged in as the owner, open **Admin → Local Extension Testing** on the
+   site. It lists every channel currently publishing captions.
+3. Click **Overlay →** (or **Mobile →**) next to a channel. This opens your local
+   build with a short-lived socket token **minted for that channel**, the channel
+   id, and the backend's origin in the URL fragment; the page connects straight
+   to that broadcaster's live captions on whichever deploy minted the link.
+4. To switch channels without revisiting the admin page, open **Mock Controls
+   (Dev)** → **Live Channel (Dev)**, paste a channel id, and click *Connect*.
+   *Disconnect live session* returns you to the mock harness. (Note: switching
+   this way reuses the stored token, so channel-scoped queries like translation
+   status still reflect the token's original channel — captions follow the new
+   channel.)
+
+Tokens expire after ~2 hours; an expired session is discarded automatically on
+the next load (the build falls back to the mock harness), so just open a fresh
+link from the admin page.
+
+### How it works
+
+- `src/utils/localDevSession.js` reads the token, channel id, and backend origin
+  from the URL fragment, persists them under dedicated `scc_dev_*` localStorage
+  keys (never the primary `token` key the Twitch host uses), switches Apollo to
+  the real server, and opens the socket against the seeded backend. The fragment
+  is cleared from the address bar after it's read.
+- `useTwitchAuth` synthesizes a Twitch-style auth object from that session
+  *before* deferring to the Twitch host — the CDN helper script defines
+  `window.Twitch.ext` even outside a Twitch iframe, so the dev session must take
+  precedence. `useTwitchContext` seeds a matching player context
+  (controls visible, zero HLS latency) since `onContext` never fires locally.
+- Everything is gated on `import.meta.env.MODE === 'development'`, so it stays
+  inert in production builds — the same approach as the existing mock harness.
+

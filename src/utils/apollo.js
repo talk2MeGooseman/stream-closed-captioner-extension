@@ -11,6 +11,7 @@ import * as AbsintheSocket from '@absinthe/socket'
 import { createAbsintheSocketLink } from '@absinthe/socket-apollo-link'
 import { Socket as PhoenixSocket } from 'phoenix'
 import { createMockLink, shouldUseRealServer } from './graphql-mocks'
+import { getDevToken, getSocketUrl, getGraphqlUrl } from './devSessionStorage'
 
 // Check if we're in development mode
 const isDevelopment = import.meta.env.MODE === 'development'
@@ -25,9 +26,12 @@ let absintheSocketLink = null
  */
 function initializePhoenixSocket() {
   if (!phxSocket) {
-    phxSocket = new PhoenixSocket('wss://stream-cc.gooseman.codes/socket', {
+    // getSocketUrl/getDevToken resolve to an admin-seeded dev session's
+    // backend + token in development, and to production + the regular auth
+    // token everywhere else.
+    phxSocket = new PhoenixSocket(getSocketUrl(), {
       params: () => {
-        const token = localStorage.getItem('token')
+        const token = getDevToken() || localStorage.getItem('token')
         if (token) {
           return { Authorization: `Bearer ${token}` }
         } else {
@@ -90,14 +94,19 @@ export function disconnectPhoenixSocket() {
 }
 
 const httpLink = createHttpLink({
-  uri: 'https://stream-cc.gooseman.codes/api',
+  // Resolved per request so a dev session can point at the deploy that
+  // minted it; outside development this is always the production endpoint.
+  uri: () => getGraphqlUrl(),
 })
 
 const authLink = setContext(({ operationName }, { headers }) => {
   // get the authentication token from local storage if it exists
   const tokenType =
     operationName === 'processBitsTransaction' ? 'transactionToken' : 'token'
-  const token = localStorage.getItem(tokenType)
+  // A dev-session token wins for regular queries; bits transactions keep
+  // using the Twitch-issued transaction token.
+  const token =
+    (tokenType === 'token' && getDevToken()) || localStorage.getItem(tokenType)
 
   // return the headers to the context so httpLink can read them
   return {

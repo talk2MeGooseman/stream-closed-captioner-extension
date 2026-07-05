@@ -14,6 +14,12 @@ import {
   updateMockConfig,
   triggerSubscriptionEvent,
 } from '@/utils/graphql-mocks'
+import {
+  getLocalDevSession,
+  setLocalDevChannel,
+  clearLocalDevSession,
+  hasLocalDevToken,
+} from '@/utils/localDevSession'
 
 /**
  * Dev-only dialog for controlling GraphQL mock behavior
@@ -26,10 +32,15 @@ function DevMockControlsDialog({ isOpen, onClose }) {
   const [config, setConfig] = useState(getMockConfig())
   const [interimText, setInterimText] = useState('')
   const [finalText, setFinalText] = useState('')
+  const [liveChannelInput, setLiveChannelInput] = useState('')
+  const [connectedChannel, setConnectedChannel] = useState('')
+  const [hasDevToken, setHasDevToken] = useState(false)
 
   // Sync config state when dialog opens
   const handleOpening = useCallback(() => {
     setConfig(getMockConfig())
+    setConnectedChannel(getLocalDevSession()?.channelId || '')
+    setHasDevToken(hasLocalDevToken())
   }, [])
 
   // Update mock configuration
@@ -80,6 +91,31 @@ function DevMockControlsDialog({ isOpen, onClose }) {
 
   const handleFinalChange = useCallback((e) => {
     setFinalText(e.target.value)
+  }, [])
+
+  const handleLiveChannelChange = useCallback((e) => {
+    setLiveChannelInput(e.target.value)
+  }, [])
+
+  // Switch the local build to a different live channel (reuses the stored
+  // token) and reload so the websocket reconnects with the new subscription.
+  // The real-server flag is re-applied by loadLocalDevSession() after reload,
+  // so there's no need to set it here (it would be discarded by the reload).
+  const handleConnectLiveChannel = useCallback(() => {
+    const channelId = liveChannelInput.trim()
+
+    // Without a seeded token, reloading can't connect — so don't bother.
+    if (!channelId || !hasLocalDevToken()) {
+      return
+    }
+
+    setLocalDevChannel(channelId)
+    window.location.reload()
+  }, [liveChannelInput])
+
+  const handleClearLiveSession = useCallback(() => {
+    clearLocalDevSession()
+    window.location.reload()
   }, [])
 
   return (
@@ -186,6 +222,51 @@ function DevMockControlsDialog({ isOpen, onClose }) {
             >
               Manual triggers are disabled when using the real server
             </p>
+          )}
+        </FormGroup>
+
+        <FormGroup
+          helperText="Connect to a real, currently-live broadcaster's captions. Open a link from the admin 'Local Extension Testing' page, or paste a channel id below to switch (reuses the stored token)."
+          label="Live Channel (Dev)"
+          labelFor="live-channel-input"
+        >
+          <p className="bp5-text-muted bp5-text-small">
+            {connectedChannel
+              ? `Connected to channel ${connectedChannel}`
+              : 'No live session active'}
+          </p>
+          {!hasDevToken && (
+            <p className="bp5-text-muted bp5-text-small">
+              No socket token loaded — open a link from the admin &quot;Local
+              Extension Testing&quot; page first to seed one.
+            </p>
+          )}
+          <InputGroup
+            disabled={!hasDevToken}
+            fill
+            id="live-channel-input"
+            onChange={handleLiveChannelChange}
+            placeholder="Twitch channel/user id"
+            style={{ marginTop: '8px' }}
+            value={liveChannelInput}
+          />
+          <Button
+            disabled={!hasDevToken || !liveChannelInput.trim()}
+            fill
+            intent="primary"
+            onClick={handleConnectLiveChannel}
+            style={{ marginTop: '8px' }}
+            text="Connect to live channel"
+          />
+          {connectedChannel && (
+            <Button
+              fill
+              intent="danger"
+              minimal
+              onClick={handleClearLiveSession}
+              style={{ marginTop: '8px' }}
+              text="Disconnect live session"
+            />
           )}
         </FormGroup>
       </div>
