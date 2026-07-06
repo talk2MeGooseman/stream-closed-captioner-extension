@@ -22,8 +22,12 @@
   --caption-pad-bottom: 5px;
 }
 
+/* The overlay layout chain (#root > #app-container > .drag-boundary) is
+   percentage-height based, so html/body must carry a definite height for it
+   to fill the player iframe instead of collapsing to content height. */
 html {
   box-sizing: border-box;
+  height: 100%;
 }
 
 *, *:before, *:after {
@@ -36,6 +40,7 @@ html {
 body {
   margin: 0;
   padding: 0;
+  height: 100%;
   font-family: Roboto, Arial, Helvetica, sans-serif;
 }
 

@@ -9,9 +9,18 @@ import MobilePanel from '@/components/Mobile/MobilePanel'
 import rootReducer from '@/redux/reducers'
 import { Twitch } from '@/Twitch'
 import { apolloClient } from '@/utils'
+import { applyVideoPlayerBackdrop } from '@/helpers/video-helpers'
 import './views/App.css'
 
 const params = new URLSearchParams(window.location.search)
+
+// Local-dev-only video-player backdrop behind the transparent overlay.
+// import.meta.env.DEV is replaced statically at build time, so this branch —
+// including the stylesheet chunk — is eliminated from production builds; the
+// helper re-checks the mode at runtime as the testable second gate.
+if (import.meta.env.DEV && applyVideoPlayerBackdrop()) {
+  import('./views/dev-video-player-backdrop.css')
+}
 
 const store = configureStore({
   reducer: rootReducer,

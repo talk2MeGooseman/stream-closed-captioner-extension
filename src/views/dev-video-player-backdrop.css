@@ -1,0 +1,13 @@
+/* LOCAL DEV ONLY — never shipped: index.jsx only loads this stylesheet inside
+   an `import.meta.env.DEV` branch, which is dead code in production builds.
+   Emulates the dark Twitch video player that sits behind the transparent
+   overlay iframe so the local page reads like a real stream. */
+.dev-video-player-backdrop {
+  background-color: #0e0e10;
+  background-image: radial-gradient(
+    ellipse at 50% 40%,
+    #26262c 0%,
+    #18181b 55%,
+    #0e0e10 100%
+  );
+}
