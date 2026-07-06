@@ -22,6 +22,22 @@
   opacity: 1 !important;
 }
 
+/* The video-overlay controls sit near the player's bottom edge
+   (.controls-container is anchored bottom: 2rem), so the menu must open
+   upward to stay inside the player; the top-anchored mobile/panel button
+   keeps the default downward direction above. The max-height clamp is the
+   viewport minus the controls' total distance from the player bottom
+   (~9rem: 2rem offset + controls + menu gap + headroom), so on short
+   players the menu scrolls internally instead of clipping past the top. */
+.controls-container .settings-menu-container {
+  top: auto;
+  bottom: 100%;
+  margin-top: 0;
+  margin-bottom: 8px;
+  max-height: calc(100vh - 9rem);
+  overflow-y: auto;
+}
+
 .position-left .settings-menu-container {
   left: 0;
   right: auto;
