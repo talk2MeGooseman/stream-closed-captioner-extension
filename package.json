@@ -43,7 +43,7 @@
     "@absinthe/socket-apollo-link": "^0.2.1",
     "@apollo/client": "^3.14.1",
     "@blueprintjs/core": "^6.16.0",
-    "@blueprintjs/select": "^6.3.0",
+    "@blueprintjs/select": "^6.3.2",
     "@fortawesome/fontawesome-svg-core": "^7.2.0",
     "@fortawesome/free-solid-svg-icons": "^7.3.0",
     "@fortawesome/react-fontawesome": "^3.3.1",
