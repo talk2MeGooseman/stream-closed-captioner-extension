@@ -3376,10 +3376,10 @@ pathe@^2.0.3:
   resolved "https://registry.yarnpkg.com/pathe/-/pathe-2.0.3.tgz#3ecbec55421685b70a9da872b2cff3e1cbed1716"
   integrity sha512-WUjGcAqP1gQacoQe+OBJsFA7Ld4DyXuUIjZ5cc75cLHvJ7dtNsTugphxIADwspS+AraAUePCKrSVtPLFj/F88w==
 
-phoenix@^1.8.8:
-  version "1.8.8"
-  resolved "https://registry.yarnpkg.com/phoenix/-/phoenix-1.8.8.tgz#3e6527a0e15c47beb6594e30991f60dc1042ee68"
-  integrity sha512-dHbnj+eERgKqDu1dACsJNp4JWxtWO+598STHaGPhzA5DqNG4jeq5WmkjXsaMYsDMFEsygtFovdrhVtDHTN7V+A==
+phoenix@^1.8.9:
+  version "1.8.9"
+  resolved "https://registry.yarnpkg.com/phoenix/-/phoenix-1.8.9.tgz#5fc8deba5e49c4ad927cde99171d356fbdd2b723"
+  integrity sha512-/2qzAZB3P2s08fFAYaG65lqaNFmVXUSlXdY4/JDdDKIC81y2cFWkPwI8gycy4VLpv197JwZ5PpBf3VhoG32yGA==
 
 picocolors@1.1.1, picocolors@^1.1.1:
   version "1.1.1"
