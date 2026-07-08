@@ -1,0 +1,39 @@
+name: "pre-release"
+
+on:
+  push:
+    branches:
+      - "main"
+
+permissions:
+  contents: write
+
+jobs:
+  pre-release:
+    name: "Pre Release"
+    runs-on: "ubuntu-latest"
+
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: yarn
+      - run: yarn install --frozen-lockfile
+      - run: yarn lint
+      - run: yarn test
+      - run: yarn build
+      - name: Zip Release Build
+        uses: thedoctor0/zip-release@main
+        with:
+          type: 'zip'
+          filename: 'release.zip'
+          directory: 'dist/'
+      - uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          prerelease: true
+          title: "Development Build"
+          files: |
+            dist/release.zip
