@@ -52,7 +52,7 @@
     "graphql": "^16.14.2",
     "lodash": "^4.18.1",
     "normalize.css": "^8.0.1",
-    "phoenix": "^1.8.8",
+    "phoenix": "^1.8.9",
     "prop-types": "^15.8.1",
     "ramda": "0.32.0",
     "react": "^19.2.7",
