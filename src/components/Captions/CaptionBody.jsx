@@ -19,6 +19,7 @@ function CaptionBody({
   captionText,
   grayOutFinalText,
   interimText,
+  costreamInterimLines = [],
 }) {
   return (
     <>
@@ -36,6 +37,11 @@ function CaptionBody({
           {interimText}
         </CaptionText>
       )}
+      {costreamInterimLines.map((line) => (
+        <CaptionText key={line.id} $block={rollUpCaptions} $interim>
+          {line.text}
+        </CaptionText>
+      ))}
     </>
   )
 }
@@ -51,6 +57,12 @@ CaptionBody.propTypes = {
   captionText: PropTypes.string.isRequired,
   grayOutFinalText: PropTypes.bool,
   interimText: PropTypes.string,
+  costreamInterimLines: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      text: PropTypes.string.isRequired,
+    }),
+  ),
 }
 
 export default CaptionBody

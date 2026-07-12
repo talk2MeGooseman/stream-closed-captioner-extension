@@ -3,6 +3,7 @@ import { Captions, CaptionsContainer } from '../shared/caption-styles'
 import CaptionBody from './CaptionBody'
 import {
   assembleCaptionLines,
+  assembleCostreamInterimLines,
   getMobileFontSizeStyle,
   joinCaptionLines,
 } from './helpers'
@@ -24,9 +25,8 @@ import { memo } from 'react'
 // Resub - CreativeBuilds
 
 function MobileClosedCaption() {
-  const { interimText, finalTextQueue, translations } = useShallowEqualSelector(
-    (state) => state.captionsState,
-  )
+  const { interimText, finalTextQueue, translations, costreamInterim } =
+    useShallowEqualSelector((state) => state.captionsState)
   const configSettings = useShallowEqualSelector(
     (state) => state.configSettings,
   )
@@ -44,11 +44,22 @@ function MobileClosedCaption() {
     configSettings.viewerLanguage,
     finalTextQueue,
     translations,
+    {
+      showCostream: configSettings.showCostreamCaptions,
+      showCostreamInTranslatedView: configSettings.showCostreamInTranslatedView,
+    },
   )
   const finalTextCaptions = joinCaptionLines(captionLines)
   // Interim text only renders for the default language; resolve to '' otherwise.
   const interimVisible =
     configSettings.viewerLanguage === 'default' ? interimText || '' : ''
+  const costreamInterimVisible =
+    configSettings.showCostreamCaptions &&
+    (configSettings.viewerLanguage === 'default' ||
+      configSettings.showCostreamInTranslatedView)
+  const costreamInterimLines = costreamInterimVisible
+    ? assembleCostreamInterimLines(costreamInterim)
+    : []
 
   return (
     <CaptionsContainer
@@ -66,6 +77,7 @@ function MobileClosedCaption() {
           captionText={finalTextCaptions}
           grayOutFinalText={configSettings.grayOutFinalText}
           interimText={interimVisible}
+          costreamInterimLines={costreamInterimLines}
         />
       </Captions>
     </CaptionsContainer>
