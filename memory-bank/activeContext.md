@@ -3,10 +3,36 @@
 # Active Context
 
 ## Current Status
-**Phase 3: Performance Optimization Complete** - All 3 sub-phases implemented, tested, and verified
+**Co-Streamer Guest Captions implemented** (2026-07-12, branch
+`claude/costreamer-captions-stcu3m`) — pending extension version release;
+backend counterpart lives in `stream_closed_captioner_phoenix` on the same
+branch (feature-flag gated there).
 **Repository:** Production-ready with modern tooling, comprehensive tests, zero linting issues, and optimized performance
 
-## What Just Changed (Phase 3)
+## What Just Changed (Co-Streamer Guest Captions)
+
+- New `newCostreamCaption(channelId)` subscription consumed alongside
+  `newTwitchCaption` (`graphql.js`, `subscribeToCostreamCaptions` thunk with
+  the same hlsLatency delay). Kept separate on the backend on purpose: old
+  bundles' hardcoded `newTwitchCaption` query never carries guest text, so
+  released versions are structurally unaffected.
+- `captions-slice`: guest finals land in the shared `finalTextQueue` tagged
+  `{ guestId, name }` for chronological interleave; dedupe is now
+  **per speaker** (`lastEntryFor`) so interleaved lines can't defeat repeat
+  suppression. New `costreamInterim` map (guestId → { name, text }).
+- Render: `assembleCaptionLines` takes an options arg (`showCostream`,
+  `showCostreamInTranslatedView`); guest lines render name-prefixed
+  ("Alice: …"); translated views append guests' untranslated originals after
+  translated lines (guests are never translated). `CaptionBody` gained
+  `costreamInterimLines`.
+- Settings: `showCostreamCaptions` (default ON) + translated-view sub-toggle,
+  both **persisted to localStorage** via new `utils/viewer-prefs.js` — first
+  persisted viewer settings in the extension. Gear-menu item:
+  `CostreamCaptionsOptionButton`.
+- Tests: 427 passing (new: `costreamCaptions`, `costreamSettings`,
+  `costream-helpers`).
+
+## Previously Changed (Phase 3)
 
 ### Phase 3a: Font Optimization ✅
 - Added `font-display: swap` to App.css for non-blocking font loading
