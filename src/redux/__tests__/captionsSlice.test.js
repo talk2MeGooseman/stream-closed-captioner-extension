@@ -38,6 +38,7 @@ beforeAll(async () => {
 const initialState = {
   finalTextQueue: [],
   interimText: '',
+  costreamInterim: {},
   translations: {},
   captionsSubscription: null,
 }
