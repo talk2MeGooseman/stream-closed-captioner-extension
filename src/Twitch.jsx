@@ -60,6 +60,10 @@ export const Twitch = memo(function Twitch({ children }) {
   )
   const subscribeCaptions = useCallback(
     (channelId) => {
+      // The subscribing effect can fire before Twitch auth resolves;
+      // subscribing without a channelId just produces GraphQL errors/retries.
+      if (isNil(channelId) || isEmpty(channelId)) return
+
       dispatch(subscribeToCaptions(channelId))
       // Guest (co-streamer) captions arrive on their own subscription; the
       // viewer's show/hide toggle is applied at render time so flipping it
