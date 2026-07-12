@@ -12,7 +12,7 @@ import Authentication from './utils/Authentication'
 
 import { updateBroadcasterSettings } from '@/redux/settings-slice'
 import {
-  stopCaptionsSubscription,
+  stopCaptions,
   subscribeToCaptions,
   subscribeToCostreamCaptions,
 } from '@/redux/captions-slice'
@@ -111,7 +111,7 @@ export const Twitch = memo(function Twitch({ children }) {
 
   useEffect(() => {
     if (isCaptionsHidden && isVideoOverlay()) {
-      dispatch(stopCaptionsSubscription())
+      dispatch(stopCaptions())
     } else {
       subscribeCaptions(channelId)
     }

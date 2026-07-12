@@ -132,28 +132,55 @@ const captionsSlice = createSlice({
   },
 })
 
+// Live Apollo subscription handles, keyed by stream kind. They are not
+// serializable, so they live here rather than in the store; the subscribe
+// thunks below gate on them so a re-run effect (visibility toggle, auth
+// re-resolve) can't stack duplicate subscriptions, and stopCaptions tears
+// them down explicitly before the socket disconnects.
+const activeSubscriptions = {
+  captions: null, // { channelId, subscription }
+  costream: null,
+}
+
+function subscribeOnce(kind, channelId, query, onNext) {
+  const existing = activeSubscriptions[kind]
+
+  if (existing && existing.channelId === channelId) {
+    return existing.subscription
+  }
+
+  if (existing) {
+    existing.subscription.unsubscribe()
+    activeSubscriptions[kind] = null
+  }
+
+  // Connect Phoenix socket (safe no-op if socket doesn't exist in dev mode)
+  connectPhoenixSocket()
+
+  const subscription = apolloClient
+    .subscribe({ variables: { channelId }, query })
+    .subscribe({ next: onNext })
+
+  activeSubscriptions[kind] = { channelId, subscription }
+  return subscription
+}
+
 export function subscribeToCaptions(channelId) {
   return function thunk(dispatch, getState) {
-    // Connect Phoenix socket (safe no-op if socket doesn't exist in dev mode)
-    connectPhoenixSocket()
+    return subscribeOnce(
+      'captions',
+      channelId,
+      subscriptionNewCaptions,
+      ({ data: { newTwitchCaption } }) => {
+        const hlsLatencyBroadcaster = hlsLatencyBroadcasterSelector(getState())
 
-    return apolloClient
-      .subscribe({
-        variables: { channelId },
-        query: subscriptionNewCaptions,
-      })
-      .subscribe({
-        next({ data: { newTwitchCaption } }) {
-          const hlsLatencyBroadcaster =
-            hlsLatencyBroadcasterSelector(getState())
+        let delayTimeMilliseconds = hlsLatencyBroadcaster * 1000
 
-          let delayTimeMilliseconds = hlsLatencyBroadcaster * 1000
-
-          setTimeout(() => {
-            dispatch(updateCCText(newTwitchCaption))
-          }, delayTimeMilliseconds)
-        },
-      })
+        setTimeout(() => {
+          dispatch(updateCCText(newTwitchCaption))
+        }, delayTimeMilliseconds)
+      },
+    )
   }
 }
 
@@ -161,25 +188,37 @@ export function subscribeToCaptions(channelId) {
 // guest lines stay roughly in sync with the video like broadcaster lines do.
 export function subscribeToCostreamCaptions(channelId) {
   return function thunk(dispatch, getState) {
-    connectPhoenixSocket()
+    return subscribeOnce(
+      'costream',
+      channelId,
+      subscriptionNewCostreamCaptions,
+      ({ data: { newCostreamCaption } }) => {
+        const hlsLatencyBroadcaster = hlsLatencyBroadcasterSelector(getState())
 
-    return apolloClient
-      .subscribe({
-        variables: { channelId },
-        query: subscriptionNewCostreamCaptions,
-      })
-      .subscribe({
-        next({ data: { newCostreamCaption } }) {
-          const hlsLatencyBroadcaster =
-            hlsLatencyBroadcasterSelector(getState())
+        let delayTimeMilliseconds = hlsLatencyBroadcaster * 1000
 
-          let delayTimeMilliseconds = hlsLatencyBroadcaster * 1000
+        setTimeout(() => {
+          dispatch(updateCostreamText(newCostreamCaption))
+        }, delayTimeMilliseconds)
+      },
+    )
+  }
+}
 
-          setTimeout(() => {
-            dispatch(updateCostreamText(newCostreamCaption))
-          }, delayTimeMilliseconds)
-        },
-      })
+// Unsubscribes both caption streams before the reducer disconnects the
+// socket and clears caption state, so nothing re-subscribes on reconnect.
+export function stopCaptions() {
+  return function thunk(dispatch) {
+    for (const kind of Object.keys(activeSubscriptions)) {
+      const active = activeSubscriptions[kind]
+
+      if (active) {
+        active.subscription.unsubscribe()
+        activeSubscriptions[kind] = null
+      }
+    }
+
+    dispatch(stopCaptionsSubscription())
   }
 }
 

@@ -128,14 +128,9 @@ const settingsSlice = createSlice({
     },
     toggleCostreamCaptions(state) {
       state.showCostreamCaptions = !state.showCostreamCaptions
-      saveViewerPref('showCostreamCaptions', state.showCostreamCaptions)
     },
     toggleCostreamInTranslatedView(state) {
       state.showCostreamInTranslatedView = !state.showCostreamInTranslatedView
-      saveViewerPref(
-        'showCostreamInTranslatedView',
-        state.showCostreamInTranslatedView,
-      )
     },
     toggleVisibility(state) {
       state.hideCC = !state.hideCC
@@ -155,6 +150,28 @@ const settingsSlice = createSlice({
     },
   },
 })
+
+// Persistence lives in thunks so the reducers above stay pure (same pattern
+// as completeBitsTransaction's localStorage write in products-slice).
+export function toggleCostreamCaptionsAndPersist() {
+  return function thunk(dispatch, getState) {
+    dispatch(toggleCostreamCaptions())
+    saveViewerPref(
+      'showCostreamCaptions',
+      getState().configSettings.showCostreamCaptions,
+    )
+  }
+}
+
+export function toggleCostreamInTranslatedViewAndPersist() {
+  return function thunk(dispatch, getState) {
+    dispatch(toggleCostreamInTranslatedView())
+    saveViewerPref(
+      'showCostreamInTranslatedView',
+      getState().configSettings.showCostreamInTranslatedView,
+    )
+  }
+}
 
 export const {
   changeCaptionsTransparency,
