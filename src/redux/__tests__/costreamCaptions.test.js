@@ -14,16 +14,24 @@ vi.mock('@/utils', () => ({
 // The setup file loads the root reducer (and the real @/utils) before this
 // test runs, so re-import the slice after resetting the module registry to
 // make it pick up the mocked @/utils.
+let utils
 let captions
 let updateCCText
 let updateCostreamText
+let subscribeToCostreamCaptions
+let stopCaptions
+let stopCaptionsSubscription
 
 beforeAll(async () => {
   vi.resetModules()
+  utils = await import('@/utils')
   ;({
     default: captions,
     updateCCText,
     updateCostreamText,
+    subscribeToCostreamCaptions,
+    stopCaptions,
+    stopCaptionsSubscription,
   } = await import('../captions-slice'))
 })
 
@@ -193,5 +201,86 @@ describe('updateCostreamText', () => {
 
     expect(state.finalTextQueue).toHaveLength(TEXT_QUEUE_SIZE)
     expect(state.finalTextQueue[0].text).toBe('line 5')
+  })
+})
+
+describe('subscribeToCostreamCaptions', () => {
+  beforeEach(() => {
+    vi.useFakeTimers()
+  })
+
+  afterEach(() => {
+    vi.useRealTimers()
+  })
+
+  const getState = () => ({ videoPlayerContext: { hlsLatencyBroadcaster: 2 } })
+
+  function mockSubscription() {
+    const handle = { observer: null, unsubscribe: vi.fn() }
+    utils.apolloClient.subscribe.mockReturnValue({
+      subscribe: (subscriber) => {
+        handle.observer = subscriber
+        return { unsubscribe: handle.unsubscribe }
+      },
+    })
+    return handle
+  }
+
+  test('connects the socket and dispatches guest captions delayed by HLS latency', () => {
+    const handle = mockSubscription()
+    const dispatch = vi.fn()
+
+    subscribeToCostreamCaptions('costream-chan-1')(dispatch, getState)
+
+    expect(utils.connectPhoenixSocket).toHaveBeenCalled()
+    expect(utils.apolloClient.subscribe).toHaveBeenCalledWith(
+      expect.objectContaining({ variables: { channelId: 'costream-chan-1' } }),
+    )
+
+    const caption = { guestId: '1', name: 'Alice', interim: 'hi', final: '' }
+    handle.observer.next({ data: { newCostreamCaption: caption } })
+
+    expect(dispatch).not.toHaveBeenCalled()
+
+    vi.advanceTimersByTime(2000)
+
+    expect(dispatch).toHaveBeenCalledWith(updateCostreamText(caption))
+  })
+
+  test('re-subscribing for the same channel reuses the live subscription', () => {
+    mockSubscription()
+    const dispatch = vi.fn()
+
+    const first = subscribeToCostreamCaptions('costream-chan-2')(
+      dispatch,
+      getState,
+    )
+    utils.apolloClient.subscribe.mockClear()
+
+    const second = subscribeToCostreamCaptions('costream-chan-2')(
+      dispatch,
+      getState,
+    )
+
+    expect(second).toBe(first)
+    expect(utils.apolloClient.subscribe).not.toHaveBeenCalled()
+  })
+
+  test('stopCaptions unsubscribes live handles and clears caption state', () => {
+    const handle = mockSubscription()
+    const dispatch = vi.fn()
+
+    subscribeToCostreamCaptions('costream-chan-3')(dispatch, getState)
+
+    stopCaptions()(dispatch)
+
+    expect(handle.unsubscribe).toHaveBeenCalled()
+    expect(dispatch).toHaveBeenCalledWith(stopCaptionsSubscription())
+
+    // After stopping, subscribing again creates a fresh subscription.
+    utils.apolloClient.subscribe.mockClear()
+    mockSubscription()
+    subscribeToCostreamCaptions('costream-chan-3')(dispatch, getState)
+    expect(utils.apolloClient.subscribe).toHaveBeenCalled()
   })
 })

@@ -8,8 +8,8 @@ import {
 } from '@/redux/redux-helpers'
 
 import {
-  toggleCostreamCaptions,
-  toggleCostreamInTranslatedView,
+  toggleCostreamCaptionsAndPersist,
+  toggleCostreamInTranslatedViewAndPersist,
 } from '@/redux/settings-slice'
 
 /**
@@ -20,9 +20,9 @@ import {
  * text or hiding guests while translated.
  */
 function CostreamCaptionsOptionButton() {
-  const onToggle = useReduxCallbackDispatch(toggleCostreamCaptions())
+  const onToggle = useReduxCallbackDispatch(toggleCostreamCaptionsAndPersist())
   const onToggleTranslatedView = useReduxCallbackDispatch(
-    toggleCostreamInTranslatedView(),
+    toggleCostreamInTranslatedViewAndPersist(),
   )
   const showCostream = useShallowEqualSelector(
     (state) => state.configSettings.showCostreamCaptions,
