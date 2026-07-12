@@ -110,8 +110,20 @@ Three-phase optimization for bundle size and React render efficiency
 - Total uncompressed: 2,293 → 1,994.7 kB (-13%)
 - Better caching and parallelization with split chunks
 
+### Co-Streamer Guest Captions ✅ COMPLETED (2026-07-12)
+- Separate `newCostreamCaption` subscription (backwards compatible by design —
+  old bundles never see guest text)
+- Speaker-tagged shared caption queue with per-speaker dedupe; per-guest
+  interim lines; name-prefixed rendering on overlay + mobile/panel
+- Viewer toggles: master show/hide (default on) + translated-view sub-toggle,
+  persisted to localStorage (`utils/viewer-prefs.js`)
+- 427 tests passing, lint clean, vite build verified
+- Ships with the `stream_closed_captioner_phoenix` costream backend
+  (flag-gated); needs a new extension version release to reach viewers
+
 ## In Progress
 - Nothing - All phases complete / Repository production-ready
 
 ## Remaining
+- Release new extension version with co-streamer caption support
 - Future enhancements based on product requirements
