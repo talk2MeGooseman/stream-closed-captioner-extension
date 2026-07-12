@@ -1,5 +1,6 @@
 export { default as AdvancedSettings } from './AdvancedSettings.jsx'
 export { default as BoxSizeButton } from './BoxSizeButton.jsx'
+export { default as CostreamCaptionsOptionButton } from './CostreamCaptionsOptionButton.jsx'
 export { default as DevMockControls } from './DevMockControls.jsx'
 export { default as FontFamilyOptions } from './FontFamilyOptions.jsx'
 export { default as FontSizeOptions } from './FontSizeOptions.jsx'

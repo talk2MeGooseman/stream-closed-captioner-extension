@@ -161,24 +161,84 @@ export function assembleCaptionText(
   )
 }
 
+// Normalize a queue entry into a display line: co-streamer guest entries
+// (which carry a name) are prefixed "Name: ", broadcaster entries unchanged.
+function toDisplayLine({ id, text, name }) {
+  const normalized = normalizeSegment(text)
+
+  if (normalized.length === 0) {
+    return { id, text: '' }
+  }
+
+  return { id, text: name ? `${name}: ${normalized}` : normalized }
+}
+
 /**
  * Assemble the captions as an ordered list of display lines (one per
  * recognized segment / sentence) for a roll-up layout. Each line keeps its
  * stable id so React can key it across renders; empty segments are dropped.
  *
+ * Co-streamer guest lines live in finalTextQueue alongside broadcaster lines
+ * (marked by their `name`/`guestId` fields) and render name-prefixed. In the
+ * default language they interleave chronologically. In a translated view the
+ * translation queue has no guest lines (guest text is never translated), so
+ * guests' original-language lines are appended after the translated lines
+ * when `showCostreamInTranslatedView` allows.
+ *
  * @param {string} viewerLanguage - 'default' or a translation language code
- * @param {Array<{id: string, text: string}>} finalTextQueue - source captions
+ * @param {Array<{id: string, text: string, name?: string}>} finalTextQueue
  * @param {Object} translations - map of languageCode -> { textQueue }
+ * @param {{showCostream?: boolean, showCostreamInTranslatedView?: boolean}} options
  * @returns {Array<{id: string, text: string}>} normalized, non-empty lines
  */
 export function assembleCaptionLines(
   viewerLanguage,
   finalTextQueue,
   translations,
+  options = {},
 ) {
-  return getCaptionQueue(viewerLanguage, finalTextQueue, translations)
-    .map(({ id, text }) => ({ id, text: normalizeSegment(text) }))
+  const { showCostream = true, showCostreamInTranslatedView = true } = options
+
+  if (viewerLanguage === 'default') {
+    return finalTextQueue
+      .filter((entry) => showCostream || !entry.guestId)
+      .map(toDisplayLine)
+      .filter((line) => line.text.length > 0)
+  }
+
+  const translatedLines = getCaptionQueue(
+    viewerLanguage,
+    finalTextQueue,
+    translations,
+  )
+    .map(toDisplayLine)
     .filter((line) => line.text.length > 0)
+
+  if (!showCostream || !showCostreamInTranslatedView) {
+    return translatedLines
+  }
+
+  const guestLines = finalTextQueue
+    .filter((entry) => entry.guestId)
+    .map(toDisplayLine)
+    .filter((line) => line.text.length > 0)
+
+  return [...translatedLines, ...guestLines]
+}
+
+/**
+ * Build the per-guest interim lines to render below the main interim text.
+ *
+ * @param {Object} costreamInterim - map of guestId -> { name, text }
+ * @returns {Array<{id: string, text: string}>} name-prefixed interim lines
+ */
+export function assembleCostreamInterimLines(costreamInterim) {
+  return Object.entries(costreamInterim || {})
+    .filter(([, { text }]) => (text || '').trim().length > 0)
+    .map(([guestId, { name, text }]) => ({
+      id: guestId,
+      text: `${name}: ${text}`,
+    }))
 }
 
 /**

@@ -6,8 +6,18 @@ import {
   CAPTIONS_SIZE,
   CAPTIONS_TRANSPARENCY,
 } from '@/utils/Constants'
+import { loadViewerPrefs, saveViewerPref } from '@/utils/viewer-prefs'
+
+const viewerPrefs = loadViewerPrefs()
 
 export const initialState = {
+  // Co-streamer guest caption visibility — persisted per viewer, unlike the
+  // rest of this slice, so hiding guests survives a reload.
+  showCostreamCaptions: viewerPrefs.showCostreamCaptions ?? true,
+  // When watching a translated language (guest captions are never
+  // translated): show guests' original-language text, or hide them.
+  showCostreamInTranslatedView:
+    viewerPrefs.showCostreamInTranslatedView ?? true,
   boxLineCount: 7,
   captionsTransparency: CAPTIONS_TRANSPARENCY.default,
   captionsWidth: CAPTIONS_SIZE.defaultHorizontalWidth,
@@ -116,6 +126,17 @@ const settingsSlice = createSlice({
     toggleUppercaseText(state) {
       state.textUppercase = !state.textUppercase
     },
+    toggleCostreamCaptions(state) {
+      state.showCostreamCaptions = !state.showCostreamCaptions
+      saveViewerPref('showCostreamCaptions', state.showCostreamCaptions)
+    },
+    toggleCostreamInTranslatedView(state) {
+      state.showCostreamInTranslatedView = !state.showCostreamInTranslatedView
+      saveViewerPref(
+        'showCostreamInTranslatedView',
+        state.showCostreamInTranslatedView,
+      )
+    },
     toggleVisibility(state) {
       state.hideCC = !state.hideCC
     },
@@ -148,6 +169,8 @@ export const {
   toggleActivationDrawer,
   toggleAdvancedSettingsDialog,
   toggleBoxSize,
+  toggleCostreamCaptions,
+  toggleCostreamInTranslatedView,
   toggleDyslexiaFamily,
   toggleGrayOutFinalText,
   toggleRollUpCaptions,

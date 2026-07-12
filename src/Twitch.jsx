@@ -14,6 +14,7 @@ import { updateBroadcasterSettings } from '@/redux/settings-slice'
 import {
   stopCaptionsSubscription,
   subscribeToCaptions,
+  subscribeToCostreamCaptions,
 } from '@/redux/captions-slice'
 import { updateVideoPlayerContext } from '@/redux/video-player-context-slice'
 import {
@@ -58,7 +59,13 @@ export const Twitch = memo(function Twitch({ children }) {
     [dispatch],
   )
   const subscribeCaptions = useCallback(
-    (channelId) => dispatch(subscribeToCaptions(channelId)),
+    (channelId) => {
+      dispatch(subscribeToCaptions(channelId))
+      // Guest (co-streamer) captions arrive on their own subscription; the
+      // viewer's show/hide toggle is applied at render time so flipping it
+      // doesn't churn the socket.
+      dispatch(subscribeToCostreamCaptions(channelId))
+    },
     [dispatch],
   )
 
