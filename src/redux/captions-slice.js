@@ -49,6 +49,7 @@ const captionsSlice = createSlice({
       if (isPhoenixSocketConnected()) {
         disconnectPhoenixSocket()
         state.finalTextQueue = []
+        state.interimText = ''
         state.costreamInterim = {}
         state.translations = {}
       }
