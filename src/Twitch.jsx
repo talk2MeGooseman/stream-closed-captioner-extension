@@ -12,8 +12,9 @@ import Authentication from './utils/Authentication'
 
 import { updateBroadcasterSettings } from '@/redux/settings-slice'
 import {
-  stopCaptionsSubscription,
+  stopCaptions,
   subscribeToCaptions,
+  subscribeToCostreamCaptions,
 } from '@/redux/captions-slice'
 import { updateVideoPlayerContext } from '@/redux/video-player-context-slice'
 import {
@@ -58,7 +59,27 @@ export const Twitch = memo(function Twitch({ children }) {
     [dispatch],
   )
   const subscribeCaptions = useCallback(
-    (channelId) => dispatch(subscribeToCaptions(channelId)),
+    (channelId) => {
+      // The subscribing effect can fire before Twitch auth resolves;
+      // subscribing without a channelId just produces GraphQL errors/retries.
+      if (isNil(channelId) || isEmpty(channelId)) return
+
+      dispatch(subscribeToCaptions(channelId))
+    },
+    [dispatch],
+  )
+
+  // Guest (co-streamer) captions arrive on their own subscription, opened
+  // only for channels in the backend's `costream_captions` rollout so the
+  // other channels' viewers don't each hold an extra subscription. The
+  // viewer's show/hide toggle is applied at render time so flipping it
+  // doesn't churn the socket.
+  const subscribeCostreamCaptions = useCallback(
+    (channelId) => {
+      if (isNil(channelId) || isEmpty(channelId)) return
+
+      dispatch(subscribeToCostreamCaptions(channelId))
+    },
     [dispatch],
   )
 
@@ -97,14 +118,25 @@ export const Twitch = memo(function Twitch({ children }) {
   const isCaptionsHidden = useShallowEqualSelector(
     (state) => state.configSettings.hideCC,
   )
+  const isCostreamEnabled = useShallowEqualSelector(
+    (state) => state.translationInfo?.activationInfo?.costreamEnabled === true,
+  )
 
   useEffect(() => {
     if (isCaptionsHidden && isVideoOverlay()) {
-      dispatch(stopCaptionsSubscription())
+      dispatch(stopCaptions())
     } else {
       subscribeCaptions(channelId)
+      if (isCostreamEnabled) subscribeCostreamCaptions(channelId)
     }
-  }, [channelId, dispatch, isCaptionsHidden, subscribeCaptions])
+  }, [
+    channelId,
+    dispatch,
+    isCaptionsHidden,
+    isCostreamEnabled,
+    subscribeCaptions,
+    subscribeCostreamCaptions,
+  ])
 
   return children
 })

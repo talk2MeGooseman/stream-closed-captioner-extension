@@ -27,6 +27,8 @@ const channelInfo = (overrides = {}) => ({
     channelInfo: {
       __typename: 'ChannelInfo',
       uid: CHANNEL_ID,
+      // Backend's :costream_captions feature flag for this channel.
+      costreamEnabled: false,
       bitsBalance: { __typename: 'BitsBalance', balance: 0 },
       translations: {
         __typename: 'Translations',
@@ -86,40 +88,51 @@ export async function fakeTwitch(page, { channelInfoOverrides } = {}) {
     subscriptionQueries: () => subscriptions.map((s) => s.query),
 
     async sendCaption({ interim = '', final = '' } = {}) {
-      // Wait for the extension to subscribe before pushing data at it.
-      await expectSubscribed(page)
+      await push(page, 'newTwitchCaption', {
+        __typename: 'CaptionsPayload',
+        interim,
+        final,
+        translations: null,
+      })
+    },
 
-      const subscription = page._fakeSubscriptions.find((s) =>
-        s.query.includes('newTwitchCaption'),
-      )
-
-      page._fakeSocket.send(
-        JSON.stringify([
-          null,
-          null,
-          subscription.subscriptionId,
-          'subscription:data',
-          {
-            subscriptionId: subscription.subscriptionId,
-            result: {
-              data: {
-                newTwitchCaption: { __typename: 'CaptionsPayload', interim, final, translations: null },
-              },
-            },
-          },
-        ]),
-      )
+    /** A co-streamer guest caption, as the `newCostreamCaption` subscription sends it. */
+    async sendCostreamCaption({ guestId = '1', name = 'Guest', interim = '', final = '' } = {}) {
+      await push(page, 'newCostreamCaption', {
+        __typename: 'CostreamCaption',
+        guestId,
+        name,
+        interim,
+        final,
+      })
     },
   }
 }
 
-async function expectSubscribed(page) {
+// Push one event to the subscription for `field`, once the extension has
+// subscribed to it.
+async function push(page, field, data) {
+  const subscription = await waitForSubscription(page, field)
+
+  page._fakeSocket.send(
+    JSON.stringify([
+      null,
+      null,
+      subscription.subscriptionId,
+      'subscription:data',
+      { subscriptionId: subscription.subscriptionId, result: { data: { [field]: data } } },
+    ]),
+  )
+}
+
+async function waitForSubscription(page, field) {
   const deadline = Date.now() + 10_000
 
   while (Date.now() < deadline) {
-    if (page._fakeSubscriptions?.some((s) => s.query.includes('newTwitchCaption'))) return
+    const found = page._fakeSubscriptions?.find((s) => s.query.includes(field))
+    if (found) return found
     await new Promise((resolve) => setTimeout(resolve, 50))
   }
 
-  throw new Error('The extension never subscribed to newTwitchCaption')
+  throw new Error(`The extension never subscribed to ${field}`)
 }

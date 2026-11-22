@@ -8,6 +8,7 @@ import './ClosedCaption.css'
 import CaptionBody from './CaptionBody'
 import {
   assembleCaptionLines,
+  assembleCostreamInterimLines,
   getFontSizeStyle,
   isCaptionsHidden,
   joinCaptionLines,
@@ -36,9 +37,8 @@ function ClosedCaption() {
   const configSettings = useShallowEqualSelector(
     (state) => state.configSettings,
   )
-  const { interimText, finalTextQueue, translations } = useShallowEqualSelector(
-    (state) => state.captionsState,
-  )
+  const { interimText, finalTextQueue, translations, costreamInterim } =
+    useShallowEqualSelector((state) => state.captionsState)
   const onDragged = useCallback(() => dispatch(setIsDragged()), [dispatch])
   const fontSize = getFontSizeStyle(configSettings.size)
   const fontFamily = configSettings.dyslexiaFontEnabled
@@ -58,6 +58,10 @@ function ClosedCaption() {
     configSettings.viewerLanguage,
     finalTextQueue,
     translations,
+    {
+      showCostream: configSettings.showCostreamCaptions,
+      showCostreamInTranslatedView: configSettings.showCostreamInTranslatedView,
+    },
   )
   const finalTextCaptions = joinCaptionLines(captionLines)
   // Roll-up (line-per-sentence) is the default; viewers can opt back into the
@@ -68,10 +72,20 @@ function ClosedCaption() {
   // shows and for keeping the box visible.
   const interimVisible =
     configSettings.viewerLanguage === 'default' ? interimText || '' : ''
+  // Guest interim lines follow the viewer's costream toggles; guests' interim
+  // is original-language text, so in a translated view it obeys the same
+  // show-originals choice as their final lines.
+  const costreamInterimVisible =
+    configSettings.showCostreamCaptions &&
+    (configSettings.viewerLanguage === 'default' ||
+      configSettings.showCostreamInTranslatedView)
+  const costreamInterimLines = costreamInterimVisible
+    ? assembleCostreamInterimLines(costreamInterim)
+    : []
   const isHidden = isCaptionsHidden(
     configSettings.hideCC,
     finalTextCaptions,
-    interimVisible,
+    interimVisible || costreamInterimLines[0]?.text || '',
   )
 
   return (
@@ -96,6 +110,7 @@ function ClosedCaption() {
             captionText={finalTextCaptions}
             grayOutFinalText={configSettings.grayOutFinalText}
             interimText={interimVisible}
+            costreamInterimLines={costreamInterimLines}
           />
         </Captions>
       </CaptionsContainer>

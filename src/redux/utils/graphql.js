@@ -12,6 +12,7 @@ export const queryGetChannelInfo = gql`
         languages
       }
       uid
+      costreamEnabled
     }
   }
 `
@@ -30,6 +31,20 @@ export const subscriptionNewCaptions = gql`
       interim
       final
       translations
+    }
+  }
+`
+
+// Guest (co-streamer) captions ride a separate subscription so extension
+// versions released before this feature keep working untouched — their
+// hardcoded newTwitchCaption query never sees guest text.
+export const subscriptionNewCostreamCaptions = gql`
+  subscription OnCostreamCaption($channelId: ID!) {
+    newCostreamCaption(channelId: $channelId) {
+      guestId
+      name
+      interim
+      final
     }
   }
 `

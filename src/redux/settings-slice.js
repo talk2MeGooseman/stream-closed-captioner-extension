@@ -6,8 +6,18 @@ import {
   CAPTIONS_SIZE,
   CAPTIONS_TRANSPARENCY,
 } from '@/utils/Constants'
+import { loadViewerPrefs, saveViewerPref } from '@/utils/viewer-prefs'
+
+const viewerPrefs = loadViewerPrefs()
 
 export const initialState = {
+  // Co-streamer guest caption visibility — persisted per viewer, unlike the
+  // rest of this slice, so hiding guests survives a reload.
+  showCostreamCaptions: viewerPrefs.showCostreamCaptions ?? true,
+  // When watching a translated language (guest captions are never
+  // translated): show guests' original-language text, or hide them.
+  showCostreamInTranslatedView:
+    viewerPrefs.showCostreamInTranslatedView ?? true,
   boxLineCount: 7,
   captionsTransparency: CAPTIONS_TRANSPARENCY.default,
   captionsWidth: CAPTIONS_SIZE.defaultHorizontalWidth,
@@ -116,6 +126,12 @@ const settingsSlice = createSlice({
     toggleUppercaseText(state) {
       state.textUppercase = !state.textUppercase
     },
+    toggleCostreamCaptions(state) {
+      state.showCostreamCaptions = !state.showCostreamCaptions
+    },
+    toggleCostreamInTranslatedView(state) {
+      state.showCostreamInTranslatedView = !state.showCostreamInTranslatedView
+    },
     toggleVisibility(state) {
       state.hideCC = !state.hideCC
     },
@@ -135,6 +151,28 @@ const settingsSlice = createSlice({
   },
 })
 
+// Persistence lives in thunks so the reducers above stay pure (same pattern
+// as completeBitsTransaction's localStorage write in products-slice).
+export function toggleCostreamCaptionsAndPersist() {
+  return function thunk(dispatch, getState) {
+    dispatch(toggleCostreamCaptions())
+    saveViewerPref(
+      'showCostreamCaptions',
+      getState().configSettings.showCostreamCaptions,
+    )
+  }
+}
+
+export function toggleCostreamInTranslatedViewAndPersist() {
+  return function thunk(dispatch, getState) {
+    dispatch(toggleCostreamInTranslatedView())
+    saveViewerPref(
+      'showCostreamInTranslatedView',
+      getState().configSettings.showCostreamInTranslatedView,
+    )
+  }
+}
+
 export const {
   changeCaptionsTransparency,
   changeCaptionsWidth,
@@ -148,6 +186,8 @@ export const {
   toggleActivationDrawer,
   toggleAdvancedSettingsDialog,
   toggleBoxSize,
+  toggleCostreamCaptions,
+  toggleCostreamInTranslatedView,
   toggleDyslexiaFamily,
   toggleGrayOutFinalText,
   toggleRollUpCaptions,
