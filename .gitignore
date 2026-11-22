@@ -66,3 +66,7 @@ typings/
 # Finalized files
 dist/
 .copilot-tracking/
+
+# Playwright
+test-results/
+playwright-report/

@@ -10,11 +10,11 @@ export const useTwitchConfig = () => {
     if (itsTwitch) {
       itsTwitch.configuration.onChanged(() => {
         const broadcast = itsTwitch.configuration.broadcaster?.content || '{}'
-        const global = itsTwitch.configuration.global?.content || '{}'
+        const globalContent = itsTwitch.configuration.global?.content || '{}'
 
         setFeatures(itsTwitch?.features)
         setBroadcastConfig(JSON.parse(broadcast))
-        setGlobalConfig(JSON.parse(global))
+        setGlobalConfig(JSON.parse(globalContent))
       })
     }
   }, [itsTwitch])

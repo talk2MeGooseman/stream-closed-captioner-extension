@@ -51,7 +51,10 @@ export default defineConfig({
   },
   define: {
     'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV ?? 'production'),
-    'process.browser': true
+    'process.browser': true,
+    // Some dependencies probe Node's `global`. Rewrite it at build time: an
+    // inline `window.global = window` script is blocked by Twitch's CSP.
+    global: 'globalThis'
   },
   plugins: [
     react()

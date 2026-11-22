@@ -30,17 +30,28 @@ jobs:
       - run: yarn lint
       - run: yarn test
       - run: yarn build
-      - name: Zip Release Build
-        uses: thedoctor0/zip-release@0.7.6
-        with:
-          type: 'zip'
-          filename: 'release.zip'
-          directory: 'dist/'
-      - uses: "marvinpinto/action-automatic-releases@v1.2.1"
-        with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "latest"
-          prerelease: true
-          title: "Development Build"
-          files: |
-            dist/release.zip
+      - name: Check bundle against Twitch Extension rules
+        run: yarn check:bundle
+
+      # release.zip is the Twitch "version assets" upload: files at the ZIP
+      # root, nothing but the assets the Extension needs to run.
+      - name: Package Twitch version assets
+        run: |
+          cd dist
+          zip -r ../release.zip .
+
+      # Twitch reviewers need human-readable code. The shipped JS is minified,
+      # so attach the source alongside it (tracked files only, no node_modules).
+      - name: Package source for review
+        run: git archive --format=zip --output=source.zip HEAD
+
+      - name: Publish development build
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release delete latest --yes --cleanup-tag || true
+          gh release create latest release.zip source.zip \
+            --prerelease \
+            --title "Development Build" \
+            --target "$GITHUB_SHA" \
+            --notes "Development build of $GITHUB_SHA. release.zip is the Twitch version-assets upload; source.zip is the readable source for Twitch review."
