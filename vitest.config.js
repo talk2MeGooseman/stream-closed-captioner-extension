@@ -1,5 +1,5 @@
 import react from '@vitejs/plugin-react'
-import { defineConfig } from 'vitest/config'
+import { configDefaults, defineConfig } from 'vitest/config'
 import path from 'path'
 
 export default defineConfig({
@@ -17,6 +17,8 @@ export default defineConfig({
   },
   test: {
     globals: true,
+    // Playwright specs in e2e/ run under `yarn test:e2e`, not vitest.
+    exclude: [...configDefaults.exclude, 'e2e/**'],
     environment: 'jsdom',
     setupFiles: [
       './src/mockSetupTests.js',

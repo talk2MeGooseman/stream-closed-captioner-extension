@@ -29,6 +29,26 @@ Next, do the following:
 
 To build your finalized React JS files, simply run `yarn build` to produce the production bundles with Vite.
 
+## End-to-end tests
+
+Playwright smoke tests run the **production build** in Chromium with the Twitch
+Extension Helper and the Phoenix backend faked, so they need no network access
+and no Twitch account (`e2e/support/fake-twitch.js` fakes the helper script, the
+GraphQL endpoint, and the Absinthe websocket that streams captions). They cover
+the overlay and mobile views: loading without console errors, captions staying
+hidden until the viewer turns them on, and interim/final captions rendering.
+
+```
+yarn build
+yarn playwright install chromium   # first time only
+yarn test:e2e
+```
+
+Set `PLAYWRIGHT_CHROMIUM_PATH` to use a Chromium you already have. CI runs the
+suite on every pull request and uploads the Playwright report when it fails.
+To cover a new flow, push events from the test with the helper returned by
+`fakeTwitch(page)` (see `e2e/overlay.spec.js`).
+
 ## Releasing to Twitch
 
 Twitch hosts the extension's files on its CDN, so every release is a ZIP of the
