@@ -68,6 +68,13 @@ two files:
 - `release.zip`: the version assets to upload to Twitch.
 - `source.zip`: the readable source for Twitch's reviewers.
 
+Its release notes list every pull request merged since the latest full (not
+pre-release) release, with Dependabot bumps grouped at the bottom (grouping is
+set in `.github/release.yml`). Use them as the starting point for the Twitch
+change log and the next release's notes. Label a PR `dependencies` to move it
+into that group. When you cut a full release (for example `v1.7.0`), the next
+Development Build starts counting from it.
+
 To build locally instead, run `yarn build && yarn check:bundle`, then zip the
 **contents** of `dist/` so `index.html` sits at the root of the ZIP (not inside a
 `dist/` folder).
