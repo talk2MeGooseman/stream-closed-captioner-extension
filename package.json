@@ -10,7 +10,8 @@
     "lint": "eslint src/",
     "vite:start": "vite",
     "start": "vite --port 8080 --host 0.0.0.0",
-    "build": "vite build"
+    "build": "vite build",
+    "check:bundle": "node scripts/check-bundle.mjs"
   },
   "keywords": [],
   "author": "",

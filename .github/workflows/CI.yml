@@ -37,3 +37,12 @@ jobs:
 
       - name: Run tests
         run: yarn test
+
+      # Build exactly what gets uploaded to Twitch and fail on anything their
+      # review or hosted CSP would reject (inline scripts, eval, external
+      # scripts, non-asset files). See scripts/check-bundle.mjs.
+      - name: Build
+        run: yarn build
+
+      - name: Check bundle against Twitch Extension rules
+        run: yarn check:bundle

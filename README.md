@@ -29,6 +29,98 @@ Next, do the following:
 
 To build your finalized React JS files, simply run `yarn build` to produce the production bundles with Vite.
 
+## Releasing to Twitch
+
+Twitch hosts the extension's files on its CDN, so every release is a ZIP of the
+production build uploaded to the [Extensions Manager](https://dev.twitch.tv/console/extensions)
+in the Twitch developer console. These rules come from Twitch's
+[guidelines and policies](https://dev.twitch.tv/docs/extensions/guidelines-and-policies),
+[life cycle](https://dev.twitch.tv/docs/extensions/life-cycle) and
+[submission best practices](https://dev.twitch.tv/docs/extensions/submission-best-practices)
+pages; re-check them if Twitch rejects a submission, since they change.
+
+### 1. Get a build
+
+Every push to `main` runs the **pre-release** workflow, which lints, tests,
+builds, checks the bundle, and publishes the **Development Build** release with
+two files:
+
+- `release.zip`: the version assets to upload to Twitch.
+- `source.zip`: the readable source for Twitch's reviewers.
+
+To build locally instead, run `yarn build && yarn check:bundle`, then zip the
+**contents** of `dist/` so `index.html` sits at the root of the ZIP (not inside a
+`dist/` folder).
+
+`yarn check:bundle` (also run in CI) fails on anything Twitch would reject: inline
+scripts, `eval()`, `<iframe>`, scripts loaded from outside the bundle (only the
+Twitch Extension Helper is allowed), inlined base64 fonts, remote fonts other than
+Google Fonts, and file types that aren't assets.
+
+### 2. Create the new version
+
+1. In the Extensions Manager, open the extension and create a new version
+   (bump the version number).
+2. **Asset Hosting** tab: upload `release.zip`, then make sure each path field
+   points at a file in the ZIP. Keep the extension type and the values your
+   previous version used; the entry files are:
+
+   | Entry file | Typical use |
+   | --- | --- |
+   | `video_overlay.html` | Video overlay / fullscreen view |
+   | `mobile.html` | Mobile view |
+   | `index.html` | Default viewer page |
+   | `config.html` | Config path |
+   | `live_config.html` | Live config path |
+
+3. **Capabilities** tab: the **Allowlist for URL Fetching Domains** must cover the
+   backend (`stream-cc.gooseman.codes`, HTTPS and WSS). Twitch only allows
+   connections to domains on this list, and each entry must be specific. Add a
+   domain here before shipping code that talks to a new host.
+4. **Version Details**: fill in the required name, summary, description, images,
+   and the EULA and privacy policy URLs. Update screenshots if the UI changed.
+
+### 3. Hosted Test
+
+Move the version to **Hosted Test** and install it on your own channel to check
+the overlay, mobile view, panel and config pages against the hosted CSP. Anything
+that only fails here (blocked scripts, fonts, or connections) shows up in the
+browser console.
+
+Co-streamer guest captions only appear for channels that have the
+`costream_captions` feature flag turned on in the backend, and only while a guest
+is speaking. Turn the flag on for your test channel first.
+
+### 4. Submit for review
+
+Choose **Submit for Review** and provide:
+
+- **Extension Review Channel URL**: a channel the reviewers can watch. It doesn't
+  need to be live for panel-only or fully self-configurable extensions. This
+  extension needs the backend running and captions being sent, so give your
+  availability (9 AM to 5 PM PT) in the walkthrough.
+- **Walkthrough Guide and Change Log**: required in practice. Include:
+  - What the extension does and how viewers use it (captions, translation with
+    Bits, the viewer settings menu, co-streamer captions).
+  - Source code: the shipped JavaScript is minified, so say it's React + Vite,
+    link to this repository, and attach `source.zip` from the same release (or use
+    the source submission form Twitch links from the submission best-practices
+    page).
+  - A change log for only this version.
+  - How a reviewer can see guest captions (flag on for the review channel,
+    the guest link flow in the Stream CC web app).
+
+Twitch reviews each version before it can be released, and review time varies.
+If it is rejected, fix what the reviewer lists and submit a **new** version.
+
+### 5. Release
+
+After approval, move the version to **Released** and make it active. Release the
+backend changes first: a new extension version can query fields the old backend
+doesn't have (for example `channelInfo.costreamEnabled` for co-streamer captions).
+Older released extension versions keep working, since they only use the original
+`newTwitchCaption` subscription.
+
 ## Development with GraphQL Mocks
 
 In development mode, the extension includes a GraphQL mock harness that allows you to test the UI locally without connecting to real backend endpoints.
