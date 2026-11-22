@@ -66,6 +66,7 @@ describe('translationSlice', () => {
         data: {
           channelInfo: {
             bitsBalance: { balance: 300 },
+            costreamEnabled: true,
             translations: {
               activated: true,
               createdAt: '2026-01-01',
@@ -86,6 +87,7 @@ describe('translationSlice', () => {
         doneRequestingTranslationStatus({
           activated: true,
           balance: 300,
+          costreamEnabled: true,
           created_at: '2026-01-01',
           languages: ['es', 'fr'],
         }),

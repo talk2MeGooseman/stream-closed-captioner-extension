@@ -65,9 +65,19 @@ export const Twitch = memo(function Twitch({ children }) {
       if (isNil(channelId) || isEmpty(channelId)) return
 
       dispatch(subscribeToCaptions(channelId))
-      // Guest (co-streamer) captions arrive on their own subscription; the
-      // viewer's show/hide toggle is applied at render time so flipping it
-      // doesn't churn the socket.
+    },
+    [dispatch],
+  )
+
+  // Guest (co-streamer) captions arrive on their own subscription, opened
+  // only for channels in the backend's `costream_captions` rollout so the
+  // other channels' viewers don't each hold an extra subscription. The
+  // viewer's show/hide toggle is applied at render time so flipping it
+  // doesn't churn the socket.
+  const subscribeCostreamCaptions = useCallback(
+    (channelId) => {
+      if (isNil(channelId) || isEmpty(channelId)) return
+
       dispatch(subscribeToCostreamCaptions(channelId))
     },
     [dispatch],
@@ -108,14 +118,25 @@ export const Twitch = memo(function Twitch({ children }) {
   const isCaptionsHidden = useShallowEqualSelector(
     (state) => state.configSettings.hideCC,
   )
+  const isCostreamEnabled = useShallowEqualSelector(
+    (state) => state.translationInfo?.activationInfo?.costreamEnabled === true,
+  )
 
   useEffect(() => {
     if (isCaptionsHidden && isVideoOverlay()) {
       dispatch(stopCaptions())
     } else {
       subscribeCaptions(channelId)
+      if (isCostreamEnabled) subscribeCostreamCaptions(channelId)
     }
-  }, [channelId, dispatch, isCaptionsHidden, subscribeCaptions])
+  }, [
+    channelId,
+    dispatch,
+    isCaptionsHidden,
+    isCostreamEnabled,
+    subscribeCaptions,
+    subscribeCostreamCaptions,
+  ])
 
   return children
 })

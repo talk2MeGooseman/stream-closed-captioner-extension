@@ -12,6 +12,7 @@ export const queryGetChannelInfo = gql`
         languages
       }
       uid
+      costreamEnabled
     }
   }
 `

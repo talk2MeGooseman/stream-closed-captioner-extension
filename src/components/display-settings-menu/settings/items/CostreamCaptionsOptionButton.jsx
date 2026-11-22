@@ -33,6 +33,13 @@ function CostreamCaptionsOptionButton() {
   const viewerLanguage = useShallowEqualSelector(
     (state) => state.configSettings.viewerLanguage,
   )
+  // Only channels in the backend's costream rollout ever carry guest
+  // captions, so everyone else's viewers don't see a toggle that does nothing.
+  const isCostreamEnabled = useShallowEqualSelector(
+    (state) => state.translationInfo?.activationInfo?.costreamEnabled === true,
+  )
+
+  if (!isCostreamEnabled) return null
 
   return (
     <>
