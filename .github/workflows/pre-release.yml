@@ -45,13 +45,37 @@ jobs:
       - name: Package source for review
         run: git archive --format=zip --output=source.zip HEAD
 
+      # The notes list every merged PR since the latest full (non-pre-release)
+      # release, so they can be copied into the next release / Twitch change
+      # log as-is. GitHub builds them from the API, so the shallow checkout is
+      # fine. Grouping lives in .github/release.yml.
       - name: Publish development build
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          # releases/latest skips pre-releases and drafts. It 404s when there
+          # is no full release yet (gh then prints the error body, so drop it).
+          if ! last_release=$(gh api "repos/$GITHUB_REPOSITORY/releases/latest" --jq .tag_name 2>/dev/null); then
+            last_release=""
+          fi
+
+          header="Development build of $GITHUB_SHA. \`release.zip\` is the Twitch version-assets upload; \`source.zip\` is the readable source for Twitch review."
+          if [ -n "$last_release" ]; then
+            header+=$'\n\n'"Changes since [$last_release](https://github.com/$GITHUB_REPOSITORY/releases/tag/$last_release):"
+          else
+            header+=$'\n\n'"No full release yet, so this lists every change."
+          fi
+
+          start_tag=()
+          if [ -n "$last_release" ]; then
+            start_tag=(--notes-start-tag "$last_release")
+          fi
+
           gh release delete latest --yes --cleanup-tag || true
           gh release create latest release.zip source.zip \
             --prerelease \
             --title "Development Build" \
             --target "$GITHUB_SHA" \
-            --notes "Development build of $GITHUB_SHA. release.zip is the Twitch version-assets upload; source.zip is the readable source for Twitch review."
+            --notes "$header" \
+            --generate-notes \
+            "${start_tag[@]}"
