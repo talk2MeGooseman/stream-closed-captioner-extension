@@ -7,6 +7,7 @@ import {
   NumericInput,
   Switch,
 } from '@blueprintjs/core'
+import PropTypes from 'prop-types'
 import { useCallback, useState } from 'react'
 
 import {
@@ -120,6 +121,7 @@ function DevMockControlsDialog({ isOpen, onClose }) {
 
   return (
     <Dialog
+      className="fit-viewport-dialog"
       icon="flask"
       isOpen={isOpen}
       onClose={onClose}
@@ -280,6 +282,9 @@ function DevMockControlsDialog({ isOpen, onClose }) {
   )
 }
 
-DevMockControlsDialog.propTypes = {}
+DevMockControlsDialog.propTypes = {
+  isOpen: PropTypes.bool,
+  onClose: PropTypes.func,
+}
 
 export default DevMockControlsDialog

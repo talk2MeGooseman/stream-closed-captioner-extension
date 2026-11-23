@@ -1,4 +1,5 @@
 import { Menu } from '@blueprintjs/core'
+import PropTypes from 'prop-types'
 
 import {
   AdvancedSettings,
@@ -13,7 +14,7 @@ import {
   UppercaseTextOptionButton,
 } from './items'
 
-const SettingsMenu = () => (
+const SettingsMenu = ({ onCloseMenu, onOpenDevMockControls }) => (
   <Menu>
     <FontSizeOptions />
     <FontFamilyOptions />
@@ -23,11 +24,14 @@ const SettingsMenu = () => (
     <LineCountOptions />
     <ResetButton />
     <BoxSizeButton />
-    <AdvancedSettings />
-    <DevMockControls />
+    <AdvancedSettings onOpen={onCloseMenu} />
+    <DevMockControls onOpen={onOpenDevMockControls} />
   </Menu>
 )
 
-SettingsMenu.propTypes = {}
+SettingsMenu.propTypes = {
+  onCloseMenu: PropTypes.func,
+  onOpenDevMockControls: PropTypes.func,
+}
 
 export default SettingsMenu

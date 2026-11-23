@@ -1,9 +1,10 @@
 import { faCog } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import classnames from 'classnames'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 
 import { AdvancedSettingsDialog } from '../AdvancedSettingsDialog'
+import DevMockControlsDialog from '../DevMockControlsDialog'
 
 import { SettingsMenu } from './settings'
 
@@ -20,8 +21,23 @@ import './settings-menu.css'
 export const positionLeft = (switchSettingsPosition) =>
   isVideoOverlay() && switchSettingsPosition
 
+const isDevelopment = import.meta.env.MODE === 'development'
+
 const Controls = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isDevMockControlsOpen, setIsDevMockControlsOpen] = useState(false)
+
+  // Dialogs opened from the menu close it first: the menu sits above
+  // Blueprint's overlay layer, so leaving it open would cover the dialog.
+  const closeMenu = useCallback(() => setIsMenuOpen(false), [])
+  const openDevMockControls = useCallback(() => {
+    setIsMenuOpen(false)
+    setIsDevMockControlsOpen(true)
+  }, [])
+  const closeDevMockControls = useCallback(
+    () => setIsDevMockControlsOpen(false),
+    [],
+  )
 
   const arePlayerControlsVisible = useShallowEqualSelector(
     (state) => state.videoPlayerContext.arePlayerControlsVisible,
@@ -31,8 +47,22 @@ const Controls = () => {
     (state) => state.configSettings.switchSettingsPosition,
   )
 
+  // Rendered outside the controls so an open dialog survives Twitch hiding
+  // the player controls (which unmounts the nav below).
+  const dialogs = (
+    <>
+      <AdvancedSettingsDialog />
+      {isDevelopment && (
+        <DevMockControlsDialog
+          isOpen={isDevMockControlsOpen}
+          onClose={closeDevMockControls}
+        />
+      )}
+    </>
+  )
+
   if (isVideoOverlay() && !arePlayerControlsVisible) {
-    return null
+    return dialogs
   }
 
   const controlClass = classnames({
@@ -69,12 +99,15 @@ const Controls = () => {
               className="settings-menu-container"
               onClick={(e) => e.stopPropagation()}
             >
-              <SettingsMenu />
+              <SettingsMenu
+                onCloseMenu={closeMenu}
+                onOpenDevMockControls={openDevMockControls}
+              />
             </div>
           )}
         </div>
       </nav>
-      <AdvancedSettingsDialog />
+      {dialogs}
     </>
   )
 }

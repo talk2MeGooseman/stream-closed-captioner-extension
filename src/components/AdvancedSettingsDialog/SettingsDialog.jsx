@@ -19,6 +19,7 @@ const SettingsDialog = () => {
 
   return (
     <Dialog
+      className="fit-viewport-dialog"
       icon="info-sign"
       isOpen={displayAdvancedSettingsDialog}
       onClose={onClose}
