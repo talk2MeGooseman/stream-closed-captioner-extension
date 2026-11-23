@@ -20,6 +20,11 @@
   display: block !important;
   visibility: visible !important;
   opacity: 1 !important;
+  /* The mobile/panel button is pinned to the top, so the menu opens downward;
+     cap it to the space below the button (~3rem) and scroll internally so
+     the last items stay reachable on short panels. */
+  max-height: calc(100vh - 3rem);
+  overflow-y: auto;
 }
 
 /* The video-overlay controls sit near the player's bottom edge
@@ -87,4 +92,21 @@
 
 .settings-menu-container .bp5-submenu-icon {
   margin-left: auto;
+}
+
+/* Dialogs opened from the settings menu (Advanced Settings, dev Mock
+   Controls) must fit inside the extension iframe, which is often far smaller
+   than Blueprint's fixed 500px-wide dialog. Cap the dialog to the viewport
+   and let only the body scroll, so the header (title + close X) and the
+   footer's Close button always stay on screen. */
+.bp6-dialog.fit-viewport-dialog {
+  width: min(500px, calc(100vw - 16px));
+  max-height: calc(100vh - 16px);
+  margin: 8px;
+}
+
+.bp6-dialog.fit-viewport-dialog > .bp6-dialog-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
 }

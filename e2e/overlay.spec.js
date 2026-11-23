@@ -68,3 +68,46 @@ test.describe('mobile panel (production build)', () => {
     await expect(page.getByText('Captions on mobile.')).toBeVisible()
   })
 })
+
+// The extension iframe is often much smaller than a desktop window, so the
+// settings menu and the dialogs it opens must stay inside it.
+const expectInsideViewport = async (page, locator) => {
+  const box = await locator.boundingBox()
+  const { width, height } = page.viewportSize()
+
+  expect(box.x).toBeGreaterThanOrEqual(0)
+  expect(box.y).toBeGreaterThanOrEqual(0)
+  expect(box.x + box.width).toBeLessThanOrEqual(width)
+  expect(box.y + box.height).toBeLessThanOrEqual(height)
+}
+
+test.describe('settings stay inside small players (production build)', () => {
+  test('advanced settings dialog fits a small overlay and closes the menu', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 480, height: 270 })
+    await fakeTwitch(page)
+    await page.goto(OVERLAY)
+
+    await page.locator('.settings-icon').click()
+    await expectInsideViewport(page, page.locator('.settings-menu-container'))
+    await page.getByText('Advanced Settings').click()
+
+    const dialog = page.getByRole('dialog')
+    await expect(dialog).toBeVisible()
+    await expect(page.locator('.settings-menu-container')).toHaveCount(0)
+    await expectInsideViewport(page, dialog)
+    await expect(
+      dialog.getByRole('button', { name: 'Close', exact: true }).last(),
+    ).toBeInViewport()
+  })
+
+  test('settings menu fits a short mobile panel', async ({ page }) => {
+    await page.setViewportSize({ width: 480, height: 270 })
+    await fakeTwitch(page)
+    await page.goto('/mobile.html?platform=mobile')
+
+    await page.locator('.settings-icon').click()
+    await expectInsideViewport(page, page.locator('.settings-menu-container'))
+  })
+})

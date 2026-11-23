@@ -1,30 +1,17 @@
 import { MenuDivider, MenuItem } from '@blueprintjs/core'
 import { faFlask } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useState } from 'react'
-
-import DevMockControlsDialog from '@/components/DevMockControlsDialog'
+import PropTypes from 'prop-types'
 
 /**
- * Dev-only menu item to open the GraphQL mock controls dialog
- * Only visible in development mode
+ * Dev-only menu item that opens the GraphQL mock controls dialog.
+ * The dialog itself is rendered by the settings controls (outside this menu)
+ * so the menu can close and not sit on top of it.
  */
-function DevMockControls() {
-  const [isOpen, setIsOpen] = useState(false)
-
+function DevMockControls({ onOpen }) {
   // Only show in development
-  const isDevelopment = import.meta.env.MODE === 'development'
-
-  if (!isDevelopment) {
+  if (import.meta.env.MODE !== 'development') {
     return null
-  }
-
-  const handleOpen = () => {
-    setIsOpen(true)
-  }
-
-  const handleClose = () => {
-    setIsOpen(false)
   }
 
   return (
@@ -33,15 +20,16 @@ function DevMockControls() {
       <MenuItem
         active={false}
         icon={<FontAwesomeIcon icon={faFlask} size="lg" />}
-        onClick={handleOpen}
+        onClick={onOpen}
         shouldDismissPopover={false}
         text="Mock Controls (Dev)"
       />
-      <DevMockControlsDialog isOpen={isOpen} onClose={handleClose} />
     </>
   )
 }
 
-DevMockControls.propTypes = {}
+DevMockControls.propTypes = {
+  onOpen: PropTypes.func,
+}
 
 export default DevMockControls
